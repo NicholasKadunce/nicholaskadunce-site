@@ -1,1 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Nicholas Kadunce</title>
+    <meta name="description" content="Projects and work samples by Nicholas Kadunce." />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="nav">
+        <a class="brand" href="/"><span class="brand-dot"></span><span>Nicholas Kadunce</span></a>
+        <div class="navlinks">
+          <a href="/story/">Story</a>
+          <a href="/projects/">Projects</a>
+          <a href="/#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <header class="hero">
+        <h1>Projects</h1>
+        <p class="subtitle">Case studies with demos, screenshots, and impact.</p>
+      </header>
+
+      <section class="section">
+        <div class="grid">
+          <a class="card" href="/projects/excel-macro-dashboards/" style="text-decoration:none;">
+            <h3>Excel Macro Dashboards</h3>
+            <p>Automation dashboards (GIFs, before/after, measurable impact).</p>
+          </a>
+          <a class="card" href="/projects/interactive-emails/" style="text-decoration:none;">
+            <h3>Interactive Emails</h3>
+            <p>Email reporting patterns and “view in browser” previews.</p>
+          </a>
+          <a class="card" href="/projects/drilldown-chart/" style="text-decoration:none;">
+            <h3>HTML Drill-down Chart</h3>
+            <p>Live drill-down demo and explanation of UX/data model.</p>
+          </a>
+        </div>
+      </section>
+
+      <footer class="footer muted">© <span id="y"></span> Nicholas Kadunce</footer>
+    </main>
+
+    <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  </body>
+</html>
 

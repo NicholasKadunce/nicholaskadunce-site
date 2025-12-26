@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nicholas Kadunce</title>
+    <meta name="description" content="Nicholas Kadunce — career story, projects, and work samples." />
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; line-height: 1.5; }
+      header { padding: 48px 20px; max-width: 900px; margin: 0 auto; }
+      h1 { font-size: 44px; margin: 0 0 8px; }
+      .subtitle { font-size: 18px; opacity: 0.8; max-width: 70ch; }
+      .pillrow { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+      .pill { border: 1px solid #ddd; padding: 8px 12px; border-radius: 999px; font-size: 14px; }
+      main { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+      section { margin-top: 40px; }
+      h2 { margin: 0 0 12px; }
+      .cardgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+      .card { border: 1px solid #e6e6e6; border-radius: 14px; padding: 16px; }
+      .muted { opacity: 0.75; }
+      a { color: inherit; }
+      footer { padding: 30px 20px; border-top: 1px solid #eee; }
+      footer .inner { max-width: 900px; margin: 0 auto; }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Nicholas Kadunce</h1>
+      <div class="subtitle">
+        I build clear, decision-ready dashboards and interactive reporting experiences —
+        turning messy data into tools people actually use.
+      </div>
+
+      <div class="pillrow" aria-label="Highlights">
+        <div class="pill">Excel automation (VBA)</div>
+        <div class="pill">Dashboard storytelling</div>
+        <div class="pill">Interactive email reporting</div>
+        <div class="pill">Web-based data visuals</div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>My story (high level)</h2>
+        <p class="muted">
+          This site will be written like a career narrative: what I built, why I built it, what changed as my scope grew,
+          and the work samples that prove it.
+        </p>
+        <ol>
+          <li><strong>Chapter 1:</strong> Foundations — learning to deliver reliable reporting</li>
+          <li><strong>Chapter 2:</strong> Automation — building Excel macro dashboards to save time and reduce errors</li>
+          <li><strong>Chapter 3:</strong> Communication — interactive emails that drive action</li>
+          <li><strong>Chapter 4:</strong> Visualization — HTML drill-down charts and modern web delivery</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Featured work (coming next)</h2>
+        <div class="cardgrid">
+          <div class="card">
+            <h3>Excel Macro Dashboards</h3>
+            <p class="muted">GIF demos + before/after + impact summary.</p>
+          </div>
+          <div class="card">
+            <h3>Interactive Emails</h3>
+            <p class="muted">Live “view in browser” previews + client constraints explained.</p>
+          </div>
+          <div class="card">
+            <h3>HTML Drill-down Chart</h3>
+            <p class="muted">Embedded demo + explanation of the data model and UX.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          Email: <a href="mailto:you@example.com">you@example.com</a>
+          <br />
+          LinkedIn / GitHub: (we’ll add links once you’re set up)
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="inner muted">
+        © <span id="y"></span> Nicholas Kadunce
+      </div>
+      <script>
+        document.getElementById("y").textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </body>
+</html>

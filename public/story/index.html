@@ -1,1 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story — Nicholas Kadunce</title>
+    <meta name="description" content="Career story and timeline for Nicholas Kadunce." />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="nav">
+        <a class="brand" href="/"><span class="brand-dot"></span><span>Nicholas Kadunce</span></a>
+        <div class="navlinks">
+          <a href="/story/">Story</a>
+          <a href="/projects/">Projects</a>
+          <a href="/#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <header class="hero">
+        <h1>The story</h1>
+        <p class="subtitle">
+          A chapter-by-chapter timeline: what I worked on, what I learned, and what I shipped.
+        </p>
+      </header>
+
+      <section class="section">
+        <h2>Timeline</h2>
+        <div class="timeline" role="list">
+          <div class="titem" role="listitem">
+            <div class="tmeta">YYYY–YYYY · Role · Company</div>
+            <strong>Chapter headline</strong>
+            <div class="muted">2–3 sentences about scope, stakeholders, and the “why”.</div>
+          </div>
+          <div class="titem" role="listitem">
+            <div class="tmeta">YYYY–YYYY · Role · Company</div>
+            <strong>Chapter headline</strong>
+            <div class="muted">Add outcomes: time saved, errors reduced, adoption, etc.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Proof points</h2>
+        <div class="grid">
+          <a class="card" href="/projects/excel-macro-dashboards/" style="text-decoration:none;">
+            <h3>Excel Macro Dashboards</h3>
+            <p>Automation and repeatable reporting delivery.</p>
+          </a>
+          <a class="card" href="/projects/interactive-emails/" style="text-decoration:none;">
+            <h3>Interactive Emails</h3>
+            <p>Communication that drives action.</p>
+          </a>
+          <a class="card" href="/projects/drilldown-chart/" style="text-decoration:none;">
+            <h3>HTML Drill-down Chart</h3>
+            <p>Modern visualization and drill-down UX.</p>
+          </a>
+        </div>
+      </section>
+
+      <footer class="footer muted">© <span id="y"></span> Nicholas Kadunce</footer>
+    </main>
+
+    <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  </body>
+</html>
 

@@ -12,7 +12,6 @@
     <div class="nav-inner">
       <a href="/" class="nav-brand">Nicholas Kadunce</a>
       <div class="nav-links">
-        <a href="#work">Work</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </div>
@@ -20,144 +19,226 @@
   </nav>
 
   <main>
-    <!-- Hero -->
+    <!-- Hero — Full Viewport -->
     <section class="hero">
-      <div class="container">
-        <h1 class="animate-fade-in">I build systems<br>that drive results.</h1>
-        <p class="text-large animate-fade-in animate-delay-1">
-          Operations and engineering leader who transforms manufacturing
-          through data-driven systems, automation, and high-performing teams.
-        </p>
-        <div class="hero-buttons animate-fade-in animate-delay-2">
-          <a href="#work" class="btn btn-primary">See my work</a>
-          <a href="#contact" class="btn btn-secondary">Get in touch</a>
-        </div>
+      <h1>I build systems<br>that drive results.</h1>
+      <p class="text-large">
+        Operations and engineering leader who transforms manufacturing
+        through data-driven systems, automation, and high-performing teams.
+      </p>
+      <div class="hero-buttons">
+        <a href="#experience" class="btn btn-primary">View Experience</a>
+        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
       </div>
+      <div class="scroll-indicator">Scroll</div>
     </section>
 
     <!-- Stats -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats reveal-stagger">
+          <div class="stat">
+            <div class="stat-value">340%</div>
+            <div class="stat-label">Production Increase</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">850%</div>
+            <div class="stat-label">Operating Income Growth</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">66%</div>
+            <div class="stat-label">Rework Reduction</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Connector -->
+    <div class="section-connector reveal">
+      <div class="connector-line"></div>
+      <div class="connector-dot"></div>
+    </div>
+
+    <!-- Experience Section -->
+    <section class="experience-section" id="experience">
+
+      <!-- Experience 1: JENNMAR -->
+      <article class="experience-slide" data-experience="1">
+        <div class="experience-bg">
+          <!-- Replace with your image: /media/images/jennmar.jpg -->
+          <img src="/media/images/jennmar.jpg" alt="JENNMAR manufacturing facility">
+        </div>
+        <div class="experience-content reveal">
+          <div class="experience-meta">2025 — Present</div>
+          <h2 class="experience-title">Plant Manager</h2>
+          <p class="experience-company">JENNMAR — Underground Mining & Tunneling Infrastructure</p>
+          <div class="experience-highlights">
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Increased production output 36.7% through hour-by-hour tracking, downtime Pareto analysis, and statistical targeting.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Built the "Keystone Scraper" forecasting tool—driving 850% growth in operating net income with 28% less volatility.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Cut OSHA recordables 25% YTD through new guarding, 5S safety blitzes, and a rotating Safety Committee.</p>
+            </div>
+          </div>
+          <div class="experience-tags">
+            <span class="experience-tag">JMOS Implementation</span>
+            <span class="experience-tag">FIIX CMMS</span>
+            <span class="experience-tag">SPC Automation</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Connector -->
+      <div class="section-connector reveal">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- Experience 2: Eos Energy -->
+      <article class="experience-slide" data-experience="2">
+        <div class="experience-bg">
+          <!-- Replace with your image: /media/images/eos-energy.jpg -->
+          <img src="/media/images/eos-energy.jpg" alt="Eos Energy battery manufacturing">
+        </div>
+        <div class="experience-content reveal">
+          <div class="experience-meta">2023 — 2025</div>
+          <h2 class="experience-title">Operations Manager</h2>
+          <p class="experience-company">Eos Energy Enterprises — Battery Energy Storage Systems</p>
+          <div class="experience-highlights">
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Increased BESS production from 0.5 to 2.2 units/day—a 340% improvement—through Yamazumi balancing and Takt alignment.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Reduced rework by 66% through systematic data collection, Pareto analysis, and targeted process improvements.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Built the company's first OEE dashboards with automated gap analysis, enabling real-time strategic decisions.</p>
+            </div>
+          </div>
+          <div class="experience-tags">
+            <span class="experience-tag">Certified ScrumMaster</span>
+            <span class="experience-tag">Lean Manufacturing</span>
+            <span class="experience-tag">VBA Automation</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Connector -->
+      <div class="section-connector reveal">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- Experience 3: Messer Americas -->
+      <article class="experience-slide" data-experience="3">
+        <div class="experience-bg">
+          <!-- Replace with your image: /media/images/messer.jpg -->
+          <img src="/media/images/messer.jpg" alt="Messer Americas industrial gas facility">
+        </div>
+        <div class="experience-content reveal">
+          <div class="experience-meta">2022 — 2023</div>
+          <h2 class="experience-title">Regional Production Engineer</h2>
+          <p class="experience-company">Messer Americas — Industrial Gases</p>
+          <div class="experience-highlights">
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Led Six Sigma initiatives boosting Krypton/Xenon production 15%, adding over $1M in annual revenue.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Drove 15+ system enhancement projects, cutting annual downtime by 25 days and improving daily output consistency 16%.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Reduced average lead times by 60 days through cross-functional collaboration on production and delivery processes.</p>
+            </div>
+          </div>
+          <div class="experience-tags">
+            <span class="experience-tag">Lean Six Sigma Green Belt</span>
+            <span class="experience-tag">OEE Implementation</span>
+            <span class="experience-tag">Process Safety</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Connector -->
+      <div class="section-connector reveal">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- Experience 4: Johnson Matthey -->
+      <article class="experience-slide" data-experience="4">
+        <div class="experience-bg">
+          <!-- Replace with your image: /media/images/johnson-matthey.jpg -->
+          <img src="/media/images/johnson-matthey.jpg" alt="Johnson Matthey clean air manufacturing">
+        </div>
+        <div class="experience-content reveal">
+          <div class="experience-meta">2020 — 2022</div>
+          <h2 class="experience-title">Shift Leader & Process Engineer</h2>
+          <p class="experience-company">Johnson Matthey — Clean Air Division</p>
+          <div class="experience-highlights">
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Led a high-performing team of 7, achieving 5%+ OEE improvement with zero lost-time or recordable injuries.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Optimized production processes, delivering 8% cycle time reduction and 4% defect decrease.</p>
+            </div>
+            <div class="experience-highlight">
+              <div class="highlight-icon"></div>
+              <p>Designed risk management tools that reduced LTY by 25% and cut 35 hours of annual downtime.</p>
+            </div>
+          </div>
+          <div class="experience-tags">
+            <span class="experience-tag">Team Leadership</span>
+            <span class="experience-tag">Continuous Improvement</span>
+            <span class="experience-tag">Risk Management</span>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Connector -->
+    <div class="section-connector reveal">
+      <div class="connector-line"></div>
+      <div class="connector-dot"></div>
+    </div>
+
+    <!-- Education & Certifications -->
     <section class="section">
       <div class="container">
-        <div class="stats">
-          <div class="stat animate-fade-in animate-delay-1">
-            <div class="stat-value">340%</div>
-            <div class="stat-label">Production increase</div>
+        <div class="reveal" style="text-align: center; max-width: 600px; margin: 0 auto;">
+          <h2 class="mb-lg">Education & Credentials</h2>
+          <div class="tags mb-lg" style="justify-content: center;">
+            <span class="tag">Lean Six Sigma Green Belt</span>
+            <span class="tag">ISO 9001 Lead Auditor</span>
+            <span class="tag">Certified ScrumMaster</span>
           </div>
-          <div class="stat animate-fade-in animate-delay-2">
-            <div class="stat-value">850%</div>
-            <div class="stat-label">Operating income growth</div>
-          </div>
-          <div class="stat animate-fade-in animate-delay-3">
-            <div class="stat-value">66%</div>
-            <div class="stat-label">Rework reduction</div>
-          </div>
+          <p class="text-center" style="margin: 0 auto;">
+            <strong>B.S. Chemical Engineering</strong> — West Virginia University<br>
+            <strong>MBA, Project Management</strong> — Waynesburg University (2025)
+          </p>
         </div>
-      </div>
-    </section>
-
-    <!-- What I Do -->
-    <section class="section" style="background: var(--bg-secondary);">
-      <div class="container">
-        <h2 class="text-center mb-lg">What I do</h2>
-        <div class="card-grid">
-          <div class="card">
-            <h3>Operational Excellence</h3>
-            <p>End-to-end plant operations, safety systems, quality management, and supplier oversight that deliver consistent results.</p>
-          </div>
-          <div class="card">
-            <h3>Data-Driven Systems</h3>
-            <p>Production dashboards, OEE metrics, KPI tracking, and automated reporting that enable real-time decision-making.</p>
-          </div>
-          <div class="card">
-            <h3>Process Optimization</h3>
-            <p>Lean Six Sigma methodologies, root cause analysis, and continuous improvement that eliminate waste and boost efficiency.</p>
-          </div>
-          <div class="card">
-            <h3>Team Development</h3>
-            <p>Building and leading high-performing teams through coaching, accountability systems, and a culture of excellence.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Work -->
-    <section class="section" id="work">
-      <div class="container">
-        <h2 class="text-center mb-lg">Featured work</h2>
-        <div class="card-grid">
-          <a href="/projects/excel-macro-dashboards/" class="card-link">
-            <div class="card">
-              <div class="card-meta">Automation</div>
-              <h3>Production Dashboards</h3>
-              <p>VBA-powered dashboards with OEE metrics, automated gap analysis, and real-time KPI visualization.</p>
-              <span class="btn-ghost mt-md">View case study</span>
-            </div>
-          </a>
-          <a href="/projects/interactive-emails/" class="card-link">
-            <div class="card">
-              <div class="card-meta">Reporting</div>
-              <h3>Automated Reporting</h3>
-              <p>Streamlined reporting systems that reduce manual work and deliver insights to stakeholders faster.</p>
-              <span class="btn-ghost mt-md">View case study</span>
-            </div>
-          </a>
-          <a href="/projects/drilldown-chart/" class="card-link">
-            <div class="card">
-              <div class="card-meta">Visualization</div>
-              <h3>Performance Tracking</h3>
-              <p>Real-time monitoring systems with Andon integration, control charts, and Pareto analysis.</p>
-              <span class="btn-ghost mt-md">View case study</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Experience -->
-    <section class="section" id="experience" style="background: var(--bg-secondary);">
-      <div class="container-narrow">
-        <h2 class="text-center mb-lg">Experience</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-meta">2025 — Present</div>
-            <div class="timeline-title">Plant Manager</div>
-            <div class="timeline-subtitle">JENNMAR — Underground Mining & Tunneling Infrastructure</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-meta">2023 — 2025</div>
-            <div class="timeline-title">Operations Manager</div>
-            <div class="timeline-subtitle">Eos Energy Enterprises — Battery Energy Storage Systems</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-meta">2022 — 2023</div>
-            <div class="timeline-title">Regional Production Engineer</div>
-            <div class="timeline-subtitle">Messer Americas — Industrial Gases</div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-meta">2020 — 2022</div>
-            <div class="timeline-title">Shift Leader & Process Engineer</div>
-            <div class="timeline-subtitle">Johnson Matthey — Clean Air Division</div>
-          </div>
-        </div>
-
-        <div class="tags mt-lg" style="justify-content: center;">
-          <span class="tag">Lean Six Sigma</span>
-          <span class="tag">ISO 9001 Lead Auditor</span>
-          <span class="tag">Certified ScrumMaster</span>
-        </div>
-
-        <p class="text-center mt-lg text-muted">
-          B.S. Chemical Engineering, West Virginia University<br>
-          MBA, Project Management — Waynesburg University (2025)
-        </p>
       </div>
     </section>
 
     <!-- Contact -->
-    <section class="section" id="contact">
-      <div class="container text-center">
-        <h2 class="mb-md">Let's connect</h2>
-        <p class="mb-lg" style="margin-left: auto; margin-right: auto;">
+    <section class="contact-section" id="contact">
+      <div class="contact-content reveal">
+        <h2>Let's connect</h2>
+        <p>
           Open to discussing operations leadership, process improvement,
           or how data-driven systems can transform your organization.
         </p>
@@ -175,9 +256,9 @@
             </div>
           </div>
           <div class="contact-item">
-            <div class="contact-label">GitHub</div>
+            <div class="contact-label">Phone</div>
             <div class="contact-value">
-              <a href="https://github.com/NicholasKadunce" target="_blank" rel="noopener">NicholasKadunce</a>
+              <a href="tel:+17249963792">724-996-3792</a>
             </div>
           </div>
         </div>
@@ -193,7 +274,26 @@
   </main>
 
   <script>
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Scroll Reveal with Intersection Observer
+    const revealElements = document.querySelectorAll('.reveal, .reveal-stagger, .reveal-scale, .reveal-left, .reveal-right');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          // Once revealed, stop observing (only animate once)
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
   </script>
 </body>
 </html>

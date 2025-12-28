@@ -10,8 +10,15 @@
 <body>
   <nav class="nav">
     <div class="nav-inner">
+      <a href="/" class="nav-profile">
+        <img src="/media/images/Nick.jpg" alt="Nicholas Kadunce" class="nav-avatar">
+        <img src="/media/images/white-signature.png" alt="" class="nav-signature">
+      </a>
       <a href="/" class="nav-brand">Nicholas Kadunce</a>
-      <div class="nav-links">
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+      <div class="nav-menu">
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
@@ -543,6 +550,32 @@
 
     window.addEventListener('scroll', updateTimeline);
     updateTimeline();
+
+    // Nav menu toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    navToggle.addEventListener('click', () => {
+      const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !isExpanded);
+      navMenu.classList.toggle('open');
+    });
+
+    // Close menu when clicking a link
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('open');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navMenu.classList.remove('open');
+      }
+    });
 
     // Project expand/collapse
     document.querySelectorAll('.project-expand').forEach(button => {

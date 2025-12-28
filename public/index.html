@@ -13,6 +13,7 @@
       <a href="/" class="nav-brand">Nicholas Kadunce</a>
       <div class="nav-links">
         <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
@@ -289,6 +290,207 @@
       </div>
     </section>
 
+    <!-- Projects Section -->
+    <section class="projects-section" id="projects">
+      <div class="container">
+        <div class="projects-header reveal">
+          <h2>Projects</h2>
+          <p class="text-large">Tools and systems I've built to drive operational excellence.</p>
+        </div>
+
+        <!-- JMOS Dashboard Project -->
+        <div class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M9 21V9"/>
+              </svg>
+            </div>
+            <div class="project-info">
+              <h3>JMOS Daily Dashboard</h3>
+              <p>Interactive daily operations email with real-time KPIs, downtime analysis, quality metrics, and action tracking—sent automatically each morning.</p>
+              <div class="project-tags">
+                <span>VBA</span>
+                <span>Outlook</span>
+                <span>Excel</span>
+                <span>Automation</span>
+              </div>
+            </div>
+            <button class="project-expand" aria-expanded="false" data-target="jmos-dashboard">
+              <span>View Demo</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Expanded Dashboard Demo -->
+          <div class="project-demo" id="jmos-dashboard">
+            <div class="dashboard-container">
+              <div class="dashboard-nav">
+                <button class="dash-nav-btn active" data-section="overview">Dashboard</button>
+                <button class="dash-nav-btn" data-section="downtime">Downtime</button>
+                <button class="dash-nav-btn" data-section="quality">Quality</button>
+                <button class="dash-nav-btn" data-section="safety">Safety</button>
+                <button class="dash-nav-btn" data-section="maintenance">Maintenance</button>
+                <button class="dash-nav-btn" data-section="keystone">Keystone</button>
+                <button class="dash-nav-btn" data-section="actions">Action Items</button>
+              </div>
+
+              <div class="dashboard-content">
+                <!-- Overview Section -->
+                <div class="dash-section active" id="dash-overview">
+                  <div class="dash-header">
+                    <h4>Daily Operations Dashboard</h4>
+                    <p>Real-time visibility into production, safety, quality, and maintenance metrics—built for morning stand-ups and executive review.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M3 3v18h18"/>
+                        <path d="M18 9l-5 5-2-2-4 4"/>
+                      </svg>
+                    </div>
+                    <span>Production Overview Chart</span>
+                  </div>
+                </div>
+
+                <!-- Downtime Section -->
+                <div class="dash-section" id="dash-downtime">
+                  <div class="dash-header">
+                    <h4>Downtime Analysis</h4>
+                    <p>Hour-by-hour Pareto analysis of production losses, categorized by root cause for targeted improvement.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="12" width="4" height="8"/>
+                        <rect x="10" y="8" width="4" height="12"/>
+                        <rect x="17" y="4" width="4" height="16"/>
+                      </svg>
+                    </div>
+                    <span>Downtime Pareto Chart</span>
+                  </div>
+                </div>
+
+                <!-- Quality Section -->
+                <div class="dash-section" id="dash-quality">
+                  <div class="dash-header">
+                    <h4>Quality Metrics</h4>
+                    <p>Defect rates, rework tracking, and quality trends across production lines.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 12l2 2 4-4"/>
+                        <circle cx="12" cy="12" r="9"/>
+                      </svg>
+                    </div>
+                    <span>Quality Metrics Chart</span>
+                  </div>
+                </div>
+
+                <!-- Safety Section -->
+                <div class="dash-section" id="dash-safety">
+                  <div class="dash-header">
+                    <h4>Safety Dashboard</h4>
+                    <p>Incident tracking, near-miss reports, and safety observation trends.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      </svg>
+                    </div>
+                    <span>Safety Metrics Chart</span>
+                  </div>
+                </div>
+
+                <!-- Maintenance Section -->
+                <div class="dash-section" id="dash-maintenance">
+                  <div class="dash-header">
+                    <h4>Maintenance Tracker</h4>
+                    <p>Work order status, PM completion rates, and equipment reliability metrics.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+                      </svg>
+                    </div>
+                    <span>Maintenance Overview Chart</span>
+                  </div>
+                </div>
+
+                <!-- Keystone Section -->
+                <div class="dash-section" id="dash-keystone">
+                  <div class="dash-header">
+                    <h4>Keystone Scraper</h4>
+                    <p>Forecasting tool integrating market data with production capacity for optimized scheduling.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                      </svg>
+                    </div>
+                    <span>Keystone Forecasting Chart</span>
+                  </div>
+                </div>
+
+                <!-- Action Items Section -->
+                <div class="dash-section" id="dash-actions">
+                  <div class="dash-header">
+                    <h4>Action Items</h4>
+                    <p>Tracked issues and follow-up items with ownership and due dates.</p>
+                  </div>
+                  <div class="dash-chart-placeholder">
+                    <div class="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                      </svg>
+                    </div>
+                    <span>Action Items Tracker</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="dashboard-note">This interactive demo mirrors the automated daily email sent to plant leadership each morning.</p>
+          </div>
+        </div>
+
+        <!-- Future Project Placeholder -->
+        <div class="project-card reveal coming-soon">
+          <div class="project-preview">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <div class="project-info">
+              <h3>Excel Macro Dashboards</h3>
+              <p>Automated reporting tools with VBA macros, dynamic data connections, and one-click exports.</p>
+              <div class="project-tags">
+                <span>VBA</span>
+                <span>Excel</span>
+                <span>Power Query</span>
+              </div>
+            </div>
+            <div class="coming-soon-badge">Coming Soon</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Contact -->
     <section class="contact-section" id="contact">
       <div class="contact-content reveal">
@@ -383,6 +585,36 @@
 
     window.addEventListener('scroll', updateTimeline);
     updateTimeline();
+
+    // Project expand/collapse
+    document.querySelectorAll('.project-expand').forEach(button => {
+      button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        const demo = document.getElementById(button.dataset.target);
+
+        button.setAttribute('aria-expanded', !isExpanded);
+        demo.classList.toggle('open');
+
+        // Update button text
+        button.querySelector('span').textContent = isExpanded ? 'View Demo' : 'Close Demo';
+      });
+    });
+
+    // Dashboard navigation
+    document.querySelectorAll('.dash-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const section = btn.dataset.section;
+        const container = btn.closest('.dashboard-container');
+
+        // Update active nav button
+        container.querySelectorAll('.dash-nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update active section
+        container.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
+        container.querySelector(`#dash-${section}`).classList.add('active');
+      });
+    });
   </script>
 </body>
 </html>

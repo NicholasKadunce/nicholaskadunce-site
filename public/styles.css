@@ -856,15 +856,6 @@ section[id] {
   overflow: hidden;
 }
 
-.dashboard-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: var(--spacing-sm);
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
-}
-
 .dash-nav-btn {
   padding: 8px 14px;
   font-size: 12px;
@@ -891,18 +882,22 @@ section[id] {
 
 /* Explore hint indicator */
 .dash-nav-hint {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  font-size: 11px;
+  gap: 4px;
+  font-size: 10px;
   color: var(--text-tertiary);
+  white-space: nowrap;
   animation: pulseHint 2s ease-in-out infinite;
 }
 
 .dash-nav-hint svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   animation: slideRight 1.5s ease-in-out infinite;
 }
 
@@ -910,14 +905,25 @@ section[id] {
   display: none;
 }
 
+.dashboard-nav {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: var(--spacing-sm);
+  padding-bottom: calc(var(--spacing-sm) + 20px);
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+}
+
 @keyframes pulseHint {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
 @keyframes slideRight {
   0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
+  50% { transform: translateX(3px); }
 }
 
 .dashboard-content {
@@ -1016,11 +1022,22 @@ section[id] {
 
   .dashboard-nav {
     justify-content: center;
+    padding-bottom: calc(var(--spacing-sm) + 18px);
   }
 
   .dash-nav-btn {
     padding: 6px 10px;
     font-size: 11px;
+  }
+
+  .dash-nav-hint {
+    bottom: -20px;
+    font-size: 9px;
+  }
+
+  .dash-nav-hint svg {
+    width: 10px;
+    height: 10px;
   }
 
   .dash-chart-placeholder {

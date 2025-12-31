@@ -1349,28 +1349,69 @@ article[id] {
   font-style: italic;
 }
 
-/* Drilldown Button */
+/* ==========================================================================
+   Drilldown CTA and Modal
+   ========================================================================== */
+
+/* Drilldown CTA Section */
+.drilldown-cta {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(88, 86, 214, 0.08) 100%);
+  border: 1px solid rgba(0, 113, 227, 0.2);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.drilldown-cta-content {
+  margin-bottom: var(--spacing-md);
+}
+
+.drilldown-cta-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(0, 113, 227, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-xs);
+}
+
+.drilldown-cta-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Drilldown Button - Distinct from Close Demo */
 .drilldown-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: var(--spacing-md);
-  padding: 12px 20px;
-  background: var(--accent);
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #0071e3 0%, #5856d6 100%);
   color: #fff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
+  border: none;
   border-radius: var(--radius-full);
+  cursor: pointer;
   transition: all var(--duration) var(--ease-out);
+  box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
 }
 
 .drilldown-btn:hover {
-  background: #005bb5;
+  background: linear-gradient(135deg, #005bb5 0%, #4745b5 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--accent-glow);
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.4);
 }
 
 .drilldown-btn svg {
@@ -1392,7 +1433,170 @@ article[id] {
   }
   .drilldown-btn {
     font-size: 13px;
-    padding: 10px 16px;
+    padding: 12px 18px;
+  }
+  .drilldown-cta {
+    padding: var(--spacing-sm);
+  }
+  .drilldown-cta-content p {
+    font-size: 13px;
+  }
+}
+
+/* Drilldown Modal Overlay */
+.drilldown-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--ease-out);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.drilldown-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Drilldown Modal */
+.drilldown-modal {
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  transition: transform 0.3s var(--ease-out);
+  overflow: hidden;
+}
+
+.drilldown-overlay.open .drilldown-modal {
+  transform: scale(1);
+}
+
+.drilldown-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.drilldown-modal-header h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.drilldown-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--duration) var(--ease-out);
+}
+
+.drilldown-close:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.drilldown-modal-body {
+  flex: 1;
+  overflow: hidden;
+  background: #fff;
+}
+
+.drilldown-modal-body iframe {
+  width: 100%;
+  height: 60vh;
+  border: none;
+  display: block;
+}
+
+.drilldown-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+.drilldown-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration) var(--ease-out);
+}
+
+.drilldown-back-btn:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.drilldown-back-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Drilldown Modal Mobile */
+@media (max-width: 768px) {
+  .drilldown-overlay {
+    padding: var(--spacing-sm);
+  }
+
+  .drilldown-modal {
+    max-height: 95vh;
+  }
+
+  .drilldown-modal-header {
+    padding: var(--spacing-sm);
+  }
+
+  .drilldown-modal-header h4 {
+    font-size: 16px;
+  }
+
+  .drilldown-modal-body iframe {
+    height: 55vh;
+  }
+
+  .drilldown-modal-footer {
+    padding: var(--spacing-sm);
+  }
+
+  .drilldown-back-btn {
+    padding: 8px 16px;
+    font-size: 13px;
   }
 }
 

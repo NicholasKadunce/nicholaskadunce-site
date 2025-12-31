@@ -51,6 +51,15 @@
     </div>
   </div>
 
+  <!-- Experience Image Popup -->
+  <div class="experience-image-overlay" id="experience-image-overlay">
+    <div class="experience-image-popup">
+      <button class="experience-image-close" aria-label="Close image">&times;</button>
+      <img src="" alt="" id="experience-image-full">
+      <span class="image-caption" id="experience-image-caption"></span>
+    </div>
+  </div>
+
   <main>
     <!-- Hero -->
     <section class="hero">
@@ -106,6 +115,9 @@
         <div class="experience-bg">
           <img src="/media/images/jennmar.jpg" alt="">
         </div>
+        <button class="experience-image-btn" aria-label="View JENNMAR facility image" data-image="/media/images/jennmar.jpg" data-caption="JENNMAR Manufacturing Facility">
+          <img src="/media/images/jennmar.jpg" alt="">
+        </button>
         <div class="experience-inner">
           <div class="experience-year">2025 — Present</div>
           <div class="experience-header">
@@ -140,6 +152,9 @@
         <div class="experience-bg">
           <img src="/media/images/eos-energy.jpg" alt="">
         </div>
+        <button class="experience-image-btn" aria-label="View Eos Energy facility image" data-image="/media/images/eos-energy.jpg" data-caption="Eos Energy Enterprises">
+          <img src="/media/images/eos-energy.jpg" alt="">
+        </button>
         <div class="experience-inner">
           <div class="experience-year">2023 — 2025</div>
           <div class="experience-header">
@@ -191,6 +206,9 @@
         <div class="experience-bg">
           <img src="/media/images/messer.jpg" alt="">
         </div>
+        <button class="experience-image-btn" aria-label="View Messer Americas facility image" data-image="/media/images/messer.jpg" data-caption="Messer Americas">
+          <img src="/media/images/messer.jpg" alt="">
+        </button>
         <div class="experience-inner">
           <div class="experience-year">2022 — 2023</div>
           <div class="experience-header">
@@ -225,6 +243,9 @@
         <div class="experience-bg">
           <img src="/media/images/johnson-matthey.jpg" alt="">
         </div>
+        <button class="experience-image-btn" aria-label="View Johnson Matthey facility image" data-image="/media/images/johnson-matthey.jpg" data-caption="Johnson Matthey Clean Air Division">
+          <img src="/media/images/johnson-matthey.jpg" alt="">
+        </button>
         <div class="experience-inner">
           <div class="experience-year">2020 — 2022</div>
           <div class="experience-header">
@@ -485,6 +506,42 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && profileOverlay.classList.contains('open')) {
         profileOverlay.classList.remove('open');
+      }
+    });
+
+    // Experience image popup
+    const experienceImageBtns = document.querySelectorAll('.experience-image-btn');
+    const experienceImageOverlay = document.getElementById('experience-image-overlay');
+    const experienceImageFull = document.getElementById('experience-image-full');
+    const experienceImageCaption = document.getElementById('experience-image-caption');
+    const experienceImageClose = document.querySelector('.experience-image-close');
+
+    experienceImageBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const imageSrc = btn.dataset.image;
+        const caption = btn.dataset.caption;
+        experienceImageFull.src = imageSrc;
+        experienceImageFull.alt = caption;
+        experienceImageCaption.textContent = caption;
+        experienceImageOverlay.classList.add('open');
+      });
+    });
+
+    experienceImageClose.addEventListener('click', () => {
+      experienceImageOverlay.classList.remove('open');
+    });
+
+    // Close experience image popup when clicking overlay background
+    experienceImageOverlay.addEventListener('click', (e) => {
+      if (e.target === experienceImageOverlay) {
+        experienceImageOverlay.classList.remove('open');
+      }
+    });
+
+    // Close experience image popup with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && experienceImageOverlay.classList.contains('open')) {
+        experienceImageOverlay.classList.remove('open');
       }
     });
 

@@ -1884,6 +1884,153 @@ article[id] {
 }
 
 /* ==========================================================================
+   Timeline Styles (Green Belt Project)
+   ========================================================================== */
+.timeline-demo-container {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.project-timeline {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-step {
+  display: flex;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.timeline-step:not(:last-child) {
+  padding-bottom: var(--spacing-md);
+}
+
+.timeline-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 40px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline-marker {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, #5856d6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+  z-index: 1;
+}
+
+.timeline-number {
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.timeline-content {
+  flex: 1;
+  padding-bottom: var(--spacing-sm);
+}
+
+.timeline-content h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.timeline-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.timeline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--duration) var(--ease-out);
+}
+
+.timeline-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+}
+
+.timeline-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Mobile Timeline */
+@media (max-width: 768px) {
+  .project-timeline {
+    padding: var(--spacing-sm);
+  }
+
+  .timeline-step {
+    gap: var(--spacing-sm);
+  }
+
+  .timeline-marker {
+    width: 32px;
+    height: 32px;
+  }
+
+  .timeline-number {
+    font-size: 14px;
+  }
+
+  .timeline-step:not(:last-child)::before {
+    left: 15px;
+    top: 36px;
+  }
+
+  .timeline-content h5 {
+    font-size: 15px;
+  }
+
+  .timeline-content p {
+    font-size: 13px;
+  }
+
+  .timeline-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .timeline-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ==========================================================================
    Credentials Section
    ========================================================================== */
 .credentials-section {

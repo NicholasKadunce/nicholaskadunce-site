@@ -60,8 +60,16 @@
           <p class="text-large">Tools and systems I've built to drive operational excellence.</p>
         </div>
 
+        <!-- Filter Tabs -->
+        <div class="project-filters reveal">
+          <button class="filter-btn active" data-filter="all">All Projects</button>
+          <button class="filter-btn" data-filter="tools">Operational Tools</button>
+          <button class="filter-btn" data-filter="process">Process Improvement</button>
+          <button class="filter-btn" data-filter="strategic">Strategic Analysis</button>
+        </div>
+
         <!-- JMOS Dashboard Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="tools">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -229,7 +237,7 @@
         </div>
 
         <!-- Six Sigma Green Belt Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="process">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -326,7 +334,7 @@
         </div>
 
         <!-- Root Cause Analysis Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="process">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -394,7 +402,7 @@
         </div>
 
         <!-- Market Opportunity Analysis Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="strategic">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -449,7 +457,7 @@
         </div>
 
         <!-- Financial Forecaster Video Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="tools">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -516,7 +524,7 @@
         </div>
 
         <!-- Maintenance Dashboard Video Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="tools">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -582,7 +590,7 @@
         </div>
 
         <!-- Hour-by-Hour Production Tracking Project -->
-        <div class="project-card reveal">
+        <div class="project-card reveal" data-category="tools">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -649,7 +657,7 @@
         </div>
 
         <!-- Future Project Placeholder -->
-        <div class="project-card reveal coming-soon">
+        <div class="project-card reveal coming-soon" data-category="tools">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -970,6 +978,39 @@
       if (e.key === 'Escape' && drilldownOverlay.classList.contains('open')) {
         closeDrilldown();
       }
+    });
+
+    // Project Filter Tabs
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card[data-category]');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter projects
+        projectCards.forEach(card => {
+          const category = card.dataset.category;
+
+          // Close any expanded demos before filtering
+          const expandBtn = card.querySelector('.project-expand');
+          if (expandBtn && expandBtn.getAttribute('aria-expanded') === 'true') {
+            expandBtn.click();
+          }
+
+          if (filter === 'all' || category === filter) {
+            card.classList.remove('filtered-out');
+            card.classList.add('filtered-in');
+          } else {
+            card.classList.remove('filtered-in');
+            card.classList.add('filtered-out');
+          }
+        });
+      });
     });
   </script>
 </body>

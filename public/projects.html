@@ -493,21 +493,29 @@
         progressBar.style.width = `${percent}%`;
       });
 
-      // Fullscreen toggle
+      // Fullscreen toggle using native Fullscreen API
       fullscreenBtn.addEventListener('click', () => {
-        wrapper.classList.toggle('fullscreen');
-        if (wrapper.classList.contains('fullscreen')) {
-          document.body.style.overflow = 'hidden';
+        if (document.fullscreenElement) {
+          // Exit fullscreen
+          document.exitFullscreen();
         } else {
-          document.body.style.overflow = '';
+          // Enter fullscreen on the wrapper element
+          if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+          } else if (wrapper.webkitRequestFullscreen) {
+            wrapper.webkitRequestFullscreen();
+          } else if (wrapper.msRequestFullscreen) {
+            wrapper.msRequestFullscreen();
+          }
         }
       });
 
-      // Exit fullscreen with Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && wrapper.classList.contains('fullscreen')) {
+      // Update button icon when fullscreen state changes
+      document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement === wrapper) {
+          wrapper.classList.add('fullscreen');
+        } else {
           wrapper.classList.remove('fullscreen');
-          document.body.style.overflow = '';
         }
       });
 

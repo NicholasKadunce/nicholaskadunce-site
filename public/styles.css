@@ -1398,10 +1398,15 @@ article[id] {
   background: #000;
 }
 
+/* Native fullscreen styles */
+.video-player-wrapper:fullscreen,
+.video-player-wrapper:-webkit-full-screen {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
 .video-player-wrapper.fullscreen {
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
   display: flex;
   flex-direction: column;
 }
@@ -1412,8 +1417,11 @@ article[id] {
   background: #000;
 }
 
+.video-player-wrapper:fullscreen .video-player,
+.video-player-wrapper:-webkit-full-screen .video-player,
 .video-player-wrapper.fullscreen .video-player {
   flex: 1;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -1464,10 +1472,14 @@ article[id] {
   display: block;
 }
 
+.video-player-wrapper:fullscreen .video-fullscreen-btn .expand-icon,
+.video-player-wrapper:-webkit-full-screen .video-fullscreen-btn .expand-icon,
 .video-player-wrapper.fullscreen .video-fullscreen-btn .expand-icon {
   display: none;
 }
 
+.video-player-wrapper:fullscreen .video-fullscreen-btn .compress-icon,
+.video-player-wrapper:-webkit-full-screen .video-fullscreen-btn .compress-icon,
 .video-player-wrapper.fullscreen .video-fullscreen-btn .compress-icon {
   display: block;
 }

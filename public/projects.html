@@ -163,13 +163,6 @@
                   <div class="dash-chart">
                     <img src="/media/images/maintenance.png" alt="Maintenance work orders by type and asset">
                   </div>
-                  <a href="/projects/drilldown-chart/Maintenance_Drilldown.html" target="_blank" class="drilldown-btn">
-                    <span class="drilldown-text-full">Explore Maintenance Interactive Drilldown</span>
-                    <span class="drilldown-text-short">Explore Interactive Drilldown</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                    </svg>
-                  </a>
                 </div>
 
                 <!-- Financial Forecaster Section -->
@@ -196,6 +189,42 @@
               </div>
             </div>
             <p class="dashboard-note">This interactive demo mirrors the automated daily email sent to plant leadership each morning.</p>
+
+            <!-- Drilldown CTA -->
+            <div class="drilldown-cta">
+              <div class="drilldown-cta-content">
+                <span class="drilldown-cta-label">Interactive Feature</span>
+                <p>In the live email, clicking the Maintenance chart opens an interactive drilldown view. Try it below:</p>
+              </div>
+              <button class="drilldown-btn" id="open-drilldown">
+                <span class="drilldown-text-full">Explore Maintenance Interactive Drilldown</span>
+                <span class="drilldown-text-short">Explore Interactive Drilldown</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drilldown Modal -->
+        <div class="drilldown-overlay" id="drilldown-overlay">
+          <div class="drilldown-modal">
+            <div class="drilldown-modal-header">
+              <h4>Maintenance Interactive Drilldown</h4>
+              <button class="drilldown-close" id="close-drilldown" aria-label="Close drilldown">&times;</button>
+            </div>
+            <div class="drilldown-modal-body">
+              <iframe id="drilldown-iframe" src="" title="Maintenance Drilldown"></iframe>
+            </div>
+            <div class="drilldown-modal-footer">
+              <button class="drilldown-back-btn" id="close-drilldown-footer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Dashboard
+              </button>
+            </div>
           </div>
         </div>
 
@@ -612,6 +641,47 @@
             video.pause();
           }
         });
+      }
+    });
+
+    // Drilldown Modal
+    const drilldownOverlay = document.getElementById('drilldown-overlay');
+    const drilldownIframe = document.getElementById('drilldown-iframe');
+    const openDrilldownBtn = document.getElementById('open-drilldown');
+    const closeDrilldownBtn = document.getElementById('close-drilldown');
+    const closeDrilldownFooter = document.getElementById('close-drilldown-footer');
+
+    function openDrilldown() {
+      // Set the iframe source
+      drilldownIframe.src = '/projects/drilldown-chart/Maintenance_Drilldown.html';
+      drilldownOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrilldown() {
+      drilldownOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Clear iframe after animation
+      setTimeout(() => {
+        drilldownIframe.src = '';
+      }, 300);
+    }
+
+    openDrilldownBtn.addEventListener('click', openDrilldown);
+    closeDrilldownBtn.addEventListener('click', closeDrilldown);
+    closeDrilldownFooter.addEventListener('click', closeDrilldown);
+
+    // Close on overlay click
+    drilldownOverlay.addEventListener('click', (e) => {
+      if (e.target === drilldownOverlay) {
+        closeDrilldown();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drilldownOverlay.classList.contains('open')) {
+        closeDrilldown();
       }
     });
   </script>

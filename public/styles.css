@@ -2260,31 +2260,17 @@ article[id] {
 }
 
 /* Project Card Filter Animation */
-.project-card {
-  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+.project-card.filtering-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .project-card.filtered-out {
-  opacity: 0;
-  transform: scale(0.95);
-  pointer-events: none;
-  position: absolute;
-  visibility: hidden;
+  display: none;
 }
 
-.project-card.filtered-in {
-  animation: filterIn 0.4s var(--ease-out) forwards;
-}
-
-@keyframes filterIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.project-card.filtering-in {
+  opacity: 1;
 }
 
 /* Mobile Filter Tabs */

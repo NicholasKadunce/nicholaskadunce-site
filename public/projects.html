@@ -995,18 +995,27 @@
         // Filter projects
         projectCards.forEach(card => {
           const category = card.dataset.category;
+          const shouldShow = filter === 'all' || category === filter;
+          const isCurrentlyHidden = card.classList.contains('filtered-out');
 
-          // Close any expanded demos before filtering
-          const expandBtn = card.querySelector('.project-expand');
-          if (expandBtn && expandBtn.getAttribute('aria-expanded') === 'true') {
-            expandBtn.click();
+          // Close any expanded demos before hiding
+          if (!shouldShow) {
+            const expandBtn = card.querySelector('.project-expand');
+            if (expandBtn && expandBtn.getAttribute('aria-expanded') === 'true') {
+              expandBtn.click();
+            }
           }
 
-          if (filter === 'all' || category === filter) {
-            card.classList.remove('filtered-out');
-            card.classList.add('filtered-in');
-          } else {
-            card.classList.remove('filtered-in');
+          if (shouldShow && isCurrentlyHidden) {
+            // Show: remove display:none first, then fade in
+            card.classList.remove('filtered-out', 'filtering-out');
+            card.classList.add('filtering-in');
+          } else if (shouldShow) {
+            // Already visible, ensure clean state
+            card.classList.remove('filtered-out', 'filtering-out', 'filtering-in');
+          } else if (!isCurrentlyHidden) {
+            // Hide: just set display:none immediately (no fancy animation)
+            card.classList.remove('filtering-in');
             card.classList.add('filtered-out');
           }
         });

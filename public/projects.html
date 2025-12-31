@@ -10,28 +10,34 @@
 <body>
   <nav class="nav">
     <div class="nav-inner">
-      <button class="nav-profile" aria-label="View profile photo">
-        <img src="/media/images/Nick.jpg" alt="Nicholas Kadunce" class="nav-avatar">
-        <img src="/media/images/white-signature.png" alt="" class="nav-signature">
-      </button>
-      <a href="/" class="nav-brand">Nicholas Kadunce</a>
-      <button class="theme-toggle" aria-label="Toggle dark/light mode">
-        <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"/>
-          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-        </svg>
-        <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-      <div class="nav-toggle-wrapper">
-        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span class="hamburger"></span>
+      <div class="nav-left">
+        <button class="nav-profile" aria-label="View profile photo">
+          <img src="/media/images/Nick.jpg" alt="Nicholas Kadunce" class="nav-avatar">
         </button>
-        <div class="nav-menu">
-          <a href="/#experience">Experience</a>
-          <a href="projects.html">Projects</a>
-          <a href="/#contact">Contact</a>
+        <a href="#" class="nav-signature-link">
+          <img src="/media/images/white-signature.png" alt="" class="nav-signature">
+        </a>
+      </div>
+      <a href="/" class="nav-brand">Nicholas Kadunce</a>
+      <div class="nav-right">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+          <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <div class="nav-toggle-wrapper">
+          <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <span class="hamburger"></span>
+          </button>
+          <div class="nav-menu">
+            <a href="/#experience">Experience</a>
+            <a href="projects.html">Projects</a>
+            <a href="/#contact">Contact</a>
+          </div>
         </div>
       </div>
     </div>
@@ -326,12 +332,13 @@
       localStorage.setItem('theme', newTheme);
     });
 
-    // Profile popup
+    // Profile popup (only avatar triggers it)
     const navProfile = document.querySelector('.nav-profile');
     const profileOverlay = document.getElementById('profile-overlay');
     const profileClose = document.querySelector('.profile-close');
 
-    navProfile.addEventListener('click', () => {
+    navProfile.addEventListener('click', (e) => {
+      e.preventDefault();
       profileOverlay.classList.add('open');
     });
 

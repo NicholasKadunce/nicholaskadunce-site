@@ -1355,7 +1355,7 @@ article[id] {
 
 /* Drilldown CTA Section */
 .drilldown-cta {
-  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
   padding: var(--spacing-md);
   background: linear-gradient(135deg, rgba(0, 113, 227, 0.08) 0%, rgba(88, 86, 214, 0.08) 100%);
   border: 1px solid rgba(0, 113, 227, 0.2);

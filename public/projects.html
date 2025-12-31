@@ -21,9 +21,9 @@
       <a href="/" class="nav-brand">Nicholas Kadunce</a>
       <div class="nav-right">
         <button class="theme-toggle" aria-label="Toggle dark/light mode">
-          <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
           </svg>
           <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -71,7 +71,7 @@
               </svg>
             </div>
             <div class="project-info">
-              <h3>JMOS Daily Dashboard</h3>
+              <h3>Operations Daily Dashboard</h3>
               <p>Interactive daily operations email with real-time KPIs, downtime analysis, quality metrics, and action tracking—sent automatically each morning.</p>
               <div class="project-tags">
                 <span>VBA</span>
@@ -92,18 +92,20 @@
           <div class="project-demo" id="jmos-dashboard">
             <div class="dashboard-container">
               <div class="dashboard-nav">
-                <button class="dash-nav-btn active" data-section="overview">Dashboard</button>
-                <button class="dash-nav-btn" data-section="downtime">Downtime</button>
-                <button class="dash-nav-btn" data-section="quality">Quality</button>
-                <button class="dash-nav-btn" data-section="safety">Safety</button>
-                <button class="dash-nav-btn" data-section="maintenance">Maintenance</button>
-                <button class="dash-nav-btn" data-section="keystone">Keystone</button>
-                <button class="dash-nav-btn" data-section="actions">Action Items</button>
                 <div class="dash-nav-hint">
                   <span>Explore sections</span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
                   </svg>
+                </div>
+                <div class="dash-nav-buttons">
+                  <button class="dash-nav-btn active" data-section="overview">Dashboard</button>
+                  <button class="dash-nav-btn" data-section="downtime">Downtime</button>
+                  <button class="dash-nav-btn" data-section="quality">Quality</button>
+                  <button class="dash-nav-btn" data-section="safety">Safety</button>
+                  <button class="dash-nav-btn" data-section="maintenance">Maintenance</button>
+                  <button class="dash-nav-btn" data-section="keystone">Financial Forecaster</button>
+                  <button class="dash-nav-btn" data-section="actions">Action Items</button>
                 </div>
               </div>
 
@@ -163,10 +165,10 @@
                   </div>
                 </div>
 
-                <!-- Keystone Section -->
+                <!-- Financial Forecaster Section -->
                 <div class="dash-section" id="dash-keystone">
                   <div class="dash-header">
-                    <h4>Keystone Scraper</h4>
+                    <h4>Financial Forecaster</h4>
                     <p>Forecasting tool integrating market data with production capacity for optimized scheduling.</p>
                   </div>
                   <div class="dash-chart">
@@ -187,6 +189,73 @@
               </div>
             </div>
             <p class="dashboard-note">This interactive demo mirrors the automated daily email sent to plant leadership each morning.</p>
+          </div>
+        </div>
+
+        <!-- Financial Forecaster Video Project -->
+        <div class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <div class="project-info">
+              <h3>Financial Forecaster</h3>
+              <p>Data-driven forecasting tool using 3-month rolling averages to generate daily financial projections, strengthening performance and improving oversight efficiency.</p>
+              <div class="project-tags">
+                <span>VBA</span>
+                <span>Excel</span>
+                <span>Forecasting</span>
+                <span>Analytics</span>
+              </div>
+            </div>
+            <button class="project-expand" aria-expanded="false" data-target="financial-forecaster">
+              <span>View Demo</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Video Demo -->
+          <div class="project-demo" id="financial-forecaster">
+            <div class="video-demo-container">
+              <div class="video-header">
+                <h4>Financial Forecaster</h4>
+                <p>Financial Forecaster is a data-driven forecasting tool that uses 3-month rolling averages to generate daily financial projections from the most recent actuals. It streamlines consolidation and analysis to strengthen financial performance and improve the efficiency of financial oversight, with planned enhancements including seasonal weighting and advanced statistical methods as more historical data is collected.</p>
+              </div>
+              <div class="video-player-wrapper">
+                <video id="forecaster-video" class="video-player" preload="metadata">
+                  <source src="/media/gifs/Keystone-Scraper.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <div class="video-controls">
+                  <button class="video-play-btn" aria-label="Play/Pause">
+                    <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+                    </svg>
+                  </button>
+                  <div class="video-progress-container">
+                    <input type="range" class="video-progress" value="0" min="0" max="100" step="0.1">
+                    <div class="video-progress-bar"></div>
+                  </div>
+                  <span class="video-time">0:00 / 0:00</span>
+                  <button class="video-fullscreen-btn" aria-label="Toggle fullscreen">
+                    <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>
+                    </svg>
+                    <svg class="compress-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 14h3a2 2 0 0 1 2 2v3M20 14h-3a2 2 0 0 0-2 2v3M4 10h3a2 2 0 0 0 2-2V5M20 10h-3a2 2 0 0 1-2-2V5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -319,10 +388,12 @@
     const themeToggle = document.querySelector('.theme-toggle');
     const root = document.documentElement;
 
-    // Check for saved theme preference or default to system
+    // Check for saved theme preference or default to dark
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       root.setAttribute('data-theme', savedTheme);
+    } else {
+      root.setAttribute('data-theme', 'dark');
     }
 
     themeToggle.addEventListener('click', () => {
@@ -357,6 +428,109 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && profileOverlay.classList.contains('open')) {
         profileOverlay.classList.remove('open');
+      }
+    });
+
+    // Video Player Controls
+    document.querySelectorAll('.video-player-wrapper').forEach(wrapper => {
+      const video = wrapper.querySelector('.video-player');
+      const playBtn = wrapper.querySelector('.video-play-btn');
+      const progressInput = wrapper.querySelector('.video-progress');
+      const progressBar = wrapper.querySelector('.video-progress-bar');
+      const timeDisplay = wrapper.querySelector('.video-time');
+      const fullscreenBtn = wrapper.querySelector('.video-fullscreen-btn');
+
+      // Format time helper
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      // Update time display
+      function updateTime() {
+        const current = formatTime(video.currentTime);
+        const duration = formatTime(video.duration || 0);
+        timeDisplay.textContent = `${current} / ${duration}`;
+      }
+
+      // Update progress bar
+      function updateProgress() {
+        const percent = (video.currentTime / video.duration) * 100 || 0;
+        progressInput.value = percent;
+        progressBar.style.width = `${percent}%`;
+        updateTime();
+      }
+
+      // Play/Pause toggle
+      playBtn.addEventListener('click', () => {
+        if (video.paused) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+
+      // Update button state on play/pause
+      video.addEventListener('play', () => {
+        playBtn.classList.add('playing');
+      });
+
+      video.addEventListener('pause', () => {
+        playBtn.classList.remove('playing');
+      });
+
+      // Update progress as video plays
+      video.addEventListener('timeupdate', updateProgress);
+
+      // Update duration when loaded
+      video.addEventListener('loadedmetadata', updateTime);
+
+      // Seek when clicking progress bar
+      progressInput.addEventListener('input', () => {
+        const percent = progressInput.value;
+        video.currentTime = (percent / 100) * video.duration;
+        progressBar.style.width = `${percent}%`;
+      });
+
+      // Fullscreen toggle
+      fullscreenBtn.addEventListener('click', () => {
+        wrapper.classList.toggle('fullscreen');
+        if (wrapper.classList.contains('fullscreen')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Exit fullscreen with Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && wrapper.classList.contains('fullscreen')) {
+          wrapper.classList.remove('fullscreen');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Brief delay before auto-play when demo opens (optional enhancement)
+      const projectCard = wrapper.closest('.project-card');
+      const expandBtn = projectCard?.querySelector('.project-expand');
+
+      if (expandBtn) {
+        expandBtn.addEventListener('click', () => {
+          const isExpanding = expandBtn.getAttribute('aria-expanded') === 'false';
+          if (isExpanding) {
+            // Reset video when opening
+            video.currentTime = 0;
+            updateProgress();
+            // Brief delay then play
+            setTimeout(() => {
+              video.play();
+            }, 500);
+          } else {
+            // Pause when closing
+            video.pause();
+          }
+        });
       }
     });
   </script>

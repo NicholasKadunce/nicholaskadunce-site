@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Maintenance Work Orders Drilldown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Plotly CDN -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <!-- PapaParse for CSV parsing (robust) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: #f5f6f8;
+            color: #1f2328;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 14px 16px 16px 16px;
+            margin-bottom: 14px;
+            border: 1px solid #e3e6ea;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            color: #66707b;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: #5a6470;
+            margin-top: 8px;
+        }
+
+        .breadcrumb a {
+            color: #0b5fff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        #chart {
+            width: 100%;
+            height: 420px;
+        }
+
+        .back-link {
+            margin-top: 8px;
+        }
+
+        .back-link a {
+            font-size: 12px;
+            color: #0b5fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .table-wrapper {
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #e3e6ea;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f2f5;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafbfc;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            background: #eef2ff;
+            color: #273b80;
+        }
+
+        .muted {
+            color: #8a939f;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="card">
+        <div class="header-title">Maintenance Work Orders</div>
+        <div class="header-sub" id="subtitle">
+            Tap or click bars to drill into the data. Start at Type, then Asset, then Work Order details.
+        </div>
+        <div style="margin-top:6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;">
+            <div style="display:flex;flex-direction:column;">
+                <div class="muted" id="lastLoaded" style="font-size:12px">Last loaded: never</div>
+                <div id="execSummarySmall" style="font-size:13px;color:#24303a;margin-top:6px"></div>
+            </div>
+            <div style="font-size:12px;color:#66707b">Presentation mode: embedded demo data</div>
+        </div>
+        <div class="breadcrumb" id="breadcrumb">
+            View: <span class="pill">Type (Count of WOs)</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div id="chart"></div>
+        <div class="back-link" id="backLink" style="display:none;">
+            <a href="#" id="backLinkAnchor">&#8592; Back</a>
+        </div>
+    </div>
+
+    <div class="card" id="detailsCard" style="display:none;">
+        <div class="header-sub" id="detailsTitle">
+            Work Order Details
+        </div>
+        <div class="muted" id="detailsContext"></div>
+        <div class="table-wrapper">
+            <table id="detailsTable">
+                <thead>
+                    <tr>
+                        <th>WO Description</th>
+                        <th>Completion Date</th>
+                        <th>Completed By</th>
+                        <th>Type</th>
+                        <th>Asset</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// If you want the page to be fully self-contained for a demo, paste your CSV
+// contents (including the header row) into the hidden <script id="demoCsv"> block
+// added below this file. When present, the page will parse that CSV instead of
+// fetching or asking for a local file.
+
+    // Demo CSV placeholder: paste the full CSV text into the block with id="demoCsv".
+</script>
+
+<!-- Paste your CSV here to hardcode data for demos. Keep this block intact. -->
+<script id="demoCsv" type="text/plain" style="display:none">
+WO_Code,WO_Description,Completion_Date,Completed_By,Type_Group,Asset_Group
+5577, WV-Quarterly-Press 400 PM,11/5/2025,"James Poling, Rodney Hatch",Preventive,Yadon Press 400
+5578,"Press 500A, 500B, and 400 Die Tooling PM",11/11/2025,Byron Smith,Preventive,Yadon Press 500A
+5579,"Headers 1, 2, 3 and Presses 400,500A, and 500B Tooling PM",11/11/2025,Byron Smith,Preventive,Header #3
+5582,WV-Monthly-Crane EMH1 PM,11/13/2025,Ryan Stemple,Preventive,Crane EMH1
+5583,WV-Monthly-Crane Kone PM,11/18/2025,Ryan Stemple,Preventive,Crane Kone
+5584,WV-Monthly-Crane Dayton PM,11/17/2025,Rodney Hatch,Preventive,Crane Dayton
+5585,WV-Monthly-Crane EMH2 PM,11/21/2025,Ryan Stemple,Preventive,Crane EMH2
+5586,Autoshear 1 & 2 Tooling PM,11/11/2025,Byron Smith,Preventive,RMS Shear #1
+5587,Big Saw Tooling PM,11/5/2025,Rodney Hatch,Preventive,Horizontal Bandsaw
+5589,WV-Monthly-FRP Dust Collector PM,11/6/2025,"James Poling, Terry Kinsley",Preventive,Cable Line Dust Collection System
+5590,WV-Monthly-Rotating Arm PM,11/5/2025,Terry Kinsley,Preventive,Articulating Arm
+5591,WV-Monthly-Air Dryer 2 PM,11/15/2025,Rodney Hatch,Preventive,Cable Building Air Dryer
+5592,WV-Monthly-Compressor 1 PM,11/11/2025,Rodney Hatch,Preventive,Compressor 1
+5593,WV-Monthly-Compressor 3 PM,11/11/2025,Rodney Hatch,Preventive,Compressor 3
+5594,WV-Monthly-Compressor 4 PM,11/11/2025,Rodney Hatch,Preventive,Compressor 4
+5595,"Threader 1, 2, & AutoThreader NEW Tooling PM",11/5/2025,Byron Smith,Preventive,Automatic Threader
+5596,WV-Monthly-Air Dryer 1 PM,11/15/2025,Rodney Hatch,Preventive,Main Building Air Dryer
+5597,WV-Quarterly-Auto Shear #1 PM,11/5/2025,Rodney Hatch,Preventive,RMS Shear #1
+5598,WV-Quarterly-Auto Shear #2 PM,11/12/2025,Rodney Hatch,Preventive,RMS Shear #2
+5599,WV-Monthly-Compressor 2 PM,11/11/2025,Rodney Hatch,Preventive,Compressor 2
+5600,WV-SemiAnnually-Case Skid Steer PM,11/18/2025,William White,Preventive,Forklift - Case (Skid Steer)
+5602,WV-Quarterly-Header 1 PM,11/14/2025,Tony Long Jr.,Preventive,Header #1
+5603,WV-Monthly-Bench Grinder PM,11/5/2025,Rodney Hatch,Preventive,Bench Grinders
+5604,WV-Quarterly-Header 2 PM,11/17/2025,"Rodney Hatch, Tony Long Jr.",Preventive,Header #2
+5605,WV-Quarterly-Header 3 PM,11/7/2025,"James Poling, Tony Long Jr.",Preventive,Step Loader
+5652,Header 1 and 3 Tooling PM,11/5/2025,Byron Smith,Preventive,Header #3
+5677,WV-Weekly-Header Flipper PM,11/6/2025,James Poling,Preventive,Header #3
+5681,Operator questioned tension pressure on saw blade.,11/5/2025,Terry Kinsley,Preventive,Horizontal Bandsaw
+5687,Servo fault,11/5/2025,Terry Kinsley,Preventive,RMS Shear #2
+5701,need to install e-stop on the exit conveyer of header 1,11/7/2025,Keith Sanders,Safety,Header #1
+5702,Linear roller bearing locking up below peeler head plate.,11/6/2025,Terry Kinsley,Corrective,Manual Peeler
+5703,Gripper not gripping bolts correctly,11/6/2025,Terry Kinsley,Corrective,Manual Peeler
+5721,Mechanical counter malfunctioning,11/7/2025,James Poling,Corrective,LANDIS THREADER 1
+5722,Bolt cross threaded,11/7/2025,,Corrective,Automatic Threader
+5723,Cable line air compressor faulted for over temp,11/7/2025,Rodney DeSantis,Corrective,Compressors
+5724,Back splash broke,11/7/2025,Rodney Hatch,Corrective,Automatic Peeler
+5725,Expanded metal on feed side guard is broken,11/7/2025,Rodney Hatch,Corrective,RMS Shear #1
+5729,Gripper bolts and head tolerances,11/7/2025,,Corrective,Automatic Peeler
+5730,Lazer light install,11/7/2025,Terry Kinsley,Corrective,Header #3
+5777,"Threader 1, 2, & AutoThreader Tooling PM",11/11/2025,Byron Smith,Preventive,Threader #1
+5778,Maintenance Cabinet Cleaning PM,11/14/2025,Jeramiah Menear,Cleaning,JENNMAR WV (WK)
+5779,Header 1 and 3 Tooling PM,11/11/2025,Byron Smith,Preventive,Header #3
+5780,Header 2 Tooling PM,11/11/2025,Byron Smith,Preventive,Header #2
+5784,Bolt counter is not working,11/10/2025,James Poling,Corrective,Landis Threader 1
+5790,Light switches for indicator light need moved,11/10/2025,James Poling,Improvement,RMS Shear #2
+5791,Call light needs installed,11/10/2025,James Poling,Corrective,Header #2
+5797,Welded guide,11/11/2025,Jeramiah Menear,Corrective,Tie Line
+5798,Set up 6rd ?60 gr 60,11/11/2025,Jeramiah Menear,Corrective,Header #3
+5799,Bolts kicking back reset blocks up,11/11/2025,Jeramiah Menear,Corrective,Header #1
+5800,Changed dies,11/11/2025,Jeramiah Menear,Corrective,Landis Threader 1
+5801,"Motor over load , fixed it ",11/11/2025,Jeramiah Menear,Corrective,Cable Line 4
+5802,Encoder wheel  set screw loose,11/11/2025,Jeramiah Menear,Corrective,Cable Line 3
+5808,Lift table won't go down,11/11/2025,James Poling,Corrective,Tie Line
+5809,Head out of adjustment,11/11/2025,Tony Long Jr.,Corrective,Hand Peeler
+5810,Replace fence,11/11/2025,Tony Long Jr.,Safety,Yadon Press 500A
+5811,Put fence up on back side between sesco and press,11/11/2025,Rodney DeSantis,Safety,Yadon Press 500A
+5812,Check noise on brake koneorane,11/11/2025,Rodney DeSantis,Preventive,Cranes
+5813,Replace fence,11/11/2025,William White,Safety,Yadon Press 500A
+5816,Adjusted head,11/11/2025,Rodney Hatch,Corrective,Manual Peeler
+5817,Welded arm to uncoiler,11/11/2025,Rodney Hatch,Corrective,Yadon Press 400
+5819,Welded new plate for coil holder,11/11/2025,Rodney Hatch,Corrective,Yadon Press 500A
+5820,Fencing,11/11/2025,Tony Long Jr.,Corrective,Yadon Press 500A
+5821,Oil bucket full,11/11/2025,Tony Long Jr.,Compliance,Threader #2
+5822,Area scanner lens needed changed,11/11/2025,Rodney DeSantis,Corrective,Cable Line 4
+5823,Area scanner,11/11/2025,James Poling,Improvement,Swager 6F3
+5836,WV-Weekly-Header Flipper PM,11/12/2025,Rodney DeSantis,Preventive,Header #1
+5838,Air blower pressure to high,11/12/2025,,Preventive,CABLE LINE DUST
+5839,Just head,11/12/2025,Rodney Hatch,Corrective,Manual Peeler
+5840,Power was off,11/12/2025,Tony Long Jr.,Corrective,Cranes
+5841,Wired in service light,11/12/2025,Terry Kinsley,Corrective,Header #1
+5842,Glue gun put back in service and setup,11/12/2025,,Corrective,Cable Line 3
+5843,Area scanner issues,11/12/2025,,Corrective,Cable Line 4
+5844,Area scanner,11/12/2025,,Preventive,Cable Line 4
+5845,Lazer light needs hung,11/14/2025,Terry Kinsley,Corrective,Header #1
+5846,Lazer light broken,11/12/2025,Terry Kinsley,Corrective,Header #1
+5848,Put new grippers on,11/12/2025,Rodney Hatch,Corrective,Manual Peeler
+5849,Rubber bushing broke on table,11/12/2025,,Corrective,Assembly #3
+5850,Foot pedal cord on welder damaged,11/12/2025,,Corrective,Cable Line 3
+5851,Bad bits,11/12/2025,Rodney Hatch,Corrective,Manual Peeler
+5853,Bold guide bracket fixed,11/12/2025,,Corrective,Automatic Threader
+5855,Changed blocks,11/12/2025,Jeramiah Menear,Corrective,Header #1
+5858,Changed bit,11/12/2025,Jeramiah Menear,Corrective,Tie Line
+5859,Counter sink shaft fell out put back in,11/12/2025,Ryan Stemple,Corrective,Tie Line
+5860,Counter sink shaft fell out put back in,11/12/2025,Jeramiah Menear,Corrective,Tie Line
+5861,Main drill bit stud broke got old one out and put new stud and bit in,11/12/2025,Ryan Stemple,Corrective,Tie Line
+5862,Guide broke welded back put back on,11/12/2025,Ryan Stemple,Corrective,Tie Line
+5863,Flipped bit,11/12/2025,Jeramiah Menear,Corrective,Automatic Peeler
+5864,flipped Bites adjusted heads run Some and re adjusted Heads,11/12/2025,,Corrective,Automatic Peeler
+5865,Tik Tok got stuck cleaned got working Then slid Gear Over on step loader To operate Correct,11/12/2025,,Corrective,Automatic Peeler
+5866,Tik tok got stuck clean it then slid gear over on set loader,11/12/2025,Jeramiah Menear,Corrective,Automatic Peeler
+5867,Filled  pensov. tank up,11/12/2025,Jeramiah Menear,Preventive,Automatic Peeler
+5868,Welded  rack,11/12/2025,Jeramiah Menear,Corrective,Assembly #4
+5869,Fixed  grading,11/12/2025,Ryan Stemple,Safety,RMS Shear #1
+5870,adjusted flippers so Bolt would not hit die,11/12/2025,Ryan Stemple,Corrective,Threader #2
+5871,fixed grating,11/12/2025,Ryan Stemple,Corrective,RMS Shear #1
+5872,weld guard,11/12/2025,Jeramiah Menear,Corrective,Tie Line
+5905,Head adjust,11/13/2025,Rodney Hatch,Corrective,Manual Peeler
+5909,Standing platform welded,11/13/2025,,Corrective,Cable Line 4
+5910,Heater install,11/13/2025,Terry Kinsley,Improvement,Manual Peeler
+5911,Added fence,11/13/2025,Rodney Hatch,Safety,Yadon Press 500B
+5912,Safety fencing,11/13/2025,Tony Long Jr.,Corrective,Yadon Press 500B
+5913,Welded platform to press,11/13/2025,Rodney Hatch,Safety,Cable Line 4
+5914,Fixed bolts guide,11/13/2025,,Corrective,Automatic Threader
+5915,Broken wood rack,11/13/2025,Terry Kinsley,Corrective,JENNMAR WV (WK)
+5916,New heater,11/13/2025,James Poling,Improvement,Manual Peeler
+5918,Heater,11/14/2025,James Poling,Improvement,Automatic Peeler
+5921,Changed over and cleaned air valve,11/13/2025,Jeramiah Menear,Corrective,Tie Line
+5922,cleaned Air valve was gummed up letting it Bypass,11/13/2025,Ryan Stemple,Corrective,Tie Line
+5923,changed over To 85-42,11/13/2025,Ryan Stemple,Corrective,Tie Line
+5924,Adjust conveyor belt,11/13/2025,Jeramiah Menear,Corrective,Yadon Press 500B
+5925,Scrap dumpster handle ben straighten it,11/13/2025,Jeramiah Menear,Corrective,Yadon Press 500B
+5926,Adjust tik tok cylinder sensor,11/13/2025,Jeramiah Menear,Corrective,Automatic Peeler
+5927,adjusted Tik tok Sensor,11/13/2025,,Corrective,Automatic Peeler
+5928,adjusted kicker down wasn't hitting Bolts,11/13/2025,Ryan Stemple,Corrective,Threader #1
+5929,dumpster Lever was Bent straightened it and cut end off,11/13/2025,Ryan Stemple,Corrective,Yadon Press 500B
+5934,Changed power 3way switch,11/13/2025,Jeramiah Menear,Corrective,Tie Line
+5938,Furnace not working,11/14/2025,Rodney Hatch,Corrective,Cable Line 4
+5939,Oil leak,11/14/2025,Rodney Hatch,Safety,Cable Line 1
+5940,Cable line furnace,11/14/2025,Terry Kinsley,Corrective,JENNMAR WV (WK)
+5941,Bolt climber shuddering when lifting bolts.,11/14/2025,Terry Kinsley,Preventive,Manual Peeler
+5942,Conveyor output on plc bad.,11/14/2025,Terry Kinsley,Corrective,Tie Line
+5943,Greased loud table,11/14/2025,Rodney Hatch,Preventive,Manual Peeler
+5944,Bolt counter double counting,11/14/2025,James Poling,Corrective,Header #3
+5946,Adjust head,11/14/2025,Rodney Hatch,Corrective,Manual Peeler
+5947,Adjust head,11/14/2025,Rodney Hatch,Corrective,Manual Peeler
+5949,Bag needed replace,11/14/2025,Tony Long Jr.,Corrective,Tie Line
+5950,Garage door openers,11/14/2025,Terry Kinsley,Preventive,JENNMAR WV (WK)
+5951,Heater,11/17/2025,James Poling,Improvement,RMS Shear #2
+5954,Counter sink shaft fell out put back in,11/14/2025,Jeramiah Menear,Corrective,Tie Line
+5955,Install new AED  in main building,11/14/2025,Jeramiah Menear,Preventive,Header #1
+5956,"Broken bolt drilled and easy out it out , trapped it",11/14/2025,Jeramiah Menear,Corrective,RMS Shear #1
+5957,"Cable guide fell out put back on ,new bolt  ",11/14/2025,Jeramiah Menear,Corrective,Cable Line 1
+5960,Install paint rack extension that Ryan and I built,11/14/2025,Jeramiah Menear,Safety,Assembly #4
+5980,Change over,11/15/2025,Tony Long Jr.,Corrective,Yadon Press 500A
+5981,Change over,11/15/2025,Rodney Hatch,Corrective,Yadon Press 500A
+5983,Length issues. Read notes,11/17/2025,Terry Kinsley,Corrective,Cable Line 4
+5984,Adjust head,11/15/2025,Rodney Hatch,Corrective,Manual Peeler
+5985,Exit conveyor sprocket,11/15/2025,Tony Long Jr.,Corrective,Header #3
+5986,Changed Encoder wheel,11/15/2025,Jeramiah Menear,Corrective,CABLE LINE 3
+5987,Changed dies,11/15/2025,Jeramiah Menear,Corrective,Threader #2
+5989,Cleaned foot pedal or Welder,11/15/2025,Jeramiah Menear,Preventive,Cable Line 3
+5990,Counter broken took off,11/15/2025,Jeramiah Menear,Corrective,Assembly #2
+5995,Put new encoder wheeler on for length,11/17/2025,Rodney Hatch,Corrective,Cable Line 4
+5997,Air leak,11/17/2025,Tony Long Jr.,Corrective,Yadon Press 500B
+5998,Table out of adjustment,11/17/2025,Tony Long Jr.,Corrective,RMS Shear #2
+5999,Took off brass bushing to put on new shaft,11/17/2025,Rodney Hatch,Corrective,Tinius Olsen
+6000,Length of cable wrong,11/17/2025,,Corrective,Cable Line 4
+6002,Fingers rubbing,11/17/2025,Tony Long Jr.,Corrective,RMS Shear #2
+6003,Change bits and adjusted head,11/17/2025,Rodney Hatch,Corrective,Manual Peeler
+6007,Instead fuse for head light,11/17/2025,William White,Corrective,FORKLIFTS (WKFL)
+6008,Hyd leak,11/17/2025,William White,Preventive,FORKLIFTS (WKFL)
+6009,New heater,11/17/2025,James Poling,Improvement,RMS Shear #2
+6010,Radiator LEAKING,11/20/2025,Keith Sanders,Preventive,Forklift - J19
+6012,Scales not reading properly,11/17/2025,James Poling,Corrective,Scales
+6013,Adjust head,11/17/2025,Rodney Hatch,Corrective,Manual Peeler
+6014,Adjust head,11/17/2025,Rodney Hatch,Corrective,Manual Peeler
+6015,New heater,11/18/2025,James Poling,Improvement,RMS Shear #1
+6016,wasn't Pumping Threading filter was plugged,11/17/2025,Ryan Stemple,Corrective,Threader #1
+6017,Assisted and helped Jeremiah fix,11/17/2025,,Corrective,Cable Line 1
+6018,Fixed stamper,11/17/2025,Jeramiah Menear,Corrective,Cable Line 1
+6019,Adjust cable size,11/17/2025,Jeramiah Menear,Corrective,Cable Line 4
+6020,J24 to get tires,11/17/2025,Jeramiah Menear,Safety,FORKLIFTS (WKFL)
+6021,"Adjust kicker , wedge sharpen threads ",11/17/2025,Jeramiah Menear,Corrective,Threader #1
+6022,length messed up calibrated and fixed in coder,11/17/2025,,Corrective,Cable Line 4
+6023,Counter sink shaft fell out put back in,11/17/2025,Jeramiah Menear,Corrective,Tie Line
+6024,Changed bit,11/17/2025,Ryan Stemple,Corrective,Tie Line
+6025,adjusted wedge and kicker sharpened up,11/17/2025,Ryan Stemple,Corrective,Threader #1
+6026,Table Loat Power plug came out,11/17/2025,Ryan Stemple,Corrective,Yadon Press 500A
+6027,counter sink shaft fell out Put Back in,11/17/2025,Ryan Stemple,Corrective,Tie Line
+6028,last Bolt of run is one inch long over Length and first Bolt of Next run is 3\4 inch short last Time done That it was Program messed,11/17/2025,Ryan Stemple,Preventive,Cable Line 4
+6035,Rebuild stamper,11/17/2025,Jeramiah Menear,Corrective,Cable Line 3
+6039,Tighten up filter,11/18/2025,Rodney Hatch,Corrective,Cable Line 1
+6040,Oil filter was loose,11/18/2025,Tony Long Jr.,Corrective,Cable Line 1
+6041,Welded new cross bar,11/18/2025,William White,Preventive,RMS Shear #1
+6042,Welded new cross bar,11/18/2025,William White,Preventive,RMS Shear #1
+6044,Cable running short and long,11/18/2025,Rodney Hatch,Corrective,Cable Line 4
+6045,Cross arm,11/18/2025,James Poling,Corrective,RMS Shear #1
+6046,Carriage losing signal,11/18/2025,James Poling,Corrective,RMS Shear #2
+6047,Signage,11/18/2025,Terry Kinsley,Safety,Yadon Press 500A
+6049,Safety chain on heater,11/18/2025,,Safety,Automatic Peeler
+6050,Bar replacement and needed rewelded,11/18/2025,Terry Kinsley,Corrective,RMS Shear #1
+6051,Head out of adjustment,11/18/2025,Tony Long Jr.,Corrective,Manual Peeler
+6066,worked with caleb got it fixed Then run some Bolts,11/18/2025,,Corrective,Cable Line 4
+6067,Fixed drag conveyor,11/18/2025,Jeramiah Menear,Corrective,Header #1
+6068,Counter sink shaft fell out put back in,11/18/2025,Jeramiah Menear,Corrective,Tie Line
+6069,Changed shear blade,11/18/2025,Jeramiah Menear,Corrective,Yadon Press 500A
+6070,Put counter sink shaft Back in and made top for Back of dumpster and screamed Bag to Plywood,11/18/2025,Ryan Stemple,Corrective,Threader #1
+6071,Bolts has kicking Back was up setting tOok 20 Thousands out,11/18/2025,,Corrective,Header #1
+6073,WV-Weekly-Header Flipper PM,11/20/2025,"Jeramiah Menear, Ryan Stemple",Preventive,Header #3
+6074,Pinch roll for tugger,11/19/2025,Rodney Hatch,Corrective,Cable Line 4
+6075,Head out of adjustment,11/19/2025,Tony Long Jr.,Corrective,Manual Peeler
+6076,Adjust head,11/19/2025,Rodney Hatch,Corrective,Manual Peeler
+6081,Adjust head,11/19/2025,Rodney Hatch,Corrective,Manual Peeler
+6082,New heater,11/19/2025,James Poling,Corrective,Threader #2
+6083,Guide plate on carriage arm vibrated off,11/19/2025,,Corrective,RMS Shear #2
+6086,Changed rubber mounts on table,11/19/2025,Rodney DeSantis,Corrective,Assembly #3
+6087,Finished fence up on 500a,11/19/2025,Rodney DeSantis,Safety,Yadon Press 500A
+6088,Put new fence up,11/19/2025,Rodney DeSantis,Safety,Yadon Press 500B
+6089,Sesco hyd.pump fan on motor came loose,11/19/2025,Rodney DeSantis,Corrective,Yadon Press 500B
+6090,Output burn. Up,11/19/2025,Rodney DeSantis,Corrective,Tie Line
+6091,Hyd leak,11/19/2025,Rodney DeSantis,Corrective,Cable Line 2
+6092,Put hose reel up behind milling machine so hose ain't laying on floor,11/19/2025,Rodney DeSantis,Safety,JENNMAR WV (WK)
+6093,Changed bag,11/19/2025,Rodney DeSantis,Corrective,Tie Line
+6094,Cable all different length,11/19/2025,Rodney DeSantis,Corrective,Cable Line 4
+6095,Cut up hand rails,11/19/2025,Rodney DeSantis,Corrective,JENNMAR WV (WK)
+6096,Rollers where to download to tight on tugger,11/19/2025,Rodney DeSantis,Corrective,Cable Line 4
+6097,Glue machine for cable line,11/19/2025,Rodney DeSantis,Preventive,JENNMAR WV (WK)
+6098,Operator couldn't get cable to feed in tugger,11/19/2025,Rodney Hatch,Corrective,Assembly #4
+6100,Freed up rollers,11/19/2025,Rodney Hatch,Corrective,RMS Shear #2
+6102,Grippers fell out,11/19/2025,Rodney Hatch,Corrective,Manual Peeler
+6117,Length running long and short,11/19/2025,Rodney Hatch,Corrective,Cable Line 4
+6118,Bites where bad,11/19/2025,Tony Long Jr.,Corrective,Manual Peeler
+6119,New heater,11/19/2025,,Corrective,Threader #1
+6120,Check encoder wheel over,11/19/2025,Jeramiah Menear,Preventive,Cable Line 3
+6121,Fixed welder,11/19/2025,Jeramiah Menear,Corrective,Cable Line 3
+6122,Fixed encoder wheel,11/19/2025,Jeramiah Menear,Corrective,Cable Line 4
+6123,Length was short checked in coder wheel over just Needed length Bumped Longer,11/19/2025,Jeramiah Menear,Corrective,Cable Line 3
+6125,Fixed table for. 4x4,11/19/2025,Jeramiah Menear,Corrective,Yadon Press 500A
+6126,Fixed unit table,11/19/2025,Jeramiah Menear,Corrective,Landis Threader 1
+6128,cable was running off when cable Backed up Letting in coder pop off Cable,11/19/2025,,Corrective,Cable Line 4
+6129,adjusted table and convyer for 4x4 Plates wos getting caught up,11/19/2025,Ryan Stemple,Corrective,Yadon Press 500A
+6130,welded plate to front of unit table so units won't fall on ground,11/19/2025,,Corrective,Landis Threader 1
+6132,Changed tooling,11/19/2025,Jeramiah Menear,Corrective,Cable Line 3
+6133,wedge tooling Broke changed out,11/19/2025,,Corrective,Cable Line 3
+6138,Cord damage on oil skiner put new Cord on,11/19/2025,Jeramiah Menear,Corrective,Header #1
+6139,Wire on skimmer had bear wires cut off and put new wire and plug on it,11/19/2025,,Corrective,Header #1
+6142,Set up new glue machine,11/19/2025,Jeramiah Menear,Improvement,Cable Line 1
+6143,Saw was faulted was dabre over Sensor removed fixed it,11/19/2025,,Corrective,Cable Line 4
+6144,Set new glue machine up,11/19/2025,,Preventive,Cable Line 2
+6145,Header 1 kicking back add 10,11/19/2025,Jeramiah Menear,Corrective,Header #1
+6146,Encoder wheel fell off guide fixed it Cable stuck in saw tube got it out,11/19/2025,Jeramiah Menear,Corrective,Cable Line 4
+6147,Bolts kicking back added ten thousands to it,11/19/2025,,Corrective,Header #1
+6148,Cable got stuck in saw tube was small sawed pieces the got caught in bird cager and cable run off to side letting encoder drop beside it,11/19/2025,,Corrective,Cable Line 4
+6172,Would not clamp bolt,11/20/2025,,Corrective,Manual Peeler
+6174,Gripper blocks won't close,11/21/2025,James Poling,Corrective,Manual Peeler
+6175,Grippers fell out,11/20/2025,Rodney Hatch,Corrective,Manual Peeler
+6176,Encoder wheel,11/20/2025,Jeramiah Menear,Corrective,Cable Line 4
+6186,Fixed size,11/20/2025,Jeramiah Menear,Corrective,Cable Line 4
+6187,Steel was off side to side,11/20/2025,,Corrective,Yadon Press 500B
+6188,Changed radiator j19,11/20/2025,Jeramiah Menear,Corrective,FORKLIFTS (WKFL)
+6189,Radiator was leaking,11/20/2025,,Corrective,Forklift - J19
+6190,Min truck fixed lights,11/20/2025,Jeramiah Menear,Corrective,FORKLIFTS (WKFL)
+6191,Parking lights,11/20/2025,,Corrective,FORKLIFTS (WKFL)
+6192,Clamps,11/20/2025,,Corrective,Automatic Peeler
+6193,Changed stamp,11/20/2025,Jeramiah Menear,Corrective,Yadon Press 500B
+6194,Stamp was faint,11/20/2025,,Corrective,Yadon Press 500B
+6195,Bolts broken in bit,11/20/2025,Jeramiah Menear,Corrective,Automatic Peeler
+6196,Plate wasn't passing,11/21/2025,Ryan Stemple,Corrective,Yadon Press 500B
+6197,Stamper broken,11/20/2025,Jeramiah Menear,Corrective,Cable Line 3
+6198,Stamped wasn't stamping,11/20/2025,,Corrective,Cable Line 3
+6207,Head out of adjustment,11/21/2025,Tony Long Jr.,Corrective,Manual Peeler
+6208,Die change,11/21/2025,,Corrective,RMS Shear #1
+6210,Grippers wasn't working,11/21/2025,,Corrective,Hand Peeler
+6211,Set up new glue machine,11/21/2025,,Corrective,Cable Line 2
+6212,Roller on pa feeder,11/21/2025,,Corrective,Yadon Press 500B
+6213,Grippers came loose,11/21/2025,,Corrective,Manual Peeler
+6214,Cable was come up out of guides for encoder,11/21/2025,,Corrective,Cable Line 4
+6215,Shaker table reset,11/21/2025,,Preventive,RMS Shear #1
+6216,Roller causing edge of coil to create shavings,11/21/2025,,Corrective,Yadon Press 500B
+6217,Die needed change,11/21/2025,Tony Long Jr.,Corrective,Threader #2
+6219,Head adjustment,11/21/2025,,Corrective,Manual Peeler
+6220,Scrap cardboard,11/21/2025,,Compliance,JENNMAR WV (WK)
+6222,Oil pump,11/21/2025,,Corrective,Threader #2
+6223,Grind off roll down lips,11/21/2025,Rodney Hatch,Corrective,Header #2
+6224,Scrap conv,11/21/2025,Rodney Hatch,Corrective,Yadon Press 500A
+6225,Gripper bolts,11/21/2025,,Corrective,Automatic Peeler
+6226,High numbers. 800,11/21/2025,,Corrective,Manual Peeler
+6228,Stamp came up out of die got busted,11/21/2025,,Corrective,Yadon Press 500A
+6229,Was missing clamps,11/21/2025,,Corrective,Automatic Peeler
+6231,Man truck parking lights,11/21/2025,,Corrective,FORKLIFTS (WKFL)
+6232,Length was bouncing around,11/21/2025,,Corrective,Cable Line 4
+6233,Pm,11/21/2025,,Corrective,Cranes
+6234,Keywey came out of sprocket un tugger wheel,11/21/2025,,Corrective,Cable Line 3
+6235,Pm,11/21/2025,,Corrective,Cranes
+6236,Birdcages was going small big,11/21/2025,,Corrective,Cable Line 4
+6237,Steel worked over off the eye,11/21/2025,,Corrective,Yadon Press 500A
+6238,Bearings on exit cart broke,11/21/2025,,Corrective,Automatic Peeler
+6239,Length bouncing again,11/21/2025,,Corrective,Cable Line 4
+6240,Pm,11/21/2025,,Corrective,Cranes
+6241,Steel worked over off eye,11/21/2025,,Corrective,Yadon Press 500A
+6372,Maintenance Cabinet Cleaning PM,11/25/2025,Terry Kinsley,Cleaning,JENNMAR WV (WK)
+6375,grippers slipping,11/24/2025,Tony Long Jr.,Corrective,Cable Line 3
+6376,Gripper fell off,11/24/2025,Tony Long Jr.,Corrective,Manual Peeler
+6377,Dull knives in head,11/24/2025,,Corrective,Manual Peeler
+6380,Gripper blocks,11/24/2025,,Preventive,Cable Line 3
+6381,Gripper and machine reset,11/24/2025,,Corrective,Automatic Peeler
+6382,Cable rack wheel,11/24/2025,,Corrective,JENNMAR WV (WK)
+6384,Bolts broke in gripper blocker,11/24/2025,,Corrective,Automatic Peeler
+6388,Head two water on tooling,11/24/2025,Terry Kinsley,Corrective,Automatic Peeler
+6392,Pully making noise,11/24/2025,Tony Long Jr.,Corrective,Landis Threader 1
+6394,#2 head adjusted,11/24/2025,,Preventive,Automatic Peeler
+6396,High tolerance,11/24/2025,,Preventive,Manual Peeler
+6397,Keyence location and programminxg,11/24/2025,,Corrective,Swager 6F3
+6448,Coolant box loose,11/25/2025,,Preventive,Automatic Peeler
+6449,At 799,11/25/2025,,Preventive,Manual Peeler
+6450,Auto peeler grippers,11/25/2025,,Preventive,JENNMAR WV (WK)
+6457,Bolt spinning in gripper blocker,11/25/2025,James Poling,Corrective,Manual Peeler
+6459,Guard on peeler head came loose,11/25/2025,,Safety,Automatic Peeler
+6460,Whole in guarding around button bin,11/25/2025,,Safety,Cable Line 4
+6461,Tool holder broke off button bin,11/25/2025,,Corrective,Cable Line 3
+6464,Bolts were being pushed out of gripper block when entering the peeler head,11/25/2025,,Preventive,Automatic Peeler
+6468,Chain guide on entry broke,11/25/2025,,Corrective,Automatic Threader
+6469,Head adjusted,11/25/2025,,Corrective,Manual Peeler
+6470,Homing feature on peeler head 3 was not sensing the gripper block being closed,11/25/2025,,Corrective,Automatic Peeler
+6471,Chain guide brace broke,11/25/2025,,Corrective,Automatic Threader
+6486,Grippers not gripping,11/25/2025,Tony Long Jr.,Corrective,Cable Line 4
+6488,Gripper sensor broke,11/25/2025,Tony Long Jr.,Corrective,Cable Line 4
+6489,Safety guard above heat box needed repaired,11/25/2025,Tony Long Jr.,Corrective,Header #3
+6490,Cable getting stuck in bird casing tube,11/25/2025,Tony Long Jr.,Corrective,Cable Line 3
+6498,Gripper,11/26/2025,Terry Kinsley,Corrective,Automatic Peeler
+6499,Hung tool magnet,11/26/2025,Terry Kinsley,Improvement,Manual Peeler
+6505,Second coil issue,11/26/2025,,Corrective,Yadon Press 500A
+6510,Encoder wheel,11/26/2025,,Corrective,Cable Line 3
+6512,Blade changed,11/26/2025,,Corrective,RMS Shear #2
+6515,Glue gun reset,11/26/2025,,Corrective,Cable Line 4
+6532,500A sessco would not do nothing,11/26/2025,Tony Long Jr.,Preventive,Yadon Press 500A
+6541,Cutting blade needed changed,11/26/2025,Tony Long Jr.,Corrective,Yadon Press 500A
+6542,Bolt length all over,11/26/2025,Tony Long Jr.,Corrective,Cable Line 3
+6791,Gripper arm not gripping bolts,12/1/2025,,Corrective,Manual Peeler
+6792,Bolt counter not counting,12/1/2025,,Corrective,Assembly #2
+6793,Changed gripper cylinder,12/1/2025,,Corrective,Manual Peeler
+6794,Counter was working,12/1/2025,,Corrective,Assembly #2
+6795,Roller out arms needed adjusted,12/1/2025,,Corrective,Threader #2
+6797,Hyster number 22 no heat,12/1/2025,James Poling,Corrective,FORKLIFTS (WKFL)
+6798,22 heater motor,12/1/2025,,Corrective,FORKLIFTS (WKFL)
+6807,Insert needed changed,12/1/2025,Tony Long Jr.,Corrective,Yadon Press 500B
+6808,Insert broke,12/1/2025,,Corrective,Yadon Press 500B
+6809,Sesco faulted,12/1/2025,,Corrective,Yadon Press 500B
+6810,Gripper blocks was packed with debri and length was bouncing around,12/1/2025,,Corrective,Cable Line 4
+6811,Bolts was catcing on lower shear blade,12/1/2025,,Corrective,RMS Shear #2
+6812,Changed bottom shear blade,12/1/2025,,Corrective,RMS Shear #2
+6813,Area scanner was faulting saying reflective,12/1/2025,,Corrective,Cable Line 4
+6815,Bolster head nut on bolts wasn't staying tight,12/1/2025,,Corrective,Header #1
+6816,Packer sticking on tube,12/1/2025,,Corrective,RMS Shear #2
+6817,Packing plate broke,12/1/2025,,Corrective,Header #1
+6820,Bolts guide rack got bent by forklift,12/1/2025,,Corrective,Threader #2
+6048,Signage,11/18/2025,,Safety,Yadon Press 500B
+</script>
+
+<script>
+    // CSV file is expected to sit beside this HTML file by default
+    var CSV_FILE = "Maintenance_Drilldown_Data.csv";
+
+    var allRows = [];        // full dataset
+    var currentLevel = "type";  // "type" -> "asset" -> "details"
+    var currentType = null;
+    var currentAsset = null;
+
+    var chartDiv = document.getElementById("chart");
+    var breadcrumbEl = document.getElementById("breadcrumb");
+    var subtitleEl = document.getElementById("subtitle");
+    var backLink = document.getElementById("backLink");
+    var backLinkAnchor = document.getElementById("backLinkAnchor");
+    var detailsCard = document.getElementById("detailsCard");
+    var detailsTitle = document.getElementById("detailsTitle");
+    var detailsContext = document.getElementById("detailsContext");
+    var detailsTableBody = document.querySelector("#detailsTable tbody");
+
+    // File-picker removed for presentation; keep demoCsv support
+
+    // Check for embedded demo CSV block (self-contained demo)
+    var demoCsvEl = document.getElementById('demoCsv');
+    if (demoCsvEl && demoCsvEl.textContent && demoCsvEl.textContent.trim().length > 10) {
+        try {
+            var parsedDemo = Papa.parse(demoCsvEl.textContent, { header: true, skipEmptyLines: true });
+            parseAndLoadRows(parsedDemo);
+            // Do not auto-fetch or prompt file picker when demo CSV is embedded
+            console.info('Loaded embedded demo CSV (demoCsv element)');
+        } catch (err) {
+            console.warn('Error parsing embedded demo CSV, falling back to normal behavior', err);
+        }
+    }
+
+    function normalizeRows(rows) {
+        return rows.map(function(r) {
+            return {
+                WO_Code: (r["WO_Code"] || r["WO Code"] || "").trim(),
+                WO_Description: (r["WO_Description"] || r["WO Description"] || "").trim(),
+                Completion_Date: (r["Completion_Date"] || r["Completion Date"] || "").trim(),
+                Completed_By: (r["Completed_By"] || r["Completed By"] || "").trim(),
+                Type_Group: (r["Type_Group"] || r["Type Group"] || "").trim(),
+                Asset_Group: (r["Asset_Group"] || r["Asset Group"] || "").trim()
+            };
+        });
+    }
+
+    // Parse rows from a parsed Papa result and load into the UI
+    function parseAndLoadRows(parsed) {
+        if (parsed.errors && parsed.errors.length) {
+            console.warn('PapaParse reported errors', parsed.errors);
+        }
+        var rows = parsed.data || [];
+        if (!rows || rows.length === 0) {
+            subtitleEl.textContent = "No data available in the CSV file.";
+            allRows = [];
+            renderEmpty();
+            return;
+        }
+        allRows = normalizeRows(rows);
+        subtitleEl.textContent = "Data loaded.";
+        var lastEl = document.getElementById('lastLoaded');
+        if (lastEl) lastEl.textContent = 'Last loaded: ' + (new Date()).toLocaleString();
+        // Update executive summary
+        updateExecutiveSummary();
+        showTypeLevel();
+    }
+
+    // local file upload option removed for the demo build
+
+    // Load CSV using fetch + PapaParse. This requires serving the folder over HTTP
+    // (e.g. `python -m http.server` in the folder) so fetch() can access the file.
+    async function loadCsv() {
+        subtitleEl.textContent = "Loading data...";
+        try {
+            const res = await fetch(CSV_FILE, { cache: "no-store" });
+            if (!res.ok) {
+                throw new Error("HTTP " + res.status);
+            }
+            const text = await res.text();
+            const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+            parseAndLoadRows(parsed);
+        } catch (err) {
+            console.error("Error loading CSV:", err);
+            subtitleEl.textContent = "Error loading data. Use the 'Open CSV (local)' button or serve the folder via HTTP.";
+            var lastEl = document.getElementById('lastLoaded');
+            if (lastEl) lastEl.textContent = 'Last loaded: error';
+            allRows = [];
+            renderEmpty();
+        }
+    }
+
+    function renderEmpty() {
+        // Render an empty chart/message when no data is present
+        Plotly.purge(chartDiv);
+        chartDiv.innerHTML = "<div style='padding:20px;color:#8a939f'>No data to display</div>";
+        detailsCard.style.display = "none";
+    }
+
+    // no file picker in presentation mode
+
+    // Auto-load behavior: when opened as file:// use the file picker; when served over HTTP use fetch polling
+    // If embedded demo CSV was used above, skip auto-fetch/polling.
+    if (! (demoCsvEl && demoCsvEl.textContent && demoCsvEl.textContent.trim().length > 10)) {
+        if (location.protocol === 'file:' || location.protocol === 'filesystem:') {
+            subtitleEl.textContent = "Open the CSV using the 'Open CSV (local)' button below (page opened from disk).";
+        } else {
+            loadCsv();
+            setInterval(loadCsv, 30000);
+        }
+    }
+
+    // ===== Level 1: Type Group – Count of WOs =====
+    function showTypeLevel() {
+        currentLevel = "type";
+        currentType = null;
+        currentAsset = null;
+        detailsCard.style.display = "none";  // hide details
+        backLink.style.display = "none";
+
+        subtitleEl.textContent = "Tap or click a bar to view assets for that maintenance type.";
+        breadcrumbEl.innerHTML = "View: <span class='pill'>Type (Count of WOs)</span>";
+
+        var counts = groupCount(allRows, "Type_Group");
+        var labels = counts.labels;
+        var values = counts.values;
+
+        // color mapping (pastel shades) matching the attached legend
+        var typeColorMap = {
+            'Preventive': '#7fc9c9',
+            'Corrective': '#df6d6d',
+            'Safety': '#f0d27a',
+            'Improvement': '#7faee6',
+            'Compliance': '#b07ccf',
+            'Cleaning': '#f2b07a'
+        };
+        var defaultColor = '#c9d6e6';
+
+        var colors = labels.map(function(l){ return typeColorMap[l] || defaultColor; });
+
+        var trace = {
+            x: labels,
+            y: values,
+            type: "bar",
+            marker: {
+                color: colors,
+                line: { color: '#000', width: 1 }
+            },
+            // show bold values above each bar for presentation
+            texttemplate: '<b>%{y}</b>',
+            textposition: 'outside',
+            textfont: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 14, color: '#0b2330' },
+            hovertemplate: "%{x}<br>WOs: %{y}<extra></extra>",
+            opacity: 0.95,
+            cliponaxis: false
+        };
+
+        var layout = {
+            title: { text: 'Closed WO by Type Group', x: 0.5, font: { size: 22, family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', color:'#0b2330' } },
+            margin: {l: 90, r: 20, t: 90, b: 140},
+            xaxis: {
+                title: { text: "Maintenance Type", font: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 13 } },
+                automargin: true,
+                tickangle: -45,
+                tickfont: { family: 'Segoe UI, Arial, sans-serif', size: 12 }
+            },
+            yaxis: {
+                title: { text: "Count of Work Orders", font: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 13 } },
+                tickfont: { family: 'Segoe UI, Arial, sans-serif', size: 12 }
+            },
+            dragmode: false,
+            font: { family: 'Segoe UI, Arial, sans-serif', color: '#1f2328' },
+            paper_bgcolor: '#ffffff',
+            plot_bgcolor: '#ffffff'
+        };
+
+        Plotly.newPlot(chartDiv, [trace], layout, {displayModeBar: false, responsive: true});
+
+        chartDiv.on("plotly_click", function(data) {
+            if (data.points && data.points.length > 0) {
+                var type = data.points[0].x;
+                if (type) {
+                    showAssetLevel(type);
+                }
+            }
+        });
+    }
+
+    // ===== Level 2: Asset Group within a Type =====
+    function showAssetLevel(selectedType) {
+        currentLevel = "asset";
+        currentType = selectedType;
+        currentAsset = null;
+        detailsCard.style.display = "none";  // hide details
+
+        subtitleEl.textContent = "Tap or click a bar to view work order details for that asset.";
+        breadcrumbEl.innerHTML =
+            "View: <span class='pill'>Type → Asset</span> &nbsp; | &nbsp; Type: <b>" +
+            escapeHtml(selectedType) + "</b>";
+
+        backLink.style.display = "block";
+        backLinkAnchor.onclick = function(e) {
+            e.preventDefault();
+            showTypeLevel();
+        };
+
+        var filtered = allRows.filter(function(r) {
+            return r.Type_Group === selectedType;
+        });
+
+        var counts = groupCount(filtered, "Asset_Group");
+        var labels = counts.labels;
+        var values = counts.values;
+
+        // use the same type color for assets for a clean executive look
+        var typeColorMap = {
+            'Preventive': '#7fc9c9',
+            'Corrective': '#df6d6d',
+            'Safety': '#f0d27a',
+            'Improvement': '#7faee6',
+            'Compliance': '#b07ccf',
+            'Cleaning': '#f2b07a'
+        };
+        var fillColor = typeColorMap[selectedType] || '#c9d6e6';
+
+        var trace = {
+            x: labels,
+            y: values,
+            type: "bar",
+            marker: {
+                color: fillColor,
+                line: { color: '#000', width: 1 }
+            },
+            // values above bars for clarity in the pareto view
+            texttemplate: '<b>%{y}</b>',
+            textposition: 'outside',
+            textfont: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 12, color: '#0b2330' },
+            hovertemplate: "%{x}<br>WOs: %{y}<extra></extra>",
+            opacity: 0.95,
+            cliponaxis: false
+        };
+
+        var layout = {
+            title: { text: 'Closed WO by Asset for "' + selectedType + '"', x: 0.5, font: { size: 18, family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif' } },
+            margin: {l: 90, r: 20, t: 70, b: 140},
+            xaxis: { title: { text: 'Asset', font: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 13 } }, automargin: true, tickangle: -45, tickfont: { family: 'Segoe UI, Arial, sans-serif', size: 12 } },
+            yaxis: { title: { text: 'Count of Work Orders', font: { family: 'Segoe UI Semibold, Segoe UI, Arial, sans-serif', size: 13 } }, tickfont: { family: 'Segoe UI, Arial, sans-serif', size: 12 } },
+            font: { family: 'Segoe UI, Arial, sans-serif', color: '#1f2328' },
+            paper_bgcolor: '#ffffff',
+            plot_bgcolor: '#ffffff'
+        };
+
+        Plotly.newPlot(chartDiv, [trace], layout, {displayModeBar: false});
+
+        chartDiv.on("plotly_click", function(data) {
+            if (data.points && data.points.length > 0) {
+                var asset = data.points[0].x;
+                if (asset) {
+                    showDetailsLevel(selectedType, asset);
+                }
+            }
+        });
+    }
+
+    // ===== Level 3: Details table for Type + Asset =====
+    function showDetailsLevel(selectedType, selectedAsset) {
+        currentLevel = "details";
+        currentType = selectedType;
+        currentAsset = selectedAsset;
+
+        subtitleEl.textContent = "Detailed work orders for the selected Type and Asset.";
+        breadcrumbEl.innerHTML =
+            "View: <span class='pill'>Type → Asset → Details</span> &nbsp; | &nbsp; Type: <b>" +
+            escapeHtml(selectedType) + "</b> &nbsp; | &nbsp; Asset: <b>" +
+            escapeHtml(selectedAsset) + "</b>";
+
+        backLink.style.display = "block";
+        backLinkAnchor.onclick = function(e) {
+            e.preventDefault();
+            showAssetLevel(selectedType);
+        };
+
+        var filtered = allRows.filter(function(r) {
+            return r.Type_Group === selectedType && r.Asset_Group === selectedAsset;
+        });
+
+        // Keep the asset-level chart visible in the background
+        // (we could optionally update it here, but not required)
+
+        // Show details table
+        buildDetailsTable(filtered, selectedType, selectedAsset);
+    }
+
+    // ===== Helper: group counts by a field =====
+    function groupCount(rows, fieldName) {
+        var map = {};
+        rows.forEach(function(r) {
+            var key = r[fieldName] || "(Blank)";
+            if (!map[key]) {
+                map[key] = 0;
+            }
+            map[key] += 1;
+        });
+
+        // Convert to array of {key, value} and sort by value desc, then key asc
+        var items = Object.keys(map).map(function(k) {
+            return { key: k, value: map[k] };
+        });
+        items.sort(function(a, b) {
+            if (b.value !== a.value) return b.value - a.value;
+            return a.key.localeCompare(b.key);
+        });
+
+        var labels = items.map(function(it) { return it.key; });
+        var values = items.map(function(it) { return it.value; });
+
+        return { labels: labels, values: values };
+    }
+
+    // ===== Helper: build details table =====
+    function buildDetailsTable(rows, typeVal, assetVal) {
+        // Clear old rows
+        while (detailsTableBody.firstChild) {
+            detailsTableBody.removeChild(detailsTableBody.firstChild);
+        }
+
+        if (!rows || rows.length === 0) {
+            detailsContext.textContent = "No work orders found for this selection.";
+            detailsCard.style.display = "block";
+            return;
+        }
+
+        detailsContext.textContent =
+            "Showing " + rows.length + " work order(s) for Type '" +
+            typeVal + "' and Asset '" + assetVal + "'.";
+
+        rows.forEach(function(r) {
+            var tr = document.createElement("tr");
+
+            var tdDesc = document.createElement("td");
+            tdDesc.textContent = r.WO_Description || "";
+            tr.appendChild(tdDesc);
+
+            var tdDate = document.createElement("td");
+            tdDate.textContent = r.Completion_Date || "";
+            tr.appendChild(tdDate);
+
+            var tdBy = document.createElement("td");
+            tdBy.textContent = r.Completed_By || "";
+            tr.appendChild(tdBy);
+
+            var tdType = document.createElement("td");
+            tdType.textContent = r.Type_Group || "";
+            tr.appendChild(tdType);
+
+            var tdAsset = document.createElement("td");
+            tdAsset.textContent = r.Asset_Group || "";
+            tr.appendChild(tdAsset);
+
+            detailsTableBody.appendChild(tr);
+        });
+
+        detailsCard.style.display = "block";
+    }
+
+    // Update the executive summary card/line with top-level KPIs
+    function updateExecutiveSummary() {
+        var total = allRows.length;
+        var counts = groupCount(allRows, 'Type_Group');
+        var labels = counts.labels;
+        var values = counts.values;
+        var items = labels.map(function(l, i){ return { label: l, value: values[i] }; });
+        var top = items[0] || { label: '(none)', value: 0 };
+        var topPct = total ? Math.round((top.value / total) * 100) : 0;
+
+        var el = document.getElementById('execSummarySmall');
+        if (el) {
+            el.innerHTML = '<strong style="font-size:14px;color:#0b2330">' + total + '</strong> total WOs — Top: <strong>' +
+                escapeHtml(top.label) + '</strong> (' + top.value + ' • ' + topPct + '%)';
+        }
+    }
+
+    function escapeHtml(str) {
+        return String(str || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+</script>
+</body>
+</html>

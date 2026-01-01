@@ -163,10 +163,20 @@
           </div>
 
           <div class="roles">
-            <button class="role-toggle" aria-expanded="false" data-target="eos-om">
-              <span class="role-title">Operations Manager</span>
-              <span class="role-arrow">+</span>
-            </button>
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="eos-om">
+                <span class="role-title">Operations Manager</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="eos-om-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="eos-om">
               <p class="role-summary">Transformed manufacturing operations through data-driven systems, high-performing teams, and continuous improvement.</p>
               <ul class="achievements">
@@ -179,66 +189,50 @@
                 <span>Lean</span>
                 <span>VBA</span>
               </div>
+            </div>
+            <div class="org-chart" id="eos-om-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">VP of Operations</span>
+                </div>
+              </div>
 
-              <!-- Reporting Structure -->
-              <div class="org-structure">
-                <button class="org-toggle" aria-expanded="false">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                  </svg>
-                  <span>View Reporting Structure</span>
-                  <svg class="org-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </button>
-                <div class="org-chart">
-                  <!-- Reports To -->
-                  <div class="org-level org-reports-to">
-                    <div class="org-label">Reports To</div>
-                    <div class="org-node org-superior">
-                      <span class="org-title">VP of Operations</span>
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Current Role</span>
+                  <span class="org-title">Plant Manager</span>
+                </div>
+              </div>
+
+              <!-- Direct Reports -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Direct Reports</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">Production Supervisor</span>
+                    <span class="org-count">×3</span>
+                    <div class="org-subreports">
+                      <span>12 Production Operators</span>
+                      <span>3 Material Handlers</span>
                     </div>
                   </div>
-
-                  <!-- Current Position -->
-                  <div class="org-connector"></div>
-                  <div class="org-level org-current-level">
-                    <div class="org-node org-current">
-                      <span class="org-badge">Current Role</span>
-                      <span class="org-title">Plant Manager</span>
+                  <div class="org-node">
+                    <span class="org-title">Quality Manager</span>
+                    <span class="org-count">×1</span>
+                    <div class="org-subreports">
+                      <span>4 Quality Technicians</span>
                     </div>
                   </div>
-
-                  <!-- Direct Reports -->
-                  <div class="org-connector"></div>
-                  <div class="org-level org-direct-reports">
-                    <div class="org-label">Direct Reports</div>
-                    <div class="org-nodes">
-                      <div class="org-node">
-                        <span class="org-title">Production Supervisor</span>
-                        <span class="org-count">×3</span>
-                        <div class="org-subreports">
-                          <span>12 Production Operators</span>
-                          <span>3 Material Handlers</span>
-                        </div>
-                      </div>
-                      <div class="org-node">
-                        <span class="org-title">Quality Manager</span>
-                        <span class="org-count">×1</span>
-                        <div class="org-subreports">
-                          <span>4 Quality Technicians</span>
-                        </div>
-                      </div>
-                      <div class="org-node">
-                        <span class="org-title">Maintenance Manager</span>
-                        <span class="org-count">×1</span>
-                        <div class="org-subreports">
-                          <span>6 Maintenance Technicians</span>
-                        </div>
-                      </div>
+                  <div class="org-node">
+                    <span class="org-title">Maintenance Manager</span>
+                    <span class="org-count">×1</span>
+                    <div class="org-subreports">
+                      <span>6 Maintenance Technicians</span>
                     </div>
                   </div>
                 </div>
@@ -459,13 +453,18 @@
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
         const content = document.getElementById(button.dataset.target);
 
-        // Close all others in same card
+        // Close all others in same card (roles and org charts)
         const card = button.closest('.experience-card');
         card.querySelectorAll('.role-toggle').forEach(btn => {
           btn.setAttribute('aria-expanded', 'false');
           btn.querySelector('.role-arrow').textContent = '+';
         });
         card.querySelectorAll('.role-content').forEach(c => c.classList.remove('open'));
+        // Also close any open org charts
+        card.querySelectorAll('.org-toggle').forEach(btn => {
+          btn.setAttribute('aria-expanded', 'false');
+        });
+        card.querySelectorAll('.org-chart').forEach(c => c.classList.remove('open'));
 
         // Toggle current
         if (!isExpanded) {
@@ -479,11 +478,26 @@
     // Org structure toggles
     document.querySelectorAll('.org-toggle').forEach(button => {
       button.addEventListener('click', () => {
-        const structure = button.closest('.org-structure');
-        const isExpanded = structure.classList.contains('expanded');
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        const chart = document.getElementById(button.dataset.target);
+        const card = button.closest('.experience-card');
 
-        structure.classList.toggle('expanded');
-        button.setAttribute('aria-expanded', !isExpanded);
+        // Close all role contents and org charts first
+        card.querySelectorAll('.role-toggle').forEach(btn => {
+          btn.setAttribute('aria-expanded', 'false');
+          btn.querySelector('.role-arrow').textContent = '+';
+        });
+        card.querySelectorAll('.role-content').forEach(c => c.classList.remove('open'));
+        card.querySelectorAll('.org-toggle').forEach(btn => {
+          btn.setAttribute('aria-expanded', 'false');
+        });
+        card.querySelectorAll('.org-chart').forEach(c => c.classList.remove('open'));
+
+        // Toggle current org chart
+        if (!isExpanded) {
+          button.setAttribute('aria-expanded', 'true');
+          chart.classList.add('open');
+        }
       });
     });
 

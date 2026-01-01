@@ -998,67 +998,72 @@ article[id] {
   border-radius: var(--radius-full);
 }
 
-/* Org Structure (Reporting Hierarchy) */
-.org-structure {
-  margin-top: var(--spacing-md);
-  border-top: 1px solid var(--border);
-  padding-top: var(--spacing-md);
+/* Role Row (role toggle + org toggle side by side) */
+.role-row {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: stretch;
 }
 
+.role-row .role-toggle {
+  flex: 1;
+}
+
+/* Org Toggle Button (circular) */
 .org-toggle {
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: 10px 14px;
-  background: var(--bg-secondary);
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: 50%;
   color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 500;
   cursor: pointer;
   transition: all var(--duration) var(--ease-out);
-  width: 100%;
+  flex-shrink: 0;
 }
 
 .org-toggle:hover {
   border-color: var(--accent);
-  color: var(--text);
+  color: var(--accent);
+  background: rgba(0, 113, 227, 0.1);
 }
 
-.org-toggle svg:first-child {
-  width: 18px;
-  height: 18px;
+.org-toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: rgba(0, 113, 227, 0.15);
+  color: var(--accent);
 }
 
-.org-toggle span {
-  flex: 1;
-}
-
-.org-chevron {
-  width: 16px;
-  height: 16px;
-  transition: transform var(--duration) var(--ease-out);
-}
-
-.org-structure.expanded .org-chevron {
-  transform: rotate(180deg);
+.org-toggle svg {
+  width: 20px;
+  height: 20px;
 }
 
 [data-theme="light"] .org-toggle {
+  background: rgba(255, 255, 255, 0.6);
   border-color: #000;
 }
 
+[data-theme="light"] .org-toggle:hover,
+[data-theme="light"] .org-toggle[aria-expanded="true"] {
+  border-color: var(--accent);
+}
+
+/* Org Chart (standalone panel) */
 .org-chart {
   display: none;
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
   padding: var(--spacing-md);
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
 
-.org-structure.expanded .org-chart {
+.org-chart.open {
   display: block;
 }
 

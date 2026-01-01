@@ -126,10 +126,23 @@
           </div>
 
           <div class="roles">
-            <button class="role-toggle" aria-expanded="false" data-target="jennmar-pm">
-              <span class="role-title">Plant Manager</span>
-              <span class="role-arrow">+</span>
-            </button>
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="jennmar-pm">
+                <span class="role-title">Plant Manager</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="jennmar-pm-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="jennmar-pm">
               <p class="role-summary">Lead end-to-end plant operations for a high-volume manufacturing site, accountable for safety, quality, production, and financial performance.</p>
               <ul class="achievements">
@@ -141,6 +154,68 @@
                 <span>JMOS</span>
                 <span>FIIX CMMS</span>
                 <span>SPC</span>
+              </div>
+            </div>
+            <div class="org-chart" id="jennmar-pm-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">VP of Operations</span>
+                </div>
+              </div>
+
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Current Role</span>
+                  <span class="org-title">Plant Manager</span>
+                </div>
+              </div>
+
+              <!-- Direct Reports -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Direct Reports</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">Production Manager</span>
+                    <div class="org-subreports">
+                      <span>2 Production Supervisors</span>
+                      <span>→ 2 Team Leads, 65 Technicians, 8 Material Handlers</span>
+                    </div>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Quality Manager</span>
+                    <div class="org-subreports">
+                      <span>4 Quality Technicians</span>
+                    </div>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Maintenance Manager</span>
+                    <div class="org-subreports">
+                      <span>1 Maintenance Lead</span>
+                      <span>9 Maintenance Technicians</span>
+                    </div>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Safety Manager</span>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Dispatcher</span>
+                    <div class="org-subreports">
+                      <span>Jr. Dispatcher</span>
+                      <span>2 Outside Material Handlers</span>
+                    </div>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Secretary</span>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Inventory Control Specialist</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -170,13 +245,13 @@
               </button>
               <button class="org-toggle" aria-expanded="false" data-target="eos-om-org" aria-label="View reporting structure">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="8" y="2" width="8" height="5" rx="1"/>
-                  <path d="M12 7v3"/>
-                  <path d="M5 10h14"/>
-                  <path d="M5 10v4M12 10v4M19 10v4"/>
-                  <rect x="2" y="14" width="6" height="4" rx="1"/>
-                  <rect x="9" y="14" width="6" height="4" rx="1"/>
-                  <rect x="16" y="14" width="6" height="4" rx="1"/>
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
                 </svg>
               </button>
             </div>
@@ -198,7 +273,7 @@
               <div class="org-level org-reports-to">
                 <div class="org-label">Reports To</div>
                 <div class="org-node org-superior">
-                  <span class="org-title">VP of Operations</span>
+                  <span class="org-title">Sr. Director of Operations</span>
                 </div>
               </div>
 
@@ -206,8 +281,8 @@
               <div class="org-connector"></div>
               <div class="org-level org-current-level">
                 <div class="org-node org-current">
-                  <span class="org-badge">Current Role</span>
-                  <span class="org-title">Plant Manager</span>
+                  <span class="org-badge">Role</span>
+                  <span class="org-title">Operations Manager</span>
                 </div>
               </div>
 
@@ -218,34 +293,33 @@
                 <div class="org-nodes">
                   <div class="org-node">
                     <span class="org-title">Production Supervisor</span>
-                    <span class="org-count">×3</span>
+                    <span class="org-count">×11</span>
                     <div class="org-subreports">
-                      <span>12 Production Operators</span>
-                      <span>3 Material Handlers</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Quality Manager</span>
-                    <span class="org-count">×1</span>
-                    <div class="org-subreports">
-                      <span>4 Quality Technicians</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Maintenance Manager</span>
-                    <span class="org-count">×1</span>
-                    <div class="org-subreports">
-                      <span>6 Maintenance Technicians</span>
+                      <span>6 Production Team Leads</span>
+                      <span>240 Production Technicians</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <button class="role-toggle" aria-expanded="false" data-target="eos-qe">
-              <span class="role-title">Quality Engineer</span>
-              <span class="role-arrow">+</span>
-            </button>
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="eos-qe">
+                <span class="role-title">Quality Engineer</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="eos-qe-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="eos-qe">
               <p class="role-summary">Drove product quality and operational excellence through strategic initiatives, process automation, and international standards.</p>
               <ul class="achievements">
@@ -256,6 +330,36 @@
               <div class="role-tags">
                 <span>ISO 9001</span>
                 <span>Quality Systems</span>
+              </div>
+            </div>
+            <div class="org-chart" id="eos-qe-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">Director of Quality</span>
+                </div>
+              </div>
+
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Role</span>
+                  <span class="org-title">Quality Engineer</span>
+                </div>
+              </div>
+
+              <!-- Direct Reports -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Direct Reports</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">Quality Technician</span>
+                    <span class="org-count">×6</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -278,10 +382,23 @@
           </div>
 
           <div class="roles">
-            <button class="role-toggle" aria-expanded="false" data-target="messer-rpe">
-              <span class="role-title">Regional Production Engineer</span>
-              <span class="role-arrow">+</span>
-            </button>
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="messer-rpe">
+                <span class="role-title">Regional Production Engineer</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="messer-rpe-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="messer-rpe">
               <p class="role-summary">Drove operational excellence and strategic growth across the Northeast Region's production facilities.</p>
               <ul class="achievements">
@@ -293,6 +410,39 @@
                 <span>Six Sigma</span>
                 <span>OEE</span>
                 <span>Process Safety</span>
+              </div>
+            </div>
+            <div class="org-chart" id="messer-rpe-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">Director of Operations</span>
+                </div>
+              </div>
+
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Role</span>
+                  <span class="org-title">Regional Production Engineer</span>
+                </div>
+              </div>
+
+              <!-- Peers -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Works Alongside</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">Plant Manager</span>
+                    <span class="org-count">×6</span>
+                    <div class="org-subreports">
+                      <span>Northeast Region</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -315,10 +465,23 @@
           </div>
 
           <div class="roles">
-            <button class="role-toggle" aria-expanded="false" data-target="jm-sl">
-              <span class="role-title">Shift Leader II</span>
-              <span class="role-arrow">+</span>
-            </button>
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="jm-sl">
+                <span class="role-title">Shift Leader II</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="jm-sl-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="jm-sl">
               <p class="role-summary">Oversaw a diverse production team, driving operational excellence and safety across shifts.</p>
               <ul class="achievements">
@@ -332,11 +495,58 @@
                 <span>Safety</span>
               </div>
             </div>
+            <div class="org-chart" id="jm-sl-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">Production Manager</span>
+                </div>
+              </div>
 
-            <button class="role-toggle" aria-expanded="false" data-target="jm-pce">
-              <span class="role-title">Process Control Engineer</span>
-              <span class="role-arrow">+</span>
-            </button>
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Role</span>
+                  <span class="org-title">Shift Leader II</span>
+                </div>
+              </div>
+
+              <!-- Direct Reports -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Direct Reports</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">Production Technician</span>
+                    <span class="org-count">×7</span>
+                  </div>
+                  <div class="org-node">
+                    <span class="org-title">Process Control Engineer</span>
+                    <span class="org-count">×1</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="role-row">
+              <button class="role-toggle" aria-expanded="false" data-target="jm-pce">
+                <span class="role-title">Process Control Engineer</span>
+                <span class="role-arrow">+</span>
+              </button>
+              <button class="org-toggle" aria-expanded="false" data-target="jm-pce-org" aria-label="View reporting structure">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="9" y="1" width="6" height="4" rx="1"/>
+                  <path d="M12 5v4"/>
+                  <path d="M4 9h16"/>
+                  <path d="M4 9v6M12 9v6M20 9v6"/>
+                  <rect x="1" y="15" width="5" height="4" rx="1"/>
+                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
+                  <rect x="18" y="15" width="5" height="4" rx="1"/>
+                </svg>
+              </button>
+            </div>
             <div class="role-content" id="jm-pce">
               <p class="role-summary">Led process optimization and quality improvement initiatives on a highly automated production line.</p>
               <ul class="achievements">
@@ -347,6 +557,38 @@
               <div class="role-tags">
                 <span>Process Optimization</span>
                 <span>Risk Management</span>
+              </div>
+            </div>
+            <div class="org-chart" id="jm-pce-org">
+              <!-- Reports To -->
+              <div class="org-level org-reports-to">
+                <div class="org-label">Reports To</div>
+                <div class="org-node org-superior">
+                  <span class="org-title">Production Supervisor</span>
+                </div>
+              </div>
+
+              <!-- Current Position -->
+              <div class="org-connector"></div>
+              <div class="org-level org-current-level">
+                <div class="org-node org-current">
+                  <span class="org-badge">Role</span>
+                  <span class="org-title">Process Control Engineer</span>
+                </div>
+              </div>
+
+              <!-- No Direct Reports -->
+              <div class="org-connector"></div>
+              <div class="org-level org-direct-reports">
+                <div class="org-label">Direct Reports</div>
+                <div class="org-nodes">
+                  <div class="org-node">
+                    <span class="org-title">None</span>
+                    <div class="org-subreports">
+                      <span>Individual contributor role</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

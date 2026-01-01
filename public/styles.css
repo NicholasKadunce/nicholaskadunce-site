@@ -934,10 +934,13 @@ article[id] {
   padding: var(--spacing-md);
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  margin-top: -var(--spacing-sm);
+  border-radius: var(--radius-md);
+  margin-top: var(--spacing-xs);
   animation: slideDown 0.3s var(--ease-out);
+}
+
+[data-theme="light"] .role-content {
+  border-color: #000;
 }
 
 .role-content.open {
@@ -1011,12 +1014,12 @@ article[id] {
 
 /* Org Toggle Button (circular) */
 .org-toggle {
-  width: 44px;
-  height: 44px;
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
+  padding: var(--spacing-md);
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 50%;
   color: var(--text-secondary);
@@ -1038,8 +1041,8 @@ article[id] {
 }
 
 .org-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 [data-theme="light"] .org-toggle {
@@ -1282,11 +1285,10 @@ article[id] {
   }
 }
 [data-theme="light"] .project-card {
-  border-color: var(--border-strong);
+  border-color: #000;
 }
 [data-theme="light"] .project-card.expanded {
-  border-color: var(--border-strong);
-  box-shadow: 0 0 0 1px var(--border-strong);
+  border-color: #000;
 }
 
 .project-preview {

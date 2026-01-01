@@ -2225,74 +2225,241 @@ article[id] {
 }
 
 /* ==========================================================================
-   Project Filter Tabs
+   Project Sections (Collapsible)
    ========================================================================== */
-.project-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: var(--spacing-lg);
-  justify-content: center;
-}
-
-.filter-btn {
-  padding: 10px 20px;
+.project-section {
+  margin-bottom: var(--spacing-md);
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: all var(--duration) var(--ease-out);
+  text-align: left;
+  transition: background var(--duration) var(--ease-out);
 }
 
-.filter-btn:hover {
-  border-color: var(--accent);
+.section-header:hover {
+  background: var(--bg-secondary);
+}
+
+.section-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: 4px;
+}
+
+.section-title h3 {
+  font-size: 18px;
+  font-weight: 600;
   color: var(--text);
+  margin: 0;
 }
 
-.filter-btn.active {
-  background: linear-gradient(135deg, var(--accent) 0%, #5856d6 100%);
-  border-color: transparent;
-  color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 113, 227, 0.3);
+.section-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: var(--bg-secondary);
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 
-/* Project Card Filter Animation */
-.project-card.filtering-out {
+.section-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.section-peek {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  transition: opacity var(--duration) var(--ease-out);
+}
+
+.project-section.expanded .section-peek {
   opacity: 0;
-  pointer-events: none;
+  width: 0;
+  max-width: 0;
 }
 
-.project-card.filtered-out {
+.section-chevron {
+  width: 24px;
+  height: 24px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: transform var(--duration) var(--ease-out);
+}
+
+.project-section.expanded .section-chevron {
+  transform: rotate(180deg);
+}
+
+.section-content {
   display: none;
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
 }
 
-.project-card.filtering-in {
-  opacity: 1;
+.project-section.expanded .section-content {
+  display: block;
 }
 
-/* Mobile Filter Tabs */
+/* Projects within sections don't need extra margin */
+.section-content .project-card {
+  margin-bottom: var(--spacing-md);
+}
+
+.section-content .project-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile Sections */
 @media (max-width: 768px) {
-  .project-filters {
-    gap: 6px;
+  .section-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+    flex-wrap: wrap;
   }
 
-  .filter-btn {
-    padding: 8px 14px;
-    font-size: 13px;
+  .section-title h3 {
+    font-size: 16px;
+  }
+
+  .section-peek {
+    display: none;
+  }
+
+  .section-content {
+    padding: 0 var(--spacing-md) var(--spacing-md);
   }
 }
 
-@media (max-width: 480px) {
-  .project-filters {
-    justify-content: flex-start;
+/* ==========================================================================
+   Project Briefs (Accordion)
+   ========================================================================== */
+.briefs-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.brief-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.brief-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--duration) var(--ease-out);
+}
+
+.brief-header:hover {
+  background: var(--bg-secondary);
+}
+
+.brief-header h4 {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.brief-tags {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.brief-tags span {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  color: var(--text-tertiary);
+}
+
+.brief-chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: transform var(--duration) var(--ease-out);
+}
+
+.brief-item.expanded .brief-chevron {
+  transform: rotate(180deg);
+}
+
+.brief-content {
+  display: none;
+  padding: 0 var(--spacing-md) var(--spacing-md);
+}
+
+.brief-item.expanded .brief-content {
+  display: block;
+}
+
+.brief-content p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Mobile Briefs */
+@media (max-width: 768px) {
+  .brief-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
   }
 
-  .filter-btn {
-    padding: 8px 12px;
-    font-size: 12px;
+  .brief-header h4 {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .brief-tags {
+    order: 1;
+  }
+
+  .brief-chevron {
+    order: 0;
+    position: absolute;
+    right: var(--spacing-md);
+  }
+
+  .brief-header {
+    position: relative;
+    padding-right: 40px;
   }
 }
 

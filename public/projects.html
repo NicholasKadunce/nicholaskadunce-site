@@ -60,13 +60,22 @@
           <p class="text-large">Tools and systems I've built to drive operational excellence.</p>
         </div>
 
-        <!-- Filter Tabs -->
-        <div class="project-filters reveal">
-          <button class="filter-btn active" data-filter="all">All Projects</button>
-          <button class="filter-btn" data-filter="tools">Operational Tools</button>
-          <button class="filter-btn" data-filter="process">Process Improvement</button>
-          <button class="filter-btn" data-filter="strategic">Strategic Analysis</button>
-        </div>
+        <!-- Operational Tools Section -->
+        <div class="project-section expanded reveal" data-section="tools">
+          <button class="section-header" aria-expanded="true">
+            <div class="section-info">
+              <div class="section-title">
+                <h3>Operational Tools</h3>
+                <span class="section-count">4 projects</span>
+              </div>
+              <p class="section-desc">Dashboards, tracking systems, and automation tools</p>
+            </div>
+            <div class="section-peek">Operations Dashboard, Hour-by-Hour Tracking, Financial Forecaster...</div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="section-content">
 
         <!-- JMOS Dashboard Project -->
         <div class="project-card reveal" data-category="tools">
@@ -436,8 +445,28 @@
           </div>
         </div>
 
+          </div><!-- End section-content -->
+        </div><!-- End Operational Tools Section -->
+
+        <!-- Process Improvement Section -->
+        <div class="project-section reveal" data-section="process">
+          <button class="section-header" aria-expanded="false">
+            <div class="section-info">
+              <div class="section-title">
+                <h3>Process Improvement</h3>
+                <span class="section-count">2 projects</span>
+              </div>
+              <p class="section-desc">Six Sigma, RCA, and continuous improvement projects</p>
+            </div>
+            <div class="section-peek">Six Sigma Green Belt, Root Cause Analysis...</div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="section-content">
+
         <!-- Six Sigma Green Belt Project -->
-        <div class="project-card reveal" data-category="process">
+        <div class="project-card" data-category="process">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -534,7 +563,7 @@
         </div>
 
         <!-- Root Cause Analysis Project -->
-        <div class="project-card reveal" data-category="process">
+        <div class="project-card" data-category="process">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -601,8 +630,28 @@
           </div>
         </div>
 
+          </div><!-- End section-content -->
+        </div><!-- End Process Improvement Section -->
+
+        <!-- Strategic Analysis Section -->
+        <div class="project-section reveal" data-section="strategic">
+          <button class="section-header" aria-expanded="false">
+            <div class="section-info">
+              <div class="section-title">
+                <h3>Strategic Analysis</h3>
+                <span class="section-count">1 project</span>
+              </div>
+              <p class="section-desc">Market research and business strategy</p>
+            </div>
+            <div class="section-peek">Market Opportunity Analysis</div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="section-content">
+
         <!-- Market Opportunity Analysis Project -->
-        <div class="project-card reveal" data-category="strategic">
+        <div class="project-card" data-category="strategic">
           <div class="project-preview">
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -656,29 +705,138 @@
           </div>
         </div>
 
-        <!-- Future Project Placeholder -->
-        <div class="project-card reveal coming-soon" data-category="tools">
-          <div class="project-preview">
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-            </div>
-            <div class="project-info">
-              <h3>Excel Macro Dashboards</h3>
-              <p>Automated reporting tools with VBA macros, dynamic data connections, and one-click exports.</p>
-              <div class="project-tags">
-                <span>VBA</span>
-                <span>Excel</span>
-                <span>Power Query</span>
+          </div><!-- End section-content -->
+        </div><!-- End Strategic Analysis Section -->
+
+        <!-- Project Briefs Section -->
+        <div class="project-section reveal" data-section="briefs">
+          <button class="section-header" aria-expanded="false">
+            <div class="section-info">
+              <div class="section-title">
+                <h3>Project Briefs</h3>
+                <span class="section-count">6 projects</span>
               </div>
+              <p class="section-desc">Additional projects and initiatives (descriptions only)</p>
             </div>
-            <div class="coming-soon-badge">Coming Soon</div>
-          </div>
-        </div>
+            <div class="section-peek">End-of-Line Traceability, Startup Verification, Cycle Time...</div>
+            <svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="section-content">
+            <div class="briefs-container">
+
+              <!-- Brief 1 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>End-of-Line Traceability & Parameter Capture</h4>
+                  <div class="brief-tags">
+                    <span>Traceability</span>
+                    <span>Quality</span>
+                    <span>Excel</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Built and standardized an end-of-line (EOL) parameter collection system to reliably capture critical process and test values by unit/serial and shift, improving traceability and creating a clearer link between process conditions and downstream quality outcomes. The solution emphasized consistent parameter definitions, streamlined data entry and validation, and automated rollups for fast lookback analysis during quality events. Using structured data tables and automated reporting (e.g., Excel-based dashboards with pivot-style summaries and refreshable transforms), the tool enabled faster containment decisions, sharper root cause investigations, and more consistent cross-shift visibility into process health. For leadership, it reduced reliance on tribal knowledge and improved operational control by making performance drivers measurable, comparable, and reviewable.</p>
+                </div>
+              </div>
+
+              <!-- Brief 2 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>Startup Verification & Changeover Control Sheet</h4>
+                  <div class="brief-tags">
+                    <span>Standard Work</span>
+                    <span>Quality</span>
+                    <span>Changeover</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Designed and deployed a changeover/startup sheet to standardize setup verification and early-run stabilization after product or configuration changes, reducing the variability that often drives startup scrap, rework, and schedule disruption. The sheet created a repeatable "green light" process that aligns operations, maintenance, and quality expectations by capturing critical checks (materials, settings, tooling, and CTQ verification) and clear acceptance criteria before normal production resumes. By applying standard work, visual controls, and shift-handoff integration, the approach improved consistency across teams and reduced the hidden factory created by inconsistent startups. This improved schedule attainment and predictability, tightened execution discipline, and made training and accountability easier because expectations were explicit and auditable.</p>
+                </div>
+              </div>
+
+              <!-- Brief 3 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>Cycle Time Bottleneck Elimination</h4>
+                  <div class="brief-tags">
+                    <span>Lean</span>
+                    <span>Constraint Analysis</span>
+                    <span>OEE</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Led a focused constraint-removal effort to eliminate cycle-time limitations by identifying bottlenecks and systematically addressing the highest-impact drivers of lost time and variability. The work combined time studies, station-to-station comparisons, and performance-loss review (OEE/performance loss logic) to isolate constraints, then implemented practical changes such as standardizing work content, removing non-value-added steps, tightening sequences and handoffs, and reducing recurring micro-delays that prevented consistent takt performance. The project used prioritization tools like Pareto ranking and workload balancing concepts (Yamazumi-style thinking) to ensure effort targeted throughput, not just activity. The result was a more stable production rhythm, improved capacity utilization, and better delivery reliability without requiring major capital investment.</p>
+                </div>
+              </div>
+
+              <!-- Brief 4 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>Advanced Quality Monitoring Dashboard</h4>
+                  <div class="brief-tags">
+                    <span>Quality</span>
+                    <span>SPC</span>
+                    <span>Dashboard</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Developed an advanced quality monitoring dashboard to shift quality management from reactive review to proactive detection by trending defects at a higher cadence with clearer categorization and ownership. The dashboard standardized defect taxonomy and organized signals by defect code/category, station/process step, and time window, enabling early identification of trend changes before they became major scrap spikes or customer risk. Built with automated reporting workflows (e.g., Excel/BI-style refreshable dashboards) and visual management tools (Pareto charts, trend indicators, and basic SPC-style thinking where appropriate), it created a consistent "single view" for daily/weekly quality review. For leadership, it improved prioritization and alignment, reduced the time to recognize and respond to emerging issues, and strengthened accountability by making the top drivers visible and trackable.</p>
+                </div>
+              </div>
+
+              <!-- Brief 5 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>Battery Testing Efficiency Improvement</h4>
+                  <div class="brief-tags">
+                    <span>Process Improvement</span>
+                    <span>Testing</span>
+                    <span>Efficiency</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Improved battery testing efficiency by reducing avoidable delays and increasing repeatability in the test workflow while maintaining the rigor required for product confidence. The project focused on where time was being lost—waiting, retest loops, manual handling, inconsistent setup readiness—and implemented changes centered on process standardization, clearer test readiness criteria, simplified operator steps, and better visibility into failure modes and retest drivers. Using process mapping, time studies, standardized work, and automated rollups of test performance (throughput, retest trends, and failure categorization), the improvements increased effective station utilization and stabilized flow. This strengthened throughput capacity at a critical control point, improved schedule predictability, and reduced the operational drag of rework and repeated testing.</p>
+                </div>
+              </div>
+
+              <!-- Brief 6 -->
+              <div class="brief-item">
+                <button class="brief-header" aria-expanded="false">
+                  <h4>Defect Reduction Project</h4>
+                  <div class="brief-tags">
+                    <span>Quality</span>
+                    <span>Root Cause</span>
+                    <span>COPQ</span>
+                  </div>
+                  <svg class="brief-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                <div class="brief-content">
+                  <p>Led a structured defect reduction initiative targeting recurring quality losses that were driving scrap, rework, and operational instability, with an emphasis on sustainable corrective actions rather than short-term fixes. The approach combined defect stratification (where/when/how often), Pareto prioritization, and disciplined root cause analysis (5 Whys/fishbone-style thinking) to identify true drivers, then implemented countermeasures addressing both technical causes (process settings, tooling, materials) and execution causes (standard work clarity, training, and escalation triggers). Corrective actions were supported with control mechanisms—updated procedures, verification steps, and ongoing visibility—so regression could be detected early. The outcome was reduced cost of poor quality, improved yield protection, fewer production disruptions, and a stronger problem-solving culture grounded in data and repeatable controls.</p>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End section-content -->
+        </div><!-- End Project Briefs Section -->
 
       </div>
     </section>
@@ -997,45 +1155,34 @@
       }
     });
 
-    // Project Filter Tabs
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card[data-category]');
+    // Project Section Toggle
+    document.querySelectorAll('.section-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const section = header.closest('.project-section');
+        const isExpanded = section.classList.contains('expanded');
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
+        // Close any open demos in this section before collapsing
+        if (isExpanded) {
+          section.querySelectorAll('.project-expand[aria-expanded="true"]').forEach(btn => {
+            btn.click();
+          });
+        }
 
-        // Update active button
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        // Toggle section
+        section.classList.toggle('expanded');
+        header.setAttribute('aria-expanded', !isExpanded);
+      });
+    });
 
-        // Filter projects
-        projectCards.forEach(card => {
-          const category = card.dataset.category;
-          const shouldShow = filter === 'all' || category === filter;
-          const isCurrentlyHidden = card.classList.contains('filtered-out');
+    // Brief Accordion Toggle
+    document.querySelectorAll('.brief-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const brief = header.closest('.brief-item');
+        const isExpanded = brief.classList.contains('expanded');
 
-          // Close any expanded demos before hiding
-          if (!shouldShow) {
-            const expandBtn = card.querySelector('.project-expand');
-            if (expandBtn && expandBtn.getAttribute('aria-expanded') === 'true') {
-              expandBtn.click();
-            }
-          }
-
-          if (shouldShow && isCurrentlyHidden) {
-            // Show: remove display:none first, then fade in
-            card.classList.remove('filtered-out', 'filtering-out');
-            card.classList.add('filtering-in');
-          } else if (shouldShow) {
-            // Already visible, ensure clean state
-            card.classList.remove('filtered-out', 'filtering-out', 'filtering-in');
-          } else if (!isCurrentlyHidden) {
-            // Hide: just set display:none immediately (no fancy animation)
-            card.classList.remove('filtering-in');
-            card.classList.add('filtered-out');
-          }
-        });
+        // Toggle this brief
+        brief.classList.toggle('expanded');
+        header.setAttribute('aria-expanded', !isExpanded);
       });
     });
   </script>

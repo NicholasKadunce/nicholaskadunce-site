@@ -1050,7 +1050,7 @@ article[id] {
   padding: 0 var(--spacing-md);
   background: transparent;
   border: none;
-  color: var(--text-secondary);
+  color: var(--text);
   cursor: pointer;
   transition: all var(--duration) var(--ease-out);
   flex-shrink: 0;
@@ -1207,6 +1207,14 @@ article[id] {
   font-size: 11px;
   color: var(--text-tertiary);
   line-height: 1.5;
+}
+
+.org-subreports .org-indent {
+  margin-top: 2px;
+  padding-top: 4px;
+  padding-left: var(--spacing-sm);
+  border-top: 1px dashed var(--border);
+  margin-left: var(--spacing-xs);
 }
 
 /* Mobile Org Chart */

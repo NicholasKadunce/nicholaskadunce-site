@@ -889,7 +889,7 @@ article[id] {
   width: 100%;
   padding: var(--spacing-md);
   background: var(--card-bg);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--duration) var(--ease-out);
@@ -899,16 +899,24 @@ article[id] {
 }
 
 .role-toggle:hover {
-  border-color: var(--border-strong);
+  border-color: rgba(255, 255, 255, 0.5);
   background: rgba(255, 255, 255, 0.08);
 }
 
 @media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .role-toggle {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
   :root:not([data-theme="dark"]) .role-toggle:hover {
+    border-color: rgba(0, 0, 0, 0.5);
     background: rgba(0, 0, 0, 0.05);
   }
 }
+[data-theme="light"] .role-toggle {
+  border-color: rgba(0, 0, 0, 0.4);
+}
 [data-theme="light"] .role-toggle:hover {
+  border-color: rgba(0, 0, 0, 0.5);
   background: rgba(0, 0, 0, 0.05);
 }
 
@@ -933,14 +941,20 @@ article[id] {
   display: none;
   padding: var(--spacing-md);
   background: var(--card-bg);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: var(--radius-md);
   margin-top: var(--spacing-xs);
   animation: slideDown 0.3s var(--ease-out);
 }
 
 [data-theme="light"] .role-content {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .role-content {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
 .role-content.open {
@@ -1001,27 +1015,41 @@ article[id] {
   border-radius: var(--radius-full);
 }
 
-/* Role Row (role toggle + org toggle side by side) */
+/* Role Row (role toggle + org toggle unified) */
 .role-row {
   display: flex;
-  gap: var(--spacing-xs);
   align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--card-bg);
 }
 
 .role-row .role-toggle {
   flex: 1;
+  border: none;
+  border-radius: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-/* Org Toggle Button (circular) */
+.role-row .role-toggle:hover {
+  border-color: transparent;
+  border-right-color: rgba(255, 255, 255, 0.25);
+}
+
+.role-row .role-toggle[aria-expanded="true"] {
+  border-color: transparent;
+  border-right-color: var(--accent);
+}
+
+/* Org Toggle Button (unified with role toggle) */
 .org-toggle {
-  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-md);
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 50%;
+  padding: 0 var(--spacing-md);
+  background: transparent;
+  border: none;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--duration) var(--ease-out);
@@ -1029,30 +1057,40 @@ article[id] {
 }
 
 .org-toggle:hover {
-  border-color: var(--accent);
   color: var(--accent);
   background: rgba(0, 113, 227, 0.1);
 }
 
 .org-toggle[aria-expanded="true"] {
-  border-color: var(--accent);
   background: rgba(0, 113, 227, 0.15);
   color: var(--accent);
 }
 
 .org-toggle svg {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
 }
 
-[data-theme="light"] .org-toggle {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: #000;
+/* Light mode role row unified */
+[data-theme="light"] .role-row {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .role-row .role-toggle {
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .role-row .role-toggle:hover {
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .role-row .role-toggle[aria-expanded="true"] {
+  border-right-color: var(--accent);
 }
 
 [data-theme="light"] .org-toggle:hover,
 [data-theme="light"] .org-toggle[aria-expanded="true"] {
-  border-color: var(--accent);
+  background: rgba(0, 113, 227, 0.1);
 }
 
 /* Org Chart (standalone panel) */
@@ -1062,7 +1100,7 @@ article[id] {
   margin-bottom: var(--spacing-sm);
   padding: var(--spacing-md);
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: var(--radius-md);
 }
 
@@ -1071,7 +1109,13 @@ article[id] {
 }
 
 [data-theme="light"] .org-chart {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .org-chart {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
 .org-level {
@@ -1277,18 +1321,18 @@ article[id] {
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) .project-card {
-    border-color: var(--border-strong);
+    border-color: rgba(0, 0, 0, 0.4);
   }
   :root:not([data-theme="dark"]) .project-card.expanded {
-    border-color: var(--border-strong);
-    box-shadow: 0 0 0 1px var(--border-strong);
+    border-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
   }
 }
 [data-theme="light"] .project-card {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.4);
 }
 [data-theme="light"] .project-card.expanded {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
 .project-preview {
@@ -2413,13 +2457,19 @@ article[id] {
 .project-section {
   margin-bottom: var(--spacing-md);
   background: var(--card-bg);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
 [data-theme="light"] .project-section {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .project-section {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
 .section-header {
@@ -2559,13 +2609,19 @@ article[id] {
 
 .brief-item {
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 [data-theme="light"] .brief-item {
-  border-color: #000;
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .brief-item {
+    border-color: rgba(0, 0, 0, 0.35);
+  }
 }
 
 .brief-header {

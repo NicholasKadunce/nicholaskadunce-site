@@ -480,67 +480,267 @@ main { padding-top: 56px; }
   }
 }
 
-/* Stats Section */
-.stats-section {
+/* ==========================================================================
+   Operating Philosophy Section
+   ========================================================================== */
+.philosophy-section {
   padding: var(--spacing-xl) 0;
   background: var(--bg-secondary);
 }
 
-.stats-transition {
+.philosophy-header {
   text-align: center;
-  font-size: clamp(18px, 2.5vw, 22px);
-  max-width: 600px;
-  margin: 0 auto var(--spacing-lg);
-  line-height: 1.5;
+  margin-bottom: var(--spacing-lg);
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
-}
-
-.stat {
-  text-align: center;
-  padding: var(--spacing-md);
-  text-decoration: none;
-  border-radius: var(--radius-lg);
-  transition: all var(--duration) var(--ease-out);
-  display: block;
-}
-
-.stat:hover {
-  background: var(--card-bg);
-  transform: translateY(-2px);
-}
-
-.stat-value {
-  font-size: clamp(36px, 6vw, 56px);
+.philosophy-header h2 {
+  font-size: clamp(28px, 5vw, 42px);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1;
+  letter-spacing: -0.02em;
   margin-bottom: var(--spacing-xs);
 }
 
-.stat-label {
-  font-size: 13px;
+.philosophy-subtitle {
+  font-size: clamp(16px, 2.5vw, 20px);
   color: var(--text-secondary);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
 }
 
-.stat-context {
+.philosophy-intro {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-xl);
+}
+
+.philosophy-intro p {
+  font-size: clamp(16px, 2vw, 18px);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-xs);
+}
+
+.philosophy-intro .philosophy-emphasis {
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Philosophy Steps */
+.philosophy-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+}
+
+.philosophy-step {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  transition: all var(--duration) var(--ease-out);
+}
+
+.philosophy-step:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(4px);
+}
+
+[data-theme="light"] .philosophy-step {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .philosophy-step:hover {
+  border-color: rgba(0, 0, 0, 0.25);
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text);
+}
+
+.step-lead {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-sm);
+}
+
+.step-detail {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-xs);
+}
+
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.step-list li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.step-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.step-callout {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  font-style: italic;
+  padding-left: var(--spacing-sm);
+  border-left: 2px solid var(--accent);
+  margin-top: var(--spacing-sm);
+}
+
+/* Philosophy Outcome */
+.philosophy-outcome {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+}
+
+[data-theme="light"] .philosophy-outcome {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.philosophy-outcome h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text);
+}
+
+.philosophy-outcome > p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+}
+
+.outcome-grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-md);
+}
+
+.outcome-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.outcome-new {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.outcome-replaces {
   font-size: 12px;
   color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
+.outcome-old {
+  font-size: 16px;
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-tertiary);
+}
+
+.outcome-final {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: var(--spacing-md);
+}
+
+/* Philosophy Mobile */
 @media (max-width: 768px) {
-  .stats { grid-template-columns: 1fr; gap: var(--spacing-sm); }
-  .stat { padding: var(--spacing-sm); }
-  .stat-value { font-size: clamp(32px, 10vw, 44px); }
+  .philosophy-section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .philosophy-step {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .philosophy-step:hover {
+    transform: none;
+  }
+
+  .step-number {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .outcome-grid {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .outcome-item {
+    flex-direction: row;
+    gap: var(--spacing-xs);
+  }
+
+  .outcome-new {
+    font-size: 20px;
+  }
+
+  .outcome-old {
+    font-size: 14px;
+  }
 }
 
 /* Scroll margin for anchor links */

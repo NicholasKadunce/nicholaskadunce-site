@@ -1188,6 +1188,21 @@ article[id] {
   line-height: 1.6;
 }
 
+.role-subsection {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.role-subsection:first-of-type {
+  margin-top: 0;
+}
+
+.role-subsection + .achievements {
+  margin-bottom: var(--spacing-sm);
+}
+
 .achievements {
   list-style: none;
   display: flex;

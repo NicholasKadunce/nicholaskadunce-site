@@ -107,6 +107,21 @@ a:hover { color: var(--text); }
 .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
 .btn-secondary:hover { background: var(--card-bg); color: var(--text); }
 
+.btn-resume {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  gap: 8px;
+}
+.btn-resume svg {
+  width: 18px;
+  height: 18px;
+}
+.btn-resume:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 /* Layout */
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--spacing-md); }
 main { padding-top: 56px; }
@@ -410,6 +425,20 @@ main { padding-top: 56px; }
 .nav-menu a:hover {
   color: var(--text);
   background: var(--card-bg);
+}
+
+/* Projects link - stands out as separate page */
+.nav-menu .nav-projects {
+  color: var(--accent);
+  font-weight: 600;
+  border-left: 2px solid var(--accent);
+  margin-left: 4px;
+  padding-left: 16px;
+}
+
+.nav-menu .nav-projects:hover {
+  color: var(--text);
+  background: rgba(0, 113, 227, 0.1);
 }
 
 @media (prefers-color-scheme: light) {

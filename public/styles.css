@@ -550,11 +550,20 @@ main { padding-top: 56px; }
 }
 
 [data-theme="light"] .philosophy-step {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="light"] .philosophy-step:hover {
-  border-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .philosophy-step {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
+  :root:not([data-theme="dark"]) .philosophy-step:hover {
+    border-color: rgba(0, 0, 0, 0.5);
+  }
 }
 
 .step-number {
@@ -643,7 +652,13 @@ main { padding-top: 56px; }
 }
 
 [data-theme="light"] .philosophy-outcome {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .philosophy-outcome {
+    border-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
 .philosophy-outcome h3 {
@@ -1171,6 +1186,21 @@ article[id] {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-md);
   line-height: 1.6;
+}
+
+.role-subsection {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.role-subsection:first-of-type {
+  margin-top: 0;
+}
+
+.role-subsection + .achievements {
+  margin-bottom: var(--spacing-sm);
 }
 
 .achievements {

@@ -1,1052 +1,1528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nicholas Kadunce — Operations & Engineering Leader</title>
-  <meta name="description" content="Engineering and operations leader who builds high-performing teams and delivers measurable results through data-driven systems.">
-  <link rel="stylesheet" href="/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicholas Kadunce — Operations & AI Leadership</title>
+<meta name="description" content="Operations executive who architects AI-driven production systems and delivers measurable P&L results.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #222222;
+  --ink-body: #333333;
+  --ink-light: #666666;
+  --ink-muted: #999999;
+  --ink-faint: #cccccc;
+  --rule: #e0e0e0;
+  --surface: #ffffff;
+  --surface-warm: #f7f6f3;
+  --blue: #2251ff;
+  --blue-hover: #1a3fcc;
+  --dark: #051c2c;
+  --dark-card: #0a2540;
+  --max-w: 1100px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif: 'Lora', Georgia, 'Times New Roman', serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--ink-body);
+  background: var(--surface);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue); color: #fff; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 2.5rem; }
+
+/* ── NAV ── */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: transparent;
+  transition: background 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+header.scrolled {
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--rule);
+}
+
+header .inner {
+  max-width: var(--max-w); margin: 0 auto; padding: 0 2.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  height: 64px;
+}
+
+.logo {
+  font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--ink); opacity: 0;
+  transition: opacity 0.35s var(--ease);
+}
+
+header.scrolled .logo { opacity: 1; }
+
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+
+.nav-links a {
+  font-size: 0.8rem; font-weight: 400; color: var(--ink-light);
+  transition: color 0.25s var(--ease);
+}
+
+.nav-links a:hover { color: var(--blue); }
+
+.menu-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  width: 28px; height: 20px; position: relative; padding: 0;
+}
+
+.menu-btn span {
+  display: block; position: absolute; left: 0; width: 100%; height: 1.5px;
+  background: var(--ink); transition: all 0.3s var(--ease);
+}
+
+.menu-btn span:nth-child(1) { top: 0; }
+.menu-btn span:nth-child(2) { top: 9px; }
+.menu-btn span:nth-child(3) { top: 18px; }
+
+.menu-btn.open span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+.menu-btn.open span:nth-child(2) { opacity: 0; }
+.menu-btn.open span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
+
+.mobile-nav {
+  display: none; position: fixed; inset: 0; background: var(--surface); z-index: 99;
+  flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+}
+
+.mobile-nav.open { display: flex; }
+
+.mobile-nav a {
+  font-size: 1.4rem; font-weight: 300; color: var(--ink-light);
+  transition: color 0.2s; letter-spacing: 0.01em;
+}
+
+.mobile-nav a:hover { color: var(--blue); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 10rem 0 6rem; position: relative;
+}
+
+.hero .wrap { max-width: 800px; }
+
+.hero-eyebrow {
+  font-size: 0.75rem; font-weight: 400; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(2.6rem, 5.5vw, 3.8rem);
+  line-height: 1.15; color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.hero-body {
+  font-size: 1.15rem; font-weight: 300; line-height: 1.7;
+  color: var(--ink-light); max-width: 600px; margin-bottom: 2.5rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
+  color: var(--blue); background: none; border: none; cursor: pointer;
+  padding: 0; transition: gap 0.3s var(--ease);
+}
+
+.btn-primary:hover { gap: 1rem; }
+
+.btn-primary .arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--rule);
+  transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.btn-primary:hover .arrow { border-color: var(--blue); background: var(--blue); }
+
+.btn-primary:hover .arrow svg { stroke: #fff; }
+
+.btn-primary .arrow svg {
+  width: 14px; height: 14px; stroke: var(--blue); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: stroke 0.3s var(--ease);
+}
+
+.scroll-cue {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+
+.scroll-cue::after {
+  content: ''; display: block; width: 1px; height: 32px;
+  background: var(--ink-faint); margin: 0.5rem auto 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 0.2; transform: scaleY(0.5); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ── SECTIONS SHARED ── */
+section { padding: 7rem 0; }
+
+.section-rule { width: 100%; height: 1px; background: var(--rule); margin-bottom: 7rem; }
+
+.eyebrow {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;
+}
+
+.section-heading {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.25; color: var(--ink); margin-bottom: 1rem;
+}
+
+.section-lead {
+  font-size: 1.05rem; font-weight: 300; color: var(--ink-light);
+  line-height: 1.7; max-width: 600px;
+}
+
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.reveal.vis { opacity: 1; transform: none; }
+
+/* ── AI & INNOVATION (DARK) ── */
+.ai { background: var(--dark); color: #fff; padding: 7rem 0; }
+.ai .eyebrow { color: var(--blue); }
+.ai .section-heading { color: #fff; }
+.ai .section-lead { color: rgba(255,255,255,0.55); margin-bottom: 4rem; }
+
+.ai-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: rgba(255,255,255,0.08); margin-bottom: 4rem;
+}
+
+.ai-card {
+  background: var(--dark); padding: 2.5rem;
+  transition: background 0.35s var(--ease);
+}
+
+.ai-card:hover { background: var(--dark-card); }
+
+.ai-num {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em;
+  color: var(--blue); margin-bottom: 0.75rem;
+}
+
+.ai-card h3 {
+  font-size: 1rem; font-weight: 500; color: #fff;
+  margin-bottom: 0.6rem; line-height: 1.35;
+}
+
+.ai-card p {
+  font-size: 0.85rem; font-weight: 300; line-height: 1.65;
+  color: rgba(255,255,255,0.5);
+}
+
+.ai-tag {
+  display: inline-block; margin-top: 0.75rem;
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--blue);
+  padding: 0.25rem 0.65rem; border: 1px solid rgba(34,81,255,0.35);
+}
+
+.ai-stats { display: flex; gap: 3rem; flex-wrap: wrap; }
+
+.ai-stat-num {
+  font-family: var(--serif); font-size: 2.6rem; font-weight: 400;
+  color: #fff; line-height: 1;
+}
+
+.ai-stat-label {
+  font-size: 0.65rem; font-weight: 400; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 0.4rem;
+}
+
+/* ── METRICS ── */
+.metrics { background: var(--surface-warm); }
+
+.metrics-row {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  margin-top: 3rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+
+.m-item {
+  padding: 2.5rem 1rem; text-align: center;
+  border-right: 1px solid var(--rule);
+}
+
+.m-item:last-child { border-right: none; }
+
+.m-num {
+  font-family: var(--serif); font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  font-weight: 400; color: var(--ink); line-height: 1;
+}
+
+.m-label {
+  font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-muted); margin-top: 0.6rem;
+}
+
+/* ── PHILOSOPHY ── */
+.philosophy { background: var(--surface); }
+
+.phil-intro {
+  font-family: var(--serif); font-size: 1.15rem;
+  font-weight: 400; font-style: italic; color: var(--ink-light);
+  line-height: 1.7; max-width: 620px; margin-bottom: 3.5rem;
+}
+
+.steps { margin-top: 0; }
+
+.step {
+  display: grid; grid-template-columns: 4rem 1fr; gap: 1.5rem;
+  padding: 2rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+}
+
+.step:last-of-type { border-bottom: none; }
+
+.step-n {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 400;
+  color: var(--blue);
+}
+
+.step h3 { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+
+.step p {
+  font-size: 0.9rem; font-weight: 300; color: var(--ink-light); line-height: 1.7;
+}
+
+.step .detail {
+  margin-top: 0.5rem; font-size: 0.85rem; font-weight: 300;
+  color: var(--ink-muted); line-height: 1.7;
+}
+
+.outcome {
+  margin-top: 3.5rem; padding: 3rem; background: var(--surface-warm);
+  text-align: center;
+}
+
+.outcome-label {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 1.5rem;
+}
+
+.pillars { display: flex; justify-content: center; gap: 3.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+.pill strong {
+  display: block; font-family: var(--serif); font-size: 1.3rem;
+  font-weight: 400; color: var(--ink);
+}
+
+.pill span {
+  font-size: 0.65rem; font-weight: 400; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+
+.outcome .closing {
+  font-size: 0.95rem; font-weight: 300; font-style: italic;
+  color: var(--ink-light); max-width: 480px; margin: 0 auto;
+}
+
+/* ── EXPERIENCE ── */
+.experience { background: var(--surface-warm); }
+
+.exp-list { margin-top: 3rem; }
+
+.exp-block {
+  padding: 3rem 0; border-bottom: 1px solid var(--rule);
+}
+
+.exp-block:last-child { border-bottom: none; }
+
+.exp-top {
+  display: grid; grid-template-columns: 220px 1fr; gap: 3rem;
+  align-items: start;
+}
+
+.exp-date {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--blue);
+}
+
+.exp-co {
+  font-size: 1.15rem; font-weight: 500; color: var(--ink);
+  margin-top: 0.2rem;
+}
+
+.exp-ind {
+  font-size: 0.8rem; font-weight: 300; color: var(--ink-muted); margin-top: 0.15rem;
+}
+
+.exp-role-title {
+  font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem;
+}
+
+.exp-role-intro {
+  font-size: 0.88rem; font-weight: 300; font-style: italic;
+  color: var(--ink-light); line-height: 1.65; margin-bottom: 0.8rem;
+}
+
+.exp-points { list-style: none; display: grid; gap: 0.4rem; }
+
+.exp-points li {
+  font-size: 0.85rem; font-weight: 300; color: var(--ink-light);
+  line-height: 1.6; padding-left: 1rem; position: relative;
+}
+
+.exp-points li::before {
+  content: ''; position: absolute; left: 0; top: 0.65em;
+  width: 5px; height: 1px; background: var(--blue);
+}
+
+.exp-tags { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+
+.exp-tag {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-muted);
+  padding: 0.2rem 0.5rem; border: 1px solid var(--rule);
+}
+
+.exp-org {
+  margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+  display: flex; gap: 2rem; font-size: 0.75rem; color: var(--ink-muted); flex-wrap: wrap;
+}
+
+.exp-org strong { font-weight: 500; color: var(--ink-light); }
+
+.exp-sub {
+  margin-top: 2rem; padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── PROJECTS ── */
+.projects { background: var(--surface); }
+
+.proj-categories { margin-top: 3rem; }
+
+.proj-cat { margin-bottom: 3rem; }
+
+.proj-cat-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;
+}
+
+.proj-cat-name {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink);
+}
+
+.proj-cat-count {
+  font-size: 0.7rem; font-weight: 300; color: var(--ink-muted);
+}
+
+.proj-item {
+  padding: 1.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.proj-item:last-child { border-bottom: none; }
+
+.proj-top {
+  display: grid; grid-template-columns: 1fr auto; gap: 1.5rem;
+  align-items: start;
+}
+
+.proj-name {
+  font-size: 0.95rem; font-weight: 500; color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.proj-desc {
+  font-size: 0.85rem; font-weight: 300; color: var(--ink-light);
+  line-height: 1.65; max-width: 700px;
+}
+
+.proj-tags { display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap; }
+
+.proj-tag {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-muted);
+  padding: 0.15rem 0.45rem; border: 1px solid var(--rule);
+}
+
+/* Brief-style project (longer description, no demo) */
+.proj-brief .proj-desc {
+  max-width: 800px;
+}
+
+/* ── CREDENTIALS ── */
+.credentials { background: var(--surface); }
+
+.cred-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-top: 3rem;
+  border: 1px solid var(--rule);
+}
+
+.cred-item {
+  padding: 2rem; border-right: 1px solid var(--rule);
+  transition: background 0.3s var(--ease);
+}
+
+.cred-item:last-child { border-right: none; }
+.cred-item:hover { background: var(--surface-warm); }
+
+.cred-name { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+.cred-org { font-size: 0.75rem; font-weight: 300; color: var(--ink-muted); }
+
+.edu {
+  margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--rule);
+  font-size: 0.9rem; font-weight: 300; color: var(--ink-light);
+}
+
+.edu strong { font-weight: 500; color: var(--ink); }
+
+/* ── CONTACT (DARK) ── */
+.contact { background: var(--dark); color: #fff; padding: 7rem 0; }
+.contact .eyebrow { color: var(--blue); }
+.contact .section-heading { color: #fff; }
+
+.contact-body {
+  font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.5);
+  max-width: 500px; line-height: 1.7; margin-bottom: 2.5rem;
+}
+
+.contact-grid { display: flex; gap: 3.5rem; flex-wrap: wrap; }
+
+.c-item-label {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.3rem;
+}
+
+.c-item a {
+  font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 2px;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.c-item a:hover { color: var(--blue); border-color: var(--blue); }
+
+footer {
+  background: var(--dark); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 0; text-align: center;
+  font-size: 0.7rem; font-weight: 300; color: rgba(255,255,255,0.2);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .menu-btn { display: block; }
+  .ai-grid { grid-template-columns: 1fr; }
+  .metrics-row { grid-template-columns: repeat(3, 1fr); }
+  .metrics-row .m-item:nth-child(n+4) { border-top: 1px solid var(--rule); }
+  .exp-top { grid-template-columns: 1fr; gap: 0.5rem; }
+  .cred-row { grid-template-columns: 1fr; }
+  .cred-item { border-right: none; border-bottom: 1px solid var(--rule); }
+  .cred-item:last-child { border-bottom: none; }
+  .contact-grid { flex-direction: column; gap: 1.5rem; }
+  .proj-top { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  section { padding: 5rem 0; }
+  .wrap, header .inner { padding: 0 1.5rem; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+  .ai-stats { gap: 2rem; }
+  .pillars { gap: 2rem; }
+  .step { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .exp-org { flex-direction: column; gap: 0.5rem; }
+  .phil-grid { grid-template-columns: 1fr 1fr !important; }
+}
+
+@media (max-width: 480px) {
+  .phil-grid { grid-template-columns: 1fr !important; }
+}
+
+/* AI Insight Widget */
+.ai-fab {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--blue); color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(34,81,255,0.35);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.ai-fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(34,81,255,0.45); }
+.ai-fab svg { width: 22px; height: 22px; }
+
+.ai-panel {
+  display: none; position: fixed; bottom: 5rem; right: 1.5rem; z-index: 200;
+  width: 380px; max-height: 520px; background: var(--surface);
+  border: 1px solid var(--rule); box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  flex-direction: column; overflow: hidden;
+}
+.ai-panel.open { display: flex; }
+
+.ai-panel-header {
+  padding: 1rem 1.2rem; background: #051c2c; color: #fff;
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.8rem; font-weight: 500;
+}
+.ai-panel-header svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+.ai-panel-body {
+  flex: 1; overflow-y: auto; padding: 1rem 1.2rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  max-height: 380px;
+}
+
+.ai-msg {
+  font-size: 0.82rem; line-height: 1.6; font-weight: 300; color: var(--ink-body);
+  padding: 0.7rem 0.9rem; border-radius: 0; max-width: 92%;
+}
+.ai-msg.bot { background: var(--surface-warm); border-left: 2px solid var(--blue); align-self: flex-start; }
+.ai-msg.user { background: #051c2c; color: rgba(255,255,255,0.9); align-self: flex-end; border-left: none; }
+
+.ai-typing { display: flex; gap: 4px; padding: 0.7rem 0.9rem; align-self: flex-start; }
+.ai-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); opacity: 0.4; animation: typingDot 1.4s infinite ease-in-out; }
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%,80%,100% { opacity: 0.4; transform: scale(1); } 40% { opacity: 1; transform: scale(1.2); } }
+
+.ai-msg.bot .powered-by { display: block; margin-top: 0.5rem; font-size: 0.65rem; color: var(--ink-muted); font-style: italic; }
+
+.ai-panel-input {
+  display: flex; border-top: 1px solid var(--rule); padding: 0.6rem;
+}
+.ai-panel-input input {
+  flex: 1; border: 1px solid var(--rule); padding: 0.6rem 0.8rem;
+  font-family: var(--sans); font-size: 0.8rem; font-weight: 300;
+  outline: none; background: var(--surface);
+  color: var(--ink-body);
+}
+.ai-panel-input input:focus { border-color: var(--blue); }
+.ai-panel-input button {
+  background: var(--blue); color: #fff; border: none; padding: 0 1rem;
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.05em; cursor: pointer;
+  transition: background 0.2s;
+}
+.ai-panel-input button:hover { background: #1a3fcc; }
+
+@media (max-width: 480px) {
+  .ai-panel { width: calc(100vw - 2rem); right: 1rem; bottom: 4.5rem; }
+}
+
+/* ── DARK MODE ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e5e5e5; --ink-body: #cccccc; --ink-light: #999999;
+    --ink-muted: #666666; --ink-faint: #444444; --rule: #2a2a2a;
+    --surface: #0a0a0a; --surface-warm: #111111;
+    --dark: #000000; --dark-card: #0a0a0a;
+  }
+  header.scrolled { background: rgba(10,10,10,0.96); box-shadow: 0 1px 0 #1a1a1a; }
+}
+</style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="nav-left">
-        <button class="nav-profile" aria-label="View profile photo">
-          <img src="/media/images/Nick.jpg" alt="Nicholas Kadunce" class="nav-avatar">
-        </button>
-        <a href="/#philosophy" class="nav-signature-link">
-          <img src="/media/images/white-signature.png" alt="" class="nav-signature">
-        </a>
-      </div>
-      <a href="/" class="nav-brand">Nicholas Kadunce</a>
-      <div class="nav-right">
-        <button class="theme-toggle" aria-label="Toggle dark/light mode">
-          <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-          <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </button>
-        <div class="nav-toggle-wrapper">
-          <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <span class="hamburger"></span>
-          </button>
-          <div class="nav-menu">
-            <a href="#philosophy">Philosophy</a>
-            <a href="#experience">Experience</a>
-            <a href="projects.html" class="nav-projects">Projects</a>
-            <a href="#contact">Contact</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Profile Image Popup -->
-  <div class="profile-overlay" id="profile-overlay">
-    <div class="profile-popup">
-      <button class="profile-close" aria-label="Close profile photo">&times;</button>
-      <img src="/media/images/Nick.jpg" alt="Nicholas Kadunce">
+<!-- NAV -->
+<header id="hdr">
+  <div class="inner">
+    <div class="logo">Nicholas Kadunce</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#ai">AI &amp; Innovation</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mNav">
+  <a href="#about" onclick="closeM()">About</a>
+  <a href="#ai" onclick="closeM()">AI &amp; Innovation</a>
+  <a href="#projects" onclick="closeM()">Projects</a>
+  <a href="#experience" onclick="closeM()">Experience</a>
+  <a href="#credentials" onclick="closeM()">Credentials</a>
+  <a href="#contact" onclick="closeM()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="wrap">
+    <p class="hero-eyebrow reveal">Operations &amp; AI Leadership</p>
+    <h1 class="reveal">I build systems that<br>drive results.</h1>
+    <p class="hero-body reveal">Operations leader who builds the cadence&mdash;real-time visibility, clear priorities, and accountable execution. I architect AI-driven production systems and deliver measurable P&amp;L results across manufacturing environments.</p>
+    <div class="hero-actions reveal">
+      <a href="#experience" class="btn-primary">
+        View experience
+        <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="#contact" class="btn-primary">
+        Get in touch
+        <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="Nicholas_Kadunce_Resume_Updated.pdf" target="_blank" class="btn-primary">
+        Resume
+        <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
     </div>
   </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
 
-  <!-- Experience Image Popup -->
-  <div class="experience-image-overlay" id="experience-image-overlay">
-    <div class="experience-image-popup">
-      <button class="experience-image-close" aria-label="Close image">&times;</button>
-      <img src="" alt="" id="experience-image-full">
-      <span class="image-caption" id="experience-image-caption"></span>
+<!-- AI & INNOVATION -->
+<section class="ai" id="ai">
+  <div class="wrap">
+    <p class="eyebrow reveal">What I Build</p>
+    <h2 class="section-heading reveal">AI-powered manufacturing intelligence</h2>
+    <p class="section-lead reveal">I designed and deployed JMOS&mdash;a full-stack IoT production monitoring platform that replaced manual data entry with automated intelligence across an entire plant floor.</p>
+
+    <div class="ai-grid reveal">
+      <div class="ai-card">
+        <div class="ai-num">01</div>
+        <h3>Production Intelligence Platform</h3>
+        <p>Full-stack system integrating real-time IoT sensor feeds from 16+ machines with automated OEE computation, intelligent downtime detection, and operator-facing classification workflows.</p>
+        <span class="ai-tag">JMOS &middot; Node.js &middot; PostgreSQL &middot; MySQL</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">02</div>
+        <h3>Downtime Intelligence Engine</h3>
+        <p>Ingests 2.8M+ sensor records, applies statistical cycle-time analysis to distinguish true downtime from normal process gaps, and surfaces Pareto-ranked root causes for targeted improvement.</p>
+        <span class="ai-tag">2.8M+ Sensor Records</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">03</div>
+        <h3>Best Demonstrated Rate System</h3>
+        <p>AI-assisted detection of sustained operator outperformance. Auto-generates rate-change proposals with full OEE context and routes approvals to management.</p>
+        <span class="ai-tag">Automated Proposals</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">04</div>
+        <h3>Real-Time Data Pipeline</h3>
+        <p>60-second server-side cache refresh cycles processing ~15K daily sensor readings with instant dashboard response times&mdash;no database indexing overhead.</p>
+        <span class="ai-tag">60s Refresh Cycle</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">05</div>
+        <h3>Automated SPC &amp; Analytics</h3>
+        <p>Real-time control charting, Pareto analysis, and trend detection enabling proactive quality interventions and focused scrap reduction.</p>
+        <span class="ai-tag">Statistical Process Control</span>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">06</div>
+        <h3>Auto-Generated Performance Reports</h3>
+        <p>Daily Operations Performance Reports rendered as SVG visualizations with OEE breakdowns, downtime/defect rankings&mdash;auto-distributed to stakeholders.</p>
+        <span class="ai-tag">Daily Automation</span>
+      </div>
+    </div>
+
+    <div class="ai-stats reveal">
+      <div><div class="ai-stat-num">16</div><div class="ai-stat-label">Machines Automated</div></div>
+      <div><div class="ai-stat-num">2.8M+</div><div class="ai-stat-label">Sensor Records</div></div>
+      <div><div class="ai-stat-num">15K</div><div class="ai-stat-label">Daily Readings</div></div>
+      <div><div class="ai-stat-num">60s</div><div class="ai-stat-label">Refresh Cycle</div></div>
     </div>
   </div>
+</section>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <h1>I build systems<br>that drive results.</h1>
-      <p class="text-large">
-        Operations leader: I build the cadence—real-time visibility, clear priorities, and accountable execution.
-      </p>
-      <div class="hero-buttons">
-        <a href="#experience" class="btn btn-primary">View Experience</a>
-        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-        <a href="/media/docs/Nicholas_Kadunce_Resume.pdf" download class="btn btn-resume">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Resume
-        </a>
-      </div>
-      <div class="scroll-indicator">Scroll</div>
-    </section>
+<!-- METRICS -->
+<section class="metrics">
+  <div class="wrap">
+    <p class="eyebrow reveal">Impact</p>
+    <h2 class="section-heading reveal">Results that speak.</h2>
+    <div class="metrics-row reveal">
+      <div class="m-item"><div class="m-num" data-t="36.7" data-s="%">0</div><div class="m-label">Output Increase</div></div>
+      <div class="m-item"><div class="m-num" data-t="340" data-s="%">0</div><div class="m-label">BESS Production Growth</div></div>
+      <div class="m-item"><div class="m-num" data-t="66" data-s="%">0</div><div class="m-label">Rework Reduction</div></div>
+      <div class="m-item"><div class="m-num" data-t="41" data-s="%">0</div><div class="m-label">Throughput Increase</div></div>
+      <div class="m-item"><div class="m-num" data-t="36" data-s="%">0</div><div class="m-label">Downtime Reduction</div></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Operating Philosophy -->
-    <section class="philosophy-section" id="philosophy">
-      <div class="container">
-        <div class="philosophy-header reveal">
-          <h2>Operating Philosophy</h2>
-          <p class="philosophy-subtitle">How I Turn Complexity into Execution</p>
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="wrap">
+    <p class="eyebrow reveal">Projects</p>
+    <h2 class="section-heading reveal">Tools and systems I've built</h2>
+    <p class="section-lead reveal">Dashboards, tracking systems, process improvement initiatives, and strategic analysis&mdash;built to drive operational excellence.</p>
+
+    <div class="proj-categories">
+
+      <!-- OPERATIONAL TOOLS -->
+      <div class="proj-cat reveal">
+        <div class="proj-cat-header">
+          <span class="proj-cat-name">Operational Tools</span>
+          <span class="proj-cat-count">4 projects</span>
         </div>
 
-        <div class="philosophy-intro reveal">
-          <p>I don't start with opinions, assumptions, or tribal knowledge.</p>
-          <p class="philosophy-emphasis">I start by building data flow.</p>
-        </div>
-
-        <div class="philosophy-steps">
-          <!-- Step 1 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h3>Instrument the System</h3>
-              <p class="step-lead">Before solving anything, I establish accurate, automated data collection. If the data doesn't exist—or is painful to gather—the system is broken.</p>
-              <p class="step-detail">I design data capture to be:</p>
-              <ul class="step-list">
-                <li>Seamless and low-friction</li>
-                <li>Automated wherever possible</li>
-                <li>Efficient not just for production, but for people</li>
-              </ul>
-              <p class="step-detail">Efficiency applies to everything—including clicks required, time spent collecting or entering data, number of systems, files, and handoffs, and overlapping or duplicated work.</p>
-              <p class="step-callout">If collecting data feels like work, it won't scale.</p>
+        <!-- Operations Daily Dashboard — EMAIL REPLICA -->
+        <div class="proj-item">
+          <div class="proj-name">Operations Daily Dashboard</div>
+          <p class="proj-desc">Interactive daily operations email with real-time KPIs, downtime analysis, quality metrics, and action tracking&mdash;sent automatically each morning to plant leadership. Features in-email navigation buttons for mobile-first consumption.</p>
+          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Outlook</span><span class="proj-tag">Excel</span><span class="proj-tag">Automation</span></div>
+          <!-- Email Replica -->
+          <div style="margin-top:1.5rem; border:1px solid var(--rule); background:var(--surface); max-width:680px;">
+            <!-- Email Header -->
+            <div style="background:#051c2c; color:#fff; padding:1.2rem 1.5rem;">
+              <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.3rem;">JENNMAR &middot; WV Bolt</div>
+              <div style="font-size:1rem; font-weight:500;">Daily Operations Review</div>
+              <div style="font-size:0.75rem; font-weight:300; color:rgba(255,255,255,0.5); margin-top:0.2rem;">Reporting date: March 19, 2026</div>
             </div>
-          </div>
-
-          <!-- Step 2 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h3>Make Problems Obvious</h3>
-              <p class="step-lead">Once data is flowing, the priority is clarity—not volume.</p>
-              <p class="step-detail">I structure and visualize data so that:</p>
-              <ul class="step-list">
-                <li>Problems surface naturally</li>
-                <li>Noise is stripped away</li>
-                <li>The biggest constraints are undeniable</li>
-              </ul>
-              <p class="step-detail">This is where Pareto thinking, KPI hierarchy, and visual systems matter. The goal isn't to chase theories—it's to let the data tell us where to act.</p>
-              <p class="step-callout">When the problem is obvious, alignment is automatic.</p>
+            <!-- Key Highlights -->
+            <div style="padding:1rem 1.5rem; border-bottom:1px solid var(--rule);">
+              <div style="font-size:0.7rem; font-weight:600; color:#2251FF; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.5rem;">Key Highlights</div>
+              <div style="font-size:0.8rem; font-weight:300; color:var(--ink-body); line-height:1.6;">
+                <strong style="font-weight:500;">What changed:</strong> Press 3 hydraulic rebuild completed overnight. Back online at 06:15. Output tracking at 104% of target through first 4 hours.<br>
+                <strong style="font-weight:500;">What we're working on:</strong> Cable 2 vibration sensor flagging intermittent spikes &mdash; PM team investigating bearing wear during next scheduled window (3/21). Shear 1 blade changeover moved up to Thursday based on SPC trend.
+              </div>
             </div>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h3>Prioritize Relentlessly</h3>
-              <p class="step-lead">Not all problems are equal—and I don't treat them that way.</p>
-              <p class="step-detail">I focus teams on:</p>
-              <ul class="step-list">
-                <li>The few issues driving the majority of impact</li>
-                <li>High-leverage constraints before marginal gains</li>
-                <li>Quick wins and systemic fixes</li>
-              </ul>
-              <p class="step-callout">Low-hanging fruit gets addressed quickly—but never at the expense of the real bottlenecks.</p>
+            <!-- Navigation Buttons -->
+            <div style="padding:1rem 1.5rem; text-align:center; border-bottom:1px solid var(--rule);">
+              <div style="font-size:0.6rem; font-weight:500; color:#2251FF; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.6rem;">Jump to</div>
+              <div style="display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center;">
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Safety</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid #051c2c; background:#051c2c; color:#fff; font-size:0.7rem; font-weight:500; border-radius:20px;">Dashboard</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Sales</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">HR</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Maintenance</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Keystone</span>
+                <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Action Items</span>
+              </div>
             </div>
-          </div>
-
-          <!-- Step 4 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h3>Solve at the Root</h3>
-              <p class="step-lead">Once priorities are set, execution begins.</p>
-              <p class="step-detail">I apply the right tools for the problem:</p>
-              <ul class="step-list">
-                <li>Root cause analysis</li>
-                <li>Process mapping</li>
-                <li>Control logic and mistake-proofing</li>
-                <li>Clear ownership and standardization</li>
-              </ul>
-              <p class="step-detail">The objective isn't just to fix the issue—it's to eliminate recurrence.</p>
-              <p class="step-callout">Controls matter more than heroics.</p>
-            </div>
-          </div>
-
-          <!-- Step 5 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">5</div>
-            <div class="step-content">
-              <h3>Build Self-Sustaining Systems</h3>
-              <p class="step-lead">The end state isn't dependence on leadership oversight.</p>
-              <p class="step-detail">It's a system that:</p>
-              <ul class="step-list">
-                <li>Flags problems automatically</li>
-                <li>Guides teams toward the right work</li>
-                <li>Sustains gains without constant intervention</li>
-              </ul>
-              <p class="step-callout">Meetings are minimized. Non-value-added activity is removed. The system does the work.</p>
-            </div>
-          </div>
-
-          <!-- Step 6 -->
-          <div class="philosophy-step reveal">
-            <div class="step-number">6</div>
-            <div class="step-content">
-              <h3>Repeat—Continuously</h3>
-              <p class="step-lead">Once the biggest issues are solved, the cycle repeats.</p>
-              <p class="step-detail">Each pass addresses:</p>
-              <ul class="step-list">
-                <li>Smaller constraints</li>
-                <li>Lower-magnitude problems</li>
-                <li>Higher-order optimization</li>
-              </ul>
-              <p class="step-callout">This is continuous improvement—not as a slogan, but as a closed-loop operating system.</p>
+            <!-- Mini Dashboard Charts -->
+            <div style="padding:1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div style="height:160px; position:relative;">
+                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Production vs Target</div>
+                <canvas id="emailProdChart"></canvas>
+              </div>
+              <div style="height:160px; position:relative;">
+                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Downtime by Category</div>
+                <canvas id="emailDTChart"></canvas>
+              </div>
+              <div style="height:160px; position:relative;">
+                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Quality &mdash; Defects by Type</div>
+                <canvas id="emailQualChart"></canvas>
+              </div>
+              <div style="height:160px; position:relative;">
+                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">OEE Breakdown</div>
+                <canvas id="emailOEEChart"></canvas>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Outcome -->
-        <div class="philosophy-outcome reveal">
-          <h3>The Outcome</h3>
-          <p>I build environments where:</p>
-          <div class="outcome-grid">
-            <div class="outcome-item">
-              <span class="outcome-new">Data</span>
-              <span class="outcome-replaces">replaces</span>
-              <span class="outcome-old">debate</span>
-            </div>
-            <div class="outcome-item">
-              <span class="outcome-new">Focus</span>
-              <span class="outcome-replaces">replaces</span>
-              <span class="outcome-old">chaos</span>
-            </div>
-            <div class="outcome-item">
-              <span class="outcome-new">Execution</span>
-              <span class="outcome-replaces">replaces</span>
-              <span class="outcome-old">effort</span>
-            </div>
+        <!-- Automated Equipment Output Monitoring -->
+        <div class="proj-item">
+          <div class="proj-name">Automated Equipment Output Monitoring</div>
+          <p class="proj-desc">Real-time sensor-driven production tracking with automated cycle-time capture every 30&ndash;45 seconds. Statistical process control with UCL/LCL boundaries and target rate overlays for immediate deviation detection.</p>
+          <div class="proj-tags"><span class="proj-tag">IoT</span><span class="proj-tag">SPC</span><span class="proj-tag">Real-Time</span><span class="proj-tag">Analytics</span></div>
+          <div style="margin-top:1.5rem; max-width:680px; height:260px; position:relative;">
+            <canvas id="hourlyChart"></canvas>
           </div>
-          <p class="outcome-final">Systems don't just improve results—they make performance repeatable.</p>
+        </div>
+
+        <!-- Financial Forecaster -->
+        <div class="proj-item">
+          <div class="proj-name">Financial Forecaster</div>
+          <p class="proj-desc">Data-driven forecasting tool using 3-month rolling averages to generate daily financial projections, strengthening performance and improving oversight efficiency.</p>
+          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Excel</span><span class="proj-tag">Forecasting</span><span class="proj-tag">Analytics</span></div>
+          <div style="margin-top:1.5rem; max-width:680px; height:220px; position:relative;">
+            <canvas id="forecastChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Maintenance Dashboard -->
+        <div class="proj-item">
+          <div class="proj-name">Maintenance Dashboard</div>
+          <p class="proj-desc">Asset-level analytics tracking work order volume and labor hours by maintenance type. Identifies equipment and maintenance trends to improve asset availability and reduce non-value-added effort.</p>
+          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Excel</span><span class="proj-tag">CMMS</span><span class="proj-tag">Analytics</span></div>
+          <div style="margin-top:1.5rem; max-width:680px; height:220px; position:relative;">
+            <canvas id="maintChart"></canvas>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- Experience Section -->
-    <section class="experience-section" id="experience">
+      <!-- PROCESS IMPROVEMENT -->
+      <div class="proj-cat reveal">
+        <div class="proj-cat-header">
+          <span class="proj-cat-name">Process Improvement</span>
+          <span class="proj-cat-count">2 projects</span>
+        </div>
 
-      <!-- Timeline Track -->
-      <div class="timeline-track" aria-hidden="true">
-        <div class="timeline-progress"></div>
-        <div class="timeline-node" data-year="2025" style="--node-position: 0%"></div>
-        <div class="timeline-node" data-year="2023" style="--node-position: 33%"></div>
-        <div class="timeline-node" data-year="2022" style="--node-position: 66%"></div>
-        <div class="timeline-node" data-year="2020" style="--node-position: 100%"></div>
+        <div class="proj-item">
+          <div class="proj-name">Six Sigma Green Belt Project</div>
+          <p class="proj-desc">Applied DMAIC methodology to drive measurable process improvements in manufacturing operations, with documented results from Define through Control phases.</p>
+          <div class="proj-tags"><span class="proj-tag">Six Sigma</span><span class="proj-tag">DMAIC</span><span class="proj-tag">Process Improvement</span></div>
+          <div style="margin-top:1.5rem; max-width:680px; height:200px; position:relative;">
+            <canvas id="dmaicChart"></canvas>
+          </div>
+        </div>
+
+        <div class="proj-item">
+          <div class="proj-name">Root Cause Analysis (Fishbone / Ishikawa)</div>
+          <p class="proj-desc">Led a structured RCA workshop using fishbone methodology to investigate temperature instability in a Kr/Xe distillation tower, producing prioritized corrective actions.</p>
+          <div class="proj-tags"><span class="proj-tag">RCA</span><span class="proj-tag">Ishikawa</span><span class="proj-tag">Problem Solving</span></div>
+          <!-- Ishikawa Fishbone Diagram -->
+          <div style="margin-top:1.5rem; max-width:740px; overflow-x:auto;">
+            <svg viewBox="0 0 800 340" style="width:100%; height:auto; min-width:600px;" role="img" aria-label="Ishikawa fishbone diagram for distillation tower temperature fluctuations">
+              <!-- Spine -->
+              <line x1="60" y1="170" x2="720" y2="170" stroke="#051c2c" stroke-width="2.5"/>
+              <!-- Head (Effect) -->
+              <rect x="720" y="140" width="75" height="60" rx="3" fill="#051c2c"/>
+              <text x="757" y="165" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="8" font-weight="500">TEMP</text>
+              <text x="757" y="178" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="7" font-weight="300">INSTABILITY</text>
+              <!-- Category branches — top 3 -->
+              <!-- Equipment (top-left) -->
+              <line x1="200" y1="40" x2="280" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="175" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">EQUIPMENT</text>
+              <line x1="160" y1="65" x2="220" y2="85" stroke="#999" stroke-width="1"/><text x="155" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Valve wear</text>
+              <line x1="175" y1="90" x2="235" y2="110" stroke="#999" stroke-width="1"/><text x="170" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Heat exchanger fouling</text>
+              <line x1="200" y1="115" x2="255" y2="132" stroke="#999" stroke-width="1"/><text x="195" y="112" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Sensor calibration drift</text>
+              <!-- Process (top-center) -->
+              <line x1="400" y1="40" x2="460" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="380" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">PROCESS</text>
+              <line x1="355" y1="65" x2="415" y2="85" stroke="#999" stroke-width="1"/><text x="350" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Feed rate variability</text>
+              <line x1="370" y1="90" x2="430" y2="110" stroke="#999" stroke-width="1"/><text x="365" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Reboiler duty swings</text>
+              <line x1="390" y1="115" x2="445" y2="132" stroke="#999" stroke-width="1"/><text x="385" y="112" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Reflux ratio deviation</text>
+              <!-- Instrumentation (top-right) -->
+              <line x1="580" y1="40" x2="620" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="565" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">INSTRUMENTATION</text>
+              <line x1="540" y1="65" x2="590" y2="85" stroke="#999" stroke-width="1"/><text x="535" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Thermocouple lag</text>
+              <line x1="555" y1="90" x2="600" y2="110" stroke="#999" stroke-width="1"/><text x="550" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">PID tuning mismatch</text>
+              <!-- Category branches — bottom 3 -->
+              <!-- Materials (bottom-left) -->
+              <line x1="200" y1="300" x2="280" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="175" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">MATERIALS</text>
+              <line x1="160" y1="275" x2="220" y2="255" stroke="#999" stroke-width="1"/><text x="155" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Feed composition shifts</text>
+              <line x1="180" y1="250" x2="240" y2="230" stroke="#999" stroke-width="1"/><text x="175" y="257" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Impurity concentration</text>
+              <!-- Operating Practices (bottom-center) -->
+              <line x1="400" y1="300" x2="460" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="380" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">PRACTICES</text>
+              <line x1="355" y1="275" x2="415" y2="255" stroke="#999" stroke-width="1"/><text x="350" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Shift-to-shift handoff gaps</text>
+              <line x1="370" y1="250" x2="430" y2="230" stroke="#999" stroke-width="1"/><text x="365" y="257" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Non-standard startup sequence</text>
+              <!-- Environment (bottom-right) -->
+              <line x1="580" y1="300" x2="620" y2="170" stroke="#2251FF" stroke-width="1.5"/>
+              <text x="565" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">ENVIRONMENT</text>
+              <line x1="540" y1="275" x2="590" y2="255" stroke="#999" stroke-width="1"/><text x="535" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Ambient temp swings</text>
+              <line x1="555" y1="250" x2="600" y2="230" stroke="#999" stroke-width="1"/><text x="550" y="257" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Cooling water temp variation</text>
+            </svg>
+          </div>
+        </div>
       </div>
 
-      <!-- Experience 1: JENNMAR -->
-      <article class="experience-card" id="jennmar">
-        <div class="experience-bg">
-          <img src="/media/images/jennmar.jpg" alt="">
-        </div>
-        <button class="experience-image-btn" aria-label="View JENNMAR facility image" data-image="/media/images/jennmar.jpg" data-caption="JENNMAR Manufacturing Facility">
-          <img src="/media/images/jennmar.jpg" alt="">
-        </button>
-        <div class="experience-inner">
-          <div class="experience-year">2025 — Present</div>
-          <div class="experience-header">
-            <a href="https://www.jennmar.com/" target="_blank" rel="noopener" class="company-name">JENNMAR</a>
-            <p class="company-desc">Underground Mining & Tunneling Infrastructure</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="wrap">
+    <p class="eyebrow reveal">Operating Philosophy</p>
+    <h2 class="section-heading reveal">Complexity to execution&mdash;in six moves.</h2>
+
+    <div class="phil-grid reveal" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-top:3rem; border:1px solid var(--rule);">
+      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">1</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Instrument</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build automated data flow. If it's painful to collect, it won't scale.</div>
+      </div>
+      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">2</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Surface</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Visualize so problems are obvious. If leadership has to dig, the system failed.</div>
+      </div>
+      <div style="padding:2rem; border-bottom:1px solid var(--rule);">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">3</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Prioritize</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Rank by impact with Pareto and SPC. Attack the constraint, not the symptom.</div>
+      </div>
+      <div style="padding:2rem; border-right:1px solid var(--rule);">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">4</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Control</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Eliminate recurrence. Process mapping, control logic, clear ownership. Controls over heroics.</div>
+      </div>
+      <div style="padding:2rem; border-right:1px solid var(--rule);">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">5</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Sustain</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build systems that self-correct. The system flags, guides, and sustains&mdash;without oversight.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">6</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Repeat</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Cycle continuously. Each pass addresses smaller constraints and higher-order optimization.</div>
+      </div>
+    </div>
+
+    <div class="outcome reveal" style="margin-top:3rem;">
+      <div class="outcome-label">The Outcome</div>
+      <div class="pillars">
+        <div class="pill"><strong>Data</strong><span>replaces debate</span></div>
+        <div class="pill"><strong>Focus</strong><span>replaces chaos</span></div>
+        <div class="pill"><strong>Execution</strong><span>replaces effort</span></div>
+      </div>
+      <p class="closing">Systems don't just improve results&mdash;they make performance repeatable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="wrap">
+    <p class="eyebrow reveal">Career</p>
+    <h2 class="section-heading reveal">Experience</h2>
+
+    <div class="exp-list">
+      <!-- JENNMAR -->
+      <div class="exp-block reveal">
+        <div class="exp-top">
+          <div>
+            <div class="exp-date">2025 &mdash; Present</div>
+            <div class="exp-co">Jennmar</div>
+            <div class="exp-ind">Underground Mining &amp; Tunneling Infrastructure</div>
           </div>
-
-          <div class="roles">
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="jennmar-pm">
-                <span class="role-title">Plant Manager</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="jennmar-pm-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
+          <div>
+            <div class="exp-role-title">Plant Manager</div>
+            <p class="exp-role-intro">I lead end-to-end operations for a high-volume manufacturing site, building disciplined data systems and operational cadence that drive predictable, scalable performance.</p>
+            <ul class="exp-points">
+              <li>Established a real-time operations system with hour-by-hour tracking and statistical targets, increasing output by 36.7%</li>
+              <li>Built a next-generation forecasting model that improved operating net income performance while reducing volatility</li>
+              <li>Created a daily performance alignment cadence that syncs production, maintenance, and quality without manual reporting</li>
+              <li>Transitioned maintenance from reactive to planned with CMMS deployment, work-order discipline, and data-driven scheduling</li>
+              <li>Implemented systemized defect logging with automated SPC and Pareto analysis to accelerate root cause detection</li>
+              <li>Instituted material quarantine and traceability controls to eliminate mix-ups and reinforce quality governance</li>
+              <li>Automated incentive math and refined Supervisor Standard Work, boosting accountability and saving hours weekly</li>
+            </ul>
+            <div class="exp-tags">
+              <span class="exp-tag">JMOS</span>
+              <span class="exp-tag">OEE</span>
+              <span class="exp-tag">CMMS</span>
+              <span class="exp-tag">SPC</span>
             </div>
-            <div class="role-content" id="jennmar-pm">
-              <p class="role-summary">I lead end-to-end operations for a high-volume manufacturing site, building disciplined data systems and operational cadence that drive predictable, scalable performance.</p>
-              <ul class="achievements">
-                <li>Established a real-time operations system with hour-by-hour tracking and statistical targets, increasing output by 36.7%</li>
-                <li>Built a next-generation forecasting model that improved operating net income performance while reducing volatility</li>
-                <li>Created a daily performance alignment cadence that syncs production, maintenance, and quality without manual reporting</li>
-                <li>Transitioned maintenance from reactive to planned with CMMS deployment, work-order discipline, and data-driven scheduling</li>
-                <li>Implemented systemized defect logging with automated SPC and Pareto analysis to accelerate root cause detection</li>
-                <li>Instituted material quarantine and traceability controls to eliminate mix-ups and reinforce quality governance</li>
-                <li>Automated incentive math and refined Supervisor Standard Work, boosting accountability and saving hours weekly</li>
-              </ul>
-              <div class="role-tags">
-                <span>JMOS</span>
-                <span>FIIX CMMS</span>
-                <span>SPC</span>
-              </div>
-            </div>
-            <div class="org-chart" id="jennmar-pm-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">VP of Operations</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Current Role</span>
-                  <span class="org-title">Plant Manager</span>
-                </div>
-              </div>
-
-              <!-- Direct Reports -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Direct Reports</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">Production Manager</span>
-                    <div class="org-subreports">
-                      <span>2 Production Supervisors</span>
-                      <span class="org-indent">2 Team Leads, 65 Technicians, 8 Material Handlers</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Quality Manager</span>
-                    <div class="org-subreports">
-                      <span>4 Quality Technicians</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Maintenance Manager</span>
-                    <div class="org-subreports">
-                      <span>1 Maintenance Lead</span>
-                      <span>9 Maintenance Technicians</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Safety Manager</span>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Dispatcher</span>
-                    <div class="org-subreports">
-                      <span>Jr. Dispatcher</span>
-                      <span>2 Outside Material Handlers</span>
-                    </div>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Inventory Control Specialist</span>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Secretary</span>
-                  </div>
-                </div>
-              </div>
+            <div class="exp-org">
+              <div><strong>Reports to:</strong> VP of Operations</div>
+              <div><strong>Direct reports:</strong> Production Manager, 2 Supervisors, 2 Team Leads, 65 Technicians, 8 Material Handlers</div>
             </div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <!-- Experience 2: Eos Energy -->
-      <article class="experience-card" id="eos-energy">
-        <div class="experience-bg">
-          <img src="/media/images/eos-energy.jpg" alt="">
-        </div>
-        <button class="experience-image-btn" aria-label="View Eos Energy facility image" data-image="/media/images/eos-energy.jpg" data-caption="Eos Energy Enterprises">
-          <img src="/media/images/eos-energy.jpg" alt="">
-        </button>
-        <div class="experience-inner">
-          <div class="experience-year">2023 — 2025</div>
-          <div class="experience-header">
-            <a href="https://www.eose.com/" target="_blank" rel="noopener" class="company-name">Eos Energy Enterprises</a>
-            <p class="company-desc">Battery Energy Storage Systems</p>
+      <!-- EOS ENERGY -->
+      <div class="exp-block reveal">
+        <div class="exp-top">
+          <div>
+            <div class="exp-date">2023 &mdash; 2025</div>
+            <div class="exp-co">Eos Energy Enterprises</div>
+            <div class="exp-ind">Battery Energy Storage Systems</div>
           </div>
-
-          <div class="roles">
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="eos-om">
-                <span class="role-title">Operations Manager</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="eos-om-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
+          <div>
+            <div class="exp-role-title">Operations Manager</div>
+            <p class="exp-role-intro">I transformed fragmented operations into data-driven, flow-oriented manufacturing systems, aligning teams and technology to scale output and reduce losses.</p>
+            <ul class="exp-points">
+              <li>Launched the company's first production dashboards with OEE, automated gap analysis, and KPI charts for real-time clarity</li>
+              <li>Shifted subassembly to one-piece flow, increasing throughput 41% and cutting defects 22%</li>
+              <li>Reduced downtime by 36% through structured Pareto analysis and mitigation plans</li>
+              <li>Implemented visual systems (Kanban, Andon) that exposed problems instantly and accelerated response</li>
+              <li>Grew BESS output from 0.5 to 2.2 units/day by balancing workload with Yamazumi and takt alignment</li>
+              <li>Cut rework 66% by driving data capture, analysis, and targeted process improvement</li>
+              <li>Built a new third-shift team into the highest-performing shift within one month</li>
+            </ul>
+            <div class="exp-tags">
+              <span class="exp-tag">Scrum</span><span class="exp-tag">Lean</span><span class="exp-tag">OEE</span><span class="exp-tag">Kanban</span>
             </div>
-            <div class="role-content" id="eos-om">
-              <p class="role-summary">I transformed fragmented operations into data-driven, flow-oriented manufacturing systems, aligning teams and technology to scale output and reduce losses.</p>
-              <p class="role-subsection"><strong>Module Operations (700 Building):</strong></p>
-              <ul class="achievements">
-                <li>Launched the company's first production dashboards with OEE, automated gap analysis, and KPI charts for real-time clarity</li>
-                <li>Shifted subassembly to one-piece flow, increasing throughput 41% and cutting defects 22%</li>
-                <li>Built automated performance and attendance tracking systems that standardized accountability</li>
-                <li>Reduced downtime by 36% through structured Pareto analysis and mitigation plans</li>
-                <li>Implemented visual systems (Kanban, Andon) that exposed problems instantly and accelerated response</li>
-                <li>Built a new third-shift team into the highest-performing shift within one month</li>
-              </ul>
-              <p class="role-subsection"><strong>BESS Operations (200 Building):</strong></p>
-              <ul class="achievements">
-                <li>Grew BESS output from 0.5 to 2.2 units/day by balancing workload with Yamazumi and takt alignment</li>
-                <li>Designed and deployed a production monitoring system that improved forecasting and operational rhythm</li>
-                <li>Cut rework 66% by driving data capture, analysis, and targeted process improvement</li>
-                <li>Installed tool management, safety stocks, and 5S standards to reduce disruptions and enhance flow</li>
-                <li>Integrated Andon systems with automated metrics collection for production, quality, and downtime</li>
-              </ul>
-              <div class="role-tags">
-                <span>Scrum</span>
-                <span>Lean</span>
-                <span>VBA</span>
-              </div>
-            </div>
-            <div class="org-chart" id="eos-om-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">Sr. Director of Operations</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Role</span>
-                  <span class="org-title">Operations Manager</span>
-                </div>
-              </div>
-
-              <!-- Direct Reports -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Direct Reports</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">Production Supervisor</span>
-                    <span class="org-count">×11</span>
-                    <div class="org-subreports">
-                      <span>6 Production Team Leads</span>
-                      <span>240 Production Technicians</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="exp-org">
+              <div><strong>Reports to:</strong> Sr. Director of Operations</div>
+              <div><strong>Direct reports:</strong> 11 Production Supervisors, 6 Team Leads, 240 Technicians</div>
             </div>
 
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="eos-qe">
-                <span class="role-title">Quality Engineer</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="eos-qe-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
-            </div>
-            <div class="role-content" id="eos-qe">
-              <p class="role-summary">I engineered the quality backbone that enabled next-generation products, reduced cycle times, and anchored ISO compliance.</p>
-              <ul class="achievements">
+            <div class="exp-sub">
+              <div class="exp-role-title">Quality Engineer</div>
+              <p class="exp-role-intro">I engineered the quality backbone that enabled next-generation products, reduced cycle times, and anchored ISO compliance.</p>
+              <ul class="exp-points">
                 <li>Built comprehensive quality systems for new product families, including controls and test protocols</li>
                 <li>Reduced testing cycles by ~60% with a high-efficiency routine that boosted throughput</li>
                 <li>Developed a dynamic Quality Dashboard for visual metrics and rapid decision support</li>
                 <li>Led internal ISO 9001 compliance activities and structured audit programs</li>
                 <li>Cut scrap defects 30% with targeted initiatives backed by real data</li>
                 <li>Eliminated documentation risk through automated quality documentation processes</li>
-                <li>Rebalanced technician workloads to improve productivity and consistency</li>
               </ul>
-              <div class="role-tags">
-                <span>ISO 9001</span>
-                <span>Quality Systems</span>
+              <div class="exp-tags">
+                <span class="exp-tag">ISO 9001</span><span class="exp-tag">Quality Systems</span>
               </div>
-            </div>
-            <div class="org-chart" id="eos-qe-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">Director of Quality</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Role</span>
-                  <span class="org-title">Quality Engineer</span>
-                </div>
-              </div>
-
-              <!-- Direct Reports -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Direct Reports</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">Quality Technician</span>
-                    <span class="org-count">×6</span>
-                  </div>
-                </div>
-              </div>
+              <div class="exp-org"><div><strong>Reports to:</strong> Director of Quality</div><div><strong>Direct reports:</strong> 6 Quality Technicians</div></div>
             </div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <!-- Experience 3: Messer Americas -->
-      <article class="experience-card" id="messer">
-        <div class="experience-bg">
-          <img src="/media/images/messer.jpg" alt="">
-        </div>
-        <button class="experience-image-btn" aria-label="View Messer Americas facility image" data-image="/media/images/messer.jpg" data-caption="Messer Americas">
-          <img src="/media/images/messer.jpg" alt="">
-        </button>
-        <div class="experience-inner">
-          <div class="experience-year">2022 — 2023</div>
-          <div class="experience-header">
-            <a href="https://www.messeramericas.com/" target="_blank" rel="noopener" class="company-name">Messer Americas</a>
-            <p class="company-desc">Industrial Gases</p>
+      <!-- MESSER -->
+      <div class="exp-block reveal">
+        <div class="exp-top">
+          <div>
+            <div class="exp-date">2022 &mdash; 2023</div>
+            <div class="exp-co">Messer Americas</div>
+            <div class="exp-ind">Industrial Gases</div>
           </div>
-
-          <div class="roles">
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="messer-rpe">
-                <span class="role-title">Regional Production Engineer</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="messer-rpe-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
-            </div>
-            <div class="role-content" id="messer-rpe">
-              <p class="role-summary">I drove operational excellence across multiple facilities by scaling visibility, reliability, and process discipline.</p>
-              <ul class="achievements">
-                <li>Led Lean Six Sigma initiatives that increased specialty gas production 15%, adding over $1M in revenue</li>
-                <li>Delivered 15+ improvement projects, cutting downtime by 25+ days annually</li>
-                <li>Standardized processes across sites to reduce lead times by ~30 days</li>
-                <li>Guided budget oversight and risk mitigation to align spending with strategic goals</li>
-                <li>Applied controls, instrumentation, and safety expertise to solve complex reliability challenges</li>
-              </ul>
-              <div class="role-tags">
-                <span>Six Sigma</span>
-                <span>OEE</span>
-                <span>Process Safety</span>
-              </div>
-            </div>
-            <div class="org-chart" id="messer-rpe-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">Director of Operations</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Role</span>
-                  <span class="org-title">Regional Production Engineer</span>
-                </div>
-              </div>
-
-              <!-- Peers -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Works Alongside</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">Plant Manager</span>
-                    <span class="org-count">×6</span>
-                    <div class="org-subreports">
-                      <span>Northeast Region</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div>
+            <div class="exp-role-title">Regional Production Engineer</div>
+            <p class="exp-role-intro">I drove operational excellence across multiple facilities by scaling visibility, reliability, and process discipline.</p>
+            <ul class="exp-points">
+              <li>Led Lean Six Sigma initiatives that increased specialty gas production 15%, adding over $1M in revenue</li>
+              <li>Delivered 15+ improvement projects, cutting downtime by 25+ days annually</li>
+              <li>Standardized processes across sites to reduce lead times by ~30 days</li>
+              <li>Guided budget oversight and risk mitigation to align spending with strategic goals</li>
+              <li>Applied controls, instrumentation, and safety expertise to solve complex reliability challenges</li>
+            </ul>
+            <div class="exp-tags">
+              <span class="exp-tag">Six Sigma</span><span class="exp-tag">OEE</span><span class="exp-tag">Process Safety</span>
             </div>
           </div>
         </div>
-      </article>
+      </div>
 
-      <!-- Experience 4: Johnson Matthey -->
-      <article class="experience-card" id="johnson-matthey">
-        <div class="experience-bg">
-          <img src="/media/images/johnson-matthey.jpg" alt="">
-        </div>
-        <button class="experience-image-btn" aria-label="View Johnson Matthey facility image" data-image="/media/images/johnson-matthey.jpg" data-caption="Johnson Matthey Clean Air Division">
-          <img src="/media/images/johnson-matthey.jpg" alt="">
-        </button>
-        <div class="experience-inner">
-          <div class="experience-year">2020 — 2022</div>
-          <div class="experience-header">
-            <a href="https://matthey.com/" target="_blank" rel="noopener" class="company-name">Johnson Matthey</a>
-            <p class="company-desc">Clean Air Division</p>
+      <!-- JOHNSON MATTHEY -->
+      <div class="exp-block reveal">
+        <div class="exp-top">
+          <div>
+            <div class="exp-date">2020 &mdash; 2022</div>
+            <div class="exp-co">Johnson Matthey</div>
+            <div class="exp-ind">Clean Air Division</div>
           </div>
+          <div>
+            <div class="exp-role-title">Shift Leader II</div>
+            <p class="exp-role-intro">I drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
+            <ul class="exp-points">
+              <li>Led cross-functional teams to achieve >5% OEE improvement with zero recordable injuries</li>
+              <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
+              <li>Cultivated a performance culture grounded in accountability, development, and continuous improvement</li>
+            </ul>
+            <div class="exp-tags"><span class="exp-tag">Leadership</span><span class="exp-tag">Lean</span><span class="exp-tag">Safety</span></div>
 
-          <div class="roles">
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="jm-sl">
-                <span class="role-title">Shift Leader II</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="jm-sl-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
-            </div>
-            <div class="role-content" id="jm-sl">
-              <p class="role-summary">I drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
-              <ul class="achievements">
-                <li>Led cross-functional teams to achieve >5% OEE improvement with zero recordable injuries</li>
-                <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
-                <li>Cultivated a performance culture grounded in accountability, development, and continuous improvement</li>
-              </ul>
-              <div class="role-tags">
-                <span>Leadership</span>
-                <span>Lean</span>
-                <span>Safety</span>
-              </div>
-            </div>
-            <div class="org-chart" id="jm-sl-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">Production Manager</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Role</span>
-                  <span class="org-title">Shift Leader II</span>
-                </div>
-              </div>
-
-              <!-- Direct Reports -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Direct Reports</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">Production Technician</span>
-                    <span class="org-count">×7</span>
-                  </div>
-                  <div class="org-node">
-                    <span class="org-title">Process Control Engineer</span>
-                    <span class="org-count">×1</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="role-row">
-              <button class="role-toggle" aria-expanded="false" data-target="jm-pce">
-                <span class="role-title">Process Control Engineer</span>
-                <span class="role-arrow">+</span>
-              </button>
-              <button class="org-toggle" aria-expanded="false" data-target="jm-pce-org" aria-label="View reporting structure">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="9" y="1" width="6" height="4" rx="1"/>
-                  <path d="M12 5v4"/>
-                  <path d="M4 9h16"/>
-                  <path d="M4 9v6M12 9v6M20 9v6"/>
-                  <rect x="1" y="15" width="5" height="4" rx="1"/>
-                  <rect x="9.5" y="15" width="5" height="4" rx="1"/>
-                  <rect x="18" y="15" width="5" height="4" rx="1"/>
-                </svg>
-              </button>
-            </div>
-            <div class="role-content" id="jm-pce">
-              <p class="role-summary">I built foundational technical and analytical leadership by optimizing automated processes and reducing losses.</p>
-              <ul class="achievements">
+            <div class="exp-sub">
+              <div class="exp-role-title">Process Control Engineer</div>
+              <p class="exp-role-intro">I built foundational technical and analytical leadership by optimizing automated processes and reducing losses.</p>
+              <ul class="exp-points">
                 <li>Reduced cycle time 8% and defects 4% through targeted process optimization</li>
                 <li>Created a risk management tool that cut downtime and variability significantly</li>
                 <li>Strengthened collaboration across functions, eliminating 35+ hours of annual downtime</li>
-                <li>Mentored technicians and fostered a data-driven culture of continuous improvement</li>
+                <li>Mentored technicians and fostered a data-driven culture for continuous improvement</li>
               </ul>
-              <div class="role-tags">
-                <span>Process Optimization</span>
-                <span>Risk Management</span>
-              </div>
-            </div>
-            <div class="org-chart" id="jm-pce-org">
-              <!-- Reports To -->
-              <div class="org-level org-reports-to">
-                <div class="org-label">Reports To</div>
-                <div class="org-node org-superior">
-                  <span class="org-title">Production Supervisor</span>
-                </div>
-              </div>
-
-              <!-- Current Position -->
-              <div class="org-connector"></div>
-              <div class="org-level org-current-level">
-                <div class="org-node org-current">
-                  <span class="org-badge">Role</span>
-                  <span class="org-title">Process Control Engineer</span>
-                </div>
-              </div>
-
-              <!-- No Direct Reports -->
-              <div class="org-connector"></div>
-              <div class="org-level org-direct-reports">
-                <div class="org-label">Direct Reports</div>
-                <div class="org-nodes">
-                  <div class="org-node">
-                    <span class="org-title">None</span>
-                    <div class="org-subreports">
-                      <span>Individual contributor role</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div class="exp-tags"><span class="exp-tag">Process Control</span><span class="exp-tag">CI</span><span class="exp-tag">Mentoring</span></div>
             </div>
           </div>
         </div>
-      </article>
-
-    </section>
-
-    <!-- Credentials & Education -->
-    <section class="credentials-section" id="credentials">
-      <div class="container">
-        <div class="credentials-content reveal">
-          <h2>Credentials</h2>
-          <div class="credentials-list">
-            <div class="credential">
-              <div class="credential-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-              </div>
-              <div class="credential-text">
-                <strong>Lean Six Sigma Green Belt</strong>
-                <span>Messer Americas</span>
-              </div>
-            </div>
-            <div class="credential">
-              <div class="credential-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <div class="credential-text">
-                <strong>ISO 9001 Lead Auditor</strong>
-                <span>Exemplar Global</span>
-              </div>
-            </div>
-            <div class="credential">
-              <div class="credential-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                </svg>
-              </div>
-              <div class="credential-text">
-                <strong>Certified ScrumMaster</strong>
-                <span>Scrum Alliance</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="education">
-            <h3>Education</h3>
-            <p><strong>B.S. Chemical Engineering</strong> · West Virginia University</p>
-          </div>
-        </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- Contact -->
-    <section class="contact-section" id="contact">
-      <div class="contact-content reveal">
-        <h2>Let's connect</h2>
-        <p>Open to discussing operations leadership, process improvement, or how data-driven systems can transform your organization.</p>
-        <div class="contact-grid">
-          <a href="mailto:NicholasKadunce@gmail.com" class="contact-item">
-            <span class="contact-label">Email</span>
-            <span class="contact-value">NicholasKadunce@gmail.com</span>
-          </a>
-          <a href="https://www.linkedin.com/in/nicholaskadunce" target="_blank" rel="noopener" class="contact-item">
-            <span class="contact-label">LinkedIn</span>
-            <span class="contact-value">/in/nicholaskadunce</span>
-          </a>
-          <a href="tel:+17249963792" class="contact-item">
-            <span class="contact-label">Phone</span>
-            <span class="contact-value">724-996-3792</span>
-          </a>
-        </div>
-      </div>
-    </section>
+<!-- CREDENTIALS -->
+<section class="credentials" id="credentials">
+  <div class="wrap">
+    <p class="eyebrow reveal">Credentials</p>
+    <h2 class="section-heading reveal">Certifications &amp; Education</h2>
+    <div class="cred-row reveal">
+      <div class="cred-item"><div class="cred-name">Lean Six Sigma Green Belt</div><div class="cred-org">Messer Americas</div></div>
+      <div class="cred-item"><div class="cred-name">ISO 9001 Lead Auditor</div><div class="cred-org">Exemplar Global</div></div>
+      <div class="cred-item"><div class="cred-name">Certified ScrumMaster</div><div class="cred-org">Scrum Alliance</div></div>
+    </div>
+    <div class="edu reveal"><p><strong>B.S. Chemical Engineering</strong> &middot; West Virginia University, 2020</p></div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <p>© <span id="year"></span> Nicholas Kadunce</p>
-      </div>
-    </footer>
-  </main>
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <p class="eyebrow reveal">Connect</p>
+    <h2 class="section-heading reveal">Let's talk.</h2>
+    <p class="contact-body reveal">Open to discussing operations leadership, AI-powered manufacturing, or how data-driven systems can transform your organization.</p>
+    <div class="contact-grid reveal">
+      <div class="c-item"><div class="c-item-label">Email</div><a href="mailto:NicholasKadunce@gmail.com">NicholasKadunce@gmail.com</a></div>
+      <div class="c-item"><div class="c-item-label">LinkedIn</div><a href="https://linkedin.com/in/nicholaskadunce" target="_blank" rel="noopener">/in/nicholaskadunce</a></div>
+      <div class="c-item"><div class="c-item-label">Phone</div><a href="tel:7249963792">724-996-3792</a></div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+<footer><div class="wrap">&copy; 2025 Nicholas Kadunce</div></footer>
 
-    // Scroll Reveal
-    const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-    revealElements.forEach(el => revealObserver.observe(el));
+<!-- AI Insight Widget -->
+<button class="ai-fab" id="aiFab" aria-label="AI Insight">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v4a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/>
+    <circle cx="9.5" cy="10" r="1" fill="currentColor" stroke="none"/>
+    <circle cx="14.5" cy="10" r="1" fill="currentColor" stroke="none"/>
+    <path d="M9.5 14.5c.83.83 2.17 1.5 3 1.5s2.17-.67 3-1.5"/>
+  </svg>
+</button>
 
-    // Role toggles
-    document.querySelectorAll('.role-toggle').forEach(button => {
-      button.addEventListener('click', () => {
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        const content = document.getElementById(button.dataset.target);
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-header">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v4a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg>
+    Ask About Nicholas
+  </div>
+  <div class="ai-panel-body" id="aiBody">
+    <div class="ai-msg bot">I'm an AI assistant powered by Claude. Ask me anything about Nicholas Kadunce&mdash;his leadership approach, technical capabilities, career impact, or what he brings to an executive operations role.</div>
+  </div>
+  <div class="ai-panel-input">
+    <input type="text" id="aiInput" placeholder="Ask about Nicholas..." autocomplete="off">
+    <button id="aiSend">Send</button>
+  </div>
+</div>
 
-        // Close all others in same card (roles and org charts)
-        const card = button.closest('.experience-card');
-        card.querySelectorAll('.role-toggle').forEach(btn => {
-          btn.setAttribute('aria-expanded', 'false');
-          btn.querySelector('.role-arrow').textContent = '+';
-        });
-        card.querySelectorAll('.role-content').forEach(c => c.classList.remove('open'));
-        // Also close any open org charts
-        card.querySelectorAll('.org-toggle').forEach(btn => {
-          btn.setAttribute('aria-expanded', 'false');
-        });
-        card.querySelectorAll('.org-chart').forEach(c => c.classList.remove('open'));
+<script>
+// Nav
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 50));
 
-        // Toggle current
-        if (!isExpanded) {
-          button.setAttribute('aria-expanded', 'true');
-          button.querySelector('.role-arrow').textContent = '−';
-          content.classList.add('open');
-        }
-      });
-    });
+// Mobile menu
+const mb = document.getElementById('menuBtn'), mn = document.getElementById('mNav');
+mb.addEventListener('click', () => { mb.classList.toggle('open'); mn.classList.toggle('open'); });
+function closeM() { mb.classList.remove('open'); mn.classList.remove('open'); }
 
-    // Org structure toggles
-    document.querySelectorAll('.org-toggle').forEach(button => {
-      button.addEventListener('click', () => {
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        const chart = document.getElementById(button.dataset.target);
-        const card = button.closest('.experience-card');
+// Reveal
+const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } }), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
-        // Close all role contents and org charts first
-        card.querySelectorAll('.role-toggle').forEach(btn => {
-          btn.setAttribute('aria-expanded', 'false');
-          btn.querySelector('.role-arrow').textContent = '+';
-        });
-        card.querySelectorAll('.role-content').forEach(c => c.classList.remove('open'));
-        card.querySelectorAll('.org-toggle').forEach(btn => {
-          btn.setAttribute('aria-expanded', 'false');
-        });
-        card.querySelectorAll('.org-chart').forEach(c => c.classList.remove('open'));
+// Metric counters
+const mo = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  const el = e.target, tgt = parseFloat(el.dataset.t), suf = el.dataset.s || '', dec = tgt % 1 !== 0;
+  const dur = 1600, t0 = performance.now();
+  (function tick(now) {
+    const p = Math.min((now - t0) / dur, 1), v = tgt * (1 - Math.pow(1 - p, 3));
+    el.textContent = (dec ? v.toFixed(1) : Math.floor(v)) + suf;
+    if (p < 1) requestAnimationFrame(tick);
+  })(t0);
+  mo.unobserve(el);
+}), { threshold: 0.5 });
+document.querySelectorAll('.m-num[data-t]').forEach(el => mo.observe(el));
+</script>
 
-        // Toggle current org chart
-        if (!isExpanded) {
-          button.setAttribute('aria-expanded', 'true');
-          chart.classList.add('open');
-        }
-      });
-    });
+<script>
+// Chart.js global defaults — McKinsey style (minimal, per-chart overrides handle the rest)
+Chart.defaults.font.family = "'Inter', 'Helvetica Neue', sans-serif";
+Chart.defaults.font.weight = '300';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#999999';
 
-    // Timeline progress
-    const experienceSection = document.querySelector('.experience-section');
-    const timelineProgress = document.querySelector('.timeline-progress');
-    const timelineTrack = document.querySelector('.timeline-track');
+const BLUE = '#2251FF';
+const NAVY = '#051c2c';
+const INK = '#333333';
+const MUTED = '#999999';
+const RULE = '#e0e0e0';
+const LIGHT_BLUE = 'rgba(34,81,255,0.12)';
 
-    function updateTimeline() {
-      if (!experienceSection || !timelineProgress || !timelineTrack) return;
+function initChartsWhenVisible() {
+const tt = { backgroundColor:'#051c2c', titleFont:{weight:500,size:12}, bodyFont:{weight:300,size:11}, padding:10, cornerRadius:0, displayColors:false };
 
-      const rect = experienceSection.getBoundingClientRect();
-      const sectionTop = rect.top;
-      const sectionHeight = rect.height;
-      const windowHeight = window.innerHeight;
+// 1. EMAIL — Production vs Target
+new Chart(document.getElementById('emailProdChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Shear 1','Shear 2','Press 1','Press 2','Press 3','Cable 1','Cable 2','Cable 3','Cable 4'],
+    datasets: [
+      { label: 'Actual', data: [312,287,445,438,398,189,201,167,195], backgroundColor: BLUE, borderRadius: 2, barPercentage: 0.7 },
+      { label: 'Target', data: [300,300,420,420,420,200,200,180,200], backgroundColor: RULE, borderRadius: 2, barPercentage: 0.7 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 8, font: { size: 9, weight: '400' } } }, tooltip: tt },
+    scales: { x: { ticks: { font: { size: 7 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } } }
+  }
+});
 
-      // Show/hide timeline based on section visibility
-      const inSection = sectionTop < windowHeight && rect.bottom > 0;
-      timelineTrack.style.opacity = inSection ? '1' : '0';
+// 2. EMAIL — Downtime Pareto
+new Chart(document.getElementById('emailDTChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Mechanical','Material','Changeover','Electrical','Operator','Scheduled'],
+    datasets: [{ label: 'Minutes', data: [87,52,38,24,18,12], backgroundColor: ['#2251FF','rgba(34,81,255,0.75)','rgba(34,81,255,0.6)','rgba(34,81,255,0.45)','rgba(34,81,255,0.35)','rgba(34,81,255,0.25)'], borderRadius: 2 }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tt },
+    scales: { x: { ticks: { font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
+  }
+});
 
-      // Calculate progress
-      const scrolled = Math.max(0, -sectionTop + windowHeight * 0.5);
-      const progress = Math.min(100, Math.max(0, (scrolled / (sectionHeight - windowHeight * 0.5)) * 100));
-      timelineProgress.style.height = `${progress}%`;
+// 3. EMAIL — Quality defects
+new Chart(document.getElementById('emailQualChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Thread','Surface','Dimensional','Material','Other'],
+    datasets: [{ data: [34,22,18,12,8], backgroundColor: [BLUE,'#3d6aff','#6b8fff','#99b0ff',RULE], borderWidth: 0 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 6, padding: 5, font: { size: 7, weight: '400' } } }, tooltip: tt }
+  }
+});
+
+// 4. EMAIL — OEE
+new Chart(document.getElementById('emailOEEChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Avail','Perf','Quality','OEE'],
+    datasets: [{ label: 'Score', data: [88.2,91.5,97.1,78.4], backgroundColor: [BLUE,'#3d6aff','#6b8fff',NAVY], borderRadius: 2 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1)+'%' } } },
+    scales: { y: { max: 100, ticks: { callback: v => v+'%', font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } }, x: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
+  }
+});
+
+// 5. EQUIPMENT OUTPUT — Scatter with UCL/LCL/Target (cycle time ~35s avg)
+const eqData = [];
+const target = 35, ucl = 42, lcl = 28;
+for (let i = 0; i < 120; i++) {
+  const t = i * (30 + Math.random() * 15); // ~30-45s between dots
+  const ct = target + (Math.random() - 0.5) * 12 + (i > 80 && i < 95 ? 5 : 0); // shift at i=80-95
+  eqData.push({ x: t / 60, y: Math.round(ct * 10) / 10 });
+}
+new Chart(document.getElementById('hourlyChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label: 'Cycle Time', data: eqData, backgroundColor: eqData.map(d => d.y > ucl || d.y < lcl ? '#e53e3e' : BLUE), pointRadius: 2.5, pointHoverRadius: 5 },
+      { label: 'Target ('+target+'s)', data: [{x:0,y:target},{x:eqData[eqData.length-1].x,y:target}], type:'line', borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
+      { label: 'UCL ('+ucl+'s)', data: [{x:0,y:ucl},{x:eqData[eqData.length-1].x,y:ucl}], type:'line', borderColor: '#e53e3e', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false },
+      { label: 'LCL ('+lcl+'s)', data: [{x:0,y:lcl},{x:eqData[eqData.length-1].x,y:lcl}], type:'line', borderColor: '#e53e3e', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 9, weight: 400 }, filter: item => !item.text.includes('LCL') } },
+      title: { display: true, text: 'Press 1 — Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Minutes into Shift', font: { size: 10 } }, grid: { display: false }, ticks: { font: { size: 9 } } },
+      y: { title: { display: true, text: 'Cycle Time (s)', font: { size: 10 } }, grid: { display: true, color: '#f0f0f0' }, min: 22, max: 50 }
     }
+  }
+});
 
-    window.addEventListener('scroll', updateTimeline);
-    updateTimeline();
+// 6. FINANCIAL FORECASTER — 1-month working days, actual exceeds budget, forecast window at end
+const workDays = Array.from({length:22}, (_,i) => 'D'+(i+1));
+const budgetDaily = 50.0;
+// Actuals: start near budget, increasingly exceed it (delta grows over time)
+const dailyActual = [49.8,51.2,50.5,52.1,51.8,53.4,52.7,54.0,53.5,55.1,54.8,56.2,55.9,57.3,56.8,58.4,57.9,59.1,null,null,null,null];
+// Forecast from D19 onward (continues the upward trend)
+const dailyForecast = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,59.8,60.5,61.2,62.0];
+const dailyCum = []; let cum = 0;
+const fcstCum = [];  let fcum = 0;
+const budgetCum = workDays.map((_,i) => budgetDaily * (i+1));
+dailyActual.forEach((v,i) => { if(v!==null){cum+=v;} dailyCum.push(v!==null?cum:null); });
+// Forecast cumulative continues from last actual
+fcum = cum;
+dailyForecast.forEach((v,i) => { if(v!==null){fcum+=v; fcstCum.push(fcum);} else { fcstCum.push(i===17?cum:null); } });
+// Fix: connect forecast to actual at D18
+fcstCum[17] = cum;
 
-    // Nav menu toggle
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-
-    navToggle.addEventListener('click', () => {
-      const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', !isExpanded);
-      navMenu.classList.toggle('open');
-    });
-
-    // Close menu when clicking a link
-    navMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('open');
-      });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navToggle.setAttribute('aria-expanded', 'false');
-        navMenu.classList.remove('open');
-      }
-    });
-
-    // Theme toggle
-    const themeToggle = document.querySelector('.theme-toggle');
-    const root = document.documentElement;
-
-    // Check for saved theme preference or default to dark
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      root.setAttribute('data-theme', savedTheme);
-    } else {
-      root.setAttribute('data-theme', 'light');
+new Chart(document.getElementById('forecastChart'), {
+  type: 'line',
+  data: {
+    labels: workDays,
+    datasets: [
+      { label: 'Actual', data: dailyCum, borderColor: BLUE, borderWidth: 2, tension: 0.2, pointRadius: 2, pointBackgroundColor: BLUE, spanGaps: false },
+      { label: 'Forecast', data: fcstCum, borderColor: BLUE, borderWidth: 2, borderDash: [5,3], tension: 0.2, pointRadius: 2, pointBackgroundColor: BLUE, pointStyle: 'triangle', spanGaps: false },
+      { label: 'Budget', data: budgetCum, borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' } } },
+      title: { display: true, text: 'Operating Net Income — March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
+      tooltip: { ...tt, callbacks: { label: ctx => ctx.dataset.label + ': $' + (ctx.parsed.y/1).toFixed(0) + 'K' } }
+    },
+    scales: {
+      y: { grid: { display: true, color: '#f0f0f0' }, border: { display: false }, ticks: { callback: v => '$'+v+'K', font: { size: 9 } } },
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 8 }, maxRotation: 0 } }
     }
+  }
+});
 
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = root.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      root.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-    });
+// 7. MAINTENANCE — Stacked bar
+new Chart(document.getElementById('maintChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Press 1','Press 2','Press 3','Shear 1','Shear 2','Cable 1','Cable 2','Threader 1','Header 2'],
+    datasets: [
+      { label: 'Corrective', data: [18,12,22,8,14,10,6,9,11], backgroundColor: BLUE, borderRadius: 2 },
+      { label: 'Preventive', data: [8,10,6,12,8,14,10,8,6], backgroundColor: '#6b8fff', borderRadius: 2 },
+      { label: 'Predictive', data: [4,3,2,5,3,2,4,3,2], backgroundColor: '#99b0ff', borderRadius: 2 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 12, font: { size: 10, weight: 400 } } },
+      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } }
+    },
+    scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 } }, y: { stacked: true, grid: { display: true, color: '#f0f0f0' }, title: { display: true, text: 'Work Orders', font: { size: 10 } } } }
+  }
+});
 
-    // Profile popup (only avatar triggers it)
-    const navProfile = document.querySelector('.nav-profile');
-    const profileOverlay = document.getElementById('profile-overlay');
-    const profileClose = document.querySelector('.profile-close');
+// 8. DMAIC — Radar chart (multi-KPI before/after)
+new Chart(document.getElementById('dmaicChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Cycle Time','First Pass Yield','OEE','Scrap Rate','Throughput'],
+    datasets: [
+      { label: 'Before (Baseline)', data: [45,72,61,78,55], borderColor: RULE, backgroundColor: 'rgba(200,200,200,0.15)', borderWidth: 1.5, pointRadius: 3, pointBackgroundColor: RULE },
+      { label: 'After (Control)', data: [82,91,84,92,88], borderColor: BLUE, backgroundColor: 'rgba(34,81,255,0.1)', borderWidth: 2, pointRadius: 3, pointBackgroundColor: BLUE }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10, weight: 400 } } },
+      title: { display: true, text: 'DMAIC Impact — Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } }
+    },
+    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 8 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 10 } }, grid: { color: '#e8e8e8' }, angleLines: { color: '#e8e8e8' } } }
+  }
+});
 
-    navProfile.addEventListener('click', (e) => {
-      e.preventDefault();
-      profileOverlay.classList.add('open');
-    });
+} // end initChartsWhenVisible
 
-    profileClose.addEventListener('click', () => {
-      profileOverlay.classList.remove('open');
-    });
-
-    // Close popup when clicking overlay background
-    profileOverlay.addEventListener('click', (e) => {
-      if (e.target === profileOverlay) {
-        profileOverlay.classList.remove('open');
+// Initialize charts when the projects section scrolls into view
+const projSection = document.getElementById('projects');
+if (projSection) {
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        initChartsWhenVisible();
+        chartObs.unobserve(e.target);
       }
     });
+  }, { threshold: 0.05 });
+  chartObs.observe(projSection);
+}
 
-    // Close popup with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && profileOverlay.classList.contains('open')) {
-        profileOverlay.classList.remove('open');
-      }
+// AI Insight Widget — Powered by Claude Sonnet
+const AI_WORKER_URL = 'https://nicholas-kadunce-ai.YOUR_SUBDOMAIN.workers.dev'; // ← Replace with your Cloudflare Worker URL after deployment
+
+const aiFab = document.getElementById('aiFab');
+const aiPanel = document.getElementById('aiPanel');
+const aiBody = document.getElementById('aiBody');
+const aiInput = document.getElementById('aiInput');
+const aiSend = document.getElementById('aiSend');
+const chatHistory = []; // Stores conversation for context
+
+aiFab.addEventListener('click', () => { aiPanel.classList.toggle('open'); if(aiPanel.classList.contains('open')) aiInput.focus(); });
+
+// Fallback responses if the API is unreachable
+const aiFallback = {
+  'default': 'Nicholas Kadunce is an operations and AI leader who builds the systems that make manufacturing performance repeatable. He\'s delivered double-digit improvements at every company he\'s led, architected a full-stack IoT production platform from scratch, and scaled teams from 6 to 240+. Ask about his AI work, leadership approach, results, or technical skills.'
+};
+
+function showTyping() {
+  const typing = document.createElement('div');
+  typing.className = 'ai-typing';
+  typing.id = 'aiTyping';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  aiBody.appendChild(typing);
+  aiBody.scrollTop = aiBody.scrollHeight;
+}
+
+function hideTyping() {
+  const typing = document.getElementById('aiTyping');
+  if (typing) typing.remove();
+}
+
+async function sendAI() {
+  const q = aiInput.value.trim();
+  if (!q) return;
+
+  // Disable input while processing
+  aiInput.disabled = true;
+  aiSend.disabled = true;
+
+  // Show user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'ai-msg user';
+  userMsg.textContent = q;
+  aiBody.appendChild(userMsg);
+  aiInput.value = '';
+  aiBody.scrollTop = aiBody.scrollHeight;
+
+  // Add to history
+  chatHistory.push({ role: 'user', content: q });
+
+  // Show typing indicator
+  showTyping();
+
+  try {
+    const res = await fetch(AI_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: q, history: chatHistory.slice(0, -1) }),
     });
 
-    // Experience image popup
-    const experienceImageBtns = document.querySelectorAll('.experience-image-btn');
-    const experienceImageOverlay = document.getElementById('experience-image-overlay');
-    const experienceImageFull = document.getElementById('experience-image-full');
-    const experienceImageCaption = document.getElementById('experience-image-caption');
-    const experienceImageClose = document.querySelector('.experience-image-close');
+    hideTyping();
 
-    experienceImageBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const imageSrc = btn.dataset.image;
-        const caption = btn.dataset.caption;
-        experienceImageFull.src = imageSrc;
-        experienceImageFull.alt = caption;
-        experienceImageCaption.textContent = caption;
-        experienceImageOverlay.classList.add('open');
-      });
-    });
+    if (!res.ok) throw new Error('API error');
 
-    experienceImageClose.addEventListener('click', () => {
-      experienceImageOverlay.classList.remove('open');
-    });
+    const data = await res.json();
+    const reply = data.reply;
 
-    // Close experience image popup when clicking overlay background
-    experienceImageOverlay.addEventListener('click', (e) => {
-      if (e.target === experienceImageOverlay) {
-        experienceImageOverlay.classList.remove('open');
-      }
-    });
+    // Add to history
+    chatHistory.push({ role: 'assistant', content: reply });
 
-    // Close experience image popup with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && experienceImageOverlay.classList.contains('open')) {
-        experienceImageOverlay.classList.remove('open');
-      }
-    });
+    // Show bot response
+    const botMsg = document.createElement('div');
+    botMsg.className = 'ai-msg bot';
+    botMsg.innerHTML = reply.replace(/\n/g, '<br>') + '<span class="powered-by">Powered by Claude AI</span>';
+    aiBody.appendChild(botMsg);
 
-    // Scroll indicator fade on scroll
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    let scrollTimeout;
+  } catch (err) {
+    hideTyping();
+    const botMsg = document.createElement('div');
+    botMsg.className = 'ai-msg bot';
+    botMsg.textContent = aiFallback.default;
+    aiBody.appendChild(botMsg);
+  }
 
-    function handleScrollIndicator() {
-      const scrollY = window.scrollY;
+  // Re-enable input
+  aiInput.disabled = false;
+  aiSend.disabled = false;
+  aiInput.focus();
+  aiBody.scrollTop = aiBody.scrollHeight;
 
-      if (scrollY > 50) {
-        scrollIndicator.classList.add('hidden');
-      } else {
-        scrollIndicator.classList.remove('hidden');
-      }
-    }
+  // Keep history manageable (last 12 messages)
+  if (chatHistory.length > 12) chatHistory.splice(0, chatHistory.length - 12);
+}
 
-    window.addEventListener('scroll', handleScrollIndicator);
-    // Show on page load
-    scrollIndicator.classList.remove('hidden');
-  </script>
+aiSend.addEventListener('click', sendAI);
+aiInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendAI(); });
+</script>
 </body>
 </html>

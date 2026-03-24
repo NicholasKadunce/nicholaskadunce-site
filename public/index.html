@@ -1537,6 +1537,12 @@ const forecastSpreadLabels = {
       }
     }
 
+    // Clamp all labels within chart vertical bounds so none are cut off
+    const halfPillH = (PAD_Y * 2 + FSZ + 2) / 2;
+    rawPositions.forEach(p => {
+      p.yPx = Math.max(chartArea.top + halfPillH + 1, Math.min(chartArea.bottom - halfPillH - 1, p.yPx));
+    });
+
     rawPositions.forEach(({ val, tag, alpha, yPx }) => {
       const valStr = '$' + Math.round(val) + 'K';
       const tagW  = ctx.measureText(tag).width;
@@ -1546,8 +1552,7 @@ const forecastSpreadLabels = {
       const pillX = xEnd + TICK + 3;
       const pillY = yPx - pillH / 2;
 
-      // Skip if pill would overflow canvas bounds
-      if (pillY < chartArea.top - 2 || pillY + pillH > chartArea.bottom + 2) return;
+      // Skip only if pill would overflow canvas width
       if (pillX + pillW > chart.width - 1) return;
 
       ctx.globalAlpha = alpha;

@@ -669,29 +669,60 @@ footer {
 }
 
 /* ── DARK MODE ── */
+/*
+  Palette: cool blue-slate (inspired by Linear / Radix dark)
+  No pure blacks — layered slate gives depth without harshness.
+  --surface     #17181f  base canvas
+  --surface-warm #1d1e28  slightly elevated (cards, sidebars)
+  --dark        #0e0f18  deep navy (AI / contact sections)
+  --dark-card   #151626  cards within dark sections
+  --rule        #2a2c3c  borders — visible but not glaring
+  --ink         #ecedf5  headings — cool off-white
+  --ink-body    #bbbdce  body copy
+  --ink-light   #82859d  secondary text
+  --ink-muted   #565872  muted / labels
+  --ink-faint   #313448  very faint (dividers, backgrounds)
+*/
+
 /* Auto dark (OS preference, no explicit toggle) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ink: #e5e5e5; --ink-body: #cccccc; --ink-light: #999999;
-    --ink-muted: #666666; --ink-faint: #444444; --rule: #2a2a2a;
-    --surface: #0a0a0a; --surface-warm: #111111;
-    --dark: #000000; --dark-card: #0a0a0a;
+    --ink: #ecedf5; --ink-body: #bbbdce; --ink-light: #82859d;
+    --ink-muted: #565872; --ink-faint: #313448; --rule: #2a2c3c;
+    --surface: #17181f; --surface-warm: #1d1e28;
+    --dark: #0e0f18; --dark-card: #151626;
   }
   :root:not([data-theme="light"]) header.scrolled,
-  :root:not([data-theme="light"]) .scrolled-hdr { background: rgba(10,10,10,0.96); box-shadow: 0 1px 0 #1a1a1a; }
+  :root:not([data-theme="light"]) .scrolled-hdr {
+    background: rgba(23,24,31,0.94);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 #2a2c3c;
+  }
 }
 
 /* Explicit dark toggle */
 [data-theme="dark"] {
-  --ink: #e5e5e5; --ink-body: #cccccc; --ink-light: #999999;
-  --ink-muted: #666666; --ink-faint: #444444; --rule: #2a2a2a;
-  --surface: #0a0a0a; --surface-warm: #111111;
-  --dark: #000000; --dark-card: #0a0a0a;
+  --ink: #ecedf5; --ink-body: #bbbdce; --ink-light: #82859d;
+  --ink-muted: #565872; --ink-faint: #313448; --rule: #2a2c3c;
+  --surface: #17181f; --surface-warm: #1d1e28;
+  --dark: #0e0f18; --dark-card: #151626;
 }
-[data-theme="dark"] header.scrolled { background: rgba(10,10,10,0.96); box-shadow: 0 1px 0 #1a1a1a; }
-[data-theme="dark"] .email-replica { border-color: var(--rule); }
-[data-theme="dark"] .ai-msg.user { background: #1a1a2e; }
-[data-theme="dark"] .proj-item { border-bottom-color: rgba(255,255,255,0.04); }
+[data-theme="dark"] header.scrolled {
+  background: rgba(23,24,31,0.94);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 #2a2c3c;
+}
+[data-theme="dark"] .email-replica { border-color: var(--rule); background: var(--surface-warm); }
+[data-theme="dark"] .ai-msg.bot { background: #1e2032; border-left-color: var(--blue); }
+[data-theme="dark"] .ai-msg.user { background: #1e2845; color: rgba(255,255,255,0.88); }
+[data-theme="dark"] .ai-panel { background: var(--surface-warm); border-color: var(--rule); }
+[data-theme="dark"] .ai-panel-input { border-top-color: var(--rule); }
+[data-theme="dark"] .ai-panel-input input { background: var(--surface); border-color: var(--rule); color: var(--ink-body); }
+[data-theme="dark"] .proj-item { border-bottom-color: var(--rule); }
+[data-theme="dark"] .cred-item:hover { background: var(--surface-warm); }
+[data-theme="dark"] .step { border-bottom-color: var(--rule); }
+[data-theme="dark"] .fishbone-wrap svg text { fill: var(--ink-body) !important; }
+[data-theme="dark"] .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 
 /* ── THEME TOGGLE ── */
 .theme-toggle {

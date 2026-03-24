@@ -1537,11 +1537,17 @@ const forecastSpreadLabels = {
       }
     }
 
-    // Clamp all labels within chart vertical bounds so none are cut off
+    // Shift the group as a whole to keep all labels within chart vertical bounds
     const halfPillH = (PAD_Y * 2 + FSZ + 2) / 2;
-    rawPositions.forEach(p => {
-      p.yPx = Math.max(chartArea.top + halfPillH + 1, Math.min(chartArea.bottom - halfPillH - 1, p.yPx));
-    });
+    const groupTop    = rawPositions[0].yPx - halfPillH - 1;
+    const groupBottom = rawPositions[rawPositions.length - 1].yPx + halfPillH + 1;
+    if (groupTop < chartArea.top) {
+      const shift = chartArea.top - groupTop;
+      rawPositions.forEach(p => { p.yPx += shift; });
+    } else if (groupBottom > chartArea.bottom) {
+      const shift = groupBottom - chartArea.bottom;
+      rawPositions.forEach(p => { p.yPx -= shift; });
+    }
 
     rawPositions.forEach(({ val, tag, alpha, yPx }) => {
       const valStr = '$' + Math.round(val) + 'K';

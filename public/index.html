@@ -1479,6 +1479,84 @@ const spreadMargin = [0, 12, 24, 38, 54];
 const spreadHigh = fcstCum.map((v,i) => v!==null ? +(v + (spreadMargin[i-17] || 0)).toFixed(1) : null);
 const spreadLow  = fcstCum.map((v,i) => v!==null ? +(v - (spreadMargin[i-17] || 0)).toFixed(1) : null);
 
+// Plugin: draws "High / Mid / Low" pill labels at the right edge of the spread band
+const forecastSpreadLabels = {
+  id: 'forecastSpreadLabels',
+  afterDraw(chart) {
+    const { ctx, scales: { x, y }, data, chartArea } = chart;
+    const lastIdx = 21; // D22
+    const highVal = data.datasets[0].data[lastIdx];
+    const lowVal  = data.datasets[1].data[lastIdx];
+    if (highVal == null || lowVal == null) return;
+    const midVal = +((highVal + lowVal) / 2).toFixed(1);
+
+    const entries = [
+      { val: highVal, tag: 'High', alpha: 0.80 },
+      { val: midVal,  tag: 'Mid',  alpha: 1.00 },
+      { val: lowVal,  tag: 'Low',  alpha: 0.58 },
+    ];
+
+    const xEnd  = x.getPixelForValue(lastIdx);
+    const PAD_X = 5, PAD_Y = 3, FSZ = 8, GAP = 5, TICK = 5;
+
+    ctx.save();
+    ctx.font = `500 ${FSZ}px Inter, system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+
+    entries.forEach(({ val, tag, alpha }) => {
+      const yPx   = y.getPixelForValue(val);
+      const valStr = '$' + Math.round(val) + 'K';
+      const tagW  = ctx.measureText(tag).width;
+      const valW  = ctx.measureText(valStr).width;
+      const pillW = tagW + GAP + valW + PAD_X * 2;
+      const pillH = PAD_Y * 2 + FSZ + 2;
+      const pillX = xEnd + TICK + 3;
+      const pillY = yPx - pillH / 2;
+
+      // Skip if pill would overflow canvas bounds
+      if (pillY < chartArea.top - 2 || pillY + pillH > chartArea.bottom + 2) return;
+      if (pillX + pillW > chart.width - 1) return;
+
+      ctx.globalAlpha = alpha;
+
+      // Tick line from last point to pill
+      ctx.strokeStyle = 'rgba(34,81,255,0.20)';
+      ctx.lineWidth = 0.75;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(xEnd, yPx);
+      ctx.lineTo(pillX, yPx);
+      ctx.stroke();
+
+      // Pill fill
+      ctx.fillStyle = 'rgba(34,81,255,0.07)';
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(pillX, pillY, pillW, pillH, 3);
+      } else {
+        ctx.rect(pillX, pillY, pillW, pillH);
+      }
+      ctx.fill();
+
+      // Pill border
+      ctx.strokeStyle = 'rgba(34,81,255,0.20)';
+      ctx.lineWidth = 0.75;
+      ctx.stroke();
+
+      // Tag text (dimmer)
+      ctx.fillStyle = 'rgba(34,81,255,0.52)';
+      ctx.fillText(tag, pillX + PAD_X, yPx);
+
+      // Value text (brighter)
+      ctx.fillStyle = '#2251FF';
+      ctx.fillText(valStr, pillX + PAD_X + tagW + GAP, yPx);
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+};
+
 new Chart(document.getElementById('forecastChart'), {
   type: 'line',
   data: {
@@ -1490,12 +1568,14 @@ new Chart(document.getElementById('forecastChart'), {
       { label: 'Budget', data: budgetCum, borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
     ]
   },
+  plugins: [forecastSpreadLabels],
   options: { responsive: true, maintainAspectRatio: false,
+    layout: { padding: { right: 74 } },
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' },
         filter: item => item.text !== '_low'
       }},
-      title: { display: true, text: 'Operating Net Income — March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
+      title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: ctx => {
         if(ctx.dataset.label === '_low') return null;
         if(ctx.dataset.label === 'Forecast Range') return 'Forecast High: $' + ctx.parsed.y.toFixed(0) + 'K';

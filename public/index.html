@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Nicholas Kadunce — Operations & AI Leadership</title>
 <meta name="description" content="Operations executive who architects AI-driven production systems and delivers measurable P&L results.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -662,10 +662,26 @@ footer {
 }
 .ai-panel-input button:hover { background: #1a3fcc; }
 
+/* AI panel overlay backdrop for click-outside-to-close */
+.ai-overlay {
+  display: none; position: fixed; inset: 0; z-index: 199;
+  background: rgba(0,0,0,0.15); backdrop-filter: blur(1px);
+}
+.ai-overlay.open { display: block; }
+
 @media (max-width: 600px) {
-  .ai-panel { width: calc(100vw - 1.5rem); right: 0.75rem; bottom: 4.5rem; max-height: 70vh; }
-  .ai-fab { width: 46px; height: 46px; bottom: 1rem; right: 1rem; }
+  .ai-panel {
+    position: fixed; top: auto; bottom: 0; left: 0; right: 0;
+    width: 100%; max-height: 75vh;
+    border-radius: 16px 16px 0 0; overflow: hidden;
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.18);
+  }
+  .ai-panel-body { max-height: 55vh; -webkit-overflow-scrolling: touch; }
+  .ai-fab { width: 48px; height: 48px; bottom: 1rem; right: 1rem; }
   .ai-fab svg { width: 20px; height: 20px; }
+  .ai-panel-input input { font-size: 16px; } /* prevents iOS zoom on focus */
+  .ai-panel-input button { font-size: 16px; padding: 0 1.2rem; }
+  .ai-msg { font-size: 0.88rem; }
 }
 
 /* ── DARK MODE ── */
@@ -1290,6 +1306,7 @@ footer {
   </svg>
 </button>
 
+<div class="ai-overlay" id="aiOverlay"></div>
 <div class="ai-panel" id="aiPanel">
   <div class="ai-panel-header">
     <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L12.9 9.8L21 12L12.9 14.2L12 22L11.1 14.2L3 12L11.1 9.8Z" fill="currentColor"/><path d="M19.5 3.5L20.1 5.4L22 6L20.1 6.6L19.5 8.5L18.9 6.6L17 6L18.9 5.4Z" fill="currentColor" opacity="0.6"/></svg>
@@ -1475,7 +1492,7 @@ dailyForecast.forEach((v,i) => { if(v!==null){fcum+=v; fcstCum.push(fcum);} else
 // Fix: connect forecast to actual at D18
 fcstCum[17] = cum;
 // Build widening forecast spread — anchored at D18, expands ±margin each subsequent day
-const spreadMargin = [0, 12, 24, 38, 54];
+const spreadMargin = [0, 22, 48, 78, 112];
 const spreadHigh = fcstCum.map((v,i) => v!==null ? +(v + (spreadMargin[i-17] || 0)).toFixed(1) : null);
 const spreadLow  = fcstCum.map((v,i) => v!==null ? +(v - (spreadMargin[i-17] || 0)).toFixed(1) : null);
 
@@ -1498,13 +1515,29 @@ const forecastSpreadLabels = {
 
     const xEnd  = x.getPixelForValue(lastIdx);
     const PAD_X = 5, PAD_Y = 3, FSZ = 8, GAP = 5, TICK = 5;
+    const MIN_LABEL_GAP = 32; // minimum px between label centers
 
     ctx.save();
     ctx.font = `500 ${FSZ}px Inter, system-ui, sans-serif`;
     ctx.textBaseline = 'middle';
 
-    entries.forEach(({ val, tag, alpha }) => {
-      const yPx   = y.getPixelForValue(val);
+    // Compute raw y positions and spread them if overlapping
+    const rawPositions = entries.map(e => ({ ...e, yPx: y.getPixelForValue(e.val) }));
+    // Sort by y pixel (top to bottom = High, Mid, Low)
+    rawPositions.sort((a, b) => a.yPx - b.yPx);
+    // Push apart if too close
+    for (let pass = 0; pass < 5; pass++) {
+      for (let i = 0; i < rawPositions.length - 1; i++) {
+        const diff = rawPositions[i + 1].yPx - rawPositions[i].yPx;
+        if (diff < MIN_LABEL_GAP) {
+          const shift = (MIN_LABEL_GAP - diff) / 2;
+          rawPositions[i].yPx -= shift;
+          rawPositions[i + 1].yPx += shift;
+        }
+      }
+    }
+
+    rawPositions.forEach(({ val, tag, alpha, yPx }) => {
       const valStr = '$' + Math.round(val) + 'K';
       const tagW  = ctx.measureText(tag).width;
       const valW  = ctx.measureText(valStr).width;
@@ -1570,7 +1603,7 @@ new Chart(document.getElementById('forecastChart'), {
   },
   plugins: [forecastSpreadLabels],
   options: { responsive: true, maintainAspectRatio: false,
-    layout: { padding: { right: 74 } },
+    layout: { padding: { right: 90 } },
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' },
         filter: item => item.text !== '_low'
@@ -1649,12 +1682,21 @@ const AI_WORKER_URL = 'https://nicholas-kadunce-ai.nicholaskadunce.workers.dev';
 
 const aiFab = document.getElementById('aiFab');
 const aiPanel = document.getElementById('aiPanel');
+const aiOverlay = document.getElementById('aiOverlay');
 const aiBody = document.getElementById('aiBody');
 const aiInput = document.getElementById('aiInput');
 const aiSend = document.getElementById('aiSend');
 const chatHistory = []; // Stores conversation for context
 
-aiFab.addEventListener('click', () => { aiPanel.classList.toggle('open'); if(aiPanel.classList.contains('open')) aiInput.focus(); });
+function toggleChat(forceClose) {
+  const shouldClose = forceClose === true || aiPanel.classList.contains('open');
+  aiPanel.classList.toggle('open', !shouldClose);
+  aiOverlay.classList.toggle('open', !shouldClose);
+  if (!shouldClose) aiInput.focus();
+}
+
+aiFab.addEventListener('click', () => toggleChat());
+aiOverlay.addEventListener('click', () => toggleChat(true));
 
 // Fallback responses if the API is unreachable
 const aiFallback = {

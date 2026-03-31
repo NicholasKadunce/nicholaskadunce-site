@@ -551,7 +551,7 @@ footer {
   .metrics-row { grid-template-columns: repeat(3, 1fr); }
   .metrics-row .m-item:nth-child(n+4) { border-top: 1px solid var(--rule); }
   .exp-top { grid-template-columns: 1fr; gap: 0.5rem; }
-  .cred-row { grid-template-columns: 1fr; }
+  .cred-row { grid-template-columns: 1fr 1fr !important; }
   .cred-item { border-right: none; border-bottom: 1px solid var(--rule); }
   .cred-item:last-child { border-bottom: none; }
   .contact-grid { flex-direction: column; gap: 1.5rem; }
@@ -1272,7 +1272,8 @@ footer {
   <div class="wrap">
     <p class="eyebrow reveal">Credentials</p>
     <h2 class="section-heading reveal">Certifications &amp; Education</h2>
-    <div class="cred-row reveal">
+    <div class="cred-row reveal" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="cred-item"><div class="cred-name">Lean Six Sigma Black Belt</div><div class="cred-org">Six Sigma Global Institute (SSGI)</div></div>
       <div class="cred-item"><div class="cred-name">Lean Six Sigma Green Belt</div><div class="cred-org">Messer Americas</div></div>
       <div class="cred-item"><div class="cred-name">ISO 9001 Lead Auditor</div><div class="cred-org">Exemplar Global</div></div>
       <div class="cred-item"><div class="cred-name">Certified ScrumMaster</div><div class="cred-org">Scrum Alliance</div></div>

@@ -12,7 +12,7 @@ BACKGROUND ON NICHOLAS KADUNCE:
   • Messer Industries: 41% throughput increase, 66% rework reduction
   • Johnson Matthey: Zero recordable injuries, led ISO audits
 - Technical Skills: Full-stack development (Node.js, Express, PostgreSQL, MySQL), IoT sensor integration, real-time data pipelines, statistical process control, automated OEE computation, Progressive Web Apps
-- Certifications: Lean Six Sigma Green Belt, ISO 9001 Lead Auditor, Certified ScrumMaster
+- Certifications: Lean Six Sigma Black Belt (SSGI), Lean Six Sigma Green Belt, ISO 9001 Lead Auditor, Certified ScrumMaster
 - Education: B.S. Chemical Engineering, West Virginia University
 - Leadership Philosophy: Instrument the system → make problems obvious → prioritize with data → install controls → build self-sustaining systems → repeat
 - Contact: NicholasKadunce@gmail.com | LinkedIn: /in/nicholaskadunce | Phone: 724-996-3792

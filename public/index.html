@@ -1894,10 +1894,13 @@ new Chart(emailOEECtx, {
 // ─── 5. EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
 const eqData = [];
 const target = 35, ucl = 42, lcl = 28;
-for (let i = 0; i < 120; i++) {
-  const t = i * (30 + Math.random() * 15);
+let tAccum = 0;
+for (let i = 0; i < 200; i++) {
+  tAccum += 30 + Math.random() * 15;
+  const xMin = tAccum / 60;
+  if (xMin > 60) break;
   const ct = target + (Math.random() - 0.5) * 12 + (i > 80 && i < 95 ? 5 : 0);
-  eqData.push({ x: t / 60, y: Math.round(ct * 10) / 10 });
+  eqData.push({ x: Math.round(xMin * 10) / 10, y: Math.round(ct * 10) / 10 });
 }
 const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
 const spcGrad = hourlyCtx.createLinearGradient(0,0,0,260);
@@ -1908,9 +1911,9 @@ new Chart(hourlyCtx, {
   data: {
     datasets: [
       { label: 'Cycle Time', data: eqData, backgroundColor: eqData.map(d => d.y > ucl || d.y < lcl ? '#ef4444' : BLUE), pointRadius: 2.5, pointHoverRadius: 5 },
-      { label: 'Target ('+target+'s)', data: [{x:0,y:target},{x:eqData[eqData.length-1].x,y:target}], type:'line', borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
-      { label: 'UCL ('+ucl+'s)', data: [{x:0,y:ucl},{x:eqData[eqData.length-1].x,y:ucl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false },
-      { label: 'LCL ('+lcl+'s)', data: [{x:0,y:lcl},{x:eqData[eqData.length-1].x,y:lcl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false }
+      { label: 'Target ('+target+'s)', data: [{x:0,y:target},{x:60,y:target}], type:'line', borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
+      { label: 'UCL ('+ucl+'s)', data: [{x:0,y:ucl},{x:60,y:ucl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false },
+      { label: 'LCL ('+lcl+'s)', data: [{x:0,y:lcl},{x:60,y:lcl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false }
     ]
   },
   options: { responsive: true, maintainAspectRatio: false,
@@ -1920,7 +1923,7 @@ new Chart(hourlyCtx, {
       tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
     },
     scales: {
-      x: { title: { display: true, text: 'Minutes into Shift', font: { size: 10 } }, grid: { display: false }, ticks: { font: { size: 9 } } },
+      x: { title: { display: true, text: 'Minutes into Shift', font: { size: 10 } }, grid: { display: false }, ticks: { font: { size: 9 } }, min: 0, max: 60 },
       y: { title: { display: true, text: 'Cycle Time (s)', font: { size: 10 } }, grid: { display: true, color: gridColor }, min: 22, max: 50 }
     }
   }

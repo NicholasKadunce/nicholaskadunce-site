@@ -596,6 +596,256 @@ footer {
 /* ── Chart & embed wrappers ── */
 .chart-wrap, .email-replica, .fishbone-wrap { max-width: 100%; overflow-x: auto; }
 
+/* ── NEW PROJECT VISUALIZATIONS ── */
+
+/* Maintenance Dashboard Toggle */
+.maint-toggle-wrap {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem;
+}
+.maint-toggle-btn {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.35rem 1rem; border: 1px solid var(--rule);
+  background: transparent; color: var(--ink-muted); cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.maint-toggle-btn.active {
+  background: var(--blue); color: #fff; border-color: var(--blue);
+}
+
+/* Swim Lane / Line Balance */
+.swimlane-wrap {
+  margin-top: 1.5rem; max-width: 680px; overflow-x: auto;
+}
+.swimlane {
+  display: flex; flex-direction: column; gap: 0.75rem; min-width: 500px;
+}
+.swimlane-header {
+  display: grid; grid-template-columns: 100px 1fr 60px; gap: 0.5rem;
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-muted); padding: 0 0 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.swimlane-row {
+  display: grid; grid-template-columns: 100px 1fr 60px; gap: 0.5rem;
+  align-items: center; font-size: 0.8rem;
+}
+.swimlane-station {
+  font-weight: 500; color: var(--ink); font-size: 0.78rem;
+}
+.swimlane-bar-track {
+  height: 28px; background: rgba(0,0,0,0.03); border-radius: 2px;
+  position: relative; overflow: visible;
+}
+.swimlane-bar {
+  height: 100%; border-radius: 2px; position: relative;
+  transition: width 0.6s var(--ease);
+  display: flex; align-items: center; padding-left: 0.5rem;
+  font-size: 0.65rem; font-weight: 500; color: #fff;
+}
+.swimlane-bar.under-takt {
+  background: linear-gradient(90deg, #2251FF, #3d6aff);
+}
+.swimlane-bar.over-takt {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+.swimlane-bar.at-takt {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+.swimlane-takt-line {
+  position: absolute; top: -4px; bottom: -4px; width: 2px;
+  background: var(--ink); z-index: 2;
+}
+.swimlane-takt-label {
+  position: absolute; top: -18px; transform: translateX(-50%);
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink); white-space: nowrap;
+}
+.swimlane-time {
+  font-size: 0.75rem; font-weight: 400; color: var(--ink-light);
+  text-align: right; font-family: var(--serif);
+}
+.swimlane-legend {
+  display: flex; gap: 1.2rem; margin-top: 0.75rem; padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+}
+.swimlane-legend-item {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.65rem; font-weight: 400; color: var(--ink-muted);
+}
+.swimlane-legend-swatch {
+  width: 10px; height: 10px; border-radius: 1px;
+}
+.swimlane-tooltip {
+  display: none; position: absolute; top: -48px; left: 50%;
+  transform: translateX(-50%); background: #051c2c; color: #fff;
+  padding: 0.4rem 0.7rem; font-size: 0.7rem; font-weight: 400;
+  white-space: nowrap; z-index: 10; pointer-events: none;
+}
+.swimlane-bar:hover .swimlane-tooltip {
+  display: block;
+}
+
+/* AI Insight Decision Card */
+.ai-decision-card {
+  margin-top: 1.5rem; max-width: 680px;
+  background: #051c2c; border-radius: 3px; overflow: hidden;
+  border: 1px solid rgba(34,81,255,0.15);
+}
+.ai-decision-header {
+  padding: 1.2rem 1.5rem 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.ai-decision-badge {
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #2251FF;
+  padding: 0.2rem 0.6rem; border: 1px solid rgba(34,81,255,0.35);
+  display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.ai-decision-badge svg {
+  width: 10px; height: 10px; fill: none; stroke: #2251FF; stroke-width: 2;
+}
+.ai-decision-timestamp {
+  font-size: 0.65rem; font-weight: 300; color: rgba(255,255,255,0.35);
+}
+.ai-decision-insight {
+  padding: 0 1.5rem 1.2rem;
+  font-size: 0.88rem; font-weight: 400; color: rgba(255,255,255,0.88);
+  line-height: 1.65;
+}
+.ai-decision-insight .highlight-metric {
+  color: #f59e0b; font-weight: 500;
+}
+.ai-decision-insight .highlight-risk {
+  color: #ef4444; font-weight: 500;
+}
+.ai-decision-sparkline {
+  padding: 0 1.5rem 1rem;
+}
+.ai-decision-sparkline canvas {
+  height: 40px; width: 100%;
+}
+.ai-decision-divider {
+  height: 1px; background: rgba(255,255,255,0.08);
+}
+.ai-decision-action {
+  padding: 1.2rem 1.5rem;
+  background: rgba(34,81,255,0.06);
+}
+.ai-decision-action-label {
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #10b981; margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.ai-decision-action-label svg {
+  width: 12px; height: 12px; stroke: #10b981; fill: none; stroke-width: 2;
+}
+.ai-decision-action-text {
+  font-size: 0.82rem; font-weight: 300; color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+}
+.ai-decision-outcome {
+  margin-top: 0.75rem; display: flex; gap: 1.5rem;
+}
+.ai-decision-outcome-item {
+  display: flex; flex-direction: column;
+}
+.ai-decision-outcome-value {
+  font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: #10b981;
+}
+.ai-decision-outcome-label {
+  font-size: 0.6rem; font-weight: 400; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+}
+
+/* SOP Before/After */
+.sop-compare {
+  margin-top: 1.5rem; max-width: 680px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.sop-panel {
+  background: var(--surface); padding: 1.2rem 1rem;
+}
+.sop-panel-label {
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.sop-panel.before .sop-panel-label { color: #ef4444; }
+.sop-panel.after .sop-panel-label { color: #10b981; }
+.sop-panel.before {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--surface),
+    var(--surface) 10px,
+    rgba(239,68,68,0.02) 10px,
+    rgba(239,68,68,0.02) 20px
+  );
+}
+.sop-before-content {
+  font-family: 'Courier New', monospace; font-size: 0.7rem;
+  color: var(--ink-light); line-height: 1.7;
+}
+.sop-before-content .outdated {
+  text-decoration: line-through; opacity: 0.5;
+}
+.sop-before-content .inconsistent {
+  background: rgba(239,68,68,0.08); padding: 0 2px;
+}
+.sop-before-content .gap {
+  color: #ef4444; font-style: italic; font-size: 0.65rem;
+}
+.sop-after-content {
+  font-size: 0.72rem; color: var(--ink-body); line-height: 1.7;
+}
+.sop-step {
+  display: grid; grid-template-columns: 20px 1fr; gap: 0.4rem;
+  margin-bottom: 0.5rem; align-items: start;
+}
+.sop-step-num {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  font-size: 0.6rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sop-step-text {
+  font-size: 0.72rem; color: var(--ink-body); line-height: 1.5;
+}
+.sop-link {
+  color: var(--blue); font-weight: 500; font-size: 0.65rem;
+  text-decoration: underline; text-decoration-color: rgba(34,81,255,0.3);
+}
+.sop-meta {
+  margin-top: 0.75rem; padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.6rem; color: var(--ink-muted);
+  display: flex; gap: 1rem;
+}
+
+/* Loss Waterfall Chart */
+.waterfall-toggle-wrap {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem;
+}
+.waterfall-toggle-btn {
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.35rem 1rem; border: 1px solid var(--rule);
+  background: transparent; color: var(--ink-muted); cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.waterfall-toggle-btn.active {
+  background: var(--blue); color: #fff; border-color: var(--blue);
+}
+
+@media (max-width: 600px) {
+  .sop-compare { grid-template-columns: 1fr; }
+  .ai-decision-outcome { flex-direction: column; gap: 0.5rem; }
+  .swimlane-wrap { max-width: 100%; }
+}
+
 /* AI Insight Widget */
 .ai-fab {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
@@ -740,6 +990,54 @@ footer {
 [data-theme="dark"] .fishbone-wrap svg text { fill: var(--ink-body) !important; }
 [data-theme="dark"] .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 
+/* Dark mode — new project visualizations */
+[data-theme="dark"] .maint-toggle-btn,
+[data-theme="dark"] .waterfall-toggle-btn { border-color: var(--rule); color: var(--ink-muted); }
+[data-theme="dark"] .maint-toggle-btn.active,
+[data-theme="dark"] .waterfall-toggle-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+[data-theme="dark"] .swimlane-bar-track { background: rgba(255,255,255,0.04); }
+[data-theme="dark"] .swimlane-header { border-bottom-color: var(--rule); }
+[data-theme="dark"] .swimlane-legend { border-top-color: var(--rule); }
+[data-theme="dark"] .swimlane-takt-line { background: var(--ink-body); }
+[data-theme="dark"] .swimlane-takt-label { color: var(--ink-body); }
+[data-theme="dark"] .swimlane-station { color: var(--ink); }
+[data-theme="dark"] .swimlane-time { color: var(--ink-light); }
+[data-theme="dark"] .swimlane-tooltip { background: #1d1e28; color: var(--ink-body); }
+[data-theme="dark"] .ai-decision-card { background: #0e0f18; border-color: rgba(34,81,255,0.2); }
+[data-theme="dark"] .ai-decision-action { background: rgba(34,81,255,0.08); }
+[data-theme="dark"] .sop-compare { background: var(--rule); border-color: var(--rule); }
+[data-theme="dark"] .sop-panel { background: var(--surface); }
+[data-theme="dark"] .sop-panel.before { background: repeating-linear-gradient(-45deg, var(--surface), var(--surface) 10px, rgba(239,68,68,0.03) 10px, rgba(239,68,68,0.03) 20px); }
+[data-theme="dark"] .sop-before-content { color: var(--ink-light); }
+[data-theme="dark"] .sop-before-content .inconsistent { background: rgba(239,68,68,0.12); }
+[data-theme="dark"] .sop-after-content { color: var(--ink-body); }
+[data-theme="dark"] .sop-step-text { color: var(--ink-body); }
+[data-theme="dark"] .sop-meta { border-top-color: var(--rule); color: var(--ink-muted); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .maint-toggle-btn,
+  :root:not([data-theme="light"]) .waterfall-toggle-btn { border-color: var(--rule); color: var(--ink-muted); }
+  :root:not([data-theme="light"]) .maint-toggle-btn.active,
+  :root:not([data-theme="light"]) .waterfall-toggle-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+  :root:not([data-theme="light"]) .swimlane-bar-track { background: rgba(255,255,255,0.04); }
+  :root:not([data-theme="light"]) .swimlane-header { border-bottom-color: var(--rule); }
+  :root:not([data-theme="light"]) .swimlane-legend { border-top-color: var(--rule); }
+  :root:not([data-theme="light"]) .swimlane-takt-line { background: var(--ink-body); }
+  :root:not([data-theme="light"]) .swimlane-takt-label { color: var(--ink-body); }
+  :root:not([data-theme="light"]) .swimlane-station { color: var(--ink); }
+  :root:not([data-theme="light"]) .swimlane-time { color: var(--ink-light); }
+  :root:not([data-theme="light"]) .swimlane-tooltip { background: #1d1e28; color: var(--ink-body); }
+  :root:not([data-theme="light"]) .ai-decision-card { background: #0e0f18; border-color: rgba(34,81,255,0.2); }
+  :root:not([data-theme="light"]) .ai-decision-action { background: rgba(34,81,255,0.08); }
+  :root:not([data-theme="light"]) .sop-compare { background: var(--rule); border-color: var(--rule); }
+  :root:not([data-theme="light"]) .sop-panel { background: var(--surface); }
+  :root:not([data-theme="light"]) .sop-panel.before { background: repeating-linear-gradient(-45deg, var(--surface), var(--surface) 10px, rgba(239,68,68,0.03) 10px, rgba(239,68,68,0.03) 20px); }
+  :root:not([data-theme="light"]) .sop-before-content { color: var(--ink-light); }
+  :root:not([data-theme="light"]) .sop-before-content .inconsistent { background: rgba(239,68,68,0.12); }
+  :root:not([data-theme="light"]) .sop-after-content { color: var(--ink-body); }
+  :root:not([data-theme="light"]) .sop-step-text { color: var(--ink-body); }
+  :root:not([data-theme="light"]) .sop-meta { border-top-color: var(--rule); }
+}
+
 /* ── THEME TOGGLE ── */
 .theme-toggle {
   background: none; border: 1px solid var(--rule); cursor: pointer;
@@ -802,7 +1100,7 @@ footer {
   <div class="wrap">
     <p class="hero-eyebrow reveal">Operations &amp; AI Leadership</p>
     <h1 class="reveal">I build systems that<br>drive results.</h1>
-    <p class="hero-body reveal">Operations leader who builds the cadence&mdash;real-time visibility, clear priorities, and accountable execution. I architect AI-driven production systems and deliver measurable P&amp;L results across manufacturing environments.</p>
+    <p class="hero-body reveal">Operations leader who builds the cadence&mdash;real-time visibility, clear priorities, and accountable execution. I design AI systems that compress weeks of manual work into minutes and scale across entire organizations.</p>
     <div class="hero-actions reveal">
       <a href="#experience" class="btn-primary">
         View experience
@@ -825,53 +1123,53 @@ footer {
 <section class="ai" id="ai">
   <div class="wrap">
     <p class="eyebrow reveal">What I Build</p>
-    <h2 class="section-heading reveal">AI-powered manufacturing intelligence</h2>
-    <p class="section-lead reveal">I designed and deployed JMOS&mdash;a full-stack IoT production monitoring platform that replaced manual data entry with automated intelligence across an entire plant floor.</p>
+    <h2 class="section-heading reveal">AI systems that multiply operational capacity</h2>
+    <p class="section-lead reveal">I design and deploy AI that eliminates manual work, connects disparate systems, and turns raw operational data into decisions&mdash;customized to the organization, scalable across every plant.</p>
 
     <div class="ai-grid reveal">
       <div class="ai-card">
         <div class="ai-num">01</div>
-        <h3>Production Intelligence Platform</h3>
-        <p>Full-stack system integrating real-time IoT sensor feeds from 16+ machines with automated OEE computation, intelligent downtime detection, and operator-facing classification workflows.</p>
-        <span class="ai-tag">JMOS &middot; Node.js &middot; PostgreSQL &middot; MySQL</span>
+        <h3>Real-Time Production Intelligence</h3>
+        <p>Automated data capture from sensors, PLCs, and existing equipment&mdash;surfacing OEE, downtime, and quality metrics without manual entry. Systems that see every machine, every shift, in real time.</p>
+        <span class="ai-tag">Proven: JMOS &middot; 16 Machines &middot; 2.8M+ Records</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">02</div>
-        <h3>Downtime Intelligence Engine</h3>
-        <p>Ingests 2.8M+ sensor records, applies statistical cycle-time analysis to distinguish true downtime from normal process gaps, and surfaces Pareto-ranked root causes for targeted improvement.</p>
-        <span class="ai-tag">2.8M+ Sensor Records</span>
+        <h3>Intelligent Process Documentation</h3>
+        <p>AI-generated SOPs standardized across every facility in hours, not months. Embedded troubleshooting from CMMS feedback loops. Living documents that improve with every work order.</p>
+        <span class="ai-tag">SOPs &middot; CMMS Integration &middot; Continuous Learning</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">03</div>
-        <h3>Best Demonstrated Rate System</h3>
-        <p>AI-assisted detection of sustained operator outperformance. Auto-generates rate-change proposals with full OEE context and routes approvals to management.</p>
-        <span class="ai-tag">Automated Proposals</span>
+        <h3>Workforce Intelligence</h3>
+        <p>Automated cross-training matrices that prevent scheduling untrained operators. Voice-based defect and downtime logging that eliminates paperwork at the point of work.</p>
+        <span class="ai-tag">Cross-Training &middot; Voice Logging &middot; Compliance</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">04</div>
-        <h3>Real-Time Data Pipeline</h3>
-        <p>60-second server-side cache refresh cycles processing ~15K daily sensor readings with instant dashboard response times&mdash;no database indexing overhead.</p>
-        <span class="ai-tag">60s Refresh Cycle</span>
+        <h3>AI Agents for Reporting &amp; Analysis</h3>
+        <p>Autonomous agents that compile shift reports, surface anomalies, and deliver insightful summaries&mdash;so leaders spend time acting on data, not assembling it.</p>
+        <span class="ai-tag">Automated Report-Outs &middot; Daily Intelligence</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">05</div>
-        <h3>Automated SPC &amp; Analytics</h3>
-        <p>Real-time control charting, Pareto analysis, and trend detection enabling proactive quality interventions and focused scrap reduction.</p>
-        <span class="ai-tag">Statistical Process Control</span>
+        <h3>Automated Continuous Improvement</h3>
+        <p>DMAIC phases executed with minimal human intervention. AI identifies constraints, proposes countermeasures, and tracks implementation&mdash;systematic improvement at machine speed.</p>
+        <span class="ai-tag">DMAIC Automation &middot; Root Cause &middot; SPC</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">06</div>
-        <h3>Auto-Generated Performance Reports</h3>
-        <p>Daily Operations Performance Reports rendered as SVG visualizations with OEE breakdowns, downtime/defect rankings&mdash;auto-distributed to stakeholders.</p>
-        <span class="ai-tag">Daily Automation</span>
+        <h3>Workflow &amp; System Integration</h3>
+        <p>Custom AI that connects with existing ERP, CMMS, and quality systems. Reduces indirect labor, eliminates human error in data transfer, and creates closed-loop feedback across operations.</p>
+        <span class="ai-tag">100% Customizable &middot; ERP &middot; CMMS &middot; Quality</span>
       </div>
     </div>
 
     <div class="ai-stats reveal">
-      <div><div class="ai-stat-num">16</div><div class="ai-stat-label">Machines Automated</div></div>
-      <div><div class="ai-stat-num">2.8M+</div><div class="ai-stat-label">Sensor Records</div></div>
-      <div><div class="ai-stat-num">15K</div><div class="ai-stat-label">Daily Readings</div></div>
-      <div><div class="ai-stat-num">60s</div><div class="ai-stat-label">Refresh Cycle</div></div>
+      <div><div class="ai-stat-num" style="font-size:2.2rem;">10&ndash;100&times;</div><div class="ai-stat-label">Efficiency Multiplier</div></div>
+      <div><div class="ai-stat-num" style="font-size:1.6rem; line-height:1.2;">Hours,<br>not months</div><div class="ai-stat-label">SOP Standardization</div></div>
+      <div><div class="ai-stat-num">100%</div><div class="ai-stat-label">Customizable to Any System</div></div>
+      <div><div class="ai-stat-num">Zero</div><div class="ai-stat-label">Manual Reports Required</div></div>
     </div>
   </div>
 </section>
@@ -904,7 +1202,7 @@ footer {
       <div class="proj-cat reveal">
         <div class="proj-cat-header">
           <span class="proj-cat-name">Operational Tools</span>
-          <span class="proj-cat-count">4 projects</span>
+          <span class="proj-cat-count">8 projects</span>
         </div>
 
         <!-- Operations Daily Dashboard — EMAIL REPLICA -->
@@ -983,15 +1281,166 @@ footer {
           </div>
         </div>
 
-        <!-- Maintenance Dashboard -->
+        <!-- Maintenance Dashboard (with toggle) -->
         <div class="proj-item">
           <div class="proj-name">Maintenance Dashboard</div>
           <p class="proj-desc">Asset-level analytics tracking work order volume and labor hours by maintenance type. Identifies equipment and maintenance trends to improve asset availability and reduce non-value-added effort.</p>
           <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Excel</span><span class="proj-tag">CMMS</span><span class="proj-tag">Analytics</span></div>
-          <div class="chart-wrap" style="margin-top:1.5rem; max-width:680px; height:220px; position:relative;">
-            <canvas id="maintChart"></canvas>
+          <div style="margin-top:1.5rem; max-width:680px;">
+            <div class="maint-toggle-wrap">
+              <button class="maint-toggle-btn active" data-maint-view="asset">By Asset</button>
+              <button class="maint-toggle-btn" data-maint-view="type">By Type</button>
+            </div>
+            <div class="chart-wrap" style="height:260px; position:relative;">
+              <canvas id="maintChart"></canvas>
+            </div>
           </div>
         </div>
+
+        <!-- Production Swim Lane / Line Balance -->
+        <div class="proj-item">
+          <div class="proj-name">Production Swim Lane / Line Balance</div>
+          <p class="proj-desc">Horizontal swim lane visualization mapping actual cycle times across sequential process steps. Identifies bottleneck stations relative to takt time for targeted line balancing and throughput improvement.</p>
+          <div class="proj-tags"><span class="proj-tag">Lean</span><span class="proj-tag">Line Balance</span><span class="proj-tag">Takt Time</span><span class="proj-tag">Bottleneck</span></div>
+          <div class="swimlane-wrap">
+            <div class="swimlane" id="swimlaneViz">
+              <div class="swimlane-header">
+                <span>Station</span>
+                <span>Cycle Time vs Takt</span>
+                <span style="text-align:right;">Time</span>
+              </div>
+              <!-- Rows injected by JS -->
+            </div>
+            <div class="swimlane-legend">
+              <div class="swimlane-legend-item"><div class="swimlane-legend-swatch" style="background:linear-gradient(90deg,#2251FF,#3d6aff);"></div> Under Takt</div>
+              <div class="swimlane-legend-item"><div class="swimlane-legend-swatch" style="background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div> At Takt (&plusmn;5%)</div>
+              <div class="swimlane-legend-item"><div class="swimlane-legend-swatch" style="background:linear-gradient(90deg,#ef4444,#f87171);"></div> Over Takt (Bottleneck)</div>
+              <div class="swimlane-legend-item"><div style="width:2px;height:10px;background:var(--ink);"></div> Takt Time</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Insights Decision Example -->
+        <div class="proj-item">
+          <div class="proj-name">AI Insights Decision Engine</div>
+          <p class="proj-desc">Predictive analytics pipeline that surfaces equipment health insights from vibration, temperature, and SPC data&mdash;translating sensor signals into maintenance decisions before failures occur.</p>
+          <div class="proj-tags"><span class="proj-tag">AI/ML</span><span class="proj-tag">Predictive</span><span class="proj-tag">Condition Monitoring</span><span class="proj-tag">Decision Support</span></div>
+          <div class="ai-decision-card">
+            <div class="ai-decision-header">
+              <div class="ai-decision-badge">
+                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m1 15h-2v-2h2zm0-4h-2V7h2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                AI Insight &mdash; Priority Alert
+              </div>
+              <span class="ai-decision-timestamp">Mar 17, 2026 &middot; 06:42 AM</span>
+            </div>
+            <div class="ai-decision-insight">
+              Cable 2 vibration amplitude increased <span class="highlight-metric">23% over 72 hours</span>. Frequency spectrum shift consistent with inner-race bearing degradation. Bearing failure probability: <span class="highlight-risk">87% within 14 days</span>. Estimated unplanned downtime cost if failure occurs: $18,400.
+            </div>
+            <div class="ai-decision-sparkline">
+              <div style="font-size:0.55rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:0.3rem;">Vibration Trend &mdash; 7 Day</div>
+              <canvas id="sparklineChart" style="height:40px; width:100%;"></canvas>
+            </div>
+            <div class="ai-decision-divider"></div>
+            <div class="ai-decision-action">
+              <div class="ai-decision-action-label">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Decision Taken
+              </div>
+              <div class="ai-decision-action-text">
+                Bearing replacement scheduled during planned maintenance window (Mar 21). Parts pre-staged from inventory. Estimated repair: 2.5 hours vs 8+ hours unplanned. Production impact: zero.
+              </div>
+              <div class="ai-decision-outcome">
+                <div class="ai-decision-outcome-item">
+                  <span class="ai-decision-outcome-value">$18.4K</span>
+                  <span class="ai-decision-outcome-label">Downtime Avoided</span>
+                </div>
+                <div class="ai-decision-outcome-item">
+                  <span class="ai-decision-outcome-value">5.5 hrs</span>
+                  <span class="ai-decision-outcome-label">Time Saved</span>
+                </div>
+                <div class="ai-decision-outcome-item">
+                  <span class="ai-decision-outcome-value">100%</span>
+                  <span class="ai-decision-outcome-label">OEE Protected</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOP Standardization Before/After -->
+        <div class="proj-item">
+          <div class="proj-name">SOP Standardization Program</div>
+          <p class="proj-desc">Redesigned standard operating procedures from inconsistent tribal-knowledge documents into structured, version-controlled formats with embedded troubleshooting trees and direct CMMS integration.</p>
+          <div class="proj-tags"><span class="proj-tag">SOPs</span><span class="proj-tag">Standardization</span><span class="proj-tag">CMMS</span><span class="proj-tag">Continuous Improvement</span></div>
+          <div class="sop-compare">
+            <div class="sop-panel before">
+              <div class="sop-panel-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Before
+              </div>
+              <div class="sop-before-content">
+                <div style="font-weight:500; margin-bottom:0.3rem; color:var(--ink);">SOP-114: Press Startup</div>
+                <div class="inconsistent">Last updated: <span class="outdated">Jan 2019</span></div>
+                <div style="margin-top:0.5rem;">
+                  1. Turn on main power<br>
+                  2. Check oil level (see Jim if low)<br>
+                  <span class="inconsistent">3. Wait for pressure to build up</span><br>
+                  4. Run a test piece<br>
+                  <span class="gap">[No troubleshooting steps]</span><br>
+                  <span class="gap">[No safety lockout reference]</span><br>
+                  <span class="gap">[Format: Word doc, uncontrolled copy]</span>
+                </div>
+              </div>
+            </div>
+            <div class="sop-panel after">
+              <div class="sop-panel-label">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 10 11 15 8 12"/></svg>
+                After
+              </div>
+              <div class="sop-after-content">
+                <div style="font-weight:500; margin-bottom:0.3rem; color:var(--ink);">SOP-114 Rev.C: Press Startup</div>
+                <div class="sop-step">
+                  <div class="sop-step-num">1</div>
+                  <div class="sop-step-text">Verify LOTO clearance per <span class="sop-link">SAFE-201</span></div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-step-num">2</div>
+                  <div class="sop-step-text">Confirm hydraulic oil level &ge; 75% on sight glass</div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-step-num">3</div>
+                  <div class="sop-step-text">Energize main &rarr; wait for 1800 PSI (&le;45 sec)</div>
+                </div>
+                <div class="sop-step">
+                  <div class="sop-step-num">4</div>
+                  <div class="sop-step-text">Run first article &rarr; log in <span class="sop-link">CMMS WO</span></div>
+                </div>
+                <div class="sop-meta">
+                  <span>Rev C &middot; Mar 2026</span>
+                  <span>Owner: N. Kadunce</span>
+                  <span>Review: Annual</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loss Waterfall Chart -->
+        <div class="proj-item">
+          <div class="proj-name">Production Loss Waterfall</div>
+          <p class="proj-desc">Interactive waterfall visualization cascading from theoretical capacity to actual output, quantifying each loss category. Enables rapid identification of the highest-impact improvement opportunities across availability, performance, and quality.</p>
+          <div class="proj-tags"><span class="proj-tag">OEE</span><span class="proj-tag">Loss Analysis</span><span class="proj-tag">TPM</span><span class="proj-tag">Analytics</span></div>
+          <div style="margin-top:1.5rem; max-width:680px;">
+            <div class="waterfall-toggle-wrap">
+              <button class="waterfall-toggle-btn active" data-wf-view="category">By Category</button>
+              <button class="waterfall-toggle-btn" data-wf-view="code">By Code</button>
+            </div>
+            <div class="chart-wrap" style="height:280px; position:relative;">
+              <canvas id="waterfallChart"></canvas>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- PROCESS IMPROVEMENT -->
@@ -1002,7 +1451,7 @@ footer {
         </div>
 
         <div class="proj-item">
-          <div class="proj-name">Six Sigma Green Belt Project</div>
+          <div class="proj-name">Six Sigma Black Belt Project</div>
           <p class="proj-desc">Applied DMAIC methodology to drive measurable process improvements in manufacturing operations, with documented results from Define through Control phases.</p>
           <div class="proj-tags"><span class="proj-tag">Six Sigma</span><span class="proj-tag">DMAIC</span><span class="proj-tag">Process Improvement</span></div>
           <div class="chart-wrap" style="margin-top:1.5rem; max-width:680px; height:200px; position:relative;">
@@ -1024,35 +1473,29 @@ footer {
               <text x="757" y="165" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="8" font-weight="500">TEMP</text>
               <text x="757" y="178" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="7" font-weight="300">INSTABILITY</text>
               <!-- Category branches — top 3 -->
-              <!-- Equipment (top-left) -->
               <line x1="200" y1="40" x2="280" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="175" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">EQUIPMENT</text>
               <line x1="160" y1="65" x2="220" y2="85" stroke="#999" stroke-width="1"/><text x="155" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Valve wear</text>
               <line x1="175" y1="90" x2="235" y2="110" stroke="#999" stroke-width="1"/><text x="170" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Heat exchanger fouling</text>
               <line x1="200" y1="115" x2="255" y2="132" stroke="#999" stroke-width="1"/><text x="195" y="112" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Sensor calibration drift</text>
-              <!-- Process (top-center) -->
               <line x1="400" y1="40" x2="460" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="380" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">PROCESS</text>
               <line x1="355" y1="65" x2="415" y2="85" stroke="#999" stroke-width="1"/><text x="350" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Feed rate variability</text>
               <line x1="370" y1="90" x2="430" y2="110" stroke="#999" stroke-width="1"/><text x="365" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Reboiler duty swings</text>
               <line x1="390" y1="115" x2="445" y2="132" stroke="#999" stroke-width="1"/><text x="385" y="112" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Reflux ratio deviation</text>
-              <!-- Instrumentation (top-right) -->
               <line x1="580" y1="40" x2="620" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="565" y="30" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">INSTRUMENTATION</text>
               <line x1="540" y1="65" x2="590" y2="85" stroke="#999" stroke-width="1"/><text x="535" y="62" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Thermocouple lag</text>
               <line x1="555" y1="90" x2="600" y2="110" stroke="#999" stroke-width="1"/><text x="550" y="87" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">PID tuning mismatch</text>
               <!-- Category branches — bottom 3 -->
-              <!-- Materials (bottom-left) -->
               <line x1="200" y1="300" x2="280" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="175" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">MATERIALS</text>
               <line x1="160" y1="275" x2="220" y2="255" stroke="#999" stroke-width="1"/><text x="155" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Feed composition shifts</text>
               <line x1="180" y1="250" x2="240" y2="230" stroke="#999" stroke-width="1"/><text x="175" y="257" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Impurity concentration</text>
-              <!-- Operating Practices (bottom-center) -->
               <line x1="400" y1="300" x2="460" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="380" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">PRACTICES</text>
               <line x1="355" y1="275" x2="415" y2="255" stroke="#999" stroke-width="1"/><text x="350" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Shift-to-shift handoff gaps</text>
               <line x1="370" y1="250" x2="430" y2="230" stroke="#999" stroke-width="1"/><text x="365" y="257" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Non-standard startup sequence</text>
-              <!-- Environment (bottom-right) -->
               <line x1="580" y1="300" x2="620" y2="170" stroke="#2251FF" stroke-width="1.5"/>
               <text x="565" y="318" text-anchor="middle" fill="#2251FF" font-family="Inter,sans-serif" font-size="9" font-weight="600">ENVIRONMENT</text>
               <line x1="540" y1="275" x2="590" y2="255" stroke="#999" stroke-width="1"/><text x="535" y="282" text-anchor="end" fill="#666" font-family="Inter,sans-serif" font-size="7.5" font-weight="300">Ambient temp swings</text>
@@ -1143,12 +1586,13 @@ footer {
               <li>Implemented systemized defect logging with automated SPC and Pareto analysis to accelerate root cause detection</li>
               <li>Instituted material quarantine and traceability controls to eliminate mix-ups and reinforce quality governance</li>
               <li>Automated incentive math and refined Supervisor Standard Work, boosting accountability and saving hours weekly</li>
+              <li>Architecting enterprise-wide AI deployment strategy&mdash;standardizing SOPs across facilities, automating DMAIC workflows, and building AI agents that eliminate manual reporting across the organization</li>
             </ul>
             <div class="exp-tags">
               <span class="exp-tag">JMOS</span>
-              <span class="exp-tag">OEE</span>
+              <span class="exp-tag">AI Agents</span>
               <span class="exp-tag">CMMS</span>
-              <span class="exp-tag">SPC</span>
+              <span class="exp-tag">Workflow Automation</span>
             </div>
             <div class="exp-org">
               <div><strong>Reports to:</strong> VP of Operations</div>
@@ -1390,143 +1834,146 @@ const LIGHT_BLUE = 'rgba(34,81,255,0.12)';
 
 function initChartsWhenVisible() {
 const tt = { backgroundColor:'#051c2c', titleFont:{weight:500,size:12}, bodyFont:{weight:300,size:11}, padding:10, cornerRadius:0, displayColors:false };
+const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light');
+const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#f0f0f0';
+const gridColorSub = isDark ? 'rgba(255,255,255,0.03)' : '#f8f8f8';
 
-// 1. EMAIL — Production vs Target
-new Chart(document.getElementById('emailProdChart'), {
+// ─── 1. EMAIL — Production vs Target (enhanced with gradient) ───
+const emailProdCtx = document.getElementById('emailProdChart').getContext('2d');
+const emailProdGrad = emailProdCtx.createLinearGradient(0,0,0,160);
+emailProdGrad.addColorStop(0, '#2251FF');
+emailProdGrad.addColorStop(1, '#3d6aff');
+new Chart(emailProdCtx, {
   type: 'bar',
   data: {
     labels: ['Shear 1','Shear 2','Press 1','Press 2','Press 3','Cable 1','Cable 2','Cable 3','Cable 4'],
     datasets: [
-      { label: 'Actual', data: [312,287,445,438,398,189,201,167,195], backgroundColor: BLUE, borderRadius: 2, barPercentage: 0.7 },
-      { label: 'Target', data: [300,300,420,420,420,200,200,180,200], backgroundColor: RULE, borderRadius: 2, barPercentage: 0.7 }
+      { label: 'Actual', data: [312,287,445,438,398,189,201,167,195], backgroundColor: emailProdGrad, borderRadius: 2, barPercentage: 0.7 },
+      { label: 'Target', data: [300,300,420,420,420,200,200,180,200], backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : RULE, borderRadius: 2, barPercentage: 0.7 }
     ]
   },
   options: { responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 8, font: { size: 9, weight: '400' } } }, tooltip: tt },
-    scales: { x: { ticks: { font: { size: 7 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } } }
+    scales: { x: { ticks: { font: { size: 7 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } } }
   }
 });
 
-// 2. EMAIL — Downtime Pareto
+// ─── 2. EMAIL — Downtime Pareto (enhanced gradient palette) ───
 new Chart(document.getElementById('emailDTChart'), {
   type: 'bar',
   data: {
     labels: ['Mechanical','Material','Changeover','Electrical','Operator','Scheduled'],
-    datasets: [{ label: 'Minutes', data: [87,52,38,24,18,12], backgroundColor: ['#2251FF','rgba(34,81,255,0.75)','rgba(34,81,255,0.6)','rgba(34,81,255,0.45)','rgba(34,81,255,0.35)','rgba(34,81,255,0.25)'], borderRadius: 2 }]
+    datasets: [{ label: 'Minutes', data: [87,52,38,24,18,12], backgroundColor: ['#2251FF','rgba(34,81,255,0.78)','rgba(34,81,255,0.62)','rgba(34,81,255,0.48)','rgba(34,81,255,0.36)','rgba(34,81,255,0.24)'], borderRadius: 2 }]
   },
   options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false }, tooltip: tt },
-    scales: { x: { ticks: { font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
+    scales: { x: { ticks: { font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
   }
 });
 
-// 3. EMAIL — Quality defects
+// ─── 3. EMAIL — Quality defects (enhanced doughnut) ───
 new Chart(document.getElementById('emailQualChart'), {
   type: 'doughnut',
   data: {
     labels: ['Thread','Surface','Dimensional','Material','Other'],
-    datasets: [{ data: [34,22,18,12,8], backgroundColor: [BLUE,'#3d6aff','#6b8fff','#99b0ff',RULE], borderWidth: 0 }]
+    datasets: [{ data: [34,22,18,12,8], backgroundColor: ['#2251FF','#3d6aff','#6b8fff','#99b0ff', isDark ? '#313448' : RULE], borderWidth: 0, hoverOffset: 4 }]
   },
   options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
     plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 6, padding: 5, font: { size: 7, weight: '400' } } }, tooltip: tt }
   }
 });
 
-// 4. EMAIL — OEE
-new Chart(document.getElementById('emailOEEChart'), {
+// ─── 4. EMAIL — OEE (enhanced with gradient bars) ───
+const emailOEECtx = document.getElementById('emailOEEChart').getContext('2d');
+const oeeGrad1 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad1.addColorStop(0,'#2251FF'); oeeGrad1.addColorStop(1,'#1a3fcc');
+const oeeGrad2 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad2.addColorStop(0,'#3d6aff'); oeeGrad2.addColorStop(1,'#2251FF');
+const oeeGrad3 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad3.addColorStop(0,'#6b8fff'); oeeGrad3.addColorStop(1,'#3d6aff');
+const oeeGrad4 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad4.addColorStop(0,'#051c2c'); oeeGrad4.addColorStop(1,'#0a2540');
+new Chart(emailOEECtx, {
   type: 'bar',
   data: {
     labels: ['Avail','Perf','Quality','OEE'],
-    datasets: [{ label: 'Score', data: [88.2,91.5,97.1,78.4], backgroundColor: [BLUE,'#3d6aff','#6b8fff',NAVY], borderRadius: 2 }]
+    datasets: [{ label: 'Score', data: [88.2,91.5,97.1,78.4], backgroundColor: [oeeGrad1,oeeGrad2,oeeGrad3,oeeGrad4], borderRadius: 2 }]
   },
   options: { responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false }, tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1)+'%' } } },
-    scales: { y: { max: 100, ticks: { callback: v => v+'%', font: { size: 8 } }, grid: { display: true, color: '#f0f0f0' }, border: { display: false } }, x: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
+    scales: { y: { max: 100, ticks: { callback: v => v+'%', font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } }, x: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
   }
 });
 
-// 5. EQUIPMENT OUTPUT — Scatter with UCL/LCL/Target (cycle time ~35s avg)
+// ─── 5. EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
 const eqData = [];
 const target = 35, ucl = 42, lcl = 28;
 for (let i = 0; i < 120; i++) {
-  const t = i * (30 + Math.random() * 15); // ~30-45s between dots
-  const ct = target + (Math.random() - 0.5) * 12 + (i > 80 && i < 95 ? 5 : 0); // shift at i=80-95
+  const t = i * (30 + Math.random() * 15);
+  const ct = target + (Math.random() - 0.5) * 12 + (i > 80 && i < 95 ? 5 : 0);
   eqData.push({ x: t / 60, y: Math.round(ct * 10) / 10 });
 }
-new Chart(document.getElementById('hourlyChart'), {
+const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+const spcGrad = hourlyCtx.createLinearGradient(0,0,0,260);
+spcGrad.addColorStop(0, 'rgba(34,81,255,0.08)');
+spcGrad.addColorStop(1, 'rgba(34,81,255,0)');
+new Chart(hourlyCtx, {
   type: 'scatter',
   data: {
     datasets: [
-      { label: 'Cycle Time', data: eqData, backgroundColor: eqData.map(d => d.y > ucl || d.y < lcl ? '#e53e3e' : BLUE), pointRadius: 2.5, pointHoverRadius: 5 },
+      { label: 'Cycle Time', data: eqData, backgroundColor: eqData.map(d => d.y > ucl || d.y < lcl ? '#ef4444' : BLUE), pointRadius: 2.5, pointHoverRadius: 5 },
       { label: 'Target ('+target+'s)', data: [{x:0,y:target},{x:eqData[eqData.length-1].x,y:target}], type:'line', borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
-      { label: 'UCL ('+ucl+'s)', data: [{x:0,y:ucl},{x:eqData[eqData.length-1].x,y:ucl}], type:'line', borderColor: '#e53e3e', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false },
-      { label: 'LCL ('+lcl+'s)', data: [{x:0,y:lcl},{x:eqData[eqData.length-1].x,y:lcl}], type:'line', borderColor: '#e53e3e', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false }
+      { label: 'UCL ('+ucl+'s)', data: [{x:0,y:ucl},{x:eqData[eqData.length-1].x,y:ucl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false },
+      { label: 'LCL ('+lcl+'s)', data: [{x:0,y:lcl},{x:eqData[eqData.length-1].x,y:lcl}], type:'line', borderColor: '#ef4444', borderWidth: 1, borderDash: [3,3], pointRadius: 0, fill: false }
     ]
   },
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 9, weight: 400 }, filter: item => !item.text.includes('LCL') } },
-      title: { display: true, text: 'Press 1 — Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } },
-      tooltip: { callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
+      title: { display: true, text: 'Press 1 \u2014 Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } },
+      tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
     },
     scales: {
       x: { title: { display: true, text: 'Minutes into Shift', font: { size: 10 } }, grid: { display: false }, ticks: { font: { size: 9 } } },
-      y: { title: { display: true, text: 'Cycle Time (s)', font: { size: 10 } }, grid: { display: true, color: '#f0f0f0' }, min: 22, max: 50 }
+      y: { title: { display: true, text: 'Cycle Time (s)', font: { size: 10 } }, grid: { display: true, color: gridColor }, min: 22, max: 50 }
     }
   }
 });
 
-// 6. FINANCIAL FORECASTER — 1-month working days, actual exceeds budget, forecast window at end
+// ─── 6. FINANCIAL FORECASTER (enhanced — unchanged logic, better styling) ───
 const workDays = Array.from({length:22}, (_,i) => 'D'+(i+1));
 const budgetDaily = 50.0;
-// Actuals: start near budget, increasingly exceed it (delta grows over time)
 const dailyActual = [49.8,51.2,50.5,52.1,51.8,53.4,52.7,54.0,53.5,55.1,54.8,56.2,55.9,57.3,56.8,58.4,57.9,59.1,null,null,null,null];
-// Forecast from D19 onward (continues the upward trend)
 const dailyForecast = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,59.8,60.5,61.2,62.0];
 const dailyCum = []; let cum = 0;
 const fcstCum = [];  let fcum = 0;
 const budgetCum = workDays.map((_,i) => budgetDaily * (i+1));
 dailyActual.forEach((v,i) => { if(v!==null){cum+=v;} dailyCum.push(v!==null?cum:null); });
-// Forecast cumulative continues from last actual
 fcum = cum;
 dailyForecast.forEach((v,i) => { if(v!==null){fcum+=v; fcstCum.push(fcum);} else { fcstCum.push(i===17?cum:null); } });
-// Fix: connect forecast to actual at D18
 fcstCum[17] = cum;
-// Build widening forecast spread — anchored at D18, expands ±margin each subsequent day
 const spreadMargin = [0, 22, 48, 78, 112];
 const spreadHigh = fcstCum.map((v,i) => v!==null ? +(v + (spreadMargin[i-17] || 0)).toFixed(1) : null);
 const spreadLow  = fcstCum.map((v,i) => v!==null ? +(v - (spreadMargin[i-17] || 0)).toFixed(1) : null);
 
-// Plugin: draws "High / Mid / Low" pill labels at the right edge of the spread band
 const forecastSpreadLabels = {
   id: 'forecastSpreadLabels',
   afterDraw(chart) {
     const { ctx, scales: { x, y }, data, chartArea } = chart;
-    const lastIdx = 21; // D22
+    const lastIdx = 21;
     const highVal = data.datasets[0].data[lastIdx];
     const lowVal  = data.datasets[1].data[lastIdx];
     if (highVal == null || lowVal == null) return;
     const midVal = +((highVal + lowVal) / 2).toFixed(1);
-
     const entries = [
       { val: highVal, tag: 'High', alpha: 0.80 },
       { val: midVal,  tag: 'Mid',  alpha: 1.00 },
       { val: lowVal,  tag: 'Low',  alpha: 0.58 },
     ];
-
     const xEnd  = x.getPixelForValue(lastIdx);
     const PAD_X = 5, PAD_Y = 3, FSZ = 8, GAP = 5, TICK = 5;
-    const MIN_LABEL_GAP = 32; // minimum px between label centers
-
+    const MIN_LABEL_GAP = 32;
     ctx.save();
     ctx.font = `500 ${FSZ}px Inter, system-ui, sans-serif`;
     ctx.textBaseline = 'middle';
-
-    // Compute raw y positions and spread them if overlapping
     const rawPositions = entries.map(e => ({ ...e, yPx: y.getPixelForValue(e.val) }));
-    // Sort by y pixel (top to bottom = High, Mid, Low)
     rawPositions.sort((a, b) => a.yPx - b.yPx);
-    // Push apart if too close
     for (let pass = 0; pass < 5; pass++) {
       for (let i = 0; i < rawPositions.length - 1; i++) {
         const diff = rawPositions[i + 1].yPx - rawPositions[i].yPx;
@@ -1537,8 +1984,6 @@ const forecastSpreadLabels = {
         }
       }
     }
-
-    // Shift the group as a whole to keep all labels within chart vertical bounds
     const halfPillH = (PAD_Y * 2 + FSZ + 2) / 2;
     const groupTop    = rawPositions[0].yPx - halfPillH - 1;
     const groupBottom = rawPositions[rawPositions.length - 1].yPx + halfPillH + 1;
@@ -1549,7 +1994,6 @@ const forecastSpreadLabels = {
       const shift = groupBottom - chartArea.bottom;
       rawPositions.forEach(p => { p.yPx -= shift; });
     }
-
     rawPositions.forEach(({ val, tag, alpha, yPx }) => {
       const valStr = '$' + Math.round(val) + 'K';
       const tagW  = ctx.measureText(tag).width;
@@ -1558,13 +2002,8 @@ const forecastSpreadLabels = {
       const pillH = PAD_Y * 2 + FSZ + 2;
       const pillX = xEnd + TICK + 3;
       const pillY = yPx - pillH / 2;
-
-      // Skip only if pill would overflow canvas width
       if (pillX + pillW > chart.width - 1) return;
-
       ctx.globalAlpha = alpha;
-
-      // Tick line from last point to pill
       ctx.strokeStyle = 'rgba(34,81,255,0.20)';
       ctx.lineWidth = 0.75;
       ctx.setLineDash([]);
@@ -1572,31 +2011,18 @@ const forecastSpreadLabels = {
       ctx.moveTo(xEnd, yPx);
       ctx.lineTo(pillX, yPx);
       ctx.stroke();
-
-      // Pill fill
       ctx.fillStyle = 'rgba(34,81,255,0.07)';
       ctx.beginPath();
-      if (ctx.roundRect) {
-        ctx.roundRect(pillX, pillY, pillW, pillH, 3);
-      } else {
-        ctx.rect(pillX, pillY, pillW, pillH);
-      }
+      if (ctx.roundRect) { ctx.roundRect(pillX, pillY, pillW, pillH, 3); } else { ctx.rect(pillX, pillY, pillW, pillH); }
       ctx.fill();
-
-      // Pill border
       ctx.strokeStyle = 'rgba(34,81,255,0.20)';
       ctx.lineWidth = 0.75;
       ctx.stroke();
-
-      // Tag text (dimmer)
       ctx.fillStyle = 'rgba(34,81,255,0.52)';
       ctx.fillText(tag, pillX + PAD_X, yPx);
-
-      // Value text (brighter)
       ctx.fillStyle = '#2251FF';
       ctx.fillText(valStr, pillX + PAD_X + tagW + GAP, yPx);
     });
-
     ctx.globalAlpha = 1;
     ctx.restore();
   }
@@ -1610,16 +2036,14 @@ new Chart(document.getElementById('forecastChart'), {
       { label: 'Forecast Range', data: spreadHigh, borderColor: 'rgba(34,81,255,0.22)', borderWidth: 1, borderDash: [3,3], tension: 0.3, pointRadius: 0, fill: '+1', backgroundColor: 'rgba(34,81,255,0.09)', spanGaps: false },
       { label: '_low', data: spreadLow, borderColor: 'rgba(34,81,255,0.22)', borderWidth: 1, borderDash: [3,3], tension: 0.3, pointRadius: 0, fill: false, spanGaps: false },
       { label: 'Actual', data: dailyCum, borderColor: BLUE, borderWidth: 2, tension: 0.2, pointRadius: 2, pointBackgroundColor: BLUE, spanGaps: false },
-      { label: 'Budget', data: budgetCum, borderColor: NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
+      { label: 'Budget', data: budgetCum, borderColor: isDark ? 'rgba(255,255,255,0.4)' : NAVY, borderWidth: 1.5, borderDash: [6,3], pointRadius: 0, fill: false },
     ]
   },
   plugins: [forecastSpreadLabels],
   options: { responsive: true, maintainAspectRatio: false,
     layout: { padding: { right: 90 } },
     plugins: {
-      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' },
-        filter: item => item.text !== '_low'
-      }},
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' }, filter: item => item.text !== '_low' }},
       title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: ctx => {
         if(ctx.dataset.label === '_low') return null;
@@ -1628,48 +2052,225 @@ new Chart(document.getElementById('forecastChart'), {
       }}}
     },
     scales: {
-      y: { grid: { display: true, color: '#f0f0f0' }, border: { display: false }, ticks: { callback: v => '$'+v+'K', font: { size: 9 } } },
+      y: { grid: { display: true, color: gridColor }, border: { display: false }, ticks: { callback: v => '$'+v+'K', font: { size: 9 } } },
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 8 }, maxRotation: 0 } }
     }
   }
 });
 
-// 7. MAINTENANCE — Stacked bar
-new Chart(document.getElementById('maintChart'), {
+// ─── 7. MAINTENANCE DASHBOARD — Stacked bar with toggle ───
+const maintAssetData = {
+  labels: ['Press 1','Press 2','Press 3','Shear 1','Shear 2','Cable 1','Cable 2','Threader','Header'],
+  datasets: [
+    { label: 'Corrective', data: [18,12,22,8,14,10,6,9,11], backgroundColor: BLUE, borderRadius: 2 },
+    { label: 'Preventive', data: [8,10,6,12,8,14,10,8,6], backgroundColor: '#3d6aff', borderRadius: 2 },
+    { label: 'Predictive', data: [4,3,2,5,3,2,4,3,2], backgroundColor: '#6b8fff', borderRadius: 2 }
+  ]
+};
+const maintTypeData = {
+  labels: ['Corrective','Preventive','Predictive'],
+  datasets: [
+    { label: 'Press', data: [52,24,9], backgroundColor: BLUE, borderRadius: 2 },
+    { label: 'Shear', data: [22,20,8], backgroundColor: '#3d6aff', borderRadius: 2 },
+    { label: 'Cable', data: [16,24,6], backgroundColor: '#6b8fff', borderRadius: 2 },
+    { label: 'Other', data: [20,14,5], backgroundColor: '#99b0ff', borderRadius: 2 }
+  ]
+};
+let maintChart = new Chart(document.getElementById('maintChart'), {
   type: 'bar',
-  data: {
-    labels: ['Press 1','Press 2','Press 3','Shear 1','Shear 2','Cable 1','Cable 2','Threader 1','Header 2'],
-    datasets: [
-      { label: 'Corrective', data: [18,12,22,8,14,10,6,9,11], backgroundColor: BLUE, borderRadius: 2 },
-      { label: 'Preventive', data: [8,10,6,12,8,14,10,8,6], backgroundColor: '#6b8fff', borderRadius: 2 },
-      { label: 'Predictive', data: [4,3,2,5,3,2,4,3,2], backgroundColor: '#99b0ff', borderRadius: 2 }
-    ]
-  },
+  data: maintAssetData,
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } }
+      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+      tooltip: tt
     },
-    scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 } }, y: { stacked: true, grid: { display: true, color: '#f0f0f0' }, title: { display: true, text: 'Work Orders', font: { size: 10 } } } }
+    scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { stacked: true, grid: { display: true, color: gridColor }, border: { display: false }, title: { display: true, text: 'Work Orders', font: { size: 10 } } } }
   }
 });
 
-// 8. DMAIC — Radar chart (multi-KPI before/after)
+// Maintenance toggle event listeners
+document.querySelectorAll('.maint-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.maint-toggle-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const view = this.getAttribute('data-maint-view');
+    if (view === 'type') {
+      maintChart.data = maintTypeData;
+      maintChart.options.plugins.title.text = 'Work Orders by Maintenance Type & Equipment Group (Mar)';
+    } else {
+      maintChart.data = maintAssetData;
+      maintChart.options.plugins.title.text = 'Work Orders by Asset & Maintenance Type (Mar)';
+    }
+    maintChart.update();
+  });
+});
+
+// ─── 8. SWIM LANE / LINE BALANCE ───
+const swimlaneData = [
+  { station: 'Shear', cycle: 28, takt: 38, operator: 'M. Torres', utilization: 74 },
+  { station: 'Press', cycle: 35, takt: 38, operator: 'J. Williams', utilization: 92 },
+  { station: 'Thread', cycle: 41, takt: 38, operator: 'R. Chen', utilization: 108 },
+  { station: 'Head', cycle: 33, takt: 38, operator: 'K. Patel', utilization: 87 },
+  { station: 'QC', cycle: 22, takt: 38, operator: 'A. Davis', utilization: 58 },
+  { station: 'Pack', cycle: 18, takt: 38, operator: 'S. Brown', utilization: 47 }
+];
+const maxCycle = Math.max(...swimlaneData.map(d => d.cycle), ...swimlaneData.map(d => d.takt)) * 1.2;
+const swimlaneEl = document.getElementById('swimlaneViz');
+if (swimlaneEl) {
+  swimlaneData.forEach(d => {
+    const pct = (d.cycle / maxCycle) * 100;
+    const taktPct = (d.takt / maxCycle) * 100;
+    const ratio = d.cycle / d.takt;
+    let barClass = 'under-takt';
+    if (ratio > 1.05) barClass = 'over-takt';
+    else if (ratio >= 0.95) barClass = 'at-takt';
+    const row = document.createElement('div');
+    row.className = 'swimlane-row';
+    row.innerHTML = `
+      <div class="swimlane-station">${d.station}</div>
+      <div class="swimlane-bar-track">
+        <div class="swimlane-bar ${barClass}" style="width:${pct}%;">
+          ${d.cycle}s
+          <div class="swimlane-tooltip">${d.station} &mdash; Cycle: ${d.cycle}s | Takt: ${d.takt}s | Operator: ${d.operator} | Util: ${d.utilization}%</div>
+        </div>
+        <div class="swimlane-takt-line" style="left:${taktPct}%;">
+          ${d === swimlaneData[0] ? '<div class="swimlane-takt-label">Takt ' + d.takt + 's</div>' : ''}
+        </div>
+      </div>
+      <div class="swimlane-time">${d.cycle}s</div>
+    `;
+    swimlaneEl.appendChild(row);
+  });
+}
+
+// ─── 9. AI INSIGHTS SPARKLINE ───
+const sparkEl = document.getElementById('sparklineChart');
+if (sparkEl) {
+  const sparkCtx = sparkEl.getContext('2d');
+  const sparkGrad = sparkCtx.createLinearGradient(0,0,0,40);
+  sparkGrad.addColorStop(0, 'rgba(245,158,11,0.3)');
+  sparkGrad.addColorStop(1, 'rgba(245,158,11,0)');
+  new Chart(sparkCtx, {
+    type: 'line',
+    data: {
+      labels: ['D1','D2','D3','D4','D5','D6','D7'],
+      datasets: [{
+        data: [2.1, 2.3, 2.2, 2.5, 2.4, 2.7, 2.9],
+        borderColor: '#f59e0b',
+        borderWidth: 1.5,
+        backgroundColor: sparkGrad,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { display: false },
+        y: { display: false, min: 1.8, max: 3.2 }
+      }
+    }
+  });
+}
+
+// ─── 10. LOSS WATERFALL CHART ───
+const wfCategoryLabels = ['Theoretical\nCapacity','Planned\nDowntime','Breakdowns','Changeover','Speed\nLoss','Minor\nStops','Scrap','Rework','Actual\nOutput'];
+const wfCategoryValues = [4800, -320, -280, -190, -240, -160, -85, -45, 3480];
+const wfCodeLabels = ['Theoretical\nCapacity','Scheduled\nMaint','Setup','Mechanical','Electrical','Material\nWait','Changeover','Speed\nLoss','Idling','Micro-Stops','Scrap','Rework','Startup\nReject','Actual\nOutput'];
+const wfCodeValues = [4800, -200, -120, -180, -100, -80, -110, -160, -80, -120, -50, -30, -20, 3550];
+
+function buildWaterfallData(labels, values) {
+  const hidden = [], loss = [], total = [];
+  let running = 0;
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    if (i === 0 || i === values.length - 1) {
+      hidden.push(0); loss.push(0); total.push(v);
+      running = (i === 0) ? v : running;
+    } else {
+      running += v;
+      hidden.push(running);
+      loss.push(Math.abs(v));
+      total.push(0);
+    }
+  }
+  return { hidden, loss, total };
+}
+
+function createWaterfallChart(labels, values) {
+  const wfCanvas = document.getElementById('waterfallChart');
+  if (!wfCanvas) return null;
+  const d = buildWaterfallData(labels, values);
+  const lossGrad = wfCanvas.getContext('2d').createLinearGradient(0,0,0,280);
+  lossGrad.addColorStop(0, '#ef4444');
+  lossGrad.addColorStop(1, 'rgba(239,68,68,0.65)');
+  const totalGrad = wfCanvas.getContext('2d').createLinearGradient(0,0,0,280);
+  totalGrad.addColorStop(0, '#10b981');
+  totalGrad.addColorStop(1, 'rgba(16,185,129,0.75)');
+  return new Chart(wfCanvas, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: '_hidden', data: d.hidden, backgroundColor: 'transparent', borderWidth: 0, barPercentage: 0.7 },
+        { label: 'Loss', data: d.loss, backgroundColor: lossGrad, borderRadius: 2, barPercentage: 0.7 },
+        { label: 'Total', data: d.total, backgroundColor: totalGrad, borderRadius: 2, barPercentage: 0.7 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Production Loss Waterfall \u2014 March (Units)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+        tooltip: { ...tt, callbacks: { label: ctx => {
+          if (ctx.dataset.label === '_hidden') return null;
+          return ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() + ' units';
+        }}}
+      },
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 8 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } },
+        y: { stacked: true, grid: { display: true, color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: 9 } } }
+      }
+    }
+  });
+}
+
+let waterfallChart = createWaterfallChart(wfCategoryLabels, wfCategoryValues);
+
+// Waterfall toggle event listeners
+document.querySelectorAll('.waterfall-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.waterfall-toggle-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const view = this.getAttribute('data-wf-view');
+    if (waterfallChart) waterfallChart.destroy();
+    if (view === 'code') {
+      waterfallChart = createWaterfallChart(wfCodeLabels, wfCodeValues);
+    } else {
+      waterfallChart = createWaterfallChart(wfCategoryLabels, wfCategoryValues);
+    }
+  });
+});
+
+// ─── 11. DMAIC — Radar chart (enhanced) ───
 new Chart(document.getElementById('dmaicChart'), {
   type: 'radar',
   data: {
     labels: ['Cycle Time','First Pass Yield','OEE','Scrap Rate','Throughput'],
     datasets: [
-      { label: 'Before (Baseline)', data: [45,72,61,78,55], borderColor: RULE, backgroundColor: 'rgba(200,200,200,0.15)', borderWidth: 1.5, pointRadius: 3, pointBackgroundColor: RULE },
+      { label: 'Before (Baseline)', data: [45,72,61,78,55], borderColor: isDark ? 'rgba(255,255,255,0.2)' : RULE, backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(200,200,200,0.15)', borderWidth: 1.5, pointRadius: 3, pointBackgroundColor: isDark ? 'rgba(255,255,255,0.3)' : RULE },
       { label: 'After (Control)', data: [82,91,84,92,88], borderColor: BLUE, backgroundColor: 'rgba(34,81,255,0.1)', borderWidth: 2, pointRadius: 3, pointBackgroundColor: BLUE }
     ]
   },
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'DMAIC Impact — Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } }
+      title: { display: true, text: 'DMAIC Impact \u2014 Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } }
     },
-    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 8 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 10 } }, grid: { color: '#e8e8e8' }, angleLines: { color: '#e8e8e8' } } }
+    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 8 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 10 } }, grid: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' }, angleLines: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' } } }
   }
 });
 

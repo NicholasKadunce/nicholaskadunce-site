@@ -694,7 +694,7 @@ footer {
 }
 .ai-decision-header {
   padding: 1.2rem 1.5rem 0.8rem;
-  display: flex; align-items: center; gap: 0.6rem;
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
 }
 .ai-decision-badge {
   font-size: 0.55rem; font-weight: 600; letter-spacing: 0.12em;
@@ -1209,7 +1209,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Operations Daily Dashboard</div>
           <p class="proj-desc">Interactive daily operations email with real-time KPIs, downtime analysis, quality metrics, and action tracking&mdash;sent automatically each morning to plant leadership. Features in-email navigation buttons for mobile-first consumption.</p>
-          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Outlook</span><span class="proj-tag">Excel</span><span class="proj-tag">Automation</span></div>
           <!-- Email Replica -->
           <div class="email-replica" style="margin-top:1.5rem; border:1px solid var(--rule); background:var(--surface); max-width:680px;">
             <!-- Email Header -->
@@ -1265,7 +1264,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Automated Equipment Output Monitoring</div>
           <p class="proj-desc">Real-time sensor-driven production tracking with automated cycle-time capture every 30&ndash;45 seconds. Statistical process control with UCL/LCL boundaries and target rate overlays for immediate deviation detection.</p>
-          <div class="proj-tags"><span class="proj-tag">IoT</span><span class="proj-tag">SPC</span><span class="proj-tag">Real-Time</span><span class="proj-tag">Analytics</span></div>
           <div class="chart-wrap" style="margin-top:1.5rem; max-width:680px; height:260px; position:relative;">
             <canvas id="hourlyChart"></canvas>
           </div>
@@ -1275,7 +1273,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Financial Forecaster</div>
           <p class="proj-desc">Data-driven forecasting tool using 3-month rolling averages to generate daily financial projections, strengthening performance and improving oversight efficiency.</p>
-          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Excel</span><span class="proj-tag">Forecasting</span><span class="proj-tag">Analytics</span></div>
           <div class="chart-wrap" style="margin-top:1.5rem; max-width:680px; height:220px; position:relative;">
             <canvas id="forecastChart"></canvas>
           </div>
@@ -1285,7 +1282,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Maintenance Dashboard</div>
           <p class="proj-desc">Asset-level analytics tracking work order volume and labor hours by maintenance type. Identifies equipment and maintenance trends to improve asset availability and reduce non-value-added effort.</p>
-          <div class="proj-tags"><span class="proj-tag">VBA</span><span class="proj-tag">Excel</span><span class="proj-tag">CMMS</span><span class="proj-tag">Analytics</span></div>
           <div style="margin-top:1.5rem; max-width:680px;">
             <div class="maint-toggle-wrap">
               <button class="maint-toggle-btn active" data-maint-view="asset">By Asset</button>
@@ -1301,7 +1297,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Production Swim Lane / Line Balance</div>
           <p class="proj-desc">Horizontal swim lane visualization mapping actual cycle times across sequential process steps. Identifies bottleneck stations relative to takt time for targeted line balancing and throughput improvement.</p>
-          <div class="proj-tags"><span class="proj-tag">Lean</span><span class="proj-tag">Line Balance</span><span class="proj-tag">Takt Time</span><span class="proj-tag">Bottleneck</span></div>
           <div class="swimlane-wrap">
             <div class="swimlane" id="swimlaneViz">
               <div class="swimlane-header">
@@ -1324,11 +1319,10 @@ footer {
         <div class="proj-item">
           <div class="proj-name">AI Insights Decision Engine</div>
           <p class="proj-desc">Predictive analytics pipeline that surfaces equipment health insights from vibration, temperature, and SPC data&mdash;translating sensor signals into maintenance decisions before failures occur.</p>
-          <div class="proj-tags"><span class="proj-tag">AI/ML</span><span class="proj-tag">Predictive</span><span class="proj-tag">Condition Monitoring</span><span class="proj-tag">Decision Support</span></div>
           <div class="ai-decision-card">
             <div class="ai-decision-header">
               <div class="ai-decision-badge">
-                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m1 15h-2v-2h2zm0-4h-2V7h2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                 AI Insight &mdash; Priority Alert
               </div>
               <span class="ai-decision-timestamp">Mar 17, 2026 &middot; 06:42 AM</span>
@@ -1371,7 +1365,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">SOP Standardization Program</div>
           <p class="proj-desc">Redesigned standard operating procedures from inconsistent tribal-knowledge documents into structured, version-controlled formats with embedded troubleshooting trees and direct CMMS integration.</p>
-          <div class="proj-tags"><span class="proj-tag">SOPs</span><span class="proj-tag">Standardization</span><span class="proj-tag">CMMS</span><span class="proj-tag">Continuous Improvement</span></div>
           <div class="sop-compare">
             <div class="sop-panel before">
               <div class="sop-panel-label">
@@ -1429,7 +1422,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Production Loss Waterfall</div>
           <p class="proj-desc">Interactive waterfall visualization cascading from theoretical capacity to actual output, quantifying each loss category. Enables rapid identification of the highest-impact improvement opportunities across availability, performance, and quality.</p>
-          <div class="proj-tags"><span class="proj-tag">OEE</span><span class="proj-tag">Loss Analysis</span><span class="proj-tag">TPM</span><span class="proj-tag">Analytics</span></div>
           <div style="margin-top:1.5rem; max-width:680px;">
             <div class="waterfall-toggle-wrap">
               <button class="waterfall-toggle-btn active" data-wf-view="category">By Category</button>
@@ -1453,7 +1445,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Six Sigma Black Belt Project</div>
           <p class="proj-desc">Applied DMAIC methodology to drive measurable process improvements in manufacturing operations, with documented results from Define through Control phases.</p>
-          <div class="proj-tags"><span class="proj-tag">Six Sigma</span><span class="proj-tag">DMAIC</span><span class="proj-tag">Process Improvement</span></div>
           <div class="chart-wrap" style="margin-top:1.5rem; max-width:680px; height:200px; position:relative;">
             <canvas id="dmaicChart"></canvas>
           </div>
@@ -1462,7 +1453,6 @@ footer {
         <div class="proj-item">
           <div class="proj-name">Root Cause Analysis (Fishbone / Ishikawa)</div>
           <p class="proj-desc">Led a structured RCA workshop using fishbone methodology to investigate temperature instability in a Kr/Xe distillation tower, producing prioritized corrective actions.</p>
-          <div class="proj-tags"><span class="proj-tag">RCA</span><span class="proj-tag">Ishikawa</span><span class="proj-tag">Problem Solving</span></div>
           <!-- Ishikawa Fishbone Diagram -->
           <div class="fishbone-wrap" style="margin-top:1.5rem; max-width:740px; overflow-x:auto;">
             <svg viewBox="0 0 800 340" style="width:100%; height:auto; min-width:600px;" role="img" aria-label="Ishikawa fishbone diagram for distillation tower temperature fluctuations">

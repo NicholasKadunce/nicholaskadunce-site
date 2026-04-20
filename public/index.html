@@ -1131,7 +1131,7 @@ footer {
         <div class="ai-num">01</div>
         <h3>Real-Time Production Intelligence</h3>
         <p>Automated data capture from sensors, PLCs, and existing equipment&mdash;surfacing OEE, downtime, and quality metrics without manual entry. Systems that see every machine, every shift, in real time.</p>
-        <span class="ai-tag">Proven: JMOS &middot; 16 Machines &middot; 2.8M+ Records</span>
+        <span class="ai-tag">Proven: OpsIQ &middot; 16 Machines &middot; 2.8M+ Records</span>
       </div>
       <div class="ai-card">
         <div class="ai-num">02</div>
@@ -1238,23 +1238,15 @@ footer {
                 <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Action Items</span>
               </div>
             </div>
-            <!-- Mini Dashboard Charts -->
-            <div class="email-charts-grid" style="padding:1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-              <div style="height:160px; position:relative;">
-                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Production vs Target</div>
-                <canvas id="emailProdChart"></canvas>
-              </div>
-              <div style="height:160px; position:relative;">
-                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Downtime by Category</div>
-                <canvas id="emailDTChart"></canvas>
-              </div>
-              <div style="height:160px; position:relative;">
-                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">Quality &mdash; Defects by Type</div>
-                <canvas id="emailQualChart"></canvas>
-              </div>
-              <div style="height:160px; position:relative;">
-                <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.5rem;">OEE Breakdown</div>
-                <canvas id="emailOEEChart"></canvas>
+            <!-- Emailed Dashboard Image (auto-rendered SVG attachment from OpsIQ) -->
+            <div style="padding:1.5rem;">
+              <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.6rem;">Attached dashboard snapshot</div>
+              <img src="daily-ops-email.svg" alt="Daily Operations Review dashboard image — Production vs Target, Downtime by Category, Quality Defects, OEE Breakdown" style="width:100%; display:block; border:1px solid var(--rule); background:#fff;">
+              <div style="margin-top:1rem; display:flex; justify-content:center;">
+                <a href="dashboard.html" class="btn-primary" style="font-size:0.75rem;">
+                  Open the live dashboard
+                  <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+                </a>
               </div>
             </div>
           </div>
@@ -1578,7 +1570,7 @@ footer {
               <li>Architecting enterprise-wide AI deployment strategy&mdash;standardizing SOPs across facilities, automating DMAIC workflows, and building AI agents that eliminate manual reporting across the organization</li>
             </ul>
             <div class="exp-tags">
-              <span class="exp-tag">JMOS</span>
+              <span class="exp-tag">OpsIQ</span>
               <span class="exp-tag">AI Agents</span>
               <span class="exp-tag">CMMS</span>
               <span class="exp-tag">Workflow Automation</span>
@@ -1827,70 +1819,7 @@ const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#f0f0f0';
 const gridColorSub = isDark ? 'rgba(255,255,255,0.03)' : '#f8f8f8';
 
-// ─── 1. EMAIL — Production vs Target (enhanced with gradient) ───
-const emailProdCtx = document.getElementById('emailProdChart').getContext('2d');
-const emailProdGrad = emailProdCtx.createLinearGradient(0,0,0,160);
-emailProdGrad.addColorStop(0, '#2251FF');
-emailProdGrad.addColorStop(1, '#3d6aff');
-new Chart(emailProdCtx, {
-  type: 'bar',
-  data: {
-    labels: ['Shear 1','Shear 2','Press 1','Press 2','Press 3','Cable 1','Cable 2','Cable 3','Cable 4'],
-    datasets: [
-      { label: 'Actual', data: [312,287,445,438,398,189,201,167,195], backgroundColor: emailProdGrad, borderRadius: 2, barPercentage: 0.7 },
-      { label: 'Target', data: [300,300,420,420,420,200,200,180,200], backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : RULE, borderRadius: 2, barPercentage: 0.7 }
-    ]
-  },
-  options: { responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 8, font: { size: 9, weight: '400' } } }, tooltip: tt },
-    scales: { x: { ticks: { font: { size: 7 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } } }
-  }
-});
-
-// ─── 2. EMAIL — Downtime Pareto (enhanced gradient palette) ───
-new Chart(document.getElementById('emailDTChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Mechanical','Material','Changeover','Electrical','Operator','Scheduled'],
-    datasets: [{ label: 'Minutes', data: [87,52,38,24,18,12], backgroundColor: ['#2251FF','rgba(34,81,255,0.78)','rgba(34,81,255,0.62)','rgba(34,81,255,0.48)','rgba(34,81,255,0.36)','rgba(34,81,255,0.24)'], borderRadius: 2 }]
-  },
-  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: tt },
-    scales: { x: { ticks: { font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } }, y: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
-  }
-});
-
-// ─── 3. EMAIL — Quality defects (enhanced doughnut) ───
-new Chart(document.getElementById('emailQualChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Thread','Surface','Dimensional','Material','Other'],
-    datasets: [{ data: [34,22,18,12,8], backgroundColor: ['#2251FF','#3d6aff','#6b8fff','#99b0ff', isDark ? '#313448' : RULE], borderWidth: 0, hoverOffset: 4 }]
-  },
-  options: { responsive: true, maintainAspectRatio: false, cutout: '65%',
-    plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 6, padding: 5, font: { size: 7, weight: '400' } } }, tooltip: tt }
-  }
-});
-
-// ─── 4. EMAIL — OEE (enhanced with gradient bars) ───
-const emailOEECtx = document.getElementById('emailOEEChart').getContext('2d');
-const oeeGrad1 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad1.addColorStop(0,'#2251FF'); oeeGrad1.addColorStop(1,'#1a3fcc');
-const oeeGrad2 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad2.addColorStop(0,'#3d6aff'); oeeGrad2.addColorStop(1,'#2251FF');
-const oeeGrad3 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad3.addColorStop(0,'#6b8fff'); oeeGrad3.addColorStop(1,'#3d6aff');
-const oeeGrad4 = emailOEECtx.createLinearGradient(0,0,0,140); oeeGrad4.addColorStop(0,'#051c2c'); oeeGrad4.addColorStop(1,'#0a2540');
-new Chart(emailOEECtx, {
-  type: 'bar',
-  data: {
-    labels: ['Avail','Perf','Quality','OEE'],
-    datasets: [{ label: 'Score', data: [88.2,91.5,97.1,78.4], backgroundColor: [oeeGrad1,oeeGrad2,oeeGrad3,oeeGrad4], borderRadius: 2 }]
-  },
-  options: { responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1)+'%' } } },
-    scales: { y: { max: 100, ticks: { callback: v => v+'%', font: { size: 8 } }, grid: { display: true, color: gridColor }, border: { display: false } }, x: { ticks: { font: { size: 8 } }, grid: { display: false }, border: { display: false } } }
-  }
-});
-
-// ─── 5. EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
+// ─── EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
 const eqData = [];
 const target = 35, ucl = 42, lcl = 28;
 let tAccum = 0;

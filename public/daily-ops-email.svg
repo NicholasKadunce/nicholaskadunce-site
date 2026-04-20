@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" role="img" aria-label="Daily Operations Review — emailed dashboard snapshot">
+  <defs>
+    <linearGradient id="prodGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2251FF"/>
+      <stop offset="100%" stop-color="#3d6aff"/>
+    </linearGradient>
+    <linearGradient id="oeeGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2251FF"/>
+      <stop offset="100%" stop-color="#1a3fcc"/>
+    </linearGradient>
+    <linearGradient id="oeeGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d6aff"/>
+      <stop offset="100%" stop-color="#2251FF"/>
+    </linearGradient>
+    <linearGradient id="oeeGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b8fff"/>
+      <stop offset="100%" stop-color="#3d6aff"/>
+    </linearGradient>
+    <linearGradient id="oeeGrad4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#051c2c"/>
+      <stop offset="100%" stop-color="#0a2540"/>
+    </linearGradient>
+    <filter id="imgShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="440" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+
+  <text x="24" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#2251FF" letter-spacing="1.2">DAILY OPS SNAPSHOT &#8212; EMAILED IMAGE</text>
+  <text x="24" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" font-weight="300" fill="#9a9a9a">Auto-rendered SVG attachment &#183; Shift A &#183; 06:15</text>
+  <line x1="24" y1="58" x2="696" y2="58" stroke="#ececec" stroke-width="1"/>
+
+  <!-- ========== TL: Production vs Target ========== -->
+  <g transform="translate(24,78)">
+    <text x="0" y="0" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#6b6b6b" letter-spacing="1.2">PRODUCTION VS TARGET</text>
+    <g transform="translate(0,14)">
+      <!-- Y gridlines -->
+      <line x1="0" y1="0" x2="320" y2="0" stroke="#f2f2f2"/>
+      <line x1="0" y1="35" x2="320" y2="35" stroke="#f2f2f2"/>
+      <line x1="0" y1="70" x2="320" y2="70" stroke="#f2f2f2"/>
+      <line x1="0" y1="105" x2="320" y2="105" stroke="#f2f2f2"/>
+      <line x1="0" y1="140" x2="320" y2="140" stroke="#dcdcdc"/>
+
+      <!-- Bars: Actual (blue gradient) and Target (gray) side by side -->
+      <!-- Shear1: A=312, T=300 -->
+      <rect x="6"  y="52" width="12" height="88" fill="url(#prodGrad)" rx="1"/>
+      <rect x="20" y="56" width="12" height="84" fill="#e6e6e6" rx="1"/>
+      <!-- Shear2: 287/300 -->
+      <rect x="42" y="60" width="12" height="80" fill="url(#prodGrad)" rx="1"/>
+      <rect x="56" y="56" width="12" height="84" fill="#e6e6e6" rx="1"/>
+      <!-- Press1: 445/420 -->
+      <rect x="78" y="16" width="12" height="124" fill="url(#prodGrad)" rx="1"/>
+      <rect x="92" y="22" width="12" height="118" fill="#e6e6e6" rx="1"/>
+      <!-- Press2: 438/420 -->
+      <rect x="114" y="18" width="12" height="122" fill="url(#prodGrad)" rx="1"/>
+      <rect x="128" y="22" width="12" height="118" fill="#e6e6e6" rx="1"/>
+      <!-- Press3: 398/420 -->
+      <rect x="150" y="29" width="12" height="111" fill="url(#prodGrad)" rx="1"/>
+      <rect x="164" y="22" width="12" height="118" fill="#e6e6e6" rx="1"/>
+      <!-- Cable1: 189/200 -->
+      <rect x="186" y="87" width="12" height="53" fill="url(#prodGrad)" rx="1"/>
+      <rect x="200" y="84" width="12" height="56" fill="#e6e6e6" rx="1"/>
+      <!-- Cable2: 201/200 -->
+      <rect x="222" y="84" width="12" height="56" fill="url(#prodGrad)" rx="1"/>
+      <rect x="236" y="84" width="12" height="56" fill="#e6e6e6" rx="1"/>
+      <!-- Cable3: 167/180 -->
+      <rect x="258" y="93" width="12" height="47" fill="url(#prodGrad)" rx="1"/>
+      <rect x="272" y="90" width="12" height="50" fill="#e6e6e6" rx="1"/>
+      <!-- Cable4: 195/200 -->
+      <rect x="294" y="85" width="12" height="55" fill="url(#prodGrad)" rx="1"/>
+      <rect x="308" y="84" width="12" height="56" fill="#e6e6e6" rx="1"/>
+
+      <!-- X labels -->
+      <g font-family="sans-serif" font-size="6" fill="#666">
+        <text x="12" y="152">Shr1</text>
+        <text x="48" y="152">Shr2</text>
+        <text x="84" y="152">Prs1</text>
+        <text x="120" y="152">Prs2</text>
+        <text x="156" y="152">Prs3</text>
+        <text x="192" y="152">Cbl1</text>
+        <text x="228" y="152">Cbl2</text>
+        <text x="264" y="152">Cbl3</text>
+        <text x="300" y="152">Cbl4</text>
+      </g>
+      <!-- Legend -->
+      <rect x="100" y="162" width="8" height="8" fill="url(#prodGrad)" rx="1"/>
+      <text x="112" y="169" font-family="sans-serif" font-size="7" fill="#444">Actual</text>
+      <rect x="158" y="162" width="8" height="8" fill="#e6e6e6" rx="1"/>
+      <text x="170" y="169" font-family="sans-serif" font-size="7" fill="#444">Target</text>
+    </g>
+  </g>
+
+  <!-- ========== TR: Downtime by Category (horizontal bar) ========== -->
+  <g transform="translate(376,78)">
+    <text x="0" y="0" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#6b6b6b" letter-spacing="1.2">DOWNTIME BY CATEGORY (MIN)</text>
+    <g transform="translate(70,14)">
+      <!-- Six categories, horizontal bars -->
+      <rect x="0" y="6"   width="208" height="14" fill="#2251FF"/>
+      <rect x="0" y="28"  width="124" height="14" fill="rgba(34,81,255,0.78)"/>
+      <rect x="0" y="50"  width="91"  height="14" fill="rgba(34,81,255,0.62)"/>
+      <rect x="0" y="72"  width="57"  height="14" fill="rgba(34,81,255,0.48)"/>
+      <rect x="0" y="94"  width="43"  height="14" fill="rgba(34,81,255,0.36)"/>
+      <rect x="0" y="116" width="29"  height="14" fill="rgba(34,81,255,0.24)"/>
+      <!-- Values -->
+      <g font-family="sans-serif" font-size="7" fill="#333" font-weight="500">
+        <text x="212" y="17">87</text>
+        <text x="128" y="39">52</text>
+        <text x="95"  y="61">38</text>
+        <text x="61"  y="83">24</text>
+        <text x="47"  y="105">18</text>
+        <text x="33"  y="127">12</text>
+      </g>
+    </g>
+    <!-- Y labels -->
+    <g font-family="sans-serif" font-size="7" fill="#444" transform="translate(0,14)" text-anchor="end">
+      <text x="66" y="17">Mechanical</text>
+      <text x="66" y="39">Material</text>
+      <text x="66" y="61">Changeover</text>
+      <text x="66" y="83">Electrical</text>
+      <text x="66" y="105">Operator</text>
+      <text x="66" y="127">Scheduled</text>
+    </g>
+  </g>
+
+  <!-- ========== BL: Quality Defects (donut) ========== -->
+  <g transform="translate(24,262)">
+    <text x="0" y="0" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#6b6b6b" letter-spacing="1.2">QUALITY &#8212; DEFECTS BY TYPE</text>
+    <g transform="translate(80,80)">
+      <!-- Donut using arcs. Total=94. Thread=34(130°), Surface=22(84°), Dim=18(69°), Material=12(46°), Other=8(31°) -->
+      <!-- Thread (0 to 130°) - start at top -->
+      <path d="M 0 -60 A 60 60 0 0 1 45.96 38.57 L 22.98 19.28 A 30 30 0 0 0 0 -30 Z" fill="#2251FF"/>
+      <!-- Surface (130 to 214°) -->
+      <path d="M 45.96 38.57 A 60 60 0 0 1 -33.54 49.79 L -16.77 24.90 A 30 30 0 0 0 22.98 19.28 Z" fill="#3d6aff"/>
+      <!-- Dimensional (214 to 283°) -->
+      <path d="M -33.54 49.79 A 60 60 0 0 1 -58.46 -13.52 L -29.23 -6.76 A 30 30 0 0 0 -16.77 24.90 Z" fill="#6b8fff"/>
+      <!-- Material (283 to 329°) -->
+      <path d="M -58.46 -13.52 A 60 60 0 0 1 -30.91 -51.47 L -15.45 -25.74 A 30 30 0 0 0 -29.23 -6.76 Z" fill="#99b0ff"/>
+      <!-- Other (329 to 360°) -->
+      <path d="M -30.91 -51.47 A 60 60 0 0 1 0 -60 L 0 -30 A 30 30 0 0 0 -15.45 -25.74 Z" fill="#e0e0e0"/>
+      <!-- Center label -->
+      <text x="0" y="-3" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#051c2c">94</text>
+      <text x="0" y="10" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#888">DEFECTS</text>
+    </g>
+    <!-- Legend -->
+    <g font-family="sans-serif" font-size="7" fill="#444" transform="translate(180,30)">
+      <rect x="0" y="0"  width="8" height="8" fill="#2251FF"/>
+      <text x="12" y="7">Thread (34)</text>
+      <rect x="0" y="14" width="8" height="8" fill="#3d6aff"/>
+      <text x="12" y="21">Surface (22)</text>
+      <rect x="0" y="28" width="8" height="8" fill="#6b8fff"/>
+      <text x="12" y="35">Dimensional (18)</text>
+      <rect x="0" y="42" width="8" height="8" fill="#99b0ff"/>
+      <text x="12" y="49">Material (12)</text>
+      <rect x="0" y="56" width="8" height="8" fill="#e0e0e0"/>
+      <text x="12" y="63">Other (8)</text>
+    </g>
+  </g>
+
+  <!-- ========== BR: OEE Breakdown ========== -->
+  <g transform="translate(376,262)">
+    <text x="0" y="0" font-family="-apple-system, sans-serif" font-size="9" font-weight="600" fill="#6b6b6b" letter-spacing="1.2">OEE BREAKDOWN</text>
+    <g transform="translate(0,14)">
+      <!-- Y gridlines at 0, 25, 50, 75, 100 -->
+      <line x1="30" y1="0"   x2="320" y2="0"   stroke="#f2f2f2"/>
+      <line x1="30" y1="35"  x2="320" y2="35"  stroke="#f2f2f2"/>
+      <line x1="30" y1="70"  x2="320" y2="70"  stroke="#f2f2f2"/>
+      <line x1="30" y1="105" x2="320" y2="105" stroke="#f2f2f2"/>
+      <line x1="30" y1="140" x2="320" y2="140" stroke="#dcdcdc"/>
+      <!-- Y axis labels -->
+      <g font-family="sans-serif" font-size="7" fill="#888" text-anchor="end">
+        <text x="26" y="3">100%</text>
+        <text x="26" y="38">75%</text>
+        <text x="26" y="73">50%</text>
+        <text x="26" y="108">25%</text>
+        <text x="26" y="143">0%</text>
+      </g>
+      <!-- Bars: Avail 88.2%, Perf 91.5%, Quality 97.1%, OEE 78.4% -->
+      <!-- Scale: 1% = 1.4px, bar height = value * 1.4, y = 140 - barH -->
+      <!-- Avail: 123.5, y=16.5 -->
+      <rect x="60"  y="16.5" width="50" height="123.5" fill="url(#oeeGrad1)" rx="2"/>
+      <!-- Perf: 128.1, y=11.9 -->
+      <rect x="130" y="11.9" width="50" height="128.1" fill="url(#oeeGrad2)" rx="2"/>
+      <!-- Quality: 135.94, y=4.06 -->
+      <rect x="200" y="4.06" width="50" height="135.94" fill="url(#oeeGrad3)" rx="2"/>
+      <!-- OEE: 109.76, y=30.24 -->
+      <rect x="270" y="30.24" width="50" height="109.76" fill="url(#oeeGrad4)" rx="2"/>
+
+      <!-- Values -->
+      <g font-family="sans-serif" font-size="8" font-weight="700" fill="#051c2c" text-anchor="middle">
+        <text x="85"  y="12">88.2%</text>
+        <text x="155" y="8">91.5%</text>
+        <text x="225" y="2" fill="#2251FF">97.1%</text>
+        <text x="295" y="26" fill="#fff">78.4%</text>
+      </g>
+      <!-- X labels -->
+      <g font-family="sans-serif" font-size="8" fill="#444" font-weight="500" text-anchor="middle">
+        <text x="85"  y="154">Availability</text>
+        <text x="155" y="154">Performance</text>
+        <text x="225" y="154">Quality</text>
+        <text x="295" y="154">OEE</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Footer watermark -->
+  <text x="696" y="430" text-anchor="end" font-family="sans-serif" font-size="7" fill="#c5c5c5">Auto-sent by OpsIQ &#8226; Image attachment</text>
+</svg>

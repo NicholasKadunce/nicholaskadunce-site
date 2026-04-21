@@ -12,7 +12,7 @@
 <script>
 console.log('[JMOS] Initializing fetch interceptor...');
 try {
-const dummyUser={id:1,username:'demo@jmos.local',display_name:'Demo User',role:'supervisor'};
+const dummyUser={id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'};
 const equipmentNames={'WV-SHEAR-AS1':'Shear A1','WV-SHEAR-AS2':'Shear A2','WV-PRESS-400':'Press 400','WV-PRESS-500A':'Press 500A','WV-PRESS-500B':'Press 500B','WV-HEAD-H2':'Header H2','WV-THREAD-T1':'Threader T1','WV-THREAD-T2':'Threader T2','WV-THREAD-AT':'Threader Auto','WV-PEEL-MAN':'Peeler Manual','WV-PEEL-AUTO':'Peeler Auto','WV-PEEL-SWAG':'Swager S3','WV-CABLE-C1':'Cable C1','WV-CABLE-C2':'Cable C2','WV-CABLE-C3':'Cable C3','WV-CABLE-C4':'Cable C4'};
 function generateProductionData(date){const allEquipment=Object.keys(equipmentNames);const productionData={};allEquipment.forEach(equipCode=>{const baseOutput=100+Math.floor(Math.random()*150);const hours=[];for(let h=6;h<22;h++){const output=baseOutput+Math.floor(Math.random()*50)-25;const cycleTime=15+Math.random()*10;hours.push({equipCode,date,hour:h.toString().padStart(2,'0'),output:Math.max(0,output),cycleTime:parseFloat(cycleTime.toFixed(1))});}productionData[equipCode]={date,hours};});return productionData;}
 function generateDowntimeData(date){const equipmentList=Object.keys(equipmentNames);const downtimeReasons=['Changeover','Maintenance','Setup','Inspection','Adjustment','No Work Available','Operator Break','Tool Change'];const downtimeData=[];equipmentList.forEach(equipCode=>{const numDowntimes=Math.floor(Math.random()*4)+1;for(let i=0;i<numDowntimes;i++){const startHour=6+Math.floor(Math.random()*14);const duration=Math.floor(Math.random()*60)+5;const reason=downtimeReasons[Math.floor(Math.random()*downtimeReasons.length)];downtimeData.push({id:Math.random().toString(36).substr(2,9),equipCode,date,startTime:startHour.toString().padStart(2,'0')+':'+Math.floor(Math.random()*60).toString().padStart(2,'0')+':00',durationMins:duration,mysqlDesc:reason,status:'classified'});}});return downtimeData;}
@@ -26,8 +26,7 @@ window.fetch=function(...args){
   const config=args[1]||{};
   const url=typeof resource==='string'?resource:resource.url;
   const method=(config.method||'GET').toUpperCase();
-  console.log('[JMOS Fetch]', method, url);
-  if(url==='/api/login'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({id:dummyUser.id,username:dummyUser.username,display_name:dummyUser.display_name,role:dummyUser.role}),{status:200}));
+  if(url==='/api/login'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({id:dummyUser.id,username:dummyUser.username,displayName:dummyUser.displayName,role:dummyUser.role}),{status:200}));
   if(url==='/api/me')return Promise.resolve(new Response(JSON.stringify(dummyUser),{status:200}));
   if(url==='/api/logout')return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200}));
   if(url.startsWith('/api/mysql/production')){const dateMatch=url.match(/date=(\d{4}-\d{2}-\d{2})/);const date=dateMatch?dateMatch[1]:today;if(!mockDataCache.productionData[date])mockDataCache.productionData[date]=generateProductionData(date);return Promise.resolve(new Response(JSON.stringify({date,equipment:mockDataCache.productionData[date]}),{status:200}));}
@@ -57,7 +56,7 @@ if(!localStorage.getItem('jmos-auth-token')){
   localStorage.setItem('jmos-auth-token','demo-token-'+Date.now());
   localStorage.setItem('jmos-auth-user',JSON.stringify(dummyUser));
 }
-console.log('[JMOS] Fetch interceptor ready');
+console.log('[JMOS] Fetch interceptor ready - auto-logged in as Demo User');
 } catch(err) {
   console.error('[JMOS ERROR]', err);
 }

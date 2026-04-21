@@ -113,10 +113,19 @@
     if (base === '/api/sync') return Promise.resolve(new Response(JSON.stringify({success:true, synced:0}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/data') return Promise.resolve(new Response(JSON.stringify({submissions:[], lastSync: now}), {status:200, headers:{'content-type':'application/json'}}));
 
-    // Catch-all for remaining /api/* endpoints
-    if (base.includes('/api/')) return Promise.resolve(new Response(JSON.stringify({success:true}), {status:200, headers:{'content-type':'application/json'}}));
+    // Catch-all for remaining /api/* endpoints - return safe defaults to prevent errors
+    if (base.includes('/api/')) {
+      const safeResponse = {success:true, data:[], message:'Demo data', records:0};
+      return Promise.resolve(new Response(JSON.stringify(safeResponse), {status:200, headers:{'content-type':'application/json'}}));
+    }
 
-    return orig.apply(this, arguments);
+    // For non-API requests, use original fetch
+    try {
+      return orig.apply(this, arguments);
+    } catch(e) {
+      console.error('[JMOS] Fetch error:', e);
+      return Promise.reject(e);
+    }
   };
 
   // Pre-login to skip sign-in page

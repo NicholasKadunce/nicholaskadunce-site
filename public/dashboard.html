@@ -85,6 +85,7 @@
     if (typeof url !== 'string') url = url.url;
     const base = url.split('?')[0];
     const now = new Date().toISOString();
+    console.log('[JMOS FETCH]', base);
 
     // Auth endpoints
     if (base === '/api/login') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));

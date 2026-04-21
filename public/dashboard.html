@@ -3,227 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpsIQ Dashboard — Demo</title>
+<title>OpsIQ Dashboard &mdash; Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--bg:#f6f7fb;--surface:#fff;--ink:#0f172a;--ink-body:#334155;--ink-muted:#64748b;--ink-light:#94a3b8;--rule:#e2e8f0;--accent:#2251FF;--accent-dark:#1a3fcc;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--navy:#051c2c;--sidebar-w:240px}
-[data-theme="dark"]{--bg:#0b1220;--surface:#111a2c;--ink:#e6eaf2;--ink-body:#c5cbdb;--ink-muted:#8693ad;--ink-light:#64748b;--rule:#1e2a44;--navy:#0a2540}
+/* ── Tokens ── */
+:root{
+  --bg:#F0F2F5;--surface:#FFFFFF;--ink:#0f172a;--ink-sec:#6E6E73;--ink-ter:#AEAEB2;
+  --border:#D2D2D7;--border-light:#E5E5EA;
+  --accent:#2251FF;--accent-dark:#1a3fcc;--accent-light:#2B5DA6;
+  --navy:#051c2c;--navy-sidebar:#1B3D6E;--navy-dark:#122B52;
+  --green:#10b981;--green-css:#34C759;--yellow:#f59e0b;--red:#ef4444;--red-css:#FF3B30;
+  --gold:#F0A500;--gold-light:#FFD040;
+  --blue-tint:#EBF1FA;--orange-tint:#FFF5EB;--red-tint:#FFF0F0;
+  --radius-sm:8px;--radius-md:10px;--radius-lg:14px;--radius-xl:18px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 24px rgba(0,0,0,0.12);
+  --glass-bg:rgba(255,255,255,0.62);--glass-bg-hover:rgba(255,255,255,0.82);
+  --glass-blur:saturate(180%) blur(22px);
+  --glass-border:rgba(255,255,255,0.45);--glass-border-strong:rgba(255,255,255,0.65);
+  --glass-shadow:0 1px 2px rgba(0,0,0,0.04),0 6px 18px rgba(0,0,0,0.06);
+  --glass-shadow-hover:0 2px 4px rgba(0,0,0,0.06),0 12px 28px rgba(0,0,0,0.10);
+  --trans:all .18s ease;
+  --sidebar-w:60px;
+}
+[data-theme="dark"]{
+  --bg:#0B1120;--surface:#141B2D;--ink:#E2E8F0;--ink-sec:#94A3B8;--ink-ter:#64748B;
+  --border:#2D3748;--border-light:#1E293B;
+  --blue-tint:rgba(27,61,110,0.2);--orange-tint:rgba(230,126,34,0.15);--red-tint:rgba(220,38,38,0.12);
+  --glass-bg:rgba(255,255,255,0.055);--glass-bg-hover:rgba(255,255,255,0.12);
+  --glass-border:rgba(255,255,255,0.08);--glass-border-strong:rgba(255,255,255,0.15);
+}
 *{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink-body);font-weight:400;font-size:14px;line-height:1.5}
-a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink-sec);font-size:14px;line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit}
 
-.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#2251FF,#3d6aff);color:#fff;text-align:center;padding:6px 16px;font-size:12px;font-weight:500;z-index:100;letter-spacing:.3px}
-.app{display:flex;min-height:100vh;padding-top:30px}
+/* ── Demo banner ── */
+.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,var(--accent),#3d6aff);color:#fff;text-align:center;padding:5px 16px;font-size:11px;font-weight:600;z-index:300;letter-spacing:.3px}
+.demo-banner button{margin-left:12px;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:4px;font-size:10px;color:#fff;font-weight:600}
 
-/* Sidebar */
-.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--rule);padding:20px 0;position:fixed;top:30px;bottom:0;left:0;overflow-y:auto;z-index:50}
-.brand{padding:0 20px 20px;border-bottom:1px solid var(--rule);margin-bottom:16px}
-.brand-name{font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
-.brand-tag{font-size:10px;color:var(--ink-muted);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
-.nav-section-title{padding:12px 20px 6px;font-size:10px;color:var(--ink-light);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;color:var(--ink-body);font-size:13px;font-weight:500;cursor:pointer;border-left:3px solid transparent;transition:background .15s,border-color .15s,color .15s}
-.nav-item:hover{background:rgba(34,81,255,.05);color:var(--ink)}
-.nav-item.active{background:rgba(34,81,255,.08);border-left-color:var(--accent);color:var(--accent)}
-.nav-item svg{width:16px;height:16px;flex-shrink:0}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;min-width:18px;text-align:center}
+/* ── Sidebar (60px icon-only, navy) ── */
+.sidebar{position:fixed;top:28px;left:0;bottom:0;width:var(--sidebar-w);background:linear-gradient(180deg,var(--navy-sidebar),var(--navy-dark));display:flex;flex-direction:column;align-items:center;z-index:200;box-shadow:2px 0 12px rgba(0,0,0,.12);padding:14px 0 16px}
+[data-theme="dark"] .sidebar{background:linear-gradient(180deg,#070D1A,#0B1120)}
+.sidebar-logo{cursor:pointer;margin-bottom:16px;flex-shrink:0;color:#fff;font-size:11px;font-weight:800;letter-spacing:1.5px;text-align:center;line-height:1.2;user-select:none;transition:transform .15s}
+.sidebar-logo:hover{transform:scale(1.06);opacity:.85}
+.sidebar-nav{flex:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 8px}
+.sidebar-btn{position:relative;width:44px;height:44px;border:none;background:transparent;color:rgba(255,255,255,.45);cursor:pointer;border-radius:12px;transition:var(--trans);display:flex;align-items:center;justify-content:center;padding:0}
+.sidebar-btn svg{width:22px;height:22px;flex-shrink:0}
+.sidebar-btn:hover{background:rgba(255,255,255,.1);color:rgba(255,255,255,.9)}
+.sidebar-btn.active{background:rgba(255,255,255,.15);color:#fff}
+.sidebar-btn.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:3px;height:24px;background:var(--gold);border-radius:0 3px 3px 0}
+.sidebar-badge{position:absolute;top:4px;right:4px;background:var(--red-css);color:#fff;font-size:8px;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.sidebar-divider{width:28px;height:1px;background:rgba(255,255,255,.1);margin:6px 0;flex-shrink:0}
+.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 8px}
 
-/* Main */
-.main{flex:1;margin-left:var(--sidebar-w);padding:24px 32px}
-.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--rule);flex-wrap:wrap;gap:12px}
-.page-title{font-size:22px;font-weight:700;color:var(--ink)}
-.page-subtitle{font-size:12px;color:var(--ink-muted);margin-top:2px}
-.header-meta{display:flex;gap:16px;align-items:center;font-size:12px;color:var(--ink-muted)}
-.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* ── Content ── */
+.content{margin-left:var(--sidebar-w);flex:1;padding:20px 24px;min-width:0;padding-top:48px}
+.app{display:flex;min-height:100vh}
 
-/* Filter bar */
-.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.filter-bar select,.filter-bar input{padding:6px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--surface);color:var(--ink);font-size:12px;font-family:inherit}
-
-/* KPI doughnut hero cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.kpi{background:var(--surface);border:1px solid var(--rule);padding:16px;border-radius:6px;text-align:center;position:relative}
-.kpi-ring-wrap{position:relative;width:100px;height:100px;margin:0 auto 8px}
-.kpi-ring-wrap canvas{width:100px!important;height:100px!important}
-.kpi-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:22px;font-weight:700;color:var(--ink)}
-.kpi-label{font-size:10px;color:var(--ink-muted);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-.kpi-delta{font-size:11px;margin-top:4px;font-weight:500}
-.kpi-delta.up{color:var(--green)}.kpi-delta.down{color:var(--red)}
-
-/* Chart cards */
-.chart-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
-.chart-row.full{grid-template-columns:1fr}
-.card{background:var(--surface);border:1px solid var(--rule);padding:16px;border-radius:6px}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.card-title{font-size:13px;font-weight:600;color:var(--ink)}
-.card-sub{font-size:11px;color:var(--ink-muted)}
+/* ── Glass cards ── */
+.glass{background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);border-radius:var(--radius-lg)}
+.card{background:var(--surface);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);margin-bottom:16px;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--glass-border-strong);box-shadow:var(--glass-shadow-hover)}
+[data-theme="dark"] .card{background:var(--surface);border-color:var(--border-light)}
+.card-title{font-size:17px;font-weight:700;color:var(--navy-sidebar);margin-bottom:4px;letter-spacing:-.3px}
+[data-theme="dark"] .card-title{color:var(--ink)}
+.card-sub{font-size:12px;color:var(--ink-sec);margin-bottom:16px}
 .chart-wrap{position:relative;height:240px}
 
-/* Machines grid */
+/* ── Glass buttons ── */
+.glass-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;min-height:36px;font-size:13px;font-weight:700;letter-spacing:.1px;color:var(--navy-sidebar);background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:var(--radius-md);box-shadow:var(--glass-shadow);cursor:pointer;transition:var(--trans);white-space:nowrap}
+.glass-btn:hover{background:var(--glass-bg-hover);border-color:var(--glass-border-strong);box-shadow:var(--glass-shadow-hover);transform:translateY(-1px)}
+.glass-btn-sm{padding:6px 12px;min-height:30px;font-size:12px;border-radius:var(--radius-sm)}
+.glass-btn-primary{color:#fff;background:linear-gradient(180deg,var(--accent-light),var(--navy-sidebar));border-color:rgba(255,255,255,.18);text-shadow:0 1px 1px rgba(0,0,0,.12)}
+.glass-btn-danger{color:#fff;background:linear-gradient(180deg,#D9434A,#B02028);border-color:rgba(255,255,255,.18)}
+[data-theme="dark"] .glass-btn{color:#E2E8F0}
+
+/* ── Page headers ── */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:22px;font-weight:800;color:var(--navy-sidebar);letter-spacing:-.5px}
+[data-theme="dark"] .page-title{color:var(--ink)}
+.page-subtitle{font-size:12px;color:var(--ink-sec);margin-top:2px;font-weight:500}
+
+/* ── Filter bar (glass morphism) ── */
+.filter-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;padding:10px 16px;background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:var(--radius-lg);box-shadow:var(--glass-shadow)}
+.filter-bar select,.filter-bar input[type="date"]{height:32px;padding:0 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:600;background:var(--surface);color:var(--navy-sidebar);cursor:pointer}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--accent);outline:none}
+.dash-shift-btn{height:28px;padding:0 12px;border:1.5px solid var(--border);border-radius:6px;font-size:11px;font-weight:700;background:var(--surface);color:var(--ink-sec);cursor:pointer;transition:var(--trans)}
+.dash-shift-btn.active{background:var(--navy-sidebar);color:#fff;border-color:var(--navy-sidebar)}
+.dash-preset-btn{height:28px;padding:0 10px;border:none;border-radius:6px;font-size:11px;font-weight:600;background:transparent;color:var(--ink-ter);cursor:pointer;transition:var(--trans)}
+.dash-preset-btn:hover{color:var(--navy-sidebar)}
+.dash-preset-btn.active{background:var(--navy-sidebar);color:#fff}
+
+/* ── OEE Hero Cards ── */
+.oee-hero-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.dash-oee-card{background:var(--surface);border-radius:var(--radius-lg);padding:16px 20px;text-align:center;border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);transition:var(--trans);cursor:default}
+.dash-oee-card:hover{border-color:var(--glass-border-strong);box-shadow:var(--glass-shadow-hover)}
+.dash-oee-card.oee-main{background:linear-gradient(168deg,#F8FAFF,#EBF1FA);border-color:rgba(34,81,255,.15);box-shadow:0 4px 20px rgba(34,81,255,.1)}
+[data-theme="dark"] .dash-oee-card{background:linear-gradient(168deg,#141B2D,#0F172A);border-color:rgba(148,163,184,.12)}
+[data-theme="dark"] .dash-oee-card.oee-main{background:linear-gradient(160deg,#1E293B,#141B2D);border-color:rgba(148,163,184,.15)}
+.dash-oee-label{font-size:10px;font-weight:700;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.dash-oee-value{font-size:36px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1.1}
+.dash-oee-card.oee-main .dash-oee-value{font-size:48px}
+.dash-oee-pct{font-size:18px;font-weight:400}
+.dash-oee-delta{font-size:11px;font-weight:600;margin-top:4px}
+.dash-oee-delta.up{color:var(--green-css)}
+.dash-oee-delta.down{color:var(--red-css)}
+.oee-sub-metrics{display:flex;justify-content:center;gap:16px;margin-top:8px;font-size:11px;font-weight:600;color:var(--ink-sec)}
+.oee-sub-metrics span{display:flex;flex-direction:column;align-items:center;gap:1px}
+.oee-sub-metrics .sub-val{font-size:14px;font-weight:800;color:var(--ink)}
+.dash-oee-ring{position:relative;width:80px;height:80px;margin:0 auto 6px}
+.dash-oee-ring canvas{width:80px!important;height:80px!important}
+.dash-oee-ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:900;color:var(--ink)}
+
+/* ── Chart grid ── */
+.chart-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
+.chart-row.full{grid-template-columns:1fr}
+
+/* ── Tables (dash-table) ── */
+.dash-table{width:100%;border-collapse:collapse;font-size:12px}
+.dash-table th{text-align:left;padding:10px 12px;font-size:10px;color:var(--ink-sec);letter-spacing:.08em;text-transform:uppercase;font-weight:700;border-bottom:2px solid var(--border);background:var(--bg)}
+[data-theme="dark"] .dash-table th{background:#0F172A;color:var(--ink);border-color:var(--border)}
+.dash-table td{padding:10px 12px;border-bottom:1px solid var(--border-light);color:var(--ink-sec)}
+[data-theme="dark"] .dash-table td{border-color:var(--border-light)}
+.dash-table tr:last-child td{border-bottom:none}
+.dash-table tr:hover td{background:var(--blue-tint)}
+[data-theme="dark"] .dash-table tr:hover td{background:rgba(27,61,110,.15)}
+.dash-oee-good{background:rgba(52,199,89,.1);color:#16a34a;font-weight:700;border-radius:4px;padding:3px 8px;display:inline-block}
+.dash-oee-warn{background:rgba(245,158,11,.1);color:#d97706;font-weight:700;border-radius:4px;padding:3px 8px;display:inline-block}
+.dash-oee-bad{background:rgba(239,68,68,.1);color:#dc2626;font-weight:700;border-radius:4px;padding:3px 8px;display:inline-block}
+.dash-constraint{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block}
+.dash-constraint.loss-a{background:rgba(239,68,68,.1);color:#dc2626}
+.dash-constraint.loss-p{background:rgba(245,158,11,.1);color:#d97706}
+.dash-constraint.loss-q{background:rgba(139,92,246,.1);color:#7c3aed}
+
+/* ── Machine status grid ── */
 .machines-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.machine{padding:12px;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+.machine{padding:12px;border:1px solid var(--border-light);border-radius:var(--radius-md);background:var(--surface);transition:var(--trans)}
+.machine:hover{border-color:var(--accent);box-shadow:var(--shadow-sm)}
 .machine-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
-.machine-dot.running{background:var(--green);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
-.machine-dot.down{background:var(--red);box-shadow:0 0 0 3px rgba(239,68,68,.15)}
+.machine-dot.running{background:var(--green-css);box-shadow:0 0 0 3px rgba(52,199,89,.15)}
+.machine-dot.down{background:var(--red-css);box-shadow:0 0 0 3px rgba(255,59,48,.15)}
 .machine-dot.idle{background:var(--yellow);box-shadow:0 0 0 3px rgba(245,158,11,.15)}
-.machine-name{font-size:12px;font-weight:600;color:var(--ink)}
-.machine-stat{font-size:10px;color:var(--ink-muted);margin-top:4px;letter-spacing:.3px}
-.machine-oee{font-size:16px;font-weight:700;color:var(--ink);margin-top:6px}
+.machine-name{font-size:12px;font-weight:700;color:var(--ink)}
+.machine-stat{font-size:10px;color:var(--ink-ter);margin-top:4px;letter-spacing:.3px}
+.machine-oee{font-size:16px;font-weight:800;color:var(--ink);margin-top:6px}
 
-/* Tables */
-.table{width:100%;border-collapse:collapse;font-size:12px}
-.table th{text-align:left;padding:10px 12px;font-size:10px;color:var(--ink-muted);letter-spacing:.08em;text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--rule)}
-.table td{padding:12px;border-bottom:1px solid var(--rule);color:var(--ink-body)}
-.table tr:last-child td{border-bottom:none}
+/* ── Sub-tabs ── */
+.sub-tabs{display:flex;gap:0;border-bottom:2px solid var(--border-light);margin-bottom:20px;overflow-x:auto}
+.sub-tab{padding:8px 16px;font-size:12px;font-weight:600;color:var(--ink-ter);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:var(--trans);white-space:nowrap}
+.sub-tab:hover{color:var(--ink)}
+.sub-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700}
 
-/* DT classification */
-.dt-select{padding:6px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--surface);color:var(--ink);font-size:12px;font-family:inherit;width:100%;max-width:200px}
-.dt-btn{padding:6px 12px;background:var(--accent);color:#fff;border-radius:4px;font-size:11px;font-weight:600}
+/* ── DT classification ── */
+.dt-select{padding:6px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:12px;font-family:inherit;width:100%;max-width:200px}
+.dt-btn{padding:6px 14px;background:linear-gradient(180deg,var(--accent-light),var(--navy-sidebar));color:#fff;border-radius:var(--radius-sm);font-size:11px;font-weight:700;border:none;cursor:pointer}
 .dt-btn:disabled{opacity:.4;cursor:not-allowed}
-.dt-badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:.3px}
+.dt-badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.3px}
 .dt-badge.pending{background:rgba(245,158,11,.15);color:#b45309}
 .dt-badge.classified{background:rgba(16,185,129,.15);color:#047857}
 
-/* Six sigma tools */
+/* ── Six Sigma tools grid ── */
 .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.tool-card{background:var(--surface);border:1px solid var(--rule);padding:20px;border-radius:6px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
-.tool-card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 18px rgba(15,23,42,.06)}
-.tool-icon{width:36px;height:36px;border-radius:6px;background:rgba(34,81,255,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.tool-title{font-size:14px;font-weight:600;color:var(--ink)}
-.tool-desc{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.5}
+.tool-card{background:var(--surface);border:1px solid var(--glass-border);padding:20px;border-radius:var(--radius-lg);cursor:pointer;transition:var(--trans);box-shadow:var(--glass-shadow)}
+.tool-card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--glass-shadow-hover)}
+.tool-icon{width:40px;height:40px;border-radius:var(--radius-md);background:var(--blue-tint);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.tool-title{font-size:14px;font-weight:700;color:var(--ink)}
+.tool-desc{font-size:12px;color:var(--ink-sec);margin-top:6px;line-height:1.5}
 
-/* Settings */
-.setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule)}
+/* ── Settings ── */
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border-light)}
 .setting-row:last-child{border-bottom:none}
-.setting-label{font-size:13px;font-weight:500;color:var(--ink)}
-.setting-desc{font-size:11px;color:var(--ink-muted);margin-top:2px}
-.switch{position:relative;width:36px;height:20px;background:var(--rule);border-radius:10px;cursor:pointer;transition:background .2s}
+.setting-label{font-size:13px;font-weight:600;color:var(--ink)}
+.setting-desc{font-size:11px;color:var(--ink-sec);margin-top:2px}
+.switch{position:relative;width:36px;height:20px;background:var(--border);border-radius:10px;cursor:pointer;transition:background .2s}
 .switch.on{background:var(--accent)}
 .switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s}
 .switch.on::after{transform:translateX(16px)}
+.inline-form{display:flex;gap:8px;align-items:center;padding:10px 0;flex-wrap:wrap}
+.inline-form input,.inline-form select{flex:1;min-width:100px;height:36px;padding:0 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;background:var(--surface);color:var(--ink)}
 
-/* Sub-tabs */
-.sub-tabs{display:flex;gap:0;border-bottom:2px solid var(--rule);margin-bottom:20px;overflow-x:auto}
-.sub-tab{padding:8px 16px;font-size:12px;font-weight:500;color:var(--ink-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;white-space:nowrap}
-.sub-tab:hover{color:var(--ink)}
-.sub-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* ── TV Display ── */
+.tv-display{max-width:1920px;margin:0 auto;display:flex;flex-direction:column;min-height:calc(100vh - 80px)}
+.tv-header{display:flex;align-items:center;justify-content:space-between;padding:8px 0;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.tv-header-title{font-size:18px;font-weight:800;color:var(--navy-sidebar);letter-spacing:-.5px}
+[data-theme="dark"] .tv-header-title{color:var(--ink)}
+.tv-header-sub{font-size:11px;color:var(--ink-sec);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.tv-header-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tv-range-group{display:flex;gap:2px;background:var(--bg);border-radius:var(--radius-sm);padding:2px}
+.tv-range-btn{height:26px;padding:0 10px;border:none;border-radius:4px;font-size:10px;font-weight:700;background:transparent;color:var(--ink-ter);cursor:pointer;transition:var(--trans)}
+.tv-range-btn:hover{color:var(--navy-sidebar)}
+.tv-range-btn.active{background:var(--navy-sidebar);color:#fff}
+.tv-grid{display:grid;gap:8px;flex:1;min-height:0}
+.tv-equip-card{background:var(--surface);border-radius:10px;box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column}
+[data-theme="dark"] .tv-equip-card{background:var(--surface);border:1px solid var(--border-light)}
+.tv-equip-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:linear-gradient(135deg,var(--navy-sidebar),#2A5199);color:#fff;flex-wrap:nowrap;gap:8px;flex-shrink:0}
+.tv-equip-name{display:flex;flex-direction:column;gap:1px;min-width:0;flex-shrink:1}
+.tv-equip-title{font-size:14px;font-weight:700;letter-spacing:-.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tv-equip-product{font-size:9px;opacity:.7;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tv-equip-operators{font-size:8px;font-weight:600;color:#bfd4f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.tv-oee-pills{display:flex;gap:5px;flex-shrink:0;align-items:center}
+.tv-oee-pill{background:#fff;border-radius:6px;padding:2px 6px;text-align:center;min-width:40px;border-left:3px solid;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+[data-theme="dark"] .tv-oee-pill{background:var(--surface);border-color:var(--border)}
+.tv-oee-pill-val{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.tv-oee-pill-label{font-size:6px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px}
+.tv-oee-pill.oee-hero{padding:4px 10px;min-width:56px;border-left-width:4px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.tv-oee-pill.oee-hero .tv-oee-pill-val{font-size:18px;font-weight:900;letter-spacing:-.5px}
+.tv-oee-pill.oee-hero .tv-oee-pill-label{font-size:7px}
+.tv-summary-row{display:flex;gap:1px;background:var(--border-light);flex-shrink:0}
+.tv-summary-stat{flex:1;text-align:center;padding:6px 4px;background:var(--surface)}
+.tv-summary-val{display:block;font-size:14px;font-weight:800;color:var(--navy-sidebar);font-variant-numeric:tabular-nums}
+[data-theme="dark"] .tv-summary-val{color:var(--ink)}
+.tv-summary-label{display:block;font-size:8px;font-weight:600;color:var(--ink-ter);text-transform:uppercase;letter-spacing:.3px;margin-top:1px}
+.tv-content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border-light);flex:1;min-height:0}
+.tv-section{padding:4px 8px;background:var(--surface);display:flex;flex-direction:column;min-height:0}
+.tv-section-title{font-size:9px;font-weight:700;color:var(--navy-sidebar);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;flex-shrink:0}
+[data-theme="dark"] .tv-section-title{color:var(--ink)}
+.tv-bar-row{display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.tv-bar-label{font-size:8px;font-weight:600;color:#64748B;width:36px;text-align:right;flex-shrink:0}
+.tv-bar-track{flex:1;height:14px;background:#F1F5F9;border-radius:3px;position:relative;overflow:hidden}
+[data-theme="dark"] .tv-bar-track{background:rgba(255,255,255,.08)}
+.tv-bar-fill{height:100%;border-radius:3px;position:relative;min-width:1px}
+.tv-bar-val{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-size:8px;font-weight:700;color:#fff}
+.tv-bar-val-out{font-size:8px;font-weight:700;flex-shrink:0;min-width:24px}
 
-/* TV Display */
-.tv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.tv-tile{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:20px;text-align:center}
-.tv-tile-name{font-size:16px;font-weight:700;color:var(--ink)}
-.tv-tile-oee{font-size:36px;font-weight:700;margin:10px 0}
-.tv-tile-status{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.1em}
-.tv-tile-operator{font-size:11px;color:var(--ink-muted);margin-top:6px}
-.tv-tile.running{border-left:4px solid var(--green)}
-.tv-tile.running .tv-tile-oee{color:var(--green)}
-.tv-tile.running .tv-tile-status{color:var(--green)}
-.tv-tile.down{border-left:4px solid var(--red)}
-.tv-tile.down .tv-tile-oee{color:var(--red)}
-.tv-tile.down .tv-tile-status{color:var(--red)}
-.tv-tile.idle{border-left:4px solid var(--yellow)}
-.tv-tile.idle .tv-tile-oee{color:var(--yellow)}
-.tv-tile.idle .tv-tile-status{color:var(--yellow)}
-.tv-break-banner{background:var(--accent);color:#fff;text-align:center;padding:20px;border-radius:8px;margin-bottom:20px;font-size:24px;font-weight:700;letter-spacing:.5px}
+/* ── Team Break (Gideon Time) overlay ── */
+@keyframes team-break-in{0%{transform:scale(.3) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes team-break-out{0%{opacity:1}100%{opacity:0}}
+.team-break-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);pointer-events:none}
+.team-break-card{animation:team-break-in 2.5s cubic-bezier(.22,1,.36,1) forwards;max-width:600px;width:90vw;border-radius:16px;overflow:hidden;box-shadow:0 0 80px rgba(34,81,255,.5),0 0 160px rgba(34,81,255,.2);background:linear-gradient(135deg,var(--navy-sidebar),var(--accent));padding:40px;text-align:center;color:#fff}
+.team-break-card.fade-out{animation:team-break-out 1.5s ease-in forwards}
+.team-break-emoji{font-size:64px;margin-bottom:16px}
+.team-break-title{font-size:36px;font-weight:900;letter-spacing:1px;margin-bottom:8px}
+.team-break-equip{font-size:16px;font-weight:600;opacity:.8}
 
-input[type="number"],input[type="text"],input[type="date"],select{padding:6px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--surface);color:var(--ink);font-size:12px;font-family:inherit}
-.btn{padding:8px 16px;background:var(--accent);color:#fff;border-radius:4px;font-size:12px;font-weight:600;transition:background .15s}
-.btn:hover{background:var(--accent-dark)}
-.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--rule)}
-.btn.danger{background:var(--red)}
-.btn.sm{padding:4px 10px;font-size:11px}
-
-/* Modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+/* ── Modal ── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:250;padding:20px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .modal-backdrop.open{display:flex}
-.modal{background:var(--surface);border-radius:8px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto;padding:24px}
-.modal-close{float:right;width:28px;height:28px;border-radius:4px;color:var(--ink-muted)}
-.modal-close:hover{background:var(--rule)}
-.modal-title{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.modal-sub{font-size:12px;color:var(--ink-muted);margin-bottom:16px}
+.modal{background:var(--surface);border-radius:var(--radius-xl);width:100%;max-width:620px;max-height:85vh;overflow-y:auto;padding:24px;box-shadow:var(--shadow-lg);border:1px solid var(--glass-border)}
+.modal-close{float:right;width:28px;height:28px;border-radius:var(--radius-sm);color:var(--ink-sec)}
+.modal-close:hover{background:var(--bg)}
+.modal-title{font-size:18px;font-weight:800;color:var(--navy-sidebar);margin-bottom:4px;letter-spacing:-.3px}
+[data-theme="dark"] .modal-title{color:var(--ink)}
+.modal-sub{font-size:12px;color:var(--ink-sec);margin-bottom:16px}
 
 .fishbone{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fishbone-group{border:1px solid var(--rule);border-radius:4px;padding:10px}
-.fishbone-title{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
-.fishbone-group li{font-size:12px;color:var(--ink-body);margin:4px 0 4px 16px}
+.fishbone-group{border:1px solid var(--border-light);border-radius:var(--radius-md);padding:12px}
+.fishbone-title{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.fishbone-group li{font-size:12px;color:var(--ink-sec);margin:4px 0 4px 16px}
 .whys-row{margin:8px 0}
-.whys-label{font-size:11px;font-weight:700;color:var(--accent)}
-.whys-text{font-size:13px;color:var(--ink-body);margin-top:2px}
+.whys-label{font-size:11px;font-weight:800;color:var(--accent)}
+.whys-text{font-size:13px;color:var(--ink-sec);margin-top:2px}
 
-.inline-form{display:flex;gap:8px;align-items:center;padding:10px 0;flex-wrap:wrap}
-.inline-form input,.inline-form select{flex:1;min-width:100px}
-
-/* Responsive */
-@media(max-width:900px){
-  .sidebar{transform:translateX(-100%);transition:transform .25s}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0;padding:16px}
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+/* ── Responsive ── */
+@media(max-width:768px){
+  .sidebar{position:fixed;bottom:0;top:auto;left:0;right:0;width:100%;height:56px;flex-direction:row;padding:0 8px;box-shadow:0 -2px 12px rgba(0,0,0,.1)}
+  .sidebar-logo,.sidebar-divider{display:none}
+  .sidebar-nav{flex-direction:row;justify-content:space-around;padding:0;gap:0}
+  .sidebar-btn{width:48px;height:48px}
+  .sidebar-btn.active::before{left:50%;top:auto;bottom:0;transform:translateX(-50%);width:24px;height:3px;border-radius:3px 3px 0 0}
+  .sidebar-bottom{display:none}
+  .content{margin-left:0;padding:16px 12px;padding-bottom:72px;padding-top:44px}
+  .oee-hero-grid{grid-template-columns:repeat(2,1fr)}
   .chart-row{grid-template-columns:1fr}
   .machines-grid{grid-template-columns:repeat(2,1fr)}
   .tools-grid{grid-template-columns:1fr}
-  .tv-grid{grid-template-columns:1fr 1fr}
-  .menu-toggle{display:inline-flex!important}
+  .tv-grid{grid-template-columns:1fr!important}
+  .filter-bar{flex-direction:column;align-items:stretch}
 }
-@media(max-width:500px){.kpi-grid{grid-template-columns:1fr 1fr}.tv-grid{grid-template-columns:1fr}}
-.menu-toggle{display:none;width:36px;height:36px;align-items:center;justify-content:center;border-radius:4px;margin-right:8px}
-.menu-toggle:hover{background:var(--rule)}
-.back-link{display:flex;align-items:center;gap:6px;padding:10px 20px;font-size:11px;color:var(--ink-muted);letter-spacing:.05em;border-top:1px solid var(--rule);margin-top:20px}
-.back-link:hover{color:var(--accent)}
+@media(min-width:1280px){
+  .tv-equip-header{padding:16px 22px}
+  .tv-equip-title{font-size:22px}
+  .tv-oee-pill{min-width:60px;padding:4px 10px}
+  .tv-oee-pill-val{font-size:16px}
+  .tv-oee-pill.oee-hero .tv-oee-pill-val{font-size:28px}
+  .tv-summary-val{font-size:22px}
+  .tv-bar-label{font-size:12px;width:48px}
+  .tv-bar-track{height:20px}
+  .tv-bar-val{font-size:11px}
+}
 </style>
 </head>
 <body>
 
 <div class="demo-banner">
-  Demo Mode &mdash; dummy data only. All changes persist locally in your browser.
-  <button id="resetDemoBtn" style="margin-left:12px;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:4px;font-size:11px;color:#fff">Reset demo</button>
+  Demo Mode &mdash; dummy data, no backend. All changes persist locally.
+  <button id="resetDemoBtn">Reset demo</button>
 </div>
 
 <div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-name">OpsIQ</div>
-      <div class="brand-tag">Operations Intelligence</div>
+  <!-- Sidebar (60px icon-only, navy) -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo" data-page="dashboard">OPS<br>IQ</div>
+    <div class="sidebar-nav">
+      <button class="sidebar-btn active" data-page="dashboard" title="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button class="sidebar-btn" data-page="analytics" title="Analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
+      </button>
+      <button class="sidebar-btn" data-page="classify" title="Classify Downtime">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="sidebar-badge" id="pendingBadge" style="display:none">0</span>
+      </button>
+      <div class="sidebar-divider"></div>
+      <button class="sidebar-btn" data-page="toolbox" title="Six Sigma Toolbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </button>
+      <button class="sidebar-btn" data-page="tv" title="TV Display">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+      </button>
     </div>
-    <div class="nav-section-title">Production</div>
-    <div class="nav-item active" data-page="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Dashboard
+    <div class="sidebar-bottom">
+      <button class="sidebar-btn" data-page="settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <a class="sidebar-btn" href="index.html" title="Back to site" style="margin-top:4px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      </a>
     </div>
-    <div class="nav-item" data-page="analytics">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
-      Analytics
-    </div>
-    <div class="nav-item" data-page="classify">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Classify Downtime
-      <span class="nav-badge" id="pendingBadge">0</span>
-    </div>
-    <div class="nav-section-title">Improvement</div>
-    <div class="nav-item" data-page="toolbox">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      Six Sigma Toolbox
-    </div>
-    <div class="nav-section-title">Display</div>
-    <div class="nav-item" data-page="tv">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-      TV Display
-    </div>
-    <div class="nav-section-title">Account</div>
-    <div class="nav-item" data-page="settings">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      Settings
-    </div>
-    <a class="back-link" href="index.html">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-      Back to site
-    </a>
-  </aside>
+  </nav>
 
-  <main class="main" id="mainContent"></main>
+  <div class="content" id="mainContent"></div>
 </div>
 
 <div class="modal-backdrop" id="modalBackdrop">
@@ -231,657 +336,468 @@ input[type="number"],input[type="text"],input[type="date"],select{padding:6px 10
 </div>
 
 <script>
-// ======== DEMO STATE ========
-const STORAGE_KEY = 'opsiq-demo-v1';
-const DEFAULT_STATE = {
-  settings: { theme:'light', alertHighDowntime:true, alertOEEBelow:true, oeeThreshold:75, emailDigest:true, slackAlerts:false, timezone:'America/New_York' },
-  downtimeEvents: [
-    {id:'dt-001',machine:'Press 2',start:'06:42',duration:18,status:'pending',category:null,note:'Hydraulic pressure drop detected'},
-    {id:'dt-002',machine:'Cable 4',start:'07:15',duration:9,status:'pending',category:null,note:'Cycle-time stopped for 9 min'},
-    {id:'dt-003',machine:'Shear 1',start:'08:03',duration:24,status:'pending',category:null,note:'No parts produced'},
-    {id:'dt-004',machine:'Press 3',start:'09:21',duration:6,status:'pending',category:null,note:'Sensor flagged stall'},
-    {id:'dt-005',machine:'Cable 2',start:'10:08',duration:12,status:'pending',category:null,note:'Intermittent vibration spike'},
-    {id:'dt-006',machine:'Shear 2',start:'05:30',duration:35,status:'classified',category:'Scheduled',note:'Shift start-up calibration'},
-    {id:'dt-007',machine:'Press 1',start:'04:10',duration:22,status:'classified',category:'Changeover',note:'Die change, next SKU'}
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const STORAGE_KEY='opsiq-demo-v1';
+const DEFAULT_STATE={
+  settings:{theme:'light',alertHighDowntime:true,alertOEEBelow:true,oeeThreshold:75,emailDigest:true,slackAlerts:false,timezone:'America/New_York'},
+  downtimeEvents:[
+    {id:'dt-001',machine:'400 Press',start:'06:42',duration:18,status:'pending',category:null,note:'Hydraulic pressure drop detected'},
+    {id:'dt-002',machine:'Cable Line 2',start:'07:15',duration:9,status:'pending',category:null,note:'Cycle-time stopped for 9 min'},
+    {id:'dt-003',machine:'Autoshear #1',start:'08:03',duration:24,status:'pending',category:null,note:'No parts produced'},
+    {id:'dt-004',machine:'Header #1',start:'09:21',duration:6,status:'pending',category:null,note:'Sensor flagged stall'},
+    {id:'dt-005',machine:'Threader #1',start:'10:08',duration:12,status:'pending',category:null,note:'Intermittent vibration spike'},
+    {id:'dt-006',machine:'Autoshear #2',start:'05:30',duration:35,status:'classified',category:'Scheduled',note:'Shift start-up calibration'},
+    {id:'dt-007',machine:'600 Press',start:'04:10',duration:22,status:'classified',category:'Changeover',note:'Die change, next SKU'}
   ],
-  operators: [
-    {name:'Mike Torres',hired:'2019-03-15',shift:'A'},
-    {name:'Sarah Chen',hired:'2020-07-01',shift:'A'},
-    {name:'David Kowalski',hired:'2018-11-20',shift:'B'},
-    {name:'Lisa Pham',hired:'2021-01-10',shift:'B'},
-    {name:'James Wright',hired:'2017-05-04',shift:'C'}
+  operators:[
+    {name:'Torres, Mike',hired:'2019-03-15',shift:'1'},
+    {name:'Chen, Sarah',hired:'2020-07-01',shift:'1'},
+    {name:'Kowalski, David',hired:'2018-11-20',shift:'2'},
+    {name:'Pham, Lisa',hired:'2021-01-10',shift:'2'},
+    {name:'Wright, James',hired:'2017-05-04',shift:'3'}
   ],
-  equipment: [
-    {name:'Press 1',active:true},{name:'Press 2',active:true},{name:'Press 3',active:true},{name:'Press 4',active:true},
-    {name:'Cable 1',active:true},{name:'Cable 2',active:true},{name:'Cable 3',active:true},{name:'Cable 4',active:true},
-    {name:'Shear 1',active:true},{name:'Shear 2',active:true},{name:'Pack 1',active:true},{name:'Pack 2',active:false}
+  equipment:[
+    {name:'Autoshear #1',process:'Shears',active:true},{name:'Autoshear #2',process:'Shears',active:true},
+    {name:'400 Press',process:'Presses',active:true},{name:'600 Press',process:'Presses',active:true},{name:'800 Press',process:'Presses',active:true},
+    {name:'Header #1',process:'Headers',active:true},{name:'Header #2',process:'Headers',active:true},
+    {name:'Threader #1',process:'Threaders',active:true},{name:'Threader #2',process:'Threaders',active:true},
+    {name:'AutoPeeler',process:'Peeling',active:true},
+    {name:'Assembly #1',process:'Assembly',active:true},{name:'Assembly #2',process:'Assembly',active:false},
+    {name:'Cable Line 1',process:'Cable Lines',active:true},{name:'Cable Line 2',process:'Cable Lines',active:true}
   ],
-  products: [
-    {sku:'BLT-6x20',desc:'6" x 20\' Bolt'},{sku:'BLT-8x24',desc:'8" x 24\' Bolt'},
-    {sku:'CBL-12x10',desc:'12mm Cable 10m'},{sku:'CBL-16x15',desc:'16mm Cable 15m'},
-    {sku:'SHR-4x8',desc:'Shear plate 4x8'}
+  products:[
+    {sku:'P-SH1-001',desc:'5/8 x 24" Bolt'},{sku:'P-SH1-013',desc:'.804 x 72" Bolt'},
+    {sku:'P-P40-001',desc:'3/4 x 36" Bolt'},{sku:'P-HD1-001',desc:'7/8 x 48" Bolt'},
+    {sku:'P-CBL-001',desc:'12mm Cable 10m'}
   ],
-  rates: [
-    {equip:'Press 1',target:120},{equip:'Press 2',target:115},{equip:'Press 3',target:110},{equip:'Press 4',target:120},
-    {equip:'Cable 1',target:90},{equip:'Cable 2',target:95},{equip:'Cable 3',target:85},{equip:'Cable 4',target:90},
-    {equip:'Shear 1',target:70},{equip:'Shear 2',target:70},{equip:'Pack 1',target:50},{equip:'Pack 2',target:50}
+  rates:[
+    {equip:'Autoshear #1',target:130},{equip:'Autoshear #2',target:125},
+    {equip:'400 Press',target:65},{equip:'600 Press',target:55},{equip:'800 Press',target:45},
+    {equip:'Header #1',target:75},{equip:'Header #2',target:70},
+    {equip:'Threader #1',target:60},{equip:'Threader #2',target:55},
+    {equip:'AutoPeeler',target:80},
+    {equip:'Assembly #1',target:40},{equip:'Assembly #2',target:40},
+    {equip:'Cable Line 1',target:50},{equip:'Cable Line 2',target:45}
   ],
-  classificationHistory: []
+  classificationHistory:[]
 };
+function loadState(){try{const r=localStorage.getItem(STORAGE_KEY);if(r){return{...JSON.parse(JSON.stringify(DEFAULT_STATE)),...JSON.parse(r)};}}catch(e){}return JSON.parse(JSON.stringify(DEFAULT_STATE));}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+let state=loadState();
+document.documentElement.setAttribute('data-theme',state.settings.theme);
 
-function loadState(){
-  try{ const raw=localStorage.getItem(STORAGE_KEY); if(raw){const p=JSON.parse(raw); return {...JSON.parse(JSON.stringify(DEFAULT_STATE)),...p};} }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_STATE));
-}
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-let state = loadState();
-document.documentElement.setAttribute('data-theme', state.settings.theme);
-
-// ======== DUMMY DATA ========
+// ════════════════════════════════════════
+// DUMMY DATA (mirrors JMOS production data)
+// ════════════════════════════════════════
 const MACHINES=[
-  {name:'Press 1',status:'running',oee:82.1,actual:98,target:120,operator:'M. Torres'},
-  {name:'Press 2',status:'down',oee:61.3,actual:71,target:115,operator:'S. Chen'},
-  {name:'Press 3',status:'running',oee:78.5,actual:86,target:110,operator:'D. Kowalski'},
-  {name:'Press 4',status:'running',oee:85.2,actual:102,target:120,operator:'L. Pham'},
-  {name:'Cable 1',status:'running',oee:88.4,actual:80,target:90,operator:'J. Wright'},
-  {name:'Cable 2',status:'idle',oee:72.0,actual:68,target:95,operator:'M. Torres'},
-  {name:'Cable 3',status:'running',oee:79.8,actual:68,target:85,operator:'S. Chen'},
-  {name:'Cable 4',status:'idle',oee:74.1,actual:67,target:90,operator:'D. Kowalski'},
-  {name:'Shear 1',status:'down',oee:55.2,actual:39,target:70,operator:'L. Pham'},
-  {name:'Shear 2',status:'running',oee:81.7,actual:57,target:70,operator:'J. Wright'},
-  {name:'Pack 1',status:'running',oee:90.0,actual:45,target:50,operator:'M. Torres'},
-  {name:'Pack 2',status:'idle',oee:0,actual:0,target:50,operator:'---'}
+  {name:'Autoshear #1',process:'Shears',status:'running',oee:88.4,avail:93.2,perf:96.1,qual:98.7,actual:115,target:130,product:'5/8 x 24"',operator:'Torres, M.'},
+  {name:'Autoshear #2',process:'Shears',status:'running',oee:82.1,avail:90.5,perf:92.8,qual:97.8,actual:103,target:125,product:'.804 x 72"',operator:'Chen, S.'},
+  {name:'400 Press',process:'Presses',status:'down',oee:61.3,avail:68.2,perf:91.0,qual:98.8,actual:40,target:65,product:'3/4 x 36"',operator:'Kowalski, D.'},
+  {name:'600 Press',process:'Presses',status:'running',oee:78.5,avail:85.1,perf:93.7,qual:98.5,actual:43,target:55,product:'7/8 x 48"',operator:'Pham, L.'},
+  {name:'800 Press',process:'Presses',status:'running',oee:85.2,avail:91.0,perf:95.2,qual:98.3,actual:38,target:45,product:'1" x 60"',operator:'Wright, J.'},
+  {name:'Header #1',process:'Headers',status:'running',oee:79.8,avail:87.3,perf:92.5,qual:98.9,actual:56,target:75,product:'7/8 x 48"',operator:'Torres, M.'},
+  {name:'Header #2',process:'Headers',status:'idle',oee:72.0,avail:80.5,perf:90.1,qual:99.3,actual:49,target:70,product:'5/8 x 24"',operator:'Chen, S.'},
+  {name:'Threader #1',process:'Threaders',status:'running',oee:81.7,avail:89.2,perf:93.0,qual:98.5,actual:49,target:60,product:'7/8 x 48"',operator:'Kowalski, D.'},
+  {name:'Threader #2',process:'Threaders',status:'down',oee:55.2,avail:62.1,perf:89.8,qual:99.0,actual:30,target:55,product:'3/4 x 36"',operator:'Pham, L.'},
+  {name:'AutoPeeler',process:'Peeling',status:'running',oee:90.0,avail:95.0,perf:96.2,qual:98.5,actual:72,target:80,product:'7/8 x 48"',operator:'Wright, J.'},
+  {name:'Assembly #1',process:'Assembly',status:'running',oee:74.1,avail:82.3,perf:91.5,qual:98.5,actual:30,target:40,product:'.804 x 72" Assy',operator:'Torres, M.'},
+  {name:'Cable Line 1',process:'Cable Lines',status:'running',oee:86.3,avail:92.1,perf:95.0,qual:98.6,actual:43,target:50,product:'12mm Cable',operator:'Chen, S.'},
+  {name:'Cable Line 2',process:'Cable Lines',status:'idle',oee:68.5,avail:76.8,perf:90.2,qual:98.9,actual:31,target:45,product:'16mm Cable',operator:'Kowalski, D.'}
 ];
-const HOURLY_LABELS=['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00'];
+const HOURLY_LABELS=['5-6 AM','6-7 AM','7-8 AM','8-9 AM','9-10 AM','10-11 AM','11-12 PM','12-1 PM'];
 const HOURLY_ACTUAL=[102,115,108,97,121,110,88,105];
 const HOURLY_TARGET=[110,110,110,110,110,110,110,110];
 const WEEK_LABELS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const WEEK_OEE=[74.2,76.8,78.1,75.5,79.3,81.2,77.6];
-const DT_PARETO={labels:['Mechanical','Material','Changeover','Electrical','Hydraulic','Operator','Scheduled'],data:[42,31,28,19,18,11,35]};
-const DEFECTS={labels:['Dimensional','Surface','Thread','Packaging','Visual'],data:[12,8,5,3,2]};
-const DT_CATEGORIES=['Tooling','Hydraulic','Electrical','Material','Changeover','Operator','Scheduled','Quality Hold','Other'];
+const DT_PARETO={labels:['Tooling','Material','Changeover','Hydraulic','Electrical','Scheduled','Mechanical'],data:[42,31,28,19,18,35,14]};
+const DEFECTS={labels:['Bent Bar','Burr','Bad Ribs','Failing Length','Cross Thread'],data:[12,8,5,3,2]};
+const DT_CATEGORIES=['Tooling','Hydraulic Issues','Air Issues','Electrical Issues','Sensor Issues','Mechanical Issues','Changeover','Loading Material','Material Issues','QC','Scheduled Downtime','Operator','Quality Hold','Other'];
 const DT_SUBITEMS={
-  Tooling:['Die wear','Punch crack','Alignment'],Hydraulic:['Pressure drop','Seal leak','Filter'],
-  Electrical:['Sensor','Drive fault','PLC'],Material:['Wrong spec','Contamination','Shortage'],
-  Changeover:['Die change','Product switch','Setup'],Operator:['Break','Training','Absence'],
-  Scheduled:['PM','Calibration','Startup'],'Quality Hold':['Hold for inspection','Rework','Scrap review'],
+  Tooling:['Shear Blades','Punch','Insert','Die','Gripper','Fingers'],
+  'Hydraulic Issues':['Pressure drop','Seal leak','Filter'],
+  'Air Issues':['Compressor','Regulator','Leak'],
+  'Electrical Issues':['Sensor','Drive fault','PLC','HMI'],
+  'Sensor Issues':['Encoder','Proximity','Photoelectric'],
+  'Mechanical Issues':['Load Table','Feed Rollers','Shear','Conveyor','Header'],
+  Changeover:['Die change','Product switch','Setup'],
+  'Loading Material':['Forklift','Operator','Crane'],
+  'Material Issues':['Wrong spec','Contamination','Shortage'],
+  QC:['Waiting on Results','Failed Test','Hold'],
+  'Scheduled Downtime':['PM','Calibration','Startup','Meeting','Cleaning'],
+  Operator:['Break','Training','Absence'],
+  'Quality Hold':['Hold for inspection','Rework','Scrap review'],
   Other:['Unknown','Investigation','Other']
 };
+const PROCESSES=[...new Set(MACHINES.map(m=>m.process))];
 
-function genSPCData(){
-  const target=35,ucl=42,lcl=28,points=[];
-  for(let i=0;i<50;i++){
-    const x=+(Math.random()*60).toFixed(1);
-    let y=target+(Math.random()-.5)*12;
-    if(Math.random()<.08) y=target+(Math.random()>.5?1:-1)*(8+Math.random()*4);
-    points.push({x,y:+y.toFixed(1)});
-  }
-  points.sort((a,b)=>a.x-b.x);
-  return {target,ucl,lcl,points};
-}
+function genSPCData(){const t=35,u=42,l=28,pts=[];for(let i=0;i<50;i++){const x=+(Math.random()*60).toFixed(1);let y=t+(Math.random()-.5)*12;if(Math.random()<.08)y=t+(Math.random()>.5?1:-1)*(8+Math.random()*4);pts.push({x,y:+y.toFixed(1)});}pts.sort((a,b)=>a.x-b.x);return{target:t,ucl:u,lcl:l,points:pts};}
 
-function computePlantKPIs(){
-  const active=MACHINES.filter(m=>m.oee>0);
-  const avg=active.reduce((s,m)=>s+m.oee,0)/active.length;
-  return{oee:avg.toFixed(1),avail:(avg*1.06).toFixed(1),perf:(avg*0.98).toFixed(1),qual:Math.min(avg*1.12,99.5).toFixed(1)};
-}
+function computePlantKPIs(){const a=MACHINES.filter(m=>m.oee>0);const n=a.length;return{oee:+(a.reduce((s,m)=>s+m.oee,0)/n).toFixed(1),avail:+(a.reduce((s,m)=>s+m.avail,0)/n).toFixed(1),perf:+(a.reduce((s,m)=>s+m.perf,0)/n).toFixed(1),qual:+(a.reduce((s,m)=>s+m.qual,0)/n).toFixed(1)};}
 
 const pageRenderers={};
 const chartInstances=[];
-function destroyCharts(){ while(chartInstances.length) chartInstances.pop().destroy(); }
+function destroyCharts(){while(chartInstances.length)chartInstances.pop().destroy();}
+function navigate(pageId){destroyCharts();const m=document.getElementById('mainContent');document.querySelectorAll('.sidebar-btn').forEach(el=>el.classList.toggle('active',el.dataset.page===pageId));m.innerHTML='';(pageRenderers[pageId]||pageRenderers.dashboard)(m);}
+function cD(dk){return{tick:dk?'#8693ad':'#64748b',grid:dk?'#1e2a44':'#e2e8f0',tt:{backgroundColor:dk?'#1e2a44':'#0f172a',titleFont:{size:11},bodyFont:{size:11},padding:8,cornerRadius:4}};}
+function isDark(){return document.documentElement.getAttribute('data-theme')==='dark';}
+function oeeColor(v){return v>=80?'var(--green-css)':v>=60?'var(--yellow)':'var(--red-css)';}
+function oeeClass(v){return v>=80?'dash-oee-good':v>=60?'dash-oee-warn':'dash-oee-bad';}
+function constraintClass(a,p,q){if(a<=p&&a<=q)return'loss-a';if(p<=q)return'loss-p';return'loss-q';}
+function constraintLabel(a,p,q){if(a<=p&&a<=q)return'Availability';if(p<=q)return'Performance';return'Quality';}
 
-function navigate(pageId){
-  destroyCharts();
-  const main=document.getElementById('mainContent');
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.page===pageId));
-  main.innerHTML='';
-  (pageRenderers[pageId]||pageRenderers.dashboard)(main);
-  document.getElementById('sidebar').classList.remove('open');
-}
+// ════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════
+pageRenderers.dashboard=(main)=>{
+  const k=computePlantKPIs();
+  const runC=MACHINES.filter(m=>m.status==='running').length;
+  const downC=MACHINES.filter(m=>m.status==='down').length;
+  const idleC=MACHINES.filter(m=>m.status==='idle').length;
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
-function chartDefaults(isDark){
-  return{tick:isDark?'#8693ad':'#64748b',grid:isDark?'#1e2a44':'#e2e8f0',
-    tt:{backgroundColor:isDark?'#1e2a44':'#0f172a',titleFont:{size:11},bodyFont:{size:11},padding:8,cornerRadius:4}};
-}
-function isDarkMode(){ return document.documentElement.getAttribute('data-theme')==='dark'; }
-
-// ======== DASHBOARD PAGE ========
-pageRenderers.dashboard = (main) => {
-  const k = computePlantKPIs();
-  const runC = MACHINES.filter(m=>m.status==='running').length;
-  const downC = MACHINES.filter(m=>m.status==='down').length;
-  const idleC = MACHINES.filter(m=>m.status==='idle').length;
-  const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-
-  main.innerHTML = `
+  main.innerHTML=`
     <div class="page-header">
-      <div>
-        <div style="display:flex;align-items:center;">
-          <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-          <div><div class="page-title">Plant Dashboard</div><div class="page-subtitle">${today} &middot; Shift A</div></div>
-        </div>
-      </div>
-      <div class="header-meta">
-        <span><span class="pulse-dot"></span>Live feed</span>
+      <div><div class="page-title">OpsIQ Dashboard</div><div class="page-subtitle">${today} &middot; Shift 1</div></div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:12px;color:var(--ink-sec)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:var(--green-css);display:inline-block;animation:pulse 2s ease-in-out infinite"></span>Live feed</span>
         <span>${runC} running &middot; ${idleC} idle &middot; ${downC} down</span>
       </div>
     </div>
 
     <div class="filter-bar">
-      <select><option>Today</option><option>Yesterday</option><option>Last 7 days</option><option>Last 30 days</option></select>
-      <select><option>All Shifts</option><option>Shift A</option><option>Shift B</option><option>Shift C</option></select>
-      <select><option>All Processes</option><option>Press</option><option>Cable</option><option>Shear</option><option>Pack</option></select>
+      <input type="date" value="2026-04-21"> <span style="color:var(--ink-ter);font-size:12px">to</span> <input type="date" value="2026-04-21">
+      <div style="display:flex;gap:2px;margin-left:8px">
+        <button class="dash-preset-btn active">Today</button><button class="dash-preset-btn">7 Days</button><button class="dash-preset-btn">30 Days</button>
+      </div>
+      <div style="display:flex;gap:2px;margin-left:8px">
+        <button class="dash-shift-btn active">All</button><button class="dash-shift-btn">S1</button><button class="dash-shift-btn">S2</button><button class="dash-shift-btn">S3</button>
+      </div>
+      <select style="margin-left:auto"><option>All Processes</option>${PROCESSES.map(p=>'<option>'+p+'</option>').join('')}</select>
       <select><option>All Equipment</option>${MACHINES.map(m=>'<option>'+m.name+'</option>').join('')}</select>
     </div>
 
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-ring-wrap"><canvas id="ringOEE"></canvas><div class="kpi-center">${k.oee}%</div></div><div class="kpi-label">Plant OEE</div><div class="kpi-delta up">&triangle; 2.3 pts vs yesterday</div></div>
-      <div class="kpi"><div class="kpi-ring-wrap"><canvas id="ringAvail"></canvas><div class="kpi-center">${k.avail}%</div></div><div class="kpi-label">Availability</div><div class="kpi-delta up">&triangle; 1.1 pts</div></div>
-      <div class="kpi"><div class="kpi-ring-wrap"><canvas id="ringPerf"></canvas><div class="kpi-center">${k.perf}%</div></div><div class="kpi-label">Performance</div><div class="kpi-delta up">&triangle; 0.8 pts</div></div>
-      <div class="kpi"><div class="kpi-ring-wrap"><canvas id="ringQual"></canvas><div class="kpi-center">${k.qual}%</div></div><div class="kpi-label">Quality</div><div class="kpi-delta down">&triangledown; 0.4 pts</div></div>
+    <div class="oee-hero-grid">
+      <div class="dash-oee-card oee-main">
+        <div class="dash-oee-label">Plant OEE</div>
+        <div class="dash-oee-ring"><canvas id="ringOEE"></canvas><div class="dash-oee-ring-center">${k.oee}%</div></div>
+        <div class="dash-oee-delta up">&triangle; 2.3 pts vs yesterday</div>
+        <div class="oee-sub-metrics"><span><span class="sub-val">${k.avail}%</span>Avail</span><span><span class="sub-val">${k.perf}%</span>Perf</span><span><span class="sub-val">${k.qual}%</span>Qual</span></div>
+      </div>
+      <div class="dash-oee-card"><div class="dash-oee-label">Availability</div><div class="dash-oee-ring"><canvas id="ringA"></canvas><div class="dash-oee-ring-center">${k.avail}%</div></div><div class="dash-oee-delta up">&triangle; 1.1 pts</div></div>
+      <div class="dash-oee-card"><div class="dash-oee-label">Performance</div><div class="dash-oee-ring"><canvas id="ringP"></canvas><div class="dash-oee-ring-center">${k.perf}%</div></div><div class="dash-oee-delta up">&triangle; 0.8 pts</div></div>
+      <div class="dash-oee-card"><div class="dash-oee-label">Quality</div><div class="dash-oee-ring"><canvas id="ringQ"></canvas><div class="dash-oee-ring-center">${k.qual}%</div></div><div class="dash-oee-delta down">&triangledown; 0.4 pts</div></div>
     </div>
 
     <div class="chart-row">
-      <div class="card"><div class="card-header"><div><div class="card-title">Hourly Production vs Target</div><div class="card-sub">Parts produced per hour</div></div></div><div class="chart-wrap"><canvas id="hourlyChart"></canvas></div></div>
-      <div class="card"><div class="card-header"><div><div class="card-title">Downtime Pareto</div><div class="card-sub">Minutes today, by category</div></div></div><div class="chart-wrap"><canvas id="dtChart"></canvas></div></div>
+      <div class="card"><div class="card-title">Hourly Production vs Target</div><div class="card-sub">Parts produced per hour &middot; Shift 1</div><div class="chart-wrap"><canvas id="hourlyChart"></canvas></div></div>
+      <div class="card"><div class="card-title">Downtime Pareto</div><div class="card-sub">Minutes today, by category</div><div class="chart-wrap"><canvas id="dtChart"></canvas></div></div>
     </div>
     <div class="chart-row">
-      <div class="card"><div class="card-header"><div><div class="card-title">OEE &mdash; 7-Day Trend</div><div class="card-sub">Plant-level rolling view</div></div></div><div class="chart-wrap"><canvas id="weekChart"></canvas></div></div>
-      <div class="card"><div class="card-header"><div><div class="card-title">Quality &mdash; Defects by Type</div><div class="card-sub">${DEFECTS.data.reduce((a,b)=>a+b,0)} defects flagged today</div></div></div><div class="chart-wrap"><canvas id="defectsChart"></canvas></div></div>
+      <div class="card"><div class="card-title">OEE &mdash; 7-Day Trend</div><div class="card-sub">Plant-level rolling view</div><div class="chart-wrap"><canvas id="weekChart"></canvas></div></div>
+      <div class="card"><div class="card-title">Defects by Type</div><div class="card-sub">${DEFECTS.data.reduce((a,b)=>a+b,0)} defects flagged today</div><div class="chart-wrap"><canvas id="defectsChart"></canvas></div></div>
     </div>
 
-    <div class="card" style="margin-top:16px;">
-      <div class="card-header"><div><div class="card-title">Equipment Performance Breakdown</div><div class="card-sub">OEE + bottleneck metric per machine</div></div></div>
-      <table class="table">
-        <thead><tr><th>Machine</th><th>OEE</th><th>Availability</th><th>Performance</th><th>Quality</th><th>Bottleneck</th></tr></thead>
-        <tbody>${MACHINES.filter(m=>m.oee>0).map(m=>{
-          const a=(m.oee*1.06).toFixed(1), p=(m.oee*0.98).toFixed(1), q=Math.min(m.oee*1.12,99.5).toFixed(1);
-          const bn=+a<=+p&&+a<=+q?'Availability':+p<=+q?'Performance':'Quality';
-          return '<tr><td style="font-weight:600;color:var(--ink)">'+m.name+'</td><td>'+m.oee.toFixed(1)+'%</td><td>'+a+'%</td><td>'+p+'%</td><td>'+q+'%</td><td><span class="dt-badge pending">'+bn+'</span></td></tr>';
-        }).join('')}</tbody>
-      </table>
-    </div>
+    <div class="card"><div class="card-title">Equipment Focus &mdash; OEE Ranking</div><div class="card-sub">Bottleneck metric highlighted per machine</div>
+      <table class="dash-table"><thead><tr><th>Equipment</th><th>Process</th><th>OEE</th><th>Avail</th><th>Perf</th><th>Quality</th><th>Constraint</th></tr></thead><tbody>
+        ${MACHINES.filter(m=>m.oee>0).sort((a,b)=>a.oee-b.oee).map(m=>{
+          const cl=constraintClass(m.avail,m.perf,m.qual);const lb=constraintLabel(m.avail,m.perf,m.qual);
+          return'<tr><td style="font-weight:700;color:var(--ink)">'+m.name+'</td><td>'+m.process+'</td><td><span class="'+oeeClass(m.oee)+'">'+m.oee.toFixed(1)+'%</span></td><td>'+m.avail.toFixed(1)+'%</td><td>'+m.perf.toFixed(1)+'%</td><td>'+m.qual.toFixed(1)+'%</td><td><span class="dash-constraint '+cl+'">'+lb+'</span></td></tr>';
+        }).join('')}
+      </tbody></table></div>
 
-    <div class="card" style="margin-top:16px;">
-      <div class="card-header"><div><div class="card-title">Machine Status</div><div class="card-sub">Real-time sensor feed &middot; 30s refresh</div></div></div>
+    <div class="card"><div class="card-title">Machine Status</div><div class="card-sub">Real-time sensor feed &middot; 30s refresh</div>
       <div class="machines-grid">${MACHINES.map(m=>`
-        <div class="machine"><div><span class="machine-dot ${m.status}"></span><span class="machine-name">${m.name}</span></div><div class="machine-oee">${m.oee.toFixed(1)}%</div><div class="machine-stat">${m.actual}/${m.target} pcs &middot; ${m.status.toUpperCase()}</div></div>
-      `).join('')}</div>
-    </div>
+        <div class="machine"><div><span class="machine-dot ${m.status}"></span><span class="machine-name">${m.name}</span></div><div class="machine-oee">${m.oee.toFixed(1)}%</div><div class="machine-stat">${m.actual}/${m.target} pcs &middot; ${m.status.toUpperCase()}</div></div>`).join('')}</div></div>
   `;
 
-  const d = chartDefaults(isDarkMode());
+  const d=cD(isDark());const bg2=isDark()?'#1e2a44':'#e2e8f0';
   // OEE ring doughnuts
-  const ringColor = (v) => v >= 85 ? '#10b981' : v >= 65 ? '#f59e0b' : '#ef4444';
-  [{id:'ringOEE',val:+k.oee},{id:'ringAvail',val:+k.avail},{id:'ringPerf',val:+k.perf},{id:'ringQual',val:+k.qual}].forEach(r=>{
-    chartInstances.push(new Chart(document.getElementById(r.id),{
-      type:'doughnut',
-      data:{datasets:[{data:[r.val,100-r.val],backgroundColor:[ringColor(r.val),isDarkMode()?'#1e2a44':'#e2e8f0'],borderWidth:0}]},
-      options:{responsive:true,maintainAspectRatio:true,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true}}
-    }));
+  [{id:'ringOEE',val:k.oee},{id:'ringA',val:k.avail},{id:'ringP',val:k.perf},{id:'ringQ',val:k.qual}].forEach(r=>{
+    const c=r.val>=80?'#34C759':r.val>=60?'#f59e0b':'#FF3B30';
+    chartInstances.push(new Chart(document.getElementById(r.id),{type:'doughnut',data:{datasets:[{data:[r.val,100-r.val],backgroundColor:[c,bg2],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:true,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true}}}));
   });
-
-  // Hourly chart
-  chartInstances.push(new Chart(document.getElementById('hourlyChart'),{
-    type:'bar',
-    data:{labels:HOURLY_LABELS,datasets:[
-      {label:'Actual',data:HOURLY_ACTUAL,backgroundColor:'#2251FF',borderRadius:3},
-      {label:'Target',data:HOURLY_TARGET,type:'line',borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}},tooltip:d.tt},
-      scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}
-  }));
-  // Downtime Pareto
-  chartInstances.push(new Chart(document.getElementById('dtChart'),{
-    type:'bar',
-    data:{labels:DT_PARETO.labels,datasets:[{data:DT_PARETO.data,
-      backgroundColor:['#2251FF','rgba(34,81,255,.82)','rgba(34,81,255,.64)','rgba(34,81,255,.5)','rgba(34,81,255,.38)','rgba(34,81,255,.28)','rgba(34,81,255,.18)'],borderRadius:2}]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},
-      scales:{x:{grid:{color:d.grid},ticks:{color:d.tick}},y:{grid:{display:false},ticks:{color:d.tick}}}}
-  }));
-  // Week OEE trend
-  chartInstances.push(new Chart(document.getElementById('weekChart'),{
-    type:'line',
-    data:{labels:WEEK_LABELS,datasets:[{label:'OEE %',data:WEEK_OEE,borderColor:'#2251FF',backgroundColor:'rgba(34,81,255,.1)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#2251FF'}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},
-      scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:60,max:90,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}
-  }));
-  // Defects doughnut
-  chartInstances.push(new Chart(document.getElementById('defectsChart'),{
-    type:'doughnut',
-    data:{labels:DEFECTS.labels,datasets:[{data:DEFECTS.data,backgroundColor:['#2251FF','#3d6aff','#6b8fff','#99b0ff','#c4d0ff'],borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt}}
-  }));
+  // Hourly
+  chartInstances.push(new Chart(document.getElementById('hourlyChart'),{type:'bar',data:{labels:HOURLY_LABELS,datasets:[{label:'Actual',data:HOURLY_ACTUAL,backgroundColor:'#2251FF',borderRadius:3},{label:'Target',data:HOURLY_TARGET,type:'line',borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
+  // DT Pareto
+  chartInstances.push(new Chart(document.getElementById('dtChart'),{type:'bar',data:{labels:DT_PARETO.labels,datasets:[{data:DT_PARETO.data,backgroundColor:DT_PARETO.data.map((_,i)=>`rgba(34,81,255,${1-i*0.12})`),borderRadius:2}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{color:d.grid},ticks:{color:d.tick}},y:{grid:{display:false},ticks:{color:d.tick}}}}}));
+  // Week OEE
+  chartInstances.push(new Chart(document.getElementById('weekChart'),{type:'line',data:{labels:WEEK_LABELS,datasets:[{label:'OEE %',data:WEEK_OEE,borderColor:'#2251FF',backgroundColor:'rgba(34,81,255,.1)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#2251FF'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:60,max:90,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+  // Defects
+  chartInstances.push(new Chart(document.getElementById('defectsChart'),{type:'doughnut',data:{labels:DEFECTS.labels,datasets:[{data:DEFECTS.data,backgroundColor:['#2251FF','#3d6aff','#6b8fff','#99b0ff','#c4d0ff'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt}}}));
 };
 
-// ======== ANALYTICS PAGE ========
-pageRenderers.analytics = (main) => {
-  const TABS = ['OEE','Operator','Equipment','Process','Downtime','Quality','Losses'];
-  let activeTab = 'OEE';
-
-  function renderAnalytics() {
-    destroyCharts();
-    const spc = genSPCData();
-    main.innerHTML = `
-      <div class="page-header"><div><div class="page-title">Analytics</div><div class="page-subtitle">Deep-dive trends, SPC, and machine comparison</div></div>
-        <div class="header-meta"><select id="rangeSel"><option>Today</option><option selected>Last 7 days</option><option>Last 30 days</option><option>Quarter to date</option></select></div>
-      </div>
-      <div class="sub-tabs">${TABS.map(t=>'<div class="sub-tab'+(t===activeTab?' active':'')+'" data-tab="'+t+'">'+t+'</div>').join('')}</div>
-      <div id="analyticsContent"></div>
-    `;
-    main.querySelectorAll('.sub-tab').forEach(el=>el.addEventListener('click',()=>{activeTab=el.dataset.tab;renderAnalytics();}));
-    const box = main.querySelector('#analyticsContent');
-    const d = chartDefaults(isDarkMode());
-
-    if (activeTab === 'OEE') {
-      box.innerHTML = `
-        <div class="chart-row full"><div class="card"><div class="card-header"><div><div class="card-title">SPC &mdash; Press 1 Cycle Time</div>
-          <div class="card-sub">Target ${spc.target}s &middot; UCL ${spc.ucl}s &middot; LCL ${spc.lcl}s &middot; ${spc.points.length} cycles</div></div>
-          <div class="card-sub">${spc.points.filter(p=>p.y>spc.ucl||p.y<spc.lcl).length} out-of-control points</div>
-        </div><div class="chart-wrap" style="height:280px"><canvas id="spcChart"></canvas></div></div></div>
-        <div class="chart-row">
-          <div class="card"><div class="card-header"><div><div class="card-title">OEE &mdash; 7 Day Trend</div><div class="card-sub">Plant average</div></div></div><div class="chart-wrap"><canvas id="oeeTrend"></canvas></div></div>
-          <div class="card"><div class="card-header"><div><div class="card-title">OEE Distribution</div><div class="card-sub">By machine today</div></div></div><div class="chart-wrap"><canvas id="oeeDist"></canvas></div></div>
-        </div>
-        <div class="card" style="margin-top:16px"><div class="card-header"><div><div class="card-title">Machine Comparison</div><div class="card-sub">7-day averages</div></div></div>
-          <table class="table"><thead><tr><th>Machine</th><th>OEE</th><th>Avail</th><th>Perf</th><th>Quality</th><th>Downtime (min)</th></tr></thead><tbody>
-            ${MACHINES.map(m=>{const a=(70+Math.random()*25).toFixed(1),p=(70+Math.random()*25).toFixed(1),q=(90+Math.random()*9).toFixed(1),dt=Math.floor(Math.random()*80)+5;
-              return '<tr><td style="font-weight:600;color:var(--ink)">'+m.name+'</td><td>'+m.oee.toFixed(1)+'%</td><td>'+a+'%</td><td>'+p+'%</td><td>'+q+'%</td><td>'+dt+'</td></tr>';}).join('')}
-          </tbody></table></div>
-      `;
-      const ooc = spc.points.map(p=>p.y>spc.ucl||p.y<spc.lcl);
-      chartInstances.push(new Chart(document.getElementById('spcChart'),{
-        type:'scatter',
-        data:{datasets:[
-          {label:'Cycle Time',data:spc.points,backgroundColor:spc.points.map((_,i)=>ooc[i]?'#ef4444':'#2251FF'),pointRadius:3,pointHoverRadius:5},
-          {label:'Target ('+spc.target+'s)',type:'line',data:[{x:0,y:spc.target},{x:60,y:spc.target}],borderColor:'#051c2c',borderWidth:1.5,borderDash:[6,3],pointRadius:0,fill:false},
-          {label:'UCL ('+spc.ucl+'s)',type:'line',data:[{x:0,y:spc.ucl},{x:60,y:spc.ucl}],borderColor:'#ef4444',borderWidth:1,borderDash:[3,3],pointRadius:0,fill:false},
-          {label:'LCL ('+spc.lcl+'s)',type:'line',data:[{x:0,y:spc.lcl},{x:60,y:spc.lcl}],borderColor:'#ef4444',borderWidth:1,borderDash:[3,3],pointRadius:0,fill:false}
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},
-          scales:{x:{title:{display:true,text:'Minutes into shift',color:d.tick},min:0,max:60,grid:{color:d.grid},ticks:{color:d.tick}},
-            y:{title:{display:true,text:'Cycle Time (s)',color:d.tick},min:20,max:50,grid:{color:d.grid},ticks:{color:d.tick}}}}
-      }));
-      chartInstances.push(new Chart(document.getElementById('oeeTrend'),{type:'line',data:{labels:WEEK_LABELS,datasets:[{data:WEEK_OEE,borderColor:'#2251FF',backgroundColor:'rgba(34,81,255,.1)',fill:true,tension:.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:60,max:90,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-      chartInstances.push(new Chart(document.getElementById('oeeDist'),{type:'bar',data:{labels:MACHINES.filter(m=>m.oee>0).map(m=>m.name),datasets:[{data:MACHINES.filter(m=>m.oee>0).map(m=>m.oee),backgroundColor:MACHINES.filter(m=>m.oee>0).map(m=>m.oee>=85?'#10b981':m.oee>=65?'#f59e0b':'#ef4444'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:9}}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-    } else if (activeTab === 'Operator') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Units per Operator</div><div class="card-sub">Today</div></div></div><div class="chart-wrap"><canvas id="opChart"></canvas></div></div>
-        <div class="card" style="margin-top:16px"><div class="card-header"><div><div class="card-title">Operator Summary</div></div></div>
-          <table class="table"><thead><tr><th>Operator</th><th>Machine</th><th>Units</th><th>OEE</th></tr></thead><tbody>
-          ${MACHINES.filter(m=>m.oee>0).map(m=>'<tr><td>'+m.operator+'</td><td>'+m.name+'</td><td>'+m.actual+'</td><td>'+m.oee.toFixed(1)+'%</td></tr>').join('')}</tbody></table></div>`;
-      chartInstances.push(new Chart(document.getElementById('opChart'),{type:'bar',data:{labels:MACHINES.filter(m=>m.oee>0).map(m=>m.operator),datasets:[{label:'Units',data:MACHINES.filter(m=>m.oee>0).map(m=>m.actual),backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
-    } else if (activeTab === 'Equipment') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">OEE by Equipment</div></div></div><div class="chart-wrap"><canvas id="eqChart"></canvas></div></div>
-        <div class="card" style="margin-top:16px"><div class="card-header"><div><div class="card-title">Equipment Details</div></div></div>
-          <table class="table"><thead><tr><th>Equipment</th><th>Status</th><th>OEE</th><th>Actual</th><th>Target</th></tr></thead><tbody>
-          ${MACHINES.map(m=>'<tr><td style="font-weight:600;color:var(--ink)">'+m.name+'</td><td><span class="machine-dot '+m.status+'" style="vertical-align:middle"></span>'+m.status+'</td><td>'+m.oee.toFixed(1)+'%</td><td>'+m.actual+'</td><td>'+m.target+'</td></tr>').join('')}</tbody></table></div>`;
-      chartInstances.push(new Chart(document.getElementById('eqChart'),{type:'bar',data:{labels:MACHINES.map(m=>m.name),datasets:[{data:MACHINES.map(m=>m.oee),backgroundColor:MACHINES.map(m=>m.oee>=85?'#10b981':m.oee>=65?'#f59e0b':'#ef4444'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:9}}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-    } else if (activeTab === 'Process') {
-      const procs=[{n:'Press',ms:MACHINES.slice(0,4)},{n:'Cable',ms:MACHINES.slice(4,8)},{n:'Shear',ms:MACHINES.slice(8,10)},{n:'Pack',ms:MACHINES.slice(10)}];
-      const pData=procs.map(p=>({name:p.n,oee:+(p.ms.reduce((s,m)=>s+m.oee,0)/p.ms.filter(m=>m.oee>0).length||0).toFixed(1),units:p.ms.reduce((s,m)=>s+m.actual,0)}));
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">OEE by Process</div></div></div><div class="chart-wrap"><canvas id="procChart"></canvas></div></div>
-        <div class="card" style="margin-top:16px"><table class="table"><thead><tr><th>Process</th><th>Avg OEE</th><th>Total Units</th></tr></thead><tbody>
-        ${pData.map(p=>'<tr><td style="font-weight:600;color:var(--ink)">'+p.name+'</td><td>'+p.oee+'%</td><td>'+p.units+'</td></tr>').join('')}</tbody></table></div>`;
-      chartInstances.push(new Chart(document.getElementById('procChart'),{type:'bar',data:{labels:pData.map(p=>p.name),datasets:[{label:'OEE %',data:pData.map(p=>p.oee),backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-    } else if (activeTab === 'Downtime') {
-      box.innerHTML = `<div class="chart-row"><div class="card"><div class="card-header"><div><div class="card-title">Downtime Pareto</div></div></div><div class="chart-wrap"><canvas id="dtpChart"></canvas></div></div>
-        <div class="card"><div class="card-header"><div><div class="card-title">Downtime by Machine</div></div></div><div class="chart-wrap"><canvas id="dtmChart"></canvas></div></div></div>
-        <div class="card" style="margin-top:16px"><table class="table"><thead><tr><th>Category</th><th>Events</th><th>Total Min</th><th>Avg Min</th></tr></thead><tbody>
-        ${DT_PARETO.labels.map((l,i)=>{const e=Math.floor(Math.random()*5)+1;return '<tr><td style="font-weight:600;color:var(--ink)">'+l+'</td><td>'+e+'</td><td>'+DT_PARETO.data[i]+'</td><td>'+(DT_PARETO.data[i]/e).toFixed(0)+'</td></tr>';}).join('')}</tbody></table></div>`;
-      chartInstances.push(new Chart(document.getElementById('dtpChart'),{type:'bar',data:{labels:DT_PARETO.labels,datasets:[{data:DT_PARETO.data,backgroundColor:'#2251FF',borderRadius:2}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{color:d.grid},ticks:{color:d.tick}},y:{grid:{display:false},ticks:{color:d.tick}}}}}));
+// ════════════════════════════════════════
+// ANALYTICS
+// ════════════════════════════════════════
+pageRenderers.analytics=(main)=>{
+  const TABS=['OEE','Operator','Equipment','Process','Downtime','Quality','Runs'];
+  let activeTab='OEE';
+  function render(){
+    destroyCharts();const spc=genSPCData();const d=cD(isDark());
+    main.innerHTML=`<div class="page-header"><div><div class="page-title">Analytics</div><div class="page-subtitle">Deep-dive trends, SPC, and machine comparison</div></div>
+      <div style="display:flex;gap:8px"><select style="height:32px;padding:0 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:600;background:var(--surface);color:var(--ink)"><option>Today</option><option selected>Last 7 days</option><option>Last 30 days</option><option>Quarter to date</option></select></div></div>
+      <div class="sub-tabs">${TABS.map(t=>'<div class="sub-tab'+(t===activeTab?' active':'')+'" data-tab="'+t+'">'+t+'</div>').join('')}</div><div id="aBox"></div>`;
+    main.querySelectorAll('.sub-tab').forEach(el=>el.addEventListener('click',()=>{activeTab=el.dataset.tab;render();}));
+    const box=main.querySelector('#aBox');
+    if(activeTab==='OEE'){
+      const ooc=spc.points.map(p=>p.y>spc.ucl||p.y<spc.lcl);
+      box.innerHTML=`<div class="chart-row full"><div class="card"><div class="card-title">SPC &mdash; Press Cycle Time</div><div class="card-sub">Target ${spc.target}s &middot; UCL ${spc.ucl}s &middot; LCL ${spc.lcl}s &middot; ${ooc.filter(Boolean).length} OOC points</div><div class="chart-wrap" style="height:280px"><canvas id="spcC"></canvas></div></div></div>
+        <div class="chart-row"><div class="card"><div class="card-title">OEE 7-Day Trend</div><div class="card-sub">Plant average</div><div class="chart-wrap"><canvas id="oeeT"></canvas></div></div>
+          <div class="card"><div class="card-title">OEE Distribution</div><div class="card-sub">By machine today</div><div class="chart-wrap"><canvas id="oeeD"></canvas></div></div></div>
+        <div class="card"><div class="card-title">Machine Comparison</div><div class="card-sub">7-day averages</div><table class="dash-table"><thead><tr><th>Machine</th><th>OEE</th><th>Avail</th><th>Perf</th><th>Quality</th><th>DT (min)</th></tr></thead><tbody>
+          ${MACHINES.filter(m=>m.oee>0).map(m=>'<tr><td style="font-weight:700;color:var(--ink)">'+m.name+'</td><td><span class="'+oeeClass(m.oee)+'">'+m.oee.toFixed(1)+'%</span></td><td>'+m.avail.toFixed(1)+'%</td><td>'+m.perf.toFixed(1)+'%</td><td>'+m.qual.toFixed(1)+'%</td><td>'+(Math.floor(Math.random()*80)+5)+'</td></tr>').join('')}</tbody></table></div>`;
+      chartInstances.push(new Chart(document.getElementById('spcC'),{type:'scatter',data:{datasets:[{label:'Cycle Time',data:spc.points,backgroundColor:spc.points.map((_,i)=>ooc[i]?'#FF3B30':'#2251FF'),pointRadius:3,pointHoverRadius:5},{label:'Target',type:'line',data:[{x:0,y:spc.target},{x:60,y:spc.target}],borderColor:'#051c2c',borderWidth:1.5,borderDash:[6,3],pointRadius:0,fill:false},{label:'UCL',type:'line',data:[{x:0,y:spc.ucl},{x:60,y:spc.ucl}],borderColor:'#FF3B30',borderWidth:1,borderDash:[3,3],pointRadius:0,fill:false},{label:'LCL',type:'line',data:[{x:0,y:spc.lcl},{x:60,y:spc.lcl}],borderColor:'#FF3B30',borderWidth:1,borderDash:[3,3],pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},scales:{x:{title:{display:true,text:'Minutes into shift',color:d.tick},min:0,max:60,grid:{color:d.grid},ticks:{color:d.tick}},y:{title:{display:true,text:'Cycle Time (s)',color:d.tick},min:20,max:50,grid:{color:d.grid},ticks:{color:d.tick}}}}}));
+      chartInstances.push(new Chart(document.getElementById('oeeT'),{type:'line',data:{labels:WEEK_LABELS,datasets:[{data:WEEK_OEE,borderColor:'#2251FF',backgroundColor:'rgba(34,81,255,.1)',fill:true,tension:.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:60,max:90,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+      chartInstances.push(new Chart(document.getElementById('oeeD'),{type:'bar',data:{labels:MACHINES.filter(m=>m.oee>0).map(m=>m.name),datasets:[{data:MACHINES.filter(m=>m.oee>0).map(m=>m.oee),backgroundColor:MACHINES.filter(m=>m.oee>0).map(m=>m.oee>=80?'#34C759':m.oee>=60?'#f59e0b':'#FF3B30'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:8},maxRotation:45}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+    } else if(activeTab==='Operator'){
+      box.innerHTML=`<div class="card"><div class="card-title">Units per Operator</div><div class="card-sub">Today</div><div class="chart-wrap"><canvas id="opC"></canvas></div></div>
+        <div class="card"><div class="card-title">Operator Summary</div><table class="dash-table"><thead><tr><th>Operator</th><th>Machine</th><th>Units</th><th>OEE</th><th>Hours</th></tr></thead><tbody>
+        ${MACHINES.filter(m=>m.oee>0).map(m=>'<tr><td>'+m.operator+'</td><td>'+m.name+'</td><td>'+m.actual+'</td><td><span class="'+oeeClass(m.oee)+'">'+m.oee.toFixed(1)+'%</span></td><td>8</td></tr>').join('')}</tbody></table></div>`;
+      chartInstances.push(new Chart(document.getElementById('opC'),{type:'bar',data:{labels:MACHINES.filter(m=>m.oee>0).map(m=>m.operator),datasets:[{label:'Units',data:MACHINES.filter(m=>m.oee>0).map(m=>m.actual),backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
+    } else if(activeTab==='Equipment'){
+      box.innerHTML=`<div class="card"><div class="card-title">OEE by Equipment</div><div class="chart-wrap"><canvas id="eqC"></canvas></div></div>
+        <div class="card"><div class="card-title">Equipment Details</div><table class="dash-table"><thead><tr><th>Equipment</th><th>Process</th><th>Status</th><th>OEE</th><th>Actual</th><th>Target</th></tr></thead><tbody>
+        ${MACHINES.map(m=>'<tr><td style="font-weight:700;color:var(--ink)">'+m.name+'</td><td>'+m.process+'</td><td><span class="machine-dot '+m.status+'" style="vertical-align:middle"></span> '+m.status+'</td><td><span class="'+oeeClass(m.oee)+'">'+m.oee.toFixed(1)+'%</span></td><td>'+m.actual+'</td><td>'+m.target+'</td></tr>').join('')}</tbody></table></div>`;
+      chartInstances.push(new Chart(document.getElementById('eqC'),{type:'bar',data:{labels:MACHINES.map(m=>m.name),datasets:[{data:MACHINES.map(m=>m.oee),backgroundColor:MACHINES.map(m=>m.oee>=80?'#34C759':m.oee>=60?'#f59e0b':'#FF3B30'),borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:8},maxRotation:45}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+    } else if(activeTab==='Process'){
+      const procs=PROCESSES.map(p=>{const ms=MACHINES.filter(m=>m.process===p&&m.oee>0);return{name:p,oee:+(ms.reduce((s,m)=>s+m.oee,0)/ms.length).toFixed(1),units:ms.reduce((s,m)=>s+m.actual,0)};});
+      box.innerHTML=`<div class="card"><div class="card-title">OEE by Process</div><div class="chart-wrap"><canvas id="prC"></canvas></div></div>
+        <div class="card"><table class="dash-table"><thead><tr><th>Process</th><th>Avg OEE</th><th>Total Units</th><th>Machines</th></tr></thead><tbody>
+        ${procs.map(p=>'<tr><td style="font-weight:700;color:var(--ink)">'+p.name+'</td><td><span class="'+oeeClass(p.oee)+'">'+p.oee+'%</span></td><td>'+p.units+'</td><td>'+MACHINES.filter(m=>m.process===p.name).length+'</td></tr>').join('')}</tbody></table></div>`;
+      chartInstances.push(new Chart(document.getElementById('prC'),{type:'bar',data:{labels:procs.map(p=>p.name),datasets:[{label:'OEE %',data:procs.map(p=>p.oee),backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:0,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+    } else if(activeTab==='Downtime'){
+      box.innerHTML=`<div class="chart-row"><div class="card"><div class="card-title">Downtime Pareto</div><div class="chart-wrap"><canvas id="dtpC"></canvas></div></div>
+        <div class="card"><div class="card-title">DT by Equipment</div><div class="chart-wrap"><canvas id="dtmC"></canvas></div></div></div>
+        <div class="card"><table class="dash-table"><thead><tr><th>Category</th><th>Events</th><th>Total Min</th><th>Avg Min</th></tr></thead><tbody>
+        ${DT_PARETO.labels.map((l,i)=>{const e=Math.floor(Math.random()*5)+1;return'<tr><td style="font-weight:700;color:var(--ink)">'+l+'</td><td>'+e+'</td><td>'+DT_PARETO.data[i]+'</td><td>'+(DT_PARETO.data[i]/e).toFixed(0)+'</td></tr>';}).join('')}</tbody></table></div>`;
+      chartInstances.push(new Chart(document.getElementById('dtpC'),{type:'bar',data:{labels:DT_PARETO.labels,datasets:[{data:DT_PARETO.data,backgroundColor:'#2251FF',borderRadius:2}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{color:d.grid},ticks:{color:d.tick}},y:{grid:{display:false},ticks:{color:d.tick}}}}}));
       const mdt=MACHINES.filter(m=>m.status==='down').map(m=>({n:m.name,v:Math.floor(Math.random()*40)+10}));
-      chartInstances.push(new Chart(document.getElementById('dtmChart'),{type:'bar',data:{labels:mdt.map(m=>m.n),datasets:[{data:mdt.map(m=>m.v),backgroundColor:'#ef4444',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
-    } else if (activeTab === 'Quality') {
-      box.innerHTML = `<div class="chart-row"><div class="card"><div class="card-header"><div><div class="card-title">Defects by Type</div></div></div><div class="chart-wrap"><canvas id="qChart"></canvas></div></div>
-        <div class="card"><div class="card-header"><div><div class="card-title">Rework Trend (30-day)</div></div></div><div class="chart-wrap"><canvas id="rwChart"></canvas></div></div></div>
-        <div class="card" style="margin-top:16px"><div class="card-header"><div><div class="card-title">Yield by Line</div></div></div><div class="chart-wrap"><canvas id="yieldChart"></canvas></div></div>`;
-      chartInstances.push(new Chart(document.getElementById('qChart'),{type:'doughnut',data:{labels:DEFECTS.labels,datasets:[{data:DEFECTS.data,backgroundColor:['#2251FF','#3d6aff','#6b8fff','#99b0ff','#c4d0ff'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt}}}));
-      chartInstances.push(new Chart(document.getElementById('rwChart'),{type:'line',data:{labels:Array.from({length:30},(_,i)=>'D'+(i+1)),datasets:[{data:Array.from({length:30},()=>(2+Math.random()*4).toFixed(2)),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.1)',fill:true,tension:.3,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:9}}},y:{grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-      chartInstances.push(new Chart(document.getElementById('yieldChart'),{type:'bar',data:{labels:['Line A','Line B','Line C','Line D','Line E'],datasets:[{data:[97.2,94.8,98.1,91.3,95.6],backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:85,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
-    } else if (activeTab === 'Losses') {
-      const losses=[{cat:'Planned Downtime',min:35},{cat:'Unplanned Downtime',min:69},{cat:'Speed Loss',min:22},{cat:'Small Stops',min:14},{cat:'Defects',min:8},{cat:'Startup Loss',min:6}];
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">OEE Loss Waterfall</div><div class="card-sub">Total available: 480 min</div></div></div><div class="chart-wrap" style="height:300px"><canvas id="lossChart"></canvas></div></div>
-        <div class="card" style="margin-top:16px"><table class="table"><thead><tr><th>Loss Category</th><th>Minutes</th><th>% of Total</th></tr></thead><tbody>
-        ${losses.map(l=>'<tr><td style="font-weight:600;color:var(--ink)">'+l.cat+'</td><td>'+l.min+'</td><td>'+(l.min/480*100).toFixed(1)+'%</td></tr>').join('')}</tbody></table></div>`;
-      chartInstances.push(new Chart(document.getElementById('lossChart'),{type:'bar',data:{labels:losses.map(l=>l.cat),datasets:[{data:losses.map(l=>l.min),backgroundColor:['#64748b','#ef4444','#f59e0b','#f59e0b','#2251FF','#64748b'],borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:10}}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
+      chartInstances.push(new Chart(document.getElementById('dtmC'),{type:'bar',data:{labels:mdt.map(m=>m.n),datasets:[{data:mdt.map(m=>m.v),backgroundColor:'#FF3B30',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick}}}}}));
+    } else if(activeTab==='Quality'){
+      box.innerHTML=`<div class="chart-row"><div class="card"><div class="card-title">Defects by Type</div><div class="chart-wrap"><canvas id="qC"></canvas></div></div>
+        <div class="card"><div class="card-title">Rework Trend (30d)</div><div class="chart-wrap"><canvas id="rwC"></canvas></div></div></div>
+        <div class="card"><div class="card-title">First-Pass Yield by Line</div><div class="chart-wrap"><canvas id="yC"></canvas></div></div>`;
+      chartInstances.push(new Chart(document.getElementById('qC'),{type:'doughnut',data:{labels:DEFECTS.labels,datasets:[{data:DEFECTS.data,backgroundColor:['#2251FF','#3d6aff','#6b8fff','#99b0ff','#c4d0ff'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt}}}));
+      chartInstances.push(new Chart(document.getElementById('rwC'),{type:'line',data:{labels:Array.from({length:30},(_,i)=>'D'+(i+1)),datasets:[{data:Array.from({length:30},()=>(2+Math.random()*4).toFixed(2)),borderColor:'#FF3B30',backgroundColor:'rgba(255,59,48,.1)',fill:true,tension:.3,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:9}}},y:{grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+      chartInstances.push(new Chart(document.getElementById('yC'),{type:'bar',data:{labels:PROCESSES,datasets:[{data:PROCESSES.map(()=>+(90+Math.random()*9).toFixed(1)),backgroundColor:'#2251FF',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{min:85,max:100,grid:{color:d.grid},ticks:{color:d.tick,callback:v=>v+'%'}}}}}));
+    } else if(activeTab==='Runs'){
+      const runs=[{prod:'5/8 x 24"',equip:'Autoshear #1',hrs:6.2,units:780,oee:88.4},{prod:'.804 x 72"',equip:'Autoshear #2',hrs:5.8,units:590,oee:82.1},{prod:'3/4 x 36"',equip:'400 Press',hrs:4.1,units:245,oee:61.3},{prod:'7/8 x 48"',equip:'Header #1',hrs:7.0,units:525,oee:79.8},{prod:'12mm Cable',equip:'Cable Line 1',hrs:6.5,units:310,oee:86.3}];
+      box.innerHTML=`<div class="card"><div class="card-title">Production Runs</div><div class="card-sub">Current shift</div><table class="dash-table"><thead><tr><th>Product</th><th>Equipment</th><th>Run Hours</th><th>Units</th><th>OEE</th></tr></thead><tbody>
+        ${runs.map(r=>'<tr><td style="font-weight:700;color:var(--ink)">'+r.prod+'</td><td>'+r.equip+'</td><td>'+r.hrs+'</td><td>'+r.units+'</td><td><span class="'+oeeClass(r.oee)+'">'+r.oee+'%</span></td></tr>').join('')}</tbody></table></div>
+        <div class="card"><div class="card-title">Changeover Impact</div><div class="chart-wrap"><canvas id="coC"></canvas></div></div>`;
+      chartInstances.push(new Chart(document.getElementById('coC'),{type:'bar',data:{labels:['Autoshear #1','400 Press','Header #1','Threader #1','Cable Line 1'],datasets:[{label:'Changeover (min)',data:[12,28,8,15,6],backgroundColor:'#f59e0b',borderRadius:2},{label:'Run Time (min)',data:[372,246,420,360,390],backgroundColor:'#2251FF',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}},tooltip:d.tt},scales:{x:{stacked:true,grid:{display:false},ticks:{color:d.tick}},y:{stacked:true,grid:{color:d.grid},ticks:{color:d.tick}}}}}));
     }
   }
-  renderAnalytics();
+  render();
 };
 
-// ======== CLASSIFY DOWNTIME PAGE ========
-pageRenderers.classify = (main) => {
-  function renderClassify() {
-    const pending = state.downtimeEvents.filter(e=>e.status==='pending');
-    const classified = state.downtimeEvents.filter(e=>e.status==='classified');
-    main.innerHTML = `
-      <div class="page-header"><div><div class="page-title">Classify Downtime</div><div class="page-subtitle">${pending.length} events awaiting classification</div></div></div>
-      ${pending.length ? `<div class="card"><div class="card-header"><div><div class="card-title">Pending Events</div></div></div>
-        <table class="table"><thead><tr><th>Machine</th><th>Start</th><th>Duration</th><th>Note</th><th>Category</th><th>Sub-item</th><th></th></tr></thead>
-          <tbody>${pending.map(e=>`<tr data-id="${e.id}">
-            <td style="font-weight:600;color:var(--ink)">${e.machine}</td><td>${e.start}</td><td>${e.duration} min</td><td>${e.note}</td>
-            <td><select class="dt-select cat-sel"><option value="">Select&hellip;</option>${DT_CATEGORIES.map(c=>'<option>'+c+'</option>').join('')}</select></td>
-            <td><select class="dt-select sub-sel" disabled><option value="">--</option></select></td>
-            <td><button class="dt-btn classify-btn" disabled>Classify</button></td>
-          </tr>`).join('')}</tbody></table></div>` : '<div class="card" style="text-align:center;padding:40px;color:var(--ink-muted)">All events classified!</div>'}
-      <div class="card" style="margin-top:16px"><div class="card-header"><div><div class="card-title">Recently Classified</div><div class="card-sub">${classified.length} events</div></div></div>
-        ${classified.length ? `<table class="table"><thead><tr><th>Machine</th><th>Start</th><th>Duration</th><th>Category</th><th>Note</th></tr></thead>
-          <tbody>${classified.map(e=>'<tr><td style="font-weight:600;color:var(--ink)">'+e.machine+'</td><td>'+e.start+'</td><td>'+e.duration+' min</td><td><span class="dt-badge classified">'+e.category+'</span></td><td>'+e.note+'</td></tr>').join('')}</tbody></table>`
-          : '<div style="padding:20px;text-align:center;color:var(--ink-muted);font-size:12px">No classified events yet</div>'}</div>
-    `;
-    // Wire category/sub dropdowns
-    main.querySelectorAll('.cat-sel').forEach(sel=>{
-      sel.addEventListener('change',function(){
-        const row = this.closest('tr');
-        const subSel = row.querySelector('.sub-sel');
-        const btn = row.querySelector('.classify-btn');
-        if(this.value){
-          const items = DT_SUBITEMS[this.value]||[];
-          subSel.innerHTML = items.map(s=>'<option>'+s+'</option>').join('');
-          subSel.disabled = false;
-          btn.disabled = false;
-        } else { subSel.innerHTML='<option>--</option>'; subSel.disabled=true; btn.disabled=true; }
-      });
-    });
-    main.querySelectorAll('.classify-btn').forEach(btn=>{
-      btn.addEventListener('click',function(){
-        const row = this.closest('tr');
-        const id = row.dataset.id;
-        const cat = row.querySelector('.cat-sel').value;
-        const ev = state.downtimeEvents.find(e=>e.id===id);
-        if(ev){ ev.status='classified'; ev.category=cat; saveState(); updatePendingBadge(); renderClassify(); }
-      });
-    });
+// ════════════════════════════════════════
+// CLASSIFY DOWNTIME
+// ════════════════════════════════════════
+pageRenderers.classify=(main)=>{
+  function render(){
+    const pending=state.downtimeEvents.filter(e=>e.status==='pending');
+    const classified=state.downtimeEvents.filter(e=>e.status==='classified');
+    main.innerHTML=`<div class="page-header"><div><div class="page-title">Classify Downtime</div><div class="page-subtitle">${pending.length} events awaiting classification</div></div></div>
+      ${pending.length?`<div class="card"><div class="card-title">Pending Events</div><div class="card-sub">Automated feed &mdash; classify each event</div>
+        <table class="dash-table"><thead><tr><th>Machine</th><th>Start</th><th>Duration</th><th>Note</th><th>Category</th><th>Sub-item</th><th></th></tr></thead><tbody>
+        ${pending.map(e=>`<tr data-id="${e.id}"><td style="font-weight:700;color:var(--ink)">${e.machine}</td><td>${e.start}</td><td>${e.duration} min</td><td style="max-width:180px">${e.note}</td>
+          <td><select class="dt-select cat-sel"><option value="">Select&hellip;</option>${DT_CATEGORIES.map(c=>'<option>'+c+'</option>').join('')}</select></td>
+          <td><select class="dt-select sub-sel" disabled><option value="">--</option></select></td>
+          <td><button class="dt-btn classify-btn" disabled>Classify</button></td></tr>`).join('')}</tbody></table></div>`
+      :'<div class="card" style="text-align:center;padding:40px;color:var(--ink-sec)">All events classified!</div>'}
+      <div class="card"><div class="card-title">Recently Classified</div><div class="card-sub">${classified.length} events</div>
+        ${classified.length?`<table class="dash-table"><thead><tr><th>Machine</th><th>Start</th><th>Duration</th><th>Category</th><th>Note</th></tr></thead><tbody>
+        ${classified.map(e=>'<tr><td style="font-weight:700;color:var(--ink)">'+e.machine+'</td><td>'+e.start+'</td><td>'+e.duration+' min</td><td><span class="dt-badge classified">'+e.category+'</span></td><td>'+e.note+'</td></tr>').join('')}</tbody></table>`
+        :'<div style="padding:20px;text-align:center;color:var(--ink-ter);font-size:12px">No classified events yet</div>'}</div>`;
+    main.querySelectorAll('.cat-sel').forEach(sel=>{sel.addEventListener('change',function(){const row=this.closest('tr'),sub=row.querySelector('.sub-sel'),btn=row.querySelector('.classify-btn');if(this.value){const items=DT_SUBITEMS[this.value]||['N/A'];sub.innerHTML=items.map(s=>'<option>'+s+'</option>').join('');sub.disabled=false;btn.disabled=false;}else{sub.innerHTML='<option>--</option>';sub.disabled=true;btn.disabled=true;}});});
+    main.querySelectorAll('.classify-btn').forEach(btn=>{btn.addEventListener('click',function(){const row=this.closest('tr'),id=row.dataset.id,cat=row.querySelector('.cat-sel').value;const ev=state.downtimeEvents.find(e=>e.id===id);if(ev){ev.status='classified';ev.category=cat;saveState();updatePendingBadge();render();}});});
   }
-  renderClassify();
+  render();
 };
+function updatePendingBadge(){const c=state.downtimeEvents.filter(e=>e.status==='pending').length;const b=document.getElementById('pendingBadge');b.textContent=c;b.style.display=c?'':'none';}
 
-function updatePendingBadge(){
-  const c = state.downtimeEvents.filter(e=>e.status==='pending').length;
-  const badge = document.getElementById('pendingBadge');
-  badge.textContent = c; badge.style.display = c ? '' : 'none';
-}
-
-// ======== SIX SIGMA TOOLBOX ========
-const TOOLS = [
-  {id:'swimlane',title:'Swim Lane',desc:'Equipment cycle-time vs takt time comparison by machine.'},
+// ════════════════════════════════════════
+// SIX SIGMA TOOLBOX
+// ════════════════════════════════════════
+const TOOLS=[
+  {id:'swimlane',title:'Swim Lane',desc:'Equipment cycle-time vs takt time comparison across the value stream.'},
   {id:'dtanalyzer',title:'Downtime Analyzer',desc:'Scatter plot of downtime events by duration and time of day.'},
   {id:'pcslabor',title:'Pcs / Labor Hour',desc:'Pieces produced per labor hour by shift.'},
   {id:'yamazumi',title:'Yamazumi Chart',desc:'Stacked bar of work elements to identify waste and balance work.'},
-  {id:'pareto',title:'Pareto Analysis',desc:'Rank causes by frequency to identify the vital few.'},
-  {id:'fishbone',title:'Ishikawa / Fishbone',desc:'Brainstorm root causes across the 6 M\'s.'},
-  {id:'whys',title:'5 Whys',desc:'Iterate through causal layers to surface the true root cause.'},
-  {id:'control',title:'Control Chart',desc:'SPC with UCL/LCL to detect special-cause variation.'},
+  {id:'pareto',title:'Pareto Analysis',desc:'Rank causes by frequency with cumulative line.'},
+  {id:'fishbone',title:'Ishikawa / Fishbone',desc:'Root cause brainstorm across the 6 M\'s.'},
+  {id:'whys',title:'5 Whys',desc:'Iterate through causal layers to the true root cause.'},
+  {id:'control',title:'Control Chart',desc:'I-chart with UCL/LCL for special-cause detection.'},
   {id:'dmaic',title:'DMAIC Tracker',desc:'Track improvement projects across D-M-A-I-C phases.'},
-  {id:'fmea',title:'FMEA',desc:'Score failure modes by severity, occurrence, and detection.'}
+  {id:'fmea',title:'FMEA',desc:'Score failure modes by severity, occurrence, detection.'}
 ];
-
-pageRenderers.toolbox = (main) => {
-  main.innerHTML = `
-    <div class="page-header"><div><div class="page-title">Six Sigma Toolbox</div><div class="page-subtitle">DMAIC-aligned tools, pre-populated with live dummy data</div></div></div>
-    <div class="tools-grid">${TOOLS.map(t=>`
-      <div class="tool-card" data-tool="${t.id}">
-        <div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <div class="tool-title">${t.title}</div><div class="tool-desc">${t.desc}</div>
-      </div>`).join('')}</div>`;
+pageRenderers.toolbox=(main)=>{
+  main.innerHTML=`<div class="page-header"><div><div class="page-title">Six Sigma Toolbox</div><div class="page-subtitle">DMAIC-aligned tools with live dummy data</div></div></div>
+    <div class="tools-grid">${TOOLS.map(t=>`<div class="tool-card" data-tool="${t.id}"><div class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="tool-title">${t.title}</div><div class="tool-desc">${t.desc}</div></div>`).join('')}</div>`;
   main.querySelectorAll('.tool-card').forEach(c=>c.addEventListener('click',()=>openTool(c.dataset.tool)));
 };
 
-// ======== TOOL MODALS ========
-function openModal(html){
-  document.getElementById('modal').innerHTML = `<button class="modal-close" onclick="closeModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>${html}`;
-  document.getElementById('modalBackdrop').classList.add('open');
-}
-function closeModal(){
-  document.getElementById('modalBackdrop').classList.remove('open');
-  if(window._modalChart){window._modalChart.destroy();window._modalChart=null;}
-  if(window._modalCharts){window._modalCharts.forEach(c=>c.destroy());window._modalCharts=null;}
-}
-document.getElementById('modalBackdrop').addEventListener('click',(e)=>{if(e.target.id==='modalBackdrop')closeModal();});
+// ════════════════════════════════════════
+// TOOL MODALS
+// ════════════════════════════════════════
+function openModal(h){document.getElementById('modal').innerHTML='<button class="modal-close" onclick="closeModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'+h;document.getElementById('modalBackdrop').classList.add('open');}
+function closeModal(){document.getElementById('modalBackdrop').classList.remove('open');if(window._mc){window._mc.destroy();window._mc=null;}}
+document.getElementById('modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal();});
 
 function openTool(id){
-  const d = chartDefaults(isDarkMode());
-
-  if(id==='swimlane'){
-    const eqs = MACHINES.filter(m=>m.oee>0);
-    const takt = 35;
-    openModal(`<div class="modal-title">Swim Lane &mdash; Cycle Time vs Takt</div><div class="modal-sub">Target takt: ${takt}s per piece</div><div style="height:300px;position:relative"><canvas id="mSwim"></canvas></div>`);
-    const ct = eqs.map(()=>25+Math.random()*20);
-    window._modalChart = new Chart(document.getElementById('mSwim'),{
-      type:'bar',
-      data:{labels:eqs.map(m=>m.name),datasets:[
-        {label:'Cycle Time',data:ct,backgroundColor:ct.map(v=>v>takt?'#ef4444':'#2251FF'),borderRadius:2},
-        {label:'Takt',data:eqs.map(()=>takt),type:'line',borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},
-        scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:9}}},y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Seconds',color:d.tick}}}}
-    });
-  } else if(id==='dtanalyzer'){
-    const pts = state.downtimeEvents.map(e=>({x:parseInt(e.start.split(':')[0])+parseInt(e.start.split(':')[1])/60,y:e.duration}));
-    openModal(`<div class="modal-title">Downtime Analyzer</div><div class="modal-sub">Event duration vs time of day (scatter)</div><div style="height:300px;position:relative"><canvas id="mDTA"></canvas></div>`);
-    window._modalChart = new Chart(document.getElementById('mDTA'),{
-      type:'scatter',
-      data:{datasets:[{label:'Events',data:pts,backgroundColor:pts.map(p=>p.y>20?'#ef4444':'#2251FF'),pointRadius:6,pointHoverRadius:8}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},
-        scales:{x:{title:{display:true,text:'Hour of day',color:d.tick},min:4,max:14,grid:{color:d.grid},ticks:{color:d.tick}},
-          y:{title:{display:true,text:'Duration (min)',color:d.tick},min:0,grid:{color:d.grid},ticks:{color:d.tick}}}}
-    });
-  } else if(id==='pcslabor'){
-    const shifts=['Shift A','Shift B','Shift C'];
-    const vals=[18.4,15.2,16.8];
-    openModal(`<div class="modal-title">Pcs / Labor Hour</div><div class="modal-sub">Pieces produced per labor hour by shift</div><div style="height:280px;position:relative"><canvas id="mPcs"></canvas></div>`);
-    window._modalChart = new Chart(document.getElementById('mPcs'),{
-      type:'bar',
-      data:{labels:shifts,datasets:[{data:vals,backgroundColor:['#2251FF','#3d6aff','#6b8fff'],borderRadius:3}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},
-        scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Pcs/Labor Hr',color:d.tick}}}}
-    });
-  } else if(id==='yamazumi'){
-    const eqs=['Press 1','Press 2','Cable 1','Shear 1'];
-    openModal(`<div class="modal-title">Yamazumi Chart</div><div class="modal-sub">Work element breakdown by equipment</div><div style="height:300px;position:relative"><canvas id="mYam"></canvas></div>`);
-    window._modalChart = new Chart(document.getElementById('mYam'),{
-      type:'bar',
-      data:{labels:eqs,datasets:[
-        {label:'Value-add',data:[22,25,18,20],backgroundColor:'#2251FF'},
-        {label:'Setup',data:[5,8,4,6],backgroundColor:'#f59e0b'},
-        {label:'Wait',data:[3,6,2,4],backgroundColor:'#ef4444'},
-        {label:'Transport',data:[2,3,1,2],backgroundColor:'#64748b'}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},
-        scales:{x:{stacked:true,grid:{display:false},ticks:{color:d.tick}},y:{stacked:true,grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Seconds',color:d.tick}}}}
-    });
-  } else if(id==='pareto'){
-    openModal(`<div class="modal-title">Pareto Analysis &mdash; Downtime Causes</div><div class="modal-sub">This shift &middot; minutes by category (sorted)</div><div style="height:280px;position:relative"><canvas id="mPareto"></canvas></div>
-      <div style="margin-top:14px;font-size:12px;color:var(--ink-body)"><strong>Vital few:</strong> Mechanical + Material = ${DT_PARETO.data[0]+DT_PARETO.data[1]} min (${Math.round((DT_PARETO.data[0]+DT_PARETO.data[1])/DT_PARETO.data.reduce((a,b)=>a+b,0)*100)}% of total).</div>`);
-    const total=DT_PARETO.data.reduce((a,b)=>a+b,0);let cum=0;const cumPct=DT_PARETO.data.map(v=>{cum+=v;return Math.round(cum/total*100);});
-    window._modalChart = new Chart(document.getElementById('mPareto'),{
-      data:{labels:DT_PARETO.labels,datasets:[
-        {type:'bar',label:'Minutes',data:DT_PARETO.data,backgroundColor:'#2251FF',borderRadius:2,order:2},
-        {type:'line',label:'Cumulative %',data:cumPct,borderColor:'#ef4444',pointBackgroundColor:'#ef4444',yAxisID:'y2',tension:.2,order:1}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},
-        scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:10}}},
-          y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Minutes',color:d.tick}},
-          y2:{position:'right',min:0,max:100,grid:{display:false},ticks:{color:d.tick,callback:v=>v+'%'}}}}
-    });
-  } else if(id==='fishbone'){
-    openModal(`<div class="modal-title">Ishikawa / Fishbone &mdash; Press 2 Downtime</div><div class="modal-sub">Problem: Press 2 hydraulic pressure drop (18 min)</div>
-      <div class="fishbone">
-        <div class="fishbone-group"><div class="fishbone-title">Machine</div><ul><li>Hydraulic pump wear (18 months)</li><li>Seal degradation</li><li>Filter restriction</li></ul></div>
-        <div class="fishbone-group"><div class="fishbone-title">Method</div><ul><li>No vibration-trend baseline</li><li>PM interval not risk-adjusted</li></ul></div>
-        <div class="fishbone-group"><div class="fishbone-title">Material</div><ul><li>Hydraulic fluid viscosity</li><li>Contamination from supplier batch</li></ul></div>
-        <div class="fishbone-group"><div class="fishbone-title">Man</div><ul><li>Pre-shift inspection missed</li><li>Operator training on early warnings</li></ul></div>
-        <div class="fishbone-group"><div class="fishbone-title">Measurement</div><ul><li>Pressure sensor calibration 90 days out</li></ul></div>
-        <div class="fishbone-group"><div class="fishbone-title">Environment</div><ul><li>Ambient temperature swing</li><li>Debris near intake</li></ul></div>
-      </div>`);
-  } else if(id==='whys'){
-    openModal(`<div class="modal-title">5 Whys &mdash; Cable 2 Vibration Spike</div><div class="modal-sub">Demo walkthrough based on event dt-005</div>
-      <div class="whys-row"><div class="whys-label">Problem</div><div class="whys-text">Cable 2 flagged intermittent vibration spikes, causing a 12-min stop.</div></div>
-      <div class="whys-row"><div class="whys-label">Why 1?</div><div class="whys-text">Vibration exceeded the 4.2 mm/s control limit on bearing #2.</div></div>
-      <div class="whys-row"><div class="whys-label">Why 2?</div><div class="whys-text">Bearing clearance increased beyond spec.</div></div>
-      <div class="whys-row"><div class="whys-label">Why 3?</div><div class="whys-text">Lubrication interval was extended during a staffing crunch.</div></div>
-      <div class="whys-row"><div class="whys-label">Why 4?</div><div class="whys-text">PM schedule was manual and drifted under production pressure.</div></div>
-      <div class="whys-row"><div class="whys-label">Why 5? (Root)</div><div class="whys-text"><strong>CMMS-triggered auto-PM was never configured for Cable-line bearings.</strong></div></div>
-      <div style="margin-top:16px;padding:12px;background:rgba(34,81,255,.06);border-radius:4px;font-size:12px"><strong>Countermeasure:</strong> Enable auto-PM in CMMS for all Cable-line bearings with a 500-hour lube cycle; add vibration-trend alert to this dashboard.</div>`);
-  } else if(id==='control'){
-    openModal(`<div class="modal-title">Control Chart &mdash; Press 1 Cycle Time</div><div class="modal-sub">I-chart &middot; Target 35s &middot; UCL 42s &middot; LCL 28s</div><div style="height:300px;position:relative"><canvas id="mControl"></canvas></div>`);
-    const spc=genSPCData();const ooc=spc.points.map(p=>p.y>spc.ucl||p.y<spc.lcl);
-    window._modalChart = new Chart(document.getElementById('mControl'),{
-      type:'line',
-      data:{labels:spc.points.map((_,i)=>i+1),datasets:[
-        {label:'Cycle',data:spc.points.map(p=>p.y),borderColor:'#2251FF',backgroundColor:'rgba(34,81,255,.1)',pointBackgroundColor:ooc.map(o=>o?'#ef4444':'#2251FF'),pointRadius:3,tension:.1,fill:false},
-        {label:'Target',data:new Array(spc.points.length).fill(spc.target),borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false},
-        {label:'UCL',data:new Array(spc.points.length).fill(spc.ucl),borderColor:'#ef4444',borderDash:[3,3],pointRadius:0,fill:false},
-        {label:'LCL',data:new Array(spc.points.length).fill(spc.lcl),borderColor:'#ef4444',borderDash:[3,3],pointRadius:0,fill:false}
-      ]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},
-        scales:{x:{grid:{display:false},ticks:{color:d.tick,maxTicksLimit:10}},y:{min:20,max:50,grid:{color:d.grid},ticks:{color:d.tick}}}}
-    });
-  } else if(id==='dmaic'){
-    const projects=[
-      {name:'Reduce Press 2 unplanned downtime',phase:'Analyze',pct:45},
-      {name:'Cable-line vibration predictive PM',phase:'Improve',pct:72},
-      {name:'Shear blade-change standard work',phase:'Control',pct:95},
-      {name:'Thread-defect root cause (Pack 1)',phase:'Measure',pct:22},
-      {name:'Shift handoff cadence redesign',phase:'Define',pct:8}
-    ];
-    openModal(`<div class="modal-title">DMAIC Tracker</div><div class="modal-sub">${projects.length} active improvement projects</div>
-      <table class="table"><thead><tr><th>Project</th><th>Phase</th><th>Progress</th></tr></thead><tbody>${projects.map(p=>`
-        <tr><td style="font-weight:500;color:var(--ink)">${p.name}</td><td><span class="dt-badge classified">${p.phase}</span></td>
-          <td style="width:180px"><div style="background:var(--rule);border-radius:4px;height:8px;position:relative"><div style="background:var(--accent);width:${p.pct}%;height:100%;border-radius:4px"></div></div><div style="font-size:10px;color:var(--ink-muted);margin-top:3px">${p.pct}%</div></td></tr>`).join('')}</tbody></table>`);
-  } else if(id==='fmea'){
-    const rows=[
-      {mode:'Hydraulic seal failure (Press 2)',s:8,o:5,dct:4},
-      {mode:'Bearing wear (Cable 2)',s:7,o:6,dct:5},
-      {mode:'Blade dull beyond spec (Shear 1)',s:6,o:7,dct:3},
-      {mode:'Thread gauge drift (Pack 1)',s:9,o:3,dct:6},
-      {mode:'Sensor calibration drift',s:5,o:4,dct:7}
-    ].map(r=>({...r,rpn:r.s*r.o*r.dct})).sort((a,b)=>b.rpn-a.rpn);
-    openModal(`<div class="modal-title">FMEA &mdash; Critical Assets</div><div class="modal-sub">Risk Priority Number (RPN) = Severity &times; Occurrence &times; Detection</div>
-      <table class="table"><thead><tr><th>Failure Mode</th><th>S</th><th>O</th><th>D</th><th>RPN</th></tr></thead><tbody>${rows.map(r=>`
-        <tr><td style="color:var(--ink)">${r.mode}</td><td>${r.s}</td><td>${r.o}</td><td>${r.dct}</td>
-          <td style="font-weight:700;color:${r.rpn>150?'var(--red)':r.rpn>80?'var(--yellow)':'var(--green)'}">${r.rpn}</td></tr>`).join('')}</tbody></table>`);
-  }
+  const d=cD(isDark());
+  if(id==='swimlane'){const eqs=MACHINES.filter(m=>m.oee>0),takt=35;openModal('<div class="modal-title">Swim Lane &mdash; Cycle Time vs Takt</div><div class="modal-sub">Target takt: '+takt+'s per piece</div><div style="height:300px;position:relative"><canvas id="mC"></canvas></div>');const ct=eqs.map(()=>25+Math.random()*20);window._mc=new Chart(document.getElementById('mC'),{type:'bar',data:{labels:eqs.map(m=>m.name),datasets:[{label:'Cycle Time',data:ct,backgroundColor:ct.map(v=>v>takt?'#FF3B30':'#2251FF'),borderRadius:2},{label:'Takt',data:eqs.map(()=>takt),type:'line',borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:8}}},y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Seconds',color:d.tick}}}}});}
+  else if(id==='dtanalyzer'){const pts=state.downtimeEvents.map(e=>({x:parseInt(e.start.split(':')[0])+parseInt(e.start.split(':')[1])/60,y:e.duration}));openModal('<div class="modal-title">Downtime Analyzer</div><div class="modal-sub">Event duration vs time of day</div><div style="height:300px;position:relative"><canvas id="mC"></canvas></div>');window._mc=new Chart(document.getElementById('mC'),{type:'scatter',data:{datasets:[{label:'Events',data:pts,backgroundColor:pts.map(p=>p.y>20?'#FF3B30':'#2251FF'),pointRadius:6,pointHoverRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{title:{display:true,text:'Hour of day',color:d.tick},min:4,max:14,grid:{color:d.grid},ticks:{color:d.tick}},y:{title:{display:true,text:'Duration (min)',color:d.tick},min:0,grid:{color:d.grid},ticks:{color:d.tick}}}}});}
+  else if(id==='pcslabor'){openModal('<div class="modal-title">Pcs / Labor Hour</div><div class="modal-sub">By shift</div><div style="height:280px;position:relative"><canvas id="mC"></canvas></div>');window._mc=new Chart(document.getElementById('mC'),{type:'bar',data:{labels:['Shift 1','Shift 2','Shift 3'],datasets:[{data:[18.4,15.2,16.8],backgroundColor:['#2251FF','#3d6aff','#6b8fff'],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick}},y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Pcs/Labor Hr',color:d.tick}}}}});}
+  else if(id==='yamazumi'){openModal('<div class="modal-title">Yamazumi Chart</div><div class="modal-sub">Work element breakdown by equipment</div><div style="height:300px;position:relative"><canvas id="mC"></canvas></div>');window._mc=new Chart(document.getElementById('mC'),{type:'bar',data:{labels:['Autoshear #1','400 Press','Header #1','Threader #1'],datasets:[{label:'Value-add',data:[22,25,18,20],backgroundColor:'#2251FF'},{label:'Setup',data:[5,8,4,6],backgroundColor:'#f59e0b'},{label:'Wait',data:[3,6,2,4],backgroundColor:'#FF3B30'},{label:'Transport',data:[2,3,1,2],backgroundColor:'#94A3B8'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},scales:{x:{stacked:true,grid:{display:false},ticks:{color:d.tick}},y:{stacked:true,grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Seconds',color:d.tick}}}}});}
+  else if(id==='pareto'){const total=DT_PARETO.data.reduce((a,b)=>a+b,0);let cum=0;const cumPct=DT_PARETO.data.map(v=>{cum+=v;return Math.round(cum/total*100);});openModal('<div class="modal-title">Pareto Analysis &mdash; Downtime</div><div class="modal-sub">This shift &middot; minutes by category</div><div style="height:280px;position:relative"><canvas id="mC"></canvas></div><div style="margin-top:14px;font-size:12px;color:var(--ink-sec)"><strong>Vital few:</strong> Tooling + Material = '+(DT_PARETO.data[0]+DT_PARETO.data[1])+' min ('+Math.round((DT_PARETO.data[0]+DT_PARETO.data[1])/total*100)+'% of total).</div>');window._mc=new Chart(document.getElementById('mC'),{data:{labels:DT_PARETO.labels,datasets:[{type:'bar',label:'Minutes',data:DT_PARETO.data,backgroundColor:'#2251FF',borderRadius:2,order:2},{type:'line',label:'Cumulative %',data:cumPct,borderColor:'#FF3B30',pointBackgroundColor:'#FF3B30',yAxisID:'y2',tension:.2,order:1}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,font:{size:10}}},y:{grid:{color:d.grid},ticks:{color:d.tick},title:{display:true,text:'Minutes',color:d.tick}},y2:{position:'right',min:0,max:100,grid:{display:false},ticks:{color:d.tick,callback:v=>v+'%'}}}}});}
+  else if(id==='fishbone'){openModal('<div class="modal-title">Ishikawa / Fishbone &mdash; 400 Press Downtime</div><div class="modal-sub">Problem: Hydraulic pressure drop (18 min)</div><div class="fishbone"><div class="fishbone-group"><div class="fishbone-title">Machine</div><ul><li>Hydraulic pump wear (18 mo)</li><li>Seal degradation</li><li>Filter restriction</li></ul></div><div class="fishbone-group"><div class="fishbone-title">Method</div><ul><li>No vibration-trend baseline</li><li>PM interval not risk-adjusted</li></ul></div><div class="fishbone-group"><div class="fishbone-title">Material</div><ul><li>Hydraulic fluid viscosity</li><li>Contamination from supplier batch</li></ul></div><div class="fishbone-group"><div class="fishbone-title">Man</div><ul><li>Pre-shift inspection missed</li><li>Operator training on early warnings</li></ul></div><div class="fishbone-group"><div class="fishbone-title">Measurement</div><ul><li>Pressure sensor calibration 90 days out</li></ul></div><div class="fishbone-group"><div class="fishbone-title">Environment</div><ul><li>Ambient temperature swing</li><li>Debris near intake</li></ul></div></div>');}
+  else if(id==='whys'){openModal('<div class="modal-title">5 Whys &mdash; Threader #1 Vibration</div><div class="modal-sub">Based on event dt-005</div><div class="whys-row"><div class="whys-label">Problem</div><div class="whys-text">Threader #1 flagged intermittent vibration spikes, causing a 12-min stop.</div></div><div class="whys-row"><div class="whys-label">Why 1?</div><div class="whys-text">Vibration exceeded the 4.2 mm/s control limit on bearing #2.</div></div><div class="whys-row"><div class="whys-label">Why 2?</div><div class="whys-text">Bearing clearance increased beyond spec.</div></div><div class="whys-row"><div class="whys-label">Why 3?</div><div class="whys-text">Lubrication interval was extended during a staffing crunch.</div></div><div class="whys-row"><div class="whys-label">Why 4?</div><div class="whys-text">PM schedule was manual and drifted under production pressure.</div></div><div class="whys-row"><div class="whys-label">Why 5? (Root)</div><div class="whys-text"><strong>CMMS-triggered auto-PM was never configured for threader bearings.</strong></div></div><div style="margin-top:16px;padding:12px;background:var(--blue-tint);border-radius:var(--radius-md);font-size:12px"><strong>Countermeasure:</strong> Enable auto-PM in CMMS for all threader bearings with a 500-hour lube cycle; add vibration-trend alert.</div>');}
+  else if(id==='control'){openModal('<div class="modal-title">Control Chart &mdash; Press Cycle Time</div><div class="modal-sub">I-chart &middot; Target 35s &middot; UCL 42s &middot; LCL 28s</div><div style="height:300px;position:relative"><canvas id="mC"></canvas></div>');const spc=genSPCData(),ooc=spc.points.map(p=>p.y>spc.ucl||p.y<spc.lcl);window._mc=new Chart(document.getElementById('mC'),{type:'line',data:{labels:spc.points.map((_,i)=>i+1),datasets:[{label:'Cycle',data:spc.points.map(p=>p.y),borderColor:'#2251FF',pointBackgroundColor:ooc.map(o=>o?'#FF3B30':'#2251FF'),pointRadius:3,tension:.1,fill:false},{label:'Target',data:new Array(spc.points.length).fill(spc.target),borderColor:'#051c2c',borderDash:[4,4],pointRadius:0,fill:false},{label:'UCL',data:new Array(spc.points.length).fill(spc.ucl),borderColor:'#FF3B30',borderDash:[3,3],pointRadius:0,fill:false},{label:'LCL',data:new Array(spc.points.length).fill(spc.lcl),borderColor:'#FF3B30',borderDash:[3,3],pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:d.tick}},tooltip:d.tt},scales:{x:{grid:{display:false},ticks:{color:d.tick,maxTicksLimit:10}},y:{min:20,max:50,grid:{color:d.grid},ticks:{color:d.tick}}}}});}
+  else if(id==='dmaic'){const prj=[{name:'Reduce 400 Press unplanned downtime',phase:'Analyze',pct:45},{name:'Threader vibration predictive PM',phase:'Improve',pct:72},{name:'Shear blade-change standard work',phase:'Control',pct:95},{name:'Thread-defect root cause (Assembly)',phase:'Measure',pct:22},{name:'Shift handoff cadence redesign',phase:'Define',pct:8}];openModal('<div class="modal-title">DMAIC Tracker</div><div class="modal-sub">'+prj.length+' active projects</div><table class="dash-table"><thead><tr><th>Project</th><th>Phase</th><th>Progress</th></tr></thead><tbody>'+prj.map(p=>'<tr><td style="font-weight:600;color:var(--ink)">'+p.name+'</td><td><span class="dt-badge classified">'+p.phase+'</span></td><td style="width:180px"><div style="background:var(--border-light);border-radius:4px;height:8px"><div style="background:var(--accent);width:'+p.pct+'%;height:100%;border-radius:4px"></div></div><div style="font-size:10px;color:var(--ink-ter);margin-top:3px">'+p.pct+'%</div></td></tr>').join('')+'</tbody></table>');}
+  else if(id==='fmea'){const rows=[{mode:'Hydraulic seal failure (400 Press)',s:8,o:5,d:4},{mode:'Bearing wear (Threader #1)',s:7,o:6,d:5},{mode:'Blade dull (Autoshear #1)',s:6,o:7,d:3},{mode:'Thread gauge drift (Assembly)',s:9,o:3,d:6},{mode:'Sensor calibration drift',s:5,o:4,d:7}].map(r=>({...r,rpn:r.s*r.o*r.d})).sort((a,b)=>b.rpn-a.rpn);openModal('<div class="modal-title">FMEA &mdash; Critical Assets</div><div class="modal-sub">RPN = Severity &times; Occurrence &times; Detection</div><table class="dash-table"><thead><tr><th>Failure Mode</th><th>S</th><th>O</th><th>D</th><th>RPN</th></tr></thead><tbody>'+rows.map(r=>'<tr><td style="color:var(--ink)">'+r.mode+'</td><td>'+r.s+'</td><td>'+r.o+'</td><td>'+r.d+'</td><td style="font-weight:800;color:'+(r.rpn>150?'var(--red-css)':r.rpn>80?'var(--yellow)':'var(--green-css)')+'">'+r.rpn+'</td></tr>').join('')+'</tbody></table>');}
 }
 
-// ======== TV DISPLAY PAGE ========
-pageRenderers.tv = (main) => {
-  let breakMode = false;
-  function renderTV() {
-    main.innerHTML = `
-      <div class="page-header"><div><div class="page-title">TV Display</div><div class="page-subtitle">Floor-display view for wall-mounted screens</div></div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <button class="btn sm ${breakMode?'danger':''}" id="breakToggle">${breakMode?'End Team Break':'Start Team Break'}</button>
+// ════════════════════════════════════════
+// TV DISPLAY (mirrors JMOS floor display)
+// ════════════════════════════════════════
+pageRenderers.tv=(main)=>{
+  let breakMode=false;
+  function genHourlyData(){return Array.from({length:8},()=>Math.floor(Math.random()*30)+5);}
+  function render(){
+    destroyCharts();
+    const activeMachines=MACHINES.filter(m=>m.oee>0);
+    const cols=activeMachines.length<=6?2:activeMachines.length<=9?3:4;
+    main.innerHTML=`
+      <div class="tv-display">
+        <div class="tv-header">
+          <div><div class="tv-header-title">OpsIQ &mdash; Floor Display</div><div class="tv-header-sub">Production Performance Metrics</div></div>
+          <div class="tv-header-controls">
+            <select class="dt-select" style="max-width:160px"><option>All Processes</option>${PROCESSES.map(p=>'<option>'+p+'</option>').join('')}</select>
+            <div class="tv-range-group"><button class="tv-range-btn active">Today</button><button class="tv-range-btn">Yesterday</button><button class="tv-range-btn">WTD</button><button class="tv-range-btn">MTD</button></div>
+            <button class="glass-btn glass-btn-sm ${breakMode?'glass-btn-danger':''}" id="breakBtn">${breakMode?'End Team Break':'Team Break'}</button>
+          </div>
         </div>
-      </div>
-      ${breakMode?'<div class="tv-break-banner">&#9749; Team Break in Progress</div>':''}
-      <div class="tv-grid">${MACHINES.map(m=>`
-        <div class="tv-tile ${m.status}">
-          <div class="tv-tile-name">${m.name}</div>
-          <div class="tv-tile-oee">${m.oee.toFixed(1)}%</div>
-          <div class="tv-tile-status">${m.status}</div>
-          <div class="tv-tile-operator">${m.operator}</div>
-        </div>`).join('')}</div>
-    `;
-    main.querySelector('#breakToggle').addEventListener('click',()=>{breakMode=!breakMode;renderTV();});
+        ${breakMode?'<div class="team-break-overlay" id="breakOverlay"><div class="team-break-card"><div class="team-break-emoji">&#9749;</div><div class="team-break-title">TEAM BREAK</div><div class="team-break-equip">All lines paused</div></div></div>':''}
+        <div class="tv-grid" style="grid-template-columns:repeat(${cols},1fr)">
+          ${activeMachines.map((m,mi)=>{
+            const hrData=genHourlyData();
+            const gap=m.actual-m.target;
+            const gapStr=gap>=0?'+'+gap:String(gap);
+            const gapColor=gap>=0?'var(--green-css)':'var(--red-css)';
+            const pillColor=v=>v>=80?'var(--green-css)':v>=60?'var(--yellow)':'var(--red-css)';
+            return`<div class="tv-equip-card">
+              <div class="tv-equip-header">
+                <div class="tv-equip-name"><div class="tv-equip-title">${m.name}</div><div class="tv-equip-product">Running: ${m.product}</div><div class="tv-equip-operators">${m.operator}</div></div>
+                <div class="tv-oee-pills">
+                  <div class="tv-oee-pill oee-hero" style="border-color:${pillColor(m.oee)}"><div class="tv-oee-pill-val" style="color:${pillColor(m.oee)}">${m.oee.toFixed(1)}%</div><div class="tv-oee-pill-label">OEE</div></div>
+                  <div class="tv-oee-pill" style="border-color:${pillColor(m.avail)}"><div class="tv-oee-pill-val">${m.avail.toFixed(0)}%</div><div class="tv-oee-pill-label">A</div></div>
+                  <div class="tv-oee-pill" style="border-color:${pillColor(m.perf)}"><div class="tv-oee-pill-val">${m.perf.toFixed(0)}%</div><div class="tv-oee-pill-label">P</div></div>
+                  <div class="tv-oee-pill" style="border-color:${pillColor(m.qual)}"><div class="tv-oee-pill-val">${m.qual.toFixed(0)}%</div><div class="tv-oee-pill-label">Q</div></div>
+                </div>
+              </div>
+              <div class="tv-summary-row">
+                <div class="tv-summary-stat"><span class="tv-summary-val">${m.actual}</span><span class="tv-summary-label">Good</span></div>
+                <div class="tv-summary-stat"><span class="tv-summary-val">${m.target}</span><span class="tv-summary-label">Target</span></div>
+                <div class="tv-summary-stat"><span class="tv-summary-val" style="color:${gapColor}">${gapStr}</span><span class="tv-summary-label">Gap</span></div>
+                <div class="tv-summary-stat"><span class="tv-summary-val">${Math.floor(Math.random()*30)+5}</span><span class="tv-summary-label">DT min</span></div>
+              </div>
+              <div class="tv-content-grid">
+                <div class="tv-section"><div class="tv-section-title">Hourly Output</div>
+                  ${HOURLY_LABELS.map((l,i)=>{const v=hrData[i];const pct=Math.min(v/m.target*100*8,100);const cl=v>=m.target/8?'var(--green-css)':'var(--red-css)';
+                    return'<div class="tv-bar-row"><div class="tv-bar-label">'+l.split(' ')[0]+'</div><div class="tv-bar-track"><div class="tv-bar-fill" style="width:'+pct+'%;background:'+cl+'"><div class="tv-bar-val">'+v+'</div></div></div></div>';}).join('')}
+                </div>
+                <div class="tv-section"><div class="tv-section-title">Top Downtime</div>
+                  ${['Tooling','Changeover','Material'].map((c,i)=>{const v=[12,8,4][i];const pct=v/20*100;return'<div class="tv-bar-row"><div class="tv-bar-label" style="width:60px">'+c+'</div><div class="tv-bar-track"><div class="tv-bar-fill" style="width:'+pct+'%;background:var(--red-css)"><div class="tv-bar-val">'+v+'m</div></div></div></div>';}).join('')}
+                  <div class="tv-section-title" style="margin-top:8px">Top Defects</div>
+                  ${['Bent Bar','Burr'].map((c,i)=>{const v=[3,1][i];const pct=v/5*100;return'<div class="tv-bar-row"><div class="tv-bar-label" style="width:60px">'+c+'</div><div class="tv-bar-track"><div class="tv-bar-fill" style="width:'+pct+'%;background:var(--yellow)"><div class="tv-bar-val">'+v+'</div></div></div></div>';}).join('')}
+                </div>
+              </div>
+            </div>`;}).join('')}
+        </div>
+      </div>`;
+    main.querySelector('#breakBtn').addEventListener('click',()=>{breakMode=!breakMode;render();});
   }
-  renderTV();
+  render();
 };
 
-// ======== SETTINGS PAGE ========
-pageRenderers.settings = (main) => {
-  const STABS = ['Account','Operators','Equipment','Products','Rates','Alerts','Display','Data'];
-  let activeStab = 'Account';
-
-  function renderSettings() {
-    const s = state.settings;
-    main.innerHTML = `
-      <div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">All preferences persist in your browser</div></div></div>
-      <div class="sub-tabs">${STABS.map(t=>'<div class="sub-tab'+(t===activeStab?' active':'')+'" data-stab="'+t+'">'+t+'</div>').join('')}</div>
-      <div id="settingsContent"></div>
-    `;
-    main.querySelectorAll('.sub-tab').forEach(el=>el.addEventListener('click',()=>{activeStab=el.dataset.stab;renderSettings();}));
-    const box = main.querySelector('#settingsContent');
-
-    if (activeStab === 'Account') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">User</div><div class="card-sub">Demo account</div></div></div>
+// ════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════
+pageRenderers.settings=(main)=>{
+  const STABS=['Account','Operators','Equipment','Products','DT Codes','Rates','Alerts','Display','Data'];
+  let activeStab='Account';
+  function render(){
+    const s=state.settings;
+    main.innerHTML=`<div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">All preferences persist in your browser</div></div></div>
+      <div class="sub-tabs">${STABS.map(t=>'<div class="sub-tab'+(t===activeStab?' active':'')+'" data-stab="'+t+'">'+t+'</div>').join('')}</div><div id="sBox"></div>`;
+    main.querySelectorAll('.sub-tab').forEach(el=>el.addEventListener('click',()=>{activeStab=el.dataset.stab;render();}));
+    const box=main.querySelector('#sBox');
+    if(activeStab==='Account'){
+      box.innerHTML=`<div class="card"><div class="card-title">User</div><div class="card-sub">Demo account</div>
         <div class="setting-row"><div><div class="setting-label">Signed in as</div><div class="setting-desc">demo@opsiq.local &middot; Plant Manager &middot; Demo Plant</div></div></div>
-        <div class="setting-row"><div><div class="setting-label">Timezone</div><div class="setting-desc">Used for shift boundaries and email digest</div></div>
-          <select id="set-tz">${['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','UTC'].map(tz=>'<option'+(tz===s.timezone?' selected':'')+'>'+tz+'</option>').join('')}</select>
-        </div></div>`;
-      box.querySelector('#set-tz').addEventListener('change',e=>{state.settings.timezone=e.target.value;saveState();});
-    } else if (activeStab === 'Operators') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Operators</div><div class="card-sub">${state.operators.length} registered</div></div></div>
-        <table class="table"><thead><tr><th>Name</th><th>Hire Date</th><th>Shift</th></tr></thead><tbody>
-        ${state.operators.map(o=>'<tr><td style="font-weight:600;color:var(--ink)">'+o.name+'</td><td>'+o.hired+'</td><td>'+o.shift+'</td></tr>').join('')}</tbody></table>
-        <div class="inline-form" style="border-top:1px solid var(--rule);margin-top:8px;padding-top:12px">
-          <input type="text" id="opName" placeholder="Name">
-          <input type="date" id="opDate">
-          <select id="opShift"><option>A</option><option>B</option><option>C</option></select>
-          <button class="btn sm" id="addOp">Add</button>
-        </div></div>`;
-      box.querySelector('#addOp').addEventListener('click',()=>{
-        const n=box.querySelector('#opName').value.trim(),dt=box.querySelector('#opDate').value,sh=box.querySelector('#opShift').value;
-        if(n){state.operators.push({name:n,hired:dt||'N/A',shift:sh});saveState();renderSettings();}
-      });
-    } else if (activeStab === 'Equipment') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Equipment</div><div class="card-sub">${state.equipment.length} units</div></div></div>
-        <table class="table"><thead><tr><th>Name</th><th>Status</th><th>Toggle</th></tr></thead><tbody>
-        ${state.equipment.map((e,i)=>'<tr><td style="font-weight:600;color:var(--ink)">'+e.name+'</td><td>'+(e.active?'<span class="dt-badge classified">Active</span>':'<span class="dt-badge pending">Inactive</span>')+'</td><td><div class="switch '+(e.active?'on':'')+'" data-eqi="'+i+'"></div></td></tr>').join('')}</tbody></table></div>`;
-      box.querySelectorAll('.switch').forEach(sw=>{
-        sw.addEventListener('click',()=>{const i=+sw.dataset.eqi;state.equipment[i].active=!state.equipment[i].active;sw.classList.toggle('on');saveState();});
-      });
-    } else if (activeStab === 'Products') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Products</div><div class="card-sub">${state.products.length} SKUs</div></div></div>
-        <table class="table"><thead><tr><th>SKU</th><th>Description</th></tr></thead><tbody>
-        ${state.products.map(p=>'<tr><td style="font-weight:600;color:var(--ink)">'+p.sku+'</td><td>'+p.desc+'</td></tr>').join('')}</tbody></table></div>`;
-    } else if (activeStab === 'Rates') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Target Rates</div><div class="card-sub">Units per hour by equipment</div></div></div>
-        <table class="table"><thead><tr><th>Equipment</th><th>Target (units/hr)</th></tr></thead><tbody>
-        ${state.rates.map((r,i)=>'<tr><td style="font-weight:600;color:var(--ink)">'+r.equip+'</td><td><input type="number" value="'+r.target+'" min="1" style="width:80px" data-ri="'+i+'"></td></tr>').join('')}</tbody></table></div>`;
-      box.querySelectorAll('input[data-ri]').forEach(inp=>{
-        inp.addEventListener('change',()=>{state.rates[+inp.dataset.ri].target=+inp.value;saveState();});
-      });
-    } else if (activeStab === 'Alerts') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Alerts</div><div class="card-sub">Automated notifications</div></div></div>
-        <div class="setting-row"><div><div class="setting-label">Daily email digest</div><div class="setting-desc">06:15 local time, with the snapshot image</div></div><div class="switch ${s.emailDigest?'on':''}" data-toggle="emailDigest"></div></div>
+        <div class="setting-row"><div><div class="setting-label">Timezone</div><div class="setting-desc">Shift boundaries and email digest</div></div>
+          <select id="setTz">${['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','UTC'].map(tz=>'<option'+(tz===s.timezone?' selected':'')+'>'+tz+'</option>').join('')}</select></div></div>`;
+      box.querySelector('#setTz').addEventListener('change',e=>{state.settings.timezone=e.target.value;saveState();});
+    } else if(activeStab==='Operators'){
+      box.innerHTML=`<div class="card"><div class="card-title">Operators</div><div class="card-sub">${state.operators.length} registered</div>
+        <table class="dash-table"><thead><tr><th>Name</th><th>Hire Date</th><th>Shift</th></tr></thead><tbody>
+        ${state.operators.map(o=>'<tr><td style="font-weight:700;color:var(--ink)">'+o.name+'</td><td>'+o.hired+'</td><td>Shift '+o.shift+'</td></tr>').join('')}</tbody></table>
+        <div class="inline-form" style="border-top:1px solid var(--border-light);margin-top:8px;padding-top:12px">
+          <input type="text" id="opN" placeholder="Last, First"><input type="date" id="opD"><select id="opS"><option>1</option><option>2</option><option>3</option></select>
+          <button class="glass-btn glass-btn-primary glass-btn-sm" id="addOp">Add</button></div></div>`;
+      box.querySelector('#addOp').addEventListener('click',()=>{const n=box.querySelector('#opN').value.trim(),dt=box.querySelector('#opD').value,sh=box.querySelector('#opS').value;if(n){state.operators.push({name:n,hired:dt||'N/A',shift:sh});saveState();render();}});
+    } else if(activeStab==='Equipment'){
+      box.innerHTML=`<div class="card"><div class="card-title">Equipment</div><div class="card-sub">${state.equipment.length} units</div>
+        <table class="dash-table"><thead><tr><th>Name</th><th>Process</th><th>Status</th><th>Toggle</th></tr></thead><tbody>
+        ${state.equipment.map((e,i)=>'<tr><td style="font-weight:700;color:var(--ink)">'+e.name+'</td><td>'+e.process+'</td><td>'+(e.active?'<span class="dt-badge classified">Active</span>':'<span class="dt-badge pending">Inactive</span>')+'</td><td><div class="switch '+(e.active?'on':'')+'" data-eqi="'+i+'"></div></td></tr>').join('')}</tbody></table></div>`;
+      box.querySelectorAll('.switch').forEach(sw=>{sw.addEventListener('click',()=>{const i=+sw.dataset.eqi;state.equipment[i].active=!state.equipment[i].active;sw.classList.toggle('on');saveState();});});
+    } else if(activeStab==='Products'){
+      box.innerHTML=`<div class="card"><div class="card-title">Products</div><div class="card-sub">${state.products.length} SKUs</div>
+        <table class="dash-table"><thead><tr><th>SKU</th><th>Description</th></tr></thead><tbody>
+        ${state.products.map(p=>'<tr><td style="font-weight:700;color:var(--ink);font-family:monospace">'+p.sku+'</td><td>'+p.desc+'</td></tr>').join('')}</tbody></table></div>`;
+    } else if(activeStab==='DT Codes'){
+      box.innerHTML=`<div class="card"><div class="card-title">Downtime Codes</div><div class="card-sub">${DT_CATEGORIES.length} codes configured</div>
+        <table class="dash-table"><thead><tr><th>#</th><th>Code Name</th><th>Sub-items</th></tr></thead><tbody>
+        ${DT_CATEGORIES.map((c,i)=>'<tr><td style="font-weight:700;color:var(--ink)">'+(i+1)+'</td><td>'+c+'</td><td style="font-size:11px;color:var(--ink-ter)">'+(DT_SUBITEMS[c]?DT_SUBITEMS[c].join(', '):'&mdash;')+'</td></tr>').join('')}</tbody></table></div>`;
+    } else if(activeStab==='Rates'){
+      box.innerHTML=`<div class="card"><div class="card-title">Target Rates</div><div class="card-sub">Units per hour by equipment</div>
+        <table class="dash-table"><thead><tr><th>Equipment</th><th>Target (units/hr)</th></tr></thead><tbody>
+        ${state.rates.map((r,i)=>'<tr><td style="font-weight:700;color:var(--ink)">'+r.equip+'</td><td><input type="number" value="'+r.target+'" min="1" style="width:80px;height:32px;padding:0 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-weight:700;background:var(--surface);color:var(--ink)" data-ri="'+i+'"></td></tr>').join('')}</tbody></table></div>`;
+      box.querySelectorAll('input[data-ri]').forEach(inp=>{inp.addEventListener('change',()=>{state.rates[+inp.dataset.ri].target=+inp.value;saveState();});});
+    } else if(activeStab==='Alerts'){
+      box.innerHTML=`<div class="card"><div class="card-title">Alerts</div><div class="card-sub">Automated notifications</div>
+        <div class="setting-row"><div><div class="setting-label">Daily email digest</div><div class="setting-desc">06:15 local time</div></div><div class="switch ${s.emailDigest?'on':''}" data-toggle="emailDigest"></div></div>
         <div class="setting-row"><div><div class="setting-label">Slack OEE alerts</div><div class="setting-desc">Ping #ops when OEE drops below threshold</div></div><div class="switch ${s.slackAlerts?'on':''}" data-toggle="slackAlerts"></div></div>
-        <div class="setting-row"><div><div class="setting-label">High-downtime alert</div><div class="setting-desc">Trigger when a single event exceeds 15 min</div></div><div class="switch ${s.alertHighDowntime?'on':''}" data-toggle="alertHighDowntime"></div></div>
-        <div class="setting-row"><div><div class="setting-label">OEE alert threshold</div><div class="setting-desc">Notify when plant OEE drops below this %</div></div><input type="number" id="set-oee" min="50" max="100" value="${s.oeeThreshold}" style="width:80px"></div>
-      </div>`;
+        <div class="setting-row"><div><div class="setting-label">High-downtime alert</div><div class="setting-desc">When a single event exceeds 15 min</div></div><div class="switch ${s.alertHighDowntime?'on':''}" data-toggle="alertHighDowntime"></div></div>
+        <div class="setting-row"><div><div class="setting-label">OEE threshold</div><div class="setting-desc">Notify when plant OEE drops below</div></div><input type="number" id="setOee" min="50" max="100" value="${s.oeeThreshold}" style="width:80px;height:32px"></div></div>`;
       box.querySelectorAll('[data-toggle]').forEach(el=>{el.addEventListener('click',()=>{const k=el.dataset.toggle;state.settings[k]=!state.settings[k];el.classList.toggle('on',state.settings[k]);saveState();});});
-      box.querySelector('#set-oee').addEventListener('change',e=>{state.settings.oeeThreshold=+e.target.value;saveState();});
-    } else if (activeStab === 'Display') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Display</div><div class="card-sub">Appearance</div></div></div>
+      const oeeInp=box.querySelector('#setOee');if(oeeInp)oeeInp.addEventListener('change',e=>{state.settings.oeeThreshold=+e.target.value;saveState();});
+    } else if(activeStab==='Display'){
+      box.innerHTML=`<div class="card"><div class="card-title">Display</div><div class="card-sub">Appearance</div>
         <div class="setting-row"><div><div class="setting-label">Theme</div><div class="setting-desc">Light or dark mode</div></div>
-          <select id="set-theme"><option value="light" ${s.theme==='light'?'selected':''}>Light</option><option value="dark" ${s.theme==='dark'?'selected':''}>Dark</option></select>
-        </div></div>`;
-      box.querySelector('#set-theme').addEventListener('change',e=>{state.settings.theme=e.target.value;document.documentElement.setAttribute('data-theme',e.target.value);saveState();navigate('settings');});
-    } else if (activeStab === 'Data') {
-      box.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">Data</div><div class="card-sub">All data is dummy; no remote backend</div></div></div>
-        <div class="setting-row"><div><div class="setting-label">Reset demo to defaults</div><div class="setting-desc">Clears classifications and restores pending events</div></div>
-          <button class="btn danger" id="set-reset">Reset</button></div></div>`;
-      box.querySelector('#set-reset').addEventListener('click',()=>{
-        if(!confirm('Reset all demo data?'))return;
-        localStorage.removeItem(STORAGE_KEY);state=loadState();document.documentElement.setAttribute('data-theme',state.settings.theme);updatePendingBadge();navigate('settings');
-      });
+          <select id="setTheme"><option value="light" ${s.theme==='light'?'selected':''}>Light</option><option value="dark" ${s.theme==='dark'?'selected':''}>Dark</option></select></div></div>`;
+      box.querySelector('#setTheme').addEventListener('change',e=>{state.settings.theme=e.target.value;document.documentElement.setAttribute('data-theme',e.target.value);saveState();navigate('settings');});
+    } else if(activeStab==='Data'){
+      box.innerHTML=`<div class="card"><div class="card-title">Data</div><div class="card-sub">All data is dummy; no remote backend</div>
+        <div class="setting-row"><div><div class="setting-label">Reset demo to defaults</div><div class="setting-desc">Clears all classifications and restores pending events</div></div>
+          <button class="glass-btn glass-btn-danger glass-btn-sm" id="setReset">Reset</button></div></div>`;
+      box.querySelector('#setReset').addEventListener('click',()=>{if(!confirm('Reset all demo data?'))return;localStorage.removeItem(STORAGE_KEY);state=loadState();document.documentElement.setAttribute('data-theme',state.settings.theme);updatePendingBadge();navigate('settings');});
     }
   }
-  renderSettings();
+  render();
 };
 
-// ======== NAV WIRING ========
-document.querySelectorAll('.nav-item').forEach(el=>{
-  el.addEventListener('click',()=>{ if(el.dataset.page) navigate(el.dataset.page); });
-});
+// ════════════════════════════════════════
+// NAV WIRING + INIT
+// ════════════════════════════════════════
+document.querySelectorAll('.sidebar-btn,.sidebar-logo').forEach(el=>{el.addEventListener('click',()=>{if(el.dataset.page)navigate(el.dataset.page);});});
+document.getElementById('resetDemoBtn').addEventListener('click',()=>{if(!confirm('Reset all demo data?'))return;localStorage.removeItem(STORAGE_KEY);state=loadState();document.documentElement.setAttribute('data-theme',state.settings.theme);updatePendingBadge();navigate('dashboard');});
 
-// ======== INIT ========
-document.getElementById('resetDemoBtn').addEventListener('click',()=>{
-  if(!confirm('Reset all demo data?'))return;
-  localStorage.removeItem(STORAGE_KEY);state=loadState();document.documentElement.setAttribute('data-theme',state.settings.theme);updatePendingBadge();navigate('dashboard');
-});
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 updatePendingBadge();
 navigate('dashboard');

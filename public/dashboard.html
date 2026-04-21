@@ -232,6 +232,7 @@ input,select,textarea{font-family:inherit}
 .tv-bar-val-out{font-size:8px;font-weight:700;flex-shrink:0;min-width:24px}
 
 /* ── Team Break (Gideon Time) overlay ── */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes team-break-in{0%{transform:scale(.3) rotate(-10deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
 @keyframes team-break-out{0%{opacity:1}100%{opacity:0}}
 .team-break-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.85);pointer-events:none}
@@ -796,8 +797,6 @@ pageRenderers.settings=(main)=>{
 // ════════════════════════════════════════
 document.querySelectorAll('.sidebar-btn,.sidebar-logo').forEach(el=>{el.addEventListener('click',()=>{if(el.dataset.page)navigate(el.dataset.page);});});
 document.getElementById('resetDemoBtn').addEventListener('click',()=>{if(!confirm('Reset all demo data?'))return;localStorage.removeItem(STORAGE_KEY);state=loadState();document.documentElement.setAttribute('data-theme',state.settings.theme);updatePendingBadge();navigate('dashboard');});
-
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 updatePendingBadge();
 navigate('dashboard');

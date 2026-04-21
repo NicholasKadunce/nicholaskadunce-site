@@ -10,56 +10,80 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="JMOS"/><style>.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#FF6B35,#FFA500);color:#fff;text-align:center;padding:8px 16px;font-size:11px;font-weight:600;z-index:1000}</style>
 <script>
-console.log('[JMOS] Initializing fetch interceptor...');
-try {
-const dummyUser={id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'};
-const equipmentNames={'WV-SHEAR-AS1':'Shear A1','WV-SHEAR-AS2':'Shear A2','WV-PRESS-400':'Press 400','WV-PRESS-500A':'Press 500A','WV-PRESS-500B':'Press 500B','WV-HEAD-H2':'Header H2','WV-THREAD-T1':'Threader T1','WV-THREAD-T2':'Threader T2','WV-THREAD-AT':'Threader Auto','WV-PEEL-MAN':'Peeler Manual','WV-PEEL-AUTO':'Peeler Auto','WV-PEEL-SWAG':'Swager S3','WV-CABLE-C1':'Cable C1','WV-CABLE-C2':'Cable C2','WV-CABLE-C3':'Cable C3','WV-CABLE-C4':'Cable C4'};
-function generateProductionData(date){const allEquipment=Object.keys(equipmentNames);const productionData={};allEquipment.forEach(equipCode=>{const baseOutput=100+Math.floor(Math.random()*150);const hours=[];for(let h=6;h<22;h++){const output=baseOutput+Math.floor(Math.random()*50)-25;const cycleTime=15+Math.random()*10;hours.push({equipCode,date,hour:h.toString().padStart(2,'0'),output:Math.max(0,output),cycleTime:parseFloat(cycleTime.toFixed(1))});}productionData[equipCode]={date,hours};});return productionData;}
-function generateDowntimeData(date){const equipmentList=Object.keys(equipmentNames);const downtimeReasons=['Changeover','Maintenance','Setup','Inspection','Adjustment','No Work Available','Operator Break','Tool Change'];const downtimeData=[];equipmentList.forEach(equipCode=>{const numDowntimes=Math.floor(Math.random()*4)+1;for(let i=0;i<numDowntimes;i++){const startHour=6+Math.floor(Math.random()*14);const duration=Math.floor(Math.random()*60)+5;const reason=downtimeReasons[Math.floor(Math.random()*downtimeReasons.length)];downtimeData.push({id:Math.random().toString(36).substr(2,9),equipCode,date,startTime:startHour.toString().padStart(2,'0')+':'+Math.floor(Math.random()*60).toString().padStart(2,'0')+':00',durationMins:duration,mysqlDesc:reason,status:'classified'});}});return downtimeData;}
-const mockDataCache={productionData:{},downtimeData:{},submissions:[],settings:{},rates:[]};
-const today=new Date().toISOString().split('T')[0];
-mockDataCache.productionData[today]=generateProductionData(today);
-mockDataCache.downtimeData[today]=generateDowntimeData(today);
-const originalFetch=window.fetch;
-window.fetch=function(...args){
-  const resource=args[0];
-  const config=args[1]||{};
-  const url=typeof resource==='string'?resource:resource.url;
-  const method=(config.method||'GET').toUpperCase();
-  if(url==='/api/login'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({user:dummyUser}),{status:200}));
-  if(url==='/api/me')return Promise.resolve(new Response(JSON.stringify({user:dummyUser}),{status:200}));
-  if(url==='/api/logout')return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200}));
-  if(url.startsWith('/api/mysql/production')){const dateMatch=url.match(/date=(\d{4}-\d{2}-\d{2})/);const date=dateMatch?dateMatch[1]:today;if(!mockDataCache.productionData[date])mockDataCache.productionData[date]=generateProductionData(date);return Promise.resolve(new Response(JSON.stringify({date,equipment:mockDataCache.productionData[date]}),{status:200}));}
-  if(url.startsWith('/api/mysql/downtime')){const dateMatch=url.match(/date=(\d{4}-\d{2}-\d{2})/);const date=dateMatch?dateMatch[1]:today;if(!mockDataCache.downtimeData[date])mockDataCache.downtimeData[date]=generateDowntimeData(date);return Promise.resolve(new Response(JSON.stringify({date,events:mockDataCache.downtimeData[date]}),{status:200}));}
-  if(url==='/api/mysql/live-status'){const now=new Date();const currentHour=now.getHours();const equipment={};Object.keys(equipmentNames).forEach(equipCode=>{equipment[equipCode]={currentHourOutput:Math.floor(80+Math.random()*100),shiftTotal:Math.floor(1000+Math.random()*500),liveCycleTime:parseFloat((15+Math.random()*10).toFixed(1)),lastPartAt:new Date(now.getTime()-Math.random()*300000).toISOString(),activeDowntime:Math.random()>0.7?{id:'dt-'+Math.random().toString(36).substr(2,5),startTime:new Date(now.getTime()-Math.random()*1800000).toISOString(),durationMins:Math.floor(Math.random()*60),mysqlDesc:'Changeover'}:null,idleSince:null,shiftNum:currentHour<14?'1':'2'};});return Promise.resolve(new Response(JSON.stringify({timestamp:now.toISOString(),currentHour,currentMinute:now.getMinutes(),shiftNum:currentHour<14?'1':'2',cacheAge:0,connected:true,equipment}),{status:200}));}
-  if(url==='/api/mysql/status')return Promise.resolve(new Response(JSON.stringify({connected:true,lastSyncTime:new Date(Date.now()-30000).toISOString(),productionRecords:Math.floor(5000+Math.random()*5000),downtimeRecords:Math.floor(500+Math.random()*1000)}),{status:200}));
-  if(url.startsWith('/api/mysql/classify-downtime'))return Promise.resolve(new Response(JSON.stringify({id:Math.random().toString(36).substr(2,9),success:true}),{status:200}));
-  if(url==='/api/submit'&&method==='POST'){mockDataCache.submissions.push({id:Math.random().toString(36).substr(2,9),submittedAt:new Date().toISOString()});return Promise.resolve(new Response(JSON.stringify({id:Math.random().toString(36).substr(2,9),success:true}),{status:200}));}
-  if(url==='/api/data')return Promise.resolve(new Response(JSON.stringify({submissions:mockDataCache.submissions,lastSync:new Date().toISOString()}),{status:200}));
-  if(url.startsWith('/api/settings/')){const key=url.split('/api/settings/')[1];if(method==='GET')return Promise.resolve(new Response(JSON.stringify({key,value:mockDataCache.settings[key]||null}),{status:200}));if(method==='PUT'){const body=JSON.parse(config.body);mockDataCache.settings[key]=body.value;return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200}));}}
-  if(url==='/api/rates')return Promise.resolve(new Response(JSON.stringify(mockDataCache.rates),{status:200}));
-  if(url==='/api/rates/history')return Promise.resolve(new Response(JSON.stringify([]),{status:200}));
-  if(url==='/api/approvals')return Promise.resolve(new Response(JSON.stringify([]),{status:200}));
-  if(url==='/api/bdr'){if(method==='GET')return Promise.resolve(new Response(JSON.stringify([]),{status:200}));if(method==='POST')return Promise.resolve(new Response(JSON.stringify({id:Math.random().toString(36).substr(2,9),success:true}),{status:200}));}
-  if(url.startsWith('/api/bdr/')&&(url.includes('/approve')||url.includes('/decline')))return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200}));
-  if(url==='/api/yamazumi'&&method==='GET')return Promise.resolve(new Response(JSON.stringify([]),{status:200}));
-  if(url==='/api/yamazumi'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({id:Math.random().toString(36).substr(2,9),success:true}),{status:200}));
-  if(url==='/api/users')return Promise.resolve(new Response(JSON.stringify([dummyUser]),{status:200}));
-  if(url.startsWith('/api/users/')&&url.includes('/password'))return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200}));
-  if(url==='/api/ai/ask'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({response:'Demo environment with simulated data.',sources:[]}),{status:200}));
-  if(url==='/api/ai/settings')return Promise.resolve(new Response(JSON.stringify({}),{status:200}));
-  if(url==='/api/sync'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({success:true,synced:0}),{status:200}));
-  if(url.startsWith('/api/report/'))return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200}));
-  return originalFetch.apply(this,args);
-};
-if(!localStorage.getItem('jmos-auth-token')){
-  localStorage.setItem('jmos-auth-token','demo-token-'+Date.now());
-  localStorage.setItem('jmos-auth-user',JSON.stringify(dummyUser));
-}
-console.log('[JMOS] Ready - logged in as Demo User');
-} catch(err) {
-  console.error('[JMOS ERROR]', err);
-}
+(function() {
+  const orig = window.fetch;
+  const equipmentNames = ['WV-SHEAR-AS1','WV-SHEAR-AS2','WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B','WV-HEAD-H2','WV-THREAD-T1','WV-THREAD-T2','WV-THREAD-AT','WV-PEEL-MAN','WV-PEEL-AUTO','WV-PEEL-SWAG','WV-CABLE-C1','WV-CABLE-C2','WV-CABLE-C3','WV-CABLE-C4'];
+
+  function genEquipData() {
+    const e = {};
+    equipmentNames.forEach(code => {
+      e[code] = {currentHourOutput: Math.floor(80+Math.random()*100), shiftTotal: Math.floor(1000+Math.random()*500), liveCycleTime: Math.round((15+Math.random()*10)*10)/10, lastPartAt: new Date().toISOString(), activeDowntime: null, idleSince: null, shiftNum: new Date().getHours()<14 ? '1' : '2'};
+    });
+    return e;
+  }
+
+  function genProdData(date) {
+    const d = {};
+    equipmentNames.forEach(code => {
+      const hours = [];
+      for(let h=6; h<22; h++) {
+        hours.push({equipCode: code, date: date, hour: String(h).padStart(2,'0'), output: Math.floor(100+Math.random()*100), cycleTime: Math.round((15+Math.random()*10)*10)/10});
+      }
+      d[code] = {date: date, hours: hours};
+    });
+    return d;
+  }
+
+  function genDowntimeData(date) {
+    const reasons = ['Changeover','Maintenance','Setup','Inspection','Adjustment','No Work','Break','Tool Change'];
+    const events = [];
+    equipmentNames.forEach(code => {
+      for(let i=0; i<Math.floor(Math.random()*3)+1; i++) {
+        events.push({id: 'dt-'+Math.random().toString(36).substr(2,9), equipCode: code, date: date, startTime: String(Math.floor(Math.random()*16)+6).padStart(2,'0')+':'+String(Math.floor(Math.random()*60)).padStart(2,'0')+':00', durationMins: Math.floor(Math.random()*120)+15, mysqlDesc: reasons[Math.floor(Math.random()*reasons.length)], status: 'classified'});
+      }
+    });
+    return events;
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  const cache = {prod: {[today]: genProdData(today)}, dt: {[today]: genDowntimeData(today)}};
+
+  window.fetch = function(url, init) {
+    if (typeof url !== 'string') url = url.url;
+    const base = url.split('?')[0];
+    const now = new Date().toISOString();
+
+    if (base === '/api/login') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/me') return Promise.resolve(new Response(JSON.stringify({id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/logout') return Promise.resolve(new Response(JSON.stringify({ok:true}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/mysql/live-status') return Promise.resolve(new Response(JSON.stringify({timestamp:now, currentHour: new Date().getHours(), currentMinute: new Date().getMinutes(), shiftNum: new Date().getHours()<14 ? '1' : '2', cacheAge: 0, connected: true, equipment: genEquipData()}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/mysql/status') return Promise.resolve(new Response(JSON.stringify({connected: true, lastSyncTime: now, productionRecords: 5000, downtimeRecords: 500}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base.startsWith('/api/mysql/production')) { if(!cache.prod[today]) cache.prod[today] = genProdData(today); return Promise.resolve(new Response(JSON.stringify({date: today, equipment: cache.prod[today]}), {status:200, headers:{'content-type':'application/json'}})); }
+    if (base.startsWith('/api/mysql/downtime')) { if(!cache.dt[today]) cache.dt[today] = genDowntimeData(today); return Promise.resolve(new Response(JSON.stringify({date: today, events: cache.dt[today]}), {status:200, headers:{'content-type':'application/json'}})); }
+    if (base === '/api/mysql/merged') { if(!cache.prod[today]) cache.prod[today] = genProdData(today); if(!cache.dt[today]) cache.dt[today] = genDowntimeData(today); return Promise.resolve(new Response(JSON.stringify({equipment: cache.prod[today], downtime: cache.dt[today]}), {status:200, headers:{'content-type':'application/json'}})); }
+    if (base.startsWith('/api/mysql/cycle-data')) { const d=[]; for(let i=0;i<15;i++) d.push({cycleTime: Math.round((10+Math.random()*20)*10)/10, timestamp: now}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }
+    if (base === '/api/rates') return Promise.resolve(new Response(JSON.stringify([{equipment:'WV-SHEAR-AS1',rate:100},{equipment:'WV-SHEAR-AS2',rate:105},{equipment:'WV-PRESS-400',rate:95},{equipment:'WV-PRESS-500A',rate:110},{equipment:'WV-PRESS-500B',rate:110}]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/rates/history') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/approvals') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/bdr') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/yamazumi') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/users') return Promise.resolve(new Response(JSON.stringify([{id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo system with simulated data',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/ai/settings') return Promise.resolve(new Response(JSON.stringify({}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/sync') return Promise.resolve(new Response(JSON.stringify({success:true, synced:0}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/data') return Promise.resolve(new Response(JSON.stringify({submissions:[], lastSync: now}), {status:200, headers:{'content-type':'application/json'}}));
+
+    if (base.includes('/api/')) return Promise.resolve(new Response(JSON.stringify({success:true}), {status:200, headers:{'content-type':'application/json'}}));
+
+    return orig.apply(this, arguments);
+  };
+
+  if (!localStorage.getItem('jmos-auth-token')) {
+    localStorage.setItem('jmos-auth-token', 'demo-'+Date.now());
+    localStorage.setItem('jmos-auth-user', JSON.stringify({id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}));
+  }
+  console.log('[JMOS] Data-generating fetch interceptor ready - dashboard populated');
+})();
 /**
  * @license React
  * react.production.min.js

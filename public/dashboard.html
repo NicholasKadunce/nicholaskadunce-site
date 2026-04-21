@@ -10,8 +10,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="JMOS"/><style>.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#FF6B35,#FFA500);color:#fff;text-align:center;padding:8px 16px;font-size:11px;font-weight:600;z-index:1000}</style>
 <script>
+console.log('[JMOS] Initializing fetch interceptor...');
 try {
-// JMOS Dummy Data Fetch Interceptor
 const dummyUser={id:1,username:'demo@jmos.local',display_name:'Demo User',role:'supervisor'};
 const equipmentNames={'WV-SHEAR-AS1':'Shear A1','WV-SHEAR-AS2':'Shear A2','WV-PRESS-400':'Press 400','WV-PRESS-500A':'Press 500A','WV-PRESS-500B':'Press 500B','WV-HEAD-H2':'Header H2','WV-THREAD-T1':'Threader T1','WV-THREAD-T2':'Threader T2','WV-THREAD-AT':'Threader Auto','WV-PEEL-MAN':'Peeler Manual','WV-PEEL-AUTO':'Peeler Auto','WV-PEEL-SWAG':'Swager S3','WV-CABLE-C1':'Cable C1','WV-CABLE-C2':'Cable C2','WV-CABLE-C3':'Cable C3','WV-CABLE-C4':'Cable C4'};
 function generateProductionData(date){const allEquipment=Object.keys(equipmentNames);const productionData={};allEquipment.forEach(equipCode=>{const baseOutput=100+Math.floor(Math.random()*150);const hours=[];for(let h=6;h<22;h++){const output=baseOutput+Math.floor(Math.random()*50)-25;const cycleTime=15+Math.random()*10;hours.push({equipCode,date,hour:h.toString().padStart(2,'0'),output:Math.max(0,output),cycleTime:parseFloat(cycleTime.toFixed(1))});}productionData[equipCode]={date,hours};});return productionData;}
@@ -26,6 +26,7 @@ window.fetch=function(...args){
   const config=args[1]||{};
   const url=typeof resource==='string'?resource:resource.url;
   const method=(config.method||'GET').toUpperCase();
+  console.log('[JMOS Fetch]', method, url);
   if(url==='/api/login'&&method==='POST')return Promise.resolve(new Response(JSON.stringify({id:dummyUser.id,username:dummyUser.username,display_name:dummyUser.display_name,role:dummyUser.role}),{status:200}));
   if(url==='/api/me')return Promise.resolve(new Response(JSON.stringify(dummyUser),{status:200}));
   if(url==='/api/logout')return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200}));
@@ -56,8 +57,9 @@ if(!localStorage.getItem('jmos-auth-token')){
   localStorage.setItem('jmos-auth-token','demo-token-'+Date.now());
   localStorage.setItem('jmos-auth-user',JSON.stringify(dummyUser));
 }
+console.log('[JMOS] Fetch interceptor ready');
 } catch(err) {
-  console.error('JMOS fetch interceptor error:', err);
+  console.error('[JMOS ERROR]', err);
 }
 /**
  * @license React

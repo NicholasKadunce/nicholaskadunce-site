@@ -54,7 +54,7 @@
     const now = new Date().toISOString();
 
     if (base === '/api/login') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/me') return Promise.resolve(new Response(JSON.stringify({id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/me') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/logout') return Promise.resolve(new Response(JSON.stringify({ok:true}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/mysql/live-status') return Promise.resolve(new Response(JSON.stringify({timestamp:now, currentHour: new Date().getHours(), currentMinute: new Date().getMinutes(), shiftNum: new Date().getHours()<14 ? '1' : '2', cacheAge: 0, connected: true, equipment: genEquipData()}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/mysql/status') return Promise.resolve(new Response(JSON.stringify({connected: true, lastSyncTime: now, productionRecords: 5000, downtimeRecords: 500}), {status:200, headers:{'content-type':'application/json'}}));

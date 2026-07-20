@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Nicholas Kadunce — Operations & AI Leadership</title>
-<meta name="description" content="Operations executive who architects AI-driven production systems and delivers measurable P&L results.">
+<title>Nicholas Kadunce — Operations Executive</title>
+<meta name="description" content="Operations executive and plant manager who builds high-performing teams and data-driven manufacturing systems — from the plant floor to P&L ownership.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -195,8 +195,6 @@ header.scrolled .logo { opacity: 1; }
 /* ── SECTIONS SHARED ── */
 section { padding: 7rem 0; }
 
-.section-rule { width: 100%; height: 1px; background: var(--rule); margin-bottom: 7rem; }
-
 .eyebrow {
   font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;
@@ -220,56 +218,101 @@ section { padding: 7rem 0; }
 
 .reveal.vis { opacity: 1; transform: none; }
 
-/* ── AI & INNOVATION (DARK) ── */
-.ai { background: var(--dark); color: #fff; padding: 7rem 0; }
-.ai .eyebrow { color: var(--blue); }
-.ai .section-heading { color: #fff; }
-.ai .section-lead { color: rgba(255,255,255,0.55); margin-bottom: 4rem; }
+/* ── JOURNEY (DARK) ── */
+.journey { background: var(--dark); color: #fff; padding: 7rem 0; }
+.journey .eyebrow { color: var(--blue); }
+.journey .section-heading { color: #fff; }
+.journey .section-lead { color: rgba(255,255,255,0.55); }
 
-.ai-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: rgba(255,255,255,0.08); margin-bottom: 4rem;
+.tl { margin-top: 4rem; position: relative; }
+
+.tl::before {
+  content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+  width: 1px; background: rgba(255,255,255,0.12);
 }
 
-.ai-card {
-  background: var(--dark); padding: 2.5rem;
-  transition: background 0.35s var(--ease);
+.tl-item { position: relative; padding: 0 0 3.5rem 3rem; }
+.tl-item:last-child { padding-bottom: 0.5rem; }
+
+.tl-dot {
+  position: absolute; left: 0; top: 5px; width: 15px; height: 15px;
+  border-radius: 50%; border: 1.5px solid var(--blue); background: var(--dark);
+  box-sizing: border-box;
 }
 
-.ai-card:hover { background: var(--dark-card); }
+.tl-item.now .tl-dot { background: var(--blue); box-shadow: 0 0 0 5px rgba(34,81,255,0.15); }
 
-.ai-num {
+.tl-year {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--blue); margin-bottom: 0.4rem;
+}
+
+.tl-title {
+  font-family: var(--serif); font-size: 1.35rem; font-weight: 400;
+  color: #fff; margin-bottom: 0.2rem;
+}
+
+.tl-role {
+  font-size: 0.8rem; font-weight: 400; letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.45); margin-bottom: 0.9rem;
+}
+
+.tl-story {
+  font-size: 0.92rem; font-weight: 300; line-height: 1.75;
+  color: rgba(255,255,255,0.65); max-width: 640px;
+}
+
+.tl-lesson {
+  margin-top: 0.9rem; font-size: 0.8rem; font-weight: 300; font-style: italic;
+  color: rgba(255,255,255,0.42); max-width: 640px; line-height: 1.7;
+  padding-left: 1rem; border-left: 2px solid rgba(34,81,255,0.5);
+}
+
+.journey-close {
+  margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--serif); font-size: 1.05rem; font-style: italic; font-weight: 400;
+  color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 640px;
+}
+
+/* ── TOOLKIT ── */
+.toolkit { background: var(--surface-warm); }
+
+.tk-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--rule); border: 1px solid var(--rule); margin-top: 3rem;
+}
+
+.tk-col { background: var(--surface); padding: 2.5rem 2rem; }
+
+.tk-num {
   font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em;
   color: var(--blue); margin-bottom: 0.75rem;
 }
 
-.ai-card h3 {
-  font-size: 1rem; font-weight: 500; color: #fff;
-  margin-bottom: 0.6rem; line-height: 1.35;
+.tk-col h3 { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+
+.tk-sub {
+  font-size: 0.78rem; font-weight: 300; font-style: italic;
+  color: var(--ink-muted); margin-bottom: 1.2rem;
 }
 
-.ai-card p {
-  font-size: 0.85rem; font-weight: 300; line-height: 1.65;
-  color: rgba(255,255,255,0.5);
+.tk-col ul { list-style: none; display: grid; gap: 0.45rem; }
+
+.tk-col li {
+  font-size: 0.85rem; font-weight: 300; color: var(--ink-light);
+  line-height: 1.6; padding-left: 1rem; position: relative;
 }
 
-.ai-tag {
-  display: inline-block; margin-top: 0.75rem;
-  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--blue);
-  padding: 0.25rem 0.65rem; border: 1px solid rgba(34,81,255,0.35);
+.tk-col li::before {
+  content: ''; position: absolute; left: 0; top: 0.65em;
+  width: 5px; height: 1px; background: var(--blue);
 }
 
-.ai-stats { display: flex; gap: 3rem; flex-wrap: wrap; }
-
-.ai-stat-num {
-  font-family: var(--serif); font-size: 2.6rem; font-weight: 400;
-  color: #fff; line-height: 1;
-}
-
-.ai-stat-label {
-  font-size: 0.65rem; font-weight: 400; letter-spacing: 0.1em;
-  text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 0.4rem;
+.tk-note {
+  margin-top: 2.5rem; padding: 2rem 2.5rem; background: var(--surface);
+  border-left: 2px solid var(--blue);
+  font-size: 0.95rem; font-weight: 300; font-style: italic;
+  color: var(--ink-light); line-height: 1.75; max-width: 760px;
 }
 
 /* ── METRICS ── */
@@ -300,36 +343,9 @@ section { padding: 7rem 0; }
 /* ── PHILOSOPHY ── */
 .philosophy { background: var(--surface); }
 
-.phil-intro {
-  font-family: var(--serif); font-size: 1.15rem;
-  font-weight: 400; font-style: italic; color: var(--ink-light);
-  line-height: 1.7; max-width: 620px; margin-bottom: 3.5rem;
-}
-
-.steps { margin-top: 0; }
-
-.step {
-  display: grid; grid-template-columns: 4rem 1fr; gap: 1.5rem;
-  padding: 2rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
-}
-
-.step:last-of-type { border-bottom: none; }
-
-.step-n {
-  font-family: var(--serif); font-size: 1.4rem; font-weight: 400;
-  color: var(--blue);
-}
-
-.step h3 { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
-
-.step p {
-  font-size: 0.9rem; font-weight: 300; color: var(--ink-light); line-height: 1.7;
-}
-
-.step .detail {
-  margin-top: 0.5rem; font-size: 0.85rem; font-weight: 300;
-  color: var(--ink-muted); line-height: 1.7;
-}
+.phil-grid > div { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.phil-grid > div:nth-child(3n) { border-right: none; }
+.phil-grid > div:nth-child(n+4) { border-bottom: none; }
 
 .outcome {
   margin-top: 3.5rem; padding: 3rem; background: var(--surface-warm);
@@ -480,11 +496,6 @@ section { padding: 7rem 0; }
   padding: 0.15rem 0.45rem; border: 1px solid var(--rule);
 }
 
-/* Brief-style project (longer description, no demo) */
-.proj-brief .proj-desc {
-  max-width: 800px;
-}
-
 /* ── CREDENTIALS ── */
 .credentials { background: var(--surface); }
 
@@ -547,7 +558,7 @@ footer {
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .menu-btn { display: block; }
-  .ai-grid { grid-template-columns: 1fr; }
+  .tk-grid { grid-template-columns: 1fr; }
   .metrics-row { grid-template-columns: repeat(3, 1fr); }
   .metrics-row .m-item:nth-child(n+4) { border-top: 1px solid var(--rule); }
   .exp-top { grid-template-columns: 1fr; gap: 0.5rem; }
@@ -557,7 +568,10 @@ footer {
   .contact-grid { flex-direction: column; gap: 1.5rem; }
   .proj-top { grid-template-columns: 1fr; }
   .phil-grid { grid-template-columns: 1fr 1fr !important; }
-  .email-charts-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .phil-grid > div:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .phil-grid > div:nth-child(2n) { border-right: none; }
+  .phil-grid > div:nth-child(n+4) { border-bottom: 1px solid var(--rule); }
+  .phil-grid > div:nth-child(n+5) { border-bottom: none; }
   .fishbone-wrap svg { min-width: 0 !important; width: 100% !important; }
 }
 
@@ -571,10 +585,9 @@ footer {
   .metrics-row .m-item { padding: 1.5rem 0.5rem; }
   .m-num { font-size: clamp(1.4rem, 5vw, 1.8rem); }
   .m-label { font-size: 0.58rem; }
-  .ai-stats { gap: 1.5rem; }
-  .ai-stat-num { font-size: 2rem; }
+  .tl-item { padding-left: 2.2rem; }
+  .tl-story { font-size: 0.88rem; }
   .pillars { gap: 1.5rem; }
-  .step { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
   .exp-org { flex-direction: column; gap: 0.5rem; }
   .proj-item canvas { max-height: 200px; }
   .email-replica { max-width: 100% !important; }
@@ -584,10 +597,12 @@ footer {
 
 @media (max-width: 480px) {
   .phil-grid { grid-template-columns: 1fr !important; }
+  .phil-grid > div:nth-child(n) { border-right: none; border-bottom: 1px solid var(--rule); }
+  .phil-grid > div:last-child { border-bottom: none; }
   .metrics-row { grid-template-columns: 1fr; }
   .metrics-row .m-item { border-right: none; border-bottom: 1px solid var(--rule); }
   .metrics-row .m-item:last-child { border-bottom: none; }
-  .ai-stats { flex-direction: column; gap: 1rem; }
+  .tk-note { padding: 1.5rem 1.2rem; }
   .hero-actions { flex-direction: column; gap: 0.75rem; }
   .outcome { padding: 2rem 1rem; }
   .pillars { flex-direction: column; gap: 1rem; text-align: center; }
@@ -958,12 +973,21 @@ footer {
     --surface: #17181f; --surface-warm: #1d1e28;
     --dark: #0e0f18; --dark-card: #151626;
   }
-  :root:not([data-theme="light"]) header.scrolled,
-  :root:not([data-theme="light"]) .scrolled-hdr {
+  :root:not([data-theme="light"]) header.scrolled {
     background: rgba(23,24,31,0.94);
     backdrop-filter: blur(16px);
     box-shadow: 0 1px 0 #2a2c3c;
   }
+  :root:not([data-theme="light"]) .email-replica { border-color: var(--rule); background: var(--surface-warm); }
+  :root:not([data-theme="light"]) .ai-msg.bot { background: #1e2032; border-left-color: var(--blue); }
+  :root:not([data-theme="light"]) .ai-msg.user { background: #1e2845; color: rgba(255,255,255,0.88); }
+  :root:not([data-theme="light"]) .ai-panel { background: var(--surface-warm); border-color: var(--rule); }
+  :root:not([data-theme="light"]) .ai-panel-input { border-top-color: var(--rule); }
+  :root:not([data-theme="light"]) .ai-panel-input input { background: var(--surface); border-color: var(--rule); color: var(--ink-body); }
+  :root:not([data-theme="light"]) .proj-item { border-bottom-color: var(--rule); }
+  :root:not([data-theme="light"]) .cred-item:hover { background: var(--surface-warm); }
+  :root:not([data-theme="light"]) .fishbone-wrap svg text { fill: var(--ink-body) !important; }
+  :root:not([data-theme="light"]) .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 }
 
 /* Explicit dark toggle */
@@ -986,7 +1010,6 @@ footer {
 [data-theme="dark"] .ai-panel-input input { background: var(--surface); border-color: var(--rule); color: var(--ink-body); }
 [data-theme="dark"] .proj-item { border-bottom-color: var(--rule); }
 [data-theme="dark"] .cred-item:hover { background: var(--surface-warm); }
-[data-theme="dark"] .step { border-bottom-color: var(--rule); }
 [data-theme="dark"] .fishbone-wrap svg text { fill: var(--ink-body) !important; }
 [data-theme="dark"] .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 
@@ -1069,9 +1092,10 @@ footer {
   <div class="inner">
     <div class="logo">Nicholas Kadunce</div>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#ai">AI &amp; Innovation</a></li>
-      <li><a href="#projects">Projects</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#philosophy">Approach</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
+      <li><a href="#projects">Proof of Work</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#credentials">Credentials</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -1087,9 +1111,10 @@ footer {
 </header>
 
 <div class="mobile-nav" id="mNav">
-  <a href="#about" onclick="closeM()">About</a>
-  <a href="#ai" onclick="closeM()">AI &amp; Innovation</a>
-  <a href="#projects" onclick="closeM()">Projects</a>
+  <a href="#journey" onclick="closeM()">Journey</a>
+  <a href="#philosophy" onclick="closeM()">Approach</a>
+  <a href="#toolkit" onclick="closeM()">Toolkit</a>
+  <a href="#projects" onclick="closeM()">Proof of Work</a>
   <a href="#experience" onclick="closeM()">Experience</a>
   <a href="#credentials" onclick="closeM()">Credentials</a>
   <a href="#contact" onclick="closeM()">Contact</a>
@@ -1098,20 +1123,20 @@ footer {
 <!-- HERO -->
 <section class="hero" id="about">
   <div class="wrap">
-    <p class="hero-eyebrow reveal">Operations &amp; AI Leadership</p>
+    <p class="hero-eyebrow reveal">Operations Executive &middot; Plant Manager</p>
     <h1 class="reveal">I build systems that<br>drive results.</h1>
-    <p class="hero-body reveal">Operations leader who builds the cadence&mdash;real-time visibility, clear priorities, and accountable execution. I design AI systems that compress weeks of manual work into minutes and scale across entire organizations.</p>
+    <p class="hero-body reveal">From the plant floor to full P&amp;L ownership in five years. I lead manufacturing operations by building high-performing teams and the operating discipline&mdash;real-time visibility, clear priorities, accountable execution&mdash;that makes performance repeatable.</p>
     <div class="hero-actions reveal">
-      <a href="#experience" class="btn-primary">
-        View experience
-        <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-      </a>
-      <a href="#contact" class="btn-primary">
-        Get in touch
+      <a href="#journey" class="btn-primary">
+        My journey
         <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </a>
       <a href="Nicholas_Kadunce_Resume.pdf" target="_blank" class="btn-primary">
         Resume
+        <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <a href="#contact" class="btn-primary">
+        Get in touch
         <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </a>
     </div>
@@ -1119,58 +1144,52 @@ footer {
   <div class="scroll-cue">Scroll</div>
 </section>
 
-<!-- AI & INNOVATION -->
-<section class="ai" id="ai">
+<!-- JOURNEY -->
+<section class="journey" id="journey">
   <div class="wrap">
-    <p class="eyebrow reveal">What I Build</p>
-    <h2 class="section-heading reveal">AI systems that multiply operational capacity</h2>
-    <p class="section-lead reveal">I design and deploy AI that eliminates manual work, connects disparate systems, and turns raw operational data into decisions&mdash;customized to the organization, scalable across every plant.</p>
+    <p class="eyebrow reveal">The Journey</p>
+    <h2 class="section-heading reveal">From the plant floor to the P&amp;L.</h2>
+    <p class="section-lead reveal">Five years, four companies, steadily bigger problems. Every chapter added a discipline&mdash;and every discipline still shows up in how I run a plant today.</p>
 
-    <div class="ai-grid reveal">
-      <div class="ai-card">
-        <div class="ai-num">01</div>
-        <h3>Real-Time Production Intelligence</h3>
-        <p>Automated data capture from sensors, PLCs, and existing equipment&mdash;surfacing OEE, downtime, and quality metrics without manual entry. Systems that see every machine, every shift, in real time.</p>
-        <span class="ai-tag">Proven: OpsIQ &middot; 16 Machines &middot; 2.8M+ Records</span>
+    <div class="tl">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2020 &mdash; 2022</div>
+        <div class="tl-title">The plant floor</div>
+        <div class="tl-role">Johnson Matthey &middot; Process Control Engineer &rarr; Shift Leader II</div>
+        <p class="tl-story">I started where operations actually happens&mdash;on an automated diesel-catalyst line, fresh out of chemical engineering at West Virginia University. As a process control engineer I learned to read a production line the way a clinician reads vitals: cycle times, defect rates, downtime patterns. Then came my first team&mdash;six technicians and a process control engineer&mdash;and the harder lesson that results come from people. We lifted OEE more than 5% and ran every shift without a single recordable injury.</p>
+        <p class="tl-lesson">What it built: the conviction that data tells you where to look&mdash;but the team decides whether anything changes.</p>
       </div>
-      <div class="ai-card">
-        <div class="ai-num">02</div>
-        <h3>Intelligent Process Documentation</h3>
-        <p>AI-generated SOPs standardized across every facility in hours, not months. Embedded troubleshooting from CMMS feedback loops. Living documents that improve with every work order.</p>
-        <span class="ai-tag">SOPs &middot; CMMS Integration &middot; Continuous Learning</span>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022 &mdash; 2023</div>
+        <div class="tl-title">The wider lens</div>
+        <div class="tl-role">Messer Americas &middot; Regional Production Engineer</div>
+        <p class="tl-story">One plant became a region. Covering air-separation and specialty-gas facilities across the Northeast, I owned improvement projects, project budgets, and reliability at sites I couldn't walk every day. That forces real discipline: standardized processes, honest metrics, and influence without direct authority. Six Sigma work on Krypton/Xenon production added over $1M in annual revenue, and 15+ reliability projects clawed back 25 days of annual downtime.</p>
+        <p class="tl-lesson">What it built: the systems mindset&mdash;at regional scale you don't manage machines, you manage processes and the people who run them.</p>
       </div>
-      <div class="ai-card">
-        <div class="ai-num">03</div>
-        <h3>Workforce Intelligence</h3>
-        <p>Automated cross-training matrices that prevent scheduling untrained operators. Voice-based defect and downtime logging that eliminates paperwork at the point of work.</p>
-        <span class="ai-tag">Cross-Training &middot; Voice Logging &middot; Compliance</span>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023 &mdash; 2025</div>
+        <div class="tl-title">The scale-up</div>
+        <div class="tl-role">Eos Energy Enterprises &middot; Quality Engineer &rarr; Operations Manager</div>
+        <p class="tl-story">I joined a battery-storage scale-up as a quality engineer and left running manufacturing operations&mdash;11 supervisors, 6 team leads, and 240 technicians across two buildings. In between: the company's first production dashboards, a batch-to-flow conversion that lifted throughput 41%, BESS output up 340%, rework down 66%, and a brand-new third shift that became the plant's best within a month. Scale-ups don't hand you playbooks. You write them.</p>
+        <p class="tl-lesson">What it built: proof that growth is an operations problem&mdash;culture, cadence, and flow decide whether a promising product becomes a real business.</p>
       </div>
-      <div class="ai-card">
-        <div class="ai-num">04</div>
-        <h3>AI Agents for Reporting &amp; Analysis</h3>
-        <p>Autonomous agents that compile shift reports, surface anomalies, and deliver insightful summaries&mdash;so leaders spend time acting on data, not assembling it.</p>
-        <span class="ai-tag">Automated Report-Outs &middot; Daily Intelligence</span>
-      </div>
-      <div class="ai-card">
-        <div class="ai-num">05</div>
-        <h3>Automated Continuous Improvement</h3>
-        <p>DMAIC phases executed with minimal human intervention. AI identifies constraints, proposes countermeasures, and tracks implementation&mdash;systematic improvement at machine speed.</p>
-        <span class="ai-tag">DMAIC Automation &middot; Root Cause &middot; SPC</span>
-      </div>
-      <div class="ai-card">
-        <div class="ai-num">06</div>
-        <h3>Workflow &amp; System Integration</h3>
-        <p>Custom AI that connects with existing ERP, CMMS, and quality systems. Reduces indirect labor, eliminates human error in data transfer, and creates closed-loop feedback across operations.</p>
-        <span class="ai-tag">100% Customizable &middot; ERP &middot; CMMS &middot; Quality</span>
+
+      <div class="tl-item now reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2025 &mdash; Present</div>
+        <div class="tl-title">The P&amp;L</div>
+        <div class="tl-role">Jennmar &middot; Plant Manager</div>
+        <p class="tl-story">Today I run a high-volume mining-infrastructure plant in West Virginia&mdash;accountable for safety, quality, delivery, cost, and roughly 80 people. Everything the first five years taught me gets applied daily: a management cadence built on real-time data, maintenance that's planned instead of heroic, quality governance with genuine traceability, and supervisors coached into leaders. Output is up 36.7% in year one&mdash;and the next constraint is already on the board.</p>
+        <p class="tl-lesson">What it builds, every day: a plant is a system of systems&mdash;and the leader's job is to make performance repeatable, not dependent on any one person.</p>
       </div>
     </div>
 
-    <div class="ai-stats reveal">
-      <div><div class="ai-stat-num" style="font-size:2.2rem;">10&ndash;100&times;</div><div class="ai-stat-label">Efficiency Multiplier</div></div>
-      <div><div class="ai-stat-num" style="font-size:1.6rem; line-height:1.2;">Hours,<br>not months</div><div class="ai-stat-label">SOP Standardization</div></div>
-      <div><div class="ai-stat-num">100%</div><div class="ai-stat-label">Customizable to Any System</div></div>
-      <div><div class="ai-stat-num">Zero</div><div class="ai-stat-label">Manual Reports Required</div></div>
-    </div>
+    <p class="journey-close reveal">Four chapters, one throughline: walk the floor, find the constraint, build the system, develop the people&mdash;repeat.</p>
   </div>
 </section>
 
@@ -1180,21 +1199,123 @@ footer {
     <p class="eyebrow reveal">Impact</p>
     <h2 class="section-heading reveal">Results that speak.</h2>
     <div class="metrics-row reveal">
-      <div class="m-item"><div class="m-num" data-t="36.7" data-s="%">0</div><div class="m-label">Output Increase</div></div>
-      <div class="m-item"><div class="m-num" data-t="340" data-s="%">0</div><div class="m-label">BESS Production Growth</div></div>
+      <div class="m-item"><div class="m-num" data-t="36.7" data-s="%">0</div><div class="m-label">Plant Output Growth, Year One</div></div>
+      <div class="m-item"><div class="m-num" style="white-space:nowrap;">0.5 &rarr; 2.2</div><div class="m-label">BESS Units/Day (4.4&times;)</div></div>
+      <div class="m-item"><div class="m-num">$1M+</div><div class="m-label">Annual Revenue Added</div></div>
       <div class="m-item"><div class="m-num" data-t="66" data-s="%">0</div><div class="m-label">Rework Reduction</div></div>
-      <div class="m-item"><div class="m-num" data-t="41" data-s="%">0</div><div class="m-label">Throughput Increase</div></div>
-      <div class="m-item"><div class="m-num" data-t="36" data-s="%">0</div><div class="m-label">Downtime Reduction</div></div>
+      <div class="m-item"><div class="m-num" data-t="25">0</div><div class="m-label">Days of Annual Downtime Eliminated</div></div>
     </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="wrap">
+    <p class="eyebrow reveal">How I Operate</p>
+    <h2 class="section-heading reveal">Complexity to execution&mdash;in six moves.</h2>
+
+    <div class="phil-grid reveal" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-top:3rem; border:1px solid var(--rule);">
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">1</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Instrument</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build automated data flow. If it's painful to collect, it won't scale.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">2</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Surface</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Visualize so problems are obvious. If leadership has to dig, the system failed.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">3</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Prioritize</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Rank by impact with Pareto and SPC. Attack the constraint, not the symptom.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">4</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Control</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Eliminate recurrence. Process mapping, control logic, clear ownership. Controls over heroics.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">5</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Sustain</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build systems that self-correct. The system flags, guides, and sustains&mdash;without oversight.</div>
+      </div>
+      <div style="padding:2rem;">
+        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">6</div>
+        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Repeat</div>
+        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Cycle continuously. Each pass addresses smaller constraints and higher-order optimization.</div>
+      </div>
+    </div>
+
+    <div class="outcome reveal" style="margin-top:3rem;">
+      <div class="outcome-label">The Outcome</div>
+      <div class="pillars">
+        <div class="pill"><strong>Data</strong><span>replaces debate</span></div>
+        <div class="pill"><strong>Focus</strong><span>replaces chaos</span></div>
+        <div class="pill"><strong>Execution</strong><span>replaces effort</span></div>
+      </div>
+      <p class="closing">Systems don't just improve results&mdash;they make performance repeatable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLKIT -->
+<section class="toolkit" id="toolkit">
+  <div class="wrap">
+    <p class="eyebrow reveal">The Toolkit</p>
+    <h2 class="section-heading reveal">The right tool for the constraint.</h2>
+    <p class="section-lead reveal">Operational excellence isn't one methodology. I've invested in three disciplines&mdash;and I reach for whichever one removes the constraint fastest.</p>
+
+    <div class="tk-grid reveal">
+      <div class="tk-col">
+        <div class="tk-num">01</div>
+        <h3>Lean &amp; Six Sigma</h3>
+        <p class="tk-sub">The discipline</p>
+        <ul>
+          <li>DMAIC problem-solving to Black Belt depth</li>
+          <li>One-piece flow, takt alignment &amp; Yamazumi balancing</li>
+          <li>5S, visual management, Kanban &amp; Andon</li>
+          <li>SPC, Pareto &amp; structured root-cause analysis</li>
+          <li>Daily management &amp; supervisor standard work</li>
+        </ul>
+      </div>
+      <div class="tk-col">
+        <div class="tk-num">02</div>
+        <h3>Data &amp; Systems</h3>
+        <p class="tk-sub">The visibility</p>
+        <ul>
+          <li>Real-time OEE, downtime &amp; quality dashboards</li>
+          <li>Financial forecasting &amp; variance modeling</li>
+          <li>CMMS implementation &amp; planned maintenance</li>
+          <li>Machine-level data capture&mdash;16 machines, 2.8M+ sensor records</li>
+          <li>KPI architecture tied to the P&amp;L</li>
+        </ul>
+      </div>
+      <div class="tk-col">
+        <div class="tk-num">03</div>
+        <h3>AI &amp; Automation</h3>
+        <p class="tk-sub">The force multiplier</p>
+        <ul>
+          <li>Automated daily performance reporting</li>
+          <li>AI-assisted SOP standardization</li>
+          <li>Condition-based maintenance triggers from sensor data</li>
+          <li>Automated SPC &amp; defect trend detection</li>
+          <li>Workflow automation across ERP, CMMS &amp; quality systems</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="tk-note reveal">A note on AI: it's a tool in the arsenal&mdash;not the arsenal. It earns its place when it removes manual work, sharpens a decision, or scales a proven process. The fundamentals&mdash;safety, quality, flow, and people&mdash;are never outsourced to a model.</p>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section class="projects" id="projects">
   <div class="wrap">
-    <p class="eyebrow reveal">Projects</p>
-    <h2 class="section-heading reveal">Tools and systems I've built</h2>
-    <p class="section-lead reveal">Dashboards, tracking systems, process improvement initiatives, and strategic analysis&mdash;built to drive operational excellence.</p>
+    <p class="eyebrow reveal">Proof of Work</p>
+    <h2 class="section-heading reveal">Systems I've built and run.</h2>
+    <p class="section-lead reveal">Dashboards, monitoring systems, forecasting tools, and improvement projects&mdash;this is what operational discipline looks like in practice.</p>
+    <p class="section-lead reveal" style="margin-top:0.75rem; font-size:0.85rem; font-style:italic; color:var(--ink-muted);">Every visual is a faithful recreation of a system I built, shown with representative data&mdash;the production versions run on live plant data, which stays inside the plant.</p>
 
     <div class="proj-categories">
 
@@ -1213,7 +1334,7 @@ footer {
           <div class="email-replica" style="margin-top:1.5rem; border:1px solid var(--rule); background:var(--surface); max-width:680px;">
             <!-- Email Header -->
             <div style="background:#051c2c; color:#fff; padding:1.2rem 1.5rem;">
-              <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.3rem;">JENNMAR &middot; WV Bolt</div>
+              <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.3rem;">High-Volume Manufacturing Plant</div>
               <div style="font-size:1rem; font-weight:500;">Daily Operations Review</div>
               <div style="font-size:0.75rem; font-weight:300; color:rgba(255,255,255,0.5); margin-top:0.2rem;">Reporting date: March 19, 2026</div>
             </div>
@@ -1285,10 +1406,10 @@ footer {
           </div>
         </div>
 
-        <!-- Production Swim Lane / Line Balance -->
+        <!-- Line Balance vs Takt -->
         <div class="proj-item">
-          <div class="proj-name">Production Swim Lane / Line Balance</div>
-          <p class="proj-desc">Horizontal swim lane visualization mapping actual cycle times across sequential process steps. Identifies bottleneck stations relative to takt time for targeted line balancing and throughput improvement.</p>
+          <div class="proj-name">Line Balance vs. Takt</div>
+          <p class="proj-desc">Line-balance chart mapping actual cycle times across sequential process steps against takt time. Identifies bottleneck stations for targeted rebalancing and throughput improvement.</p>
           <div class="swimlane-wrap">
             <div class="swimlane" id="swimlaneViz">
               <div class="swimlane-header">
@@ -1307,20 +1428,20 @@ footer {
           </div>
         </div>
 
-        <!-- AI Insights Decision Example -->
+        <!-- Condition-Based Maintenance Example -->
         <div class="proj-item">
-          <div class="proj-name">AI Insights Decision Engine</div>
-          <p class="proj-desc">Predictive analytics pipeline that surfaces equipment health insights from vibration, temperature, and SPC data&mdash;translating sensor signals into maintenance decisions before failures occur.</p>
+          <div class="proj-name">Condition-Based Maintenance Alerts</div>
+          <p class="proj-desc">Turns vibration, temperature, and SPC trend signals into planned work orders before failures occur&mdash;condition-based triggers, not guesswork. Automation applied where it earns its keep: protecting uptime.</p>
           <div class="ai-decision-card">
             <div class="ai-decision-header">
               <div class="ai-decision-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                AI Insight &mdash; Priority Alert
+                Condition Alert &mdash; Priority
               </div>
               <span class="ai-decision-timestamp">Mar 17, 2026 &middot; 06:42 AM</span>
             </div>
             <div class="ai-decision-insight">
-              Cable 2 vibration amplitude increased <span class="highlight-metric">23% over 72 hours</span>. Frequency spectrum shift consistent with inner-race bearing degradation. Bearing failure probability: <span class="highlight-risk">87% within 14 days</span>. Estimated unplanned downtime cost if failure occurs: $18,400.
+              Cable 2 vibration amplitude rose <span class="highlight-metric">38% over seven days</span> and crossed its alert limit. Frequency spectrum consistent with <span class="highlight-risk">inner-race bearing wear</span>. Estimated cost if run to failure: $18,400 in unplanned downtime.
             </div>
             <div class="ai-decision-sparkline">
               <div style="font-size:0.55rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:0.3rem;">Vibration Trend &mdash; 7 Day</div>
@@ -1345,8 +1466,8 @@ footer {
                   <span class="ai-decision-outcome-label">Time Saved</span>
                 </div>
                 <div class="ai-decision-outcome-item">
-                  <span class="ai-decision-outcome-value">100%</span>
-                  <span class="ai-decision-outcome-label">OEE Protected</span>
+                  <span class="ai-decision-outcome-value">Zero</span>
+                  <span class="ai-decision-outcome-label">Unplanned Downtime</span>
                 </div>
               </div>
             </div>
@@ -1383,7 +1504,7 @@ footer {
                 After
               </div>
               <div class="sop-after-content">
-                <div style="font-weight:500; margin-bottom:0.3rem; color:var(--ink);">SOP-114 Rev.C: Press Startup</div>
+                <div style="font-weight:500; margin-bottom:0.3rem; color:var(--ink);">SOP-114 Rev C: Press Startup</div>
                 <div class="sop-step">
                   <div class="sop-step-num">1</div>
                   <div class="sop-step-text">Verify LOTO clearance per <span class="sop-link">SAFE-201</span></div>
@@ -1491,57 +1612,6 @@ footer {
   </div>
 </section>
 
-<!-- PHILOSOPHY -->
-<section class="philosophy" id="philosophy">
-  <div class="wrap">
-    <p class="eyebrow reveal">Operating Philosophy</p>
-    <h2 class="section-heading reveal">Complexity to execution&mdash;in six moves.</h2>
-
-    <div class="phil-grid reveal" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-top:3rem; border:1px solid var(--rule);">
-      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">1</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Instrument</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build automated data flow. If it's painful to collect, it won't scale.</div>
-      </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">2</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Surface</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Visualize so problems are obvious. If leadership has to dig, the system failed.</div>
-      </div>
-      <div style="padding:2rem; border-bottom:1px solid var(--rule);">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">3</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Prioritize</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Rank by impact with Pareto and SPC. Attack the constraint, not the symptom.</div>
-      </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule);">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">4</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Control</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Eliminate recurrence. Process mapping, control logic, clear ownership. Controls over heroics.</div>
-      </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule);">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">5</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Sustain</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build systems that self-correct. The system flags, guides, and sustains&mdash;without oversight.</div>
-      </div>
-      <div style="padding:2rem;">
-        <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">6</div>
-        <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Repeat</div>
-        <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Cycle continuously. Each pass addresses smaller constraints and higher-order optimization.</div>
-      </div>
-    </div>
-
-    <div class="outcome reveal" style="margin-top:3rem;">
-      <div class="outcome-label">The Outcome</div>
-      <div class="pillars">
-        <div class="pill"><strong>Data</strong><span>replaces debate</span></div>
-        <div class="pill"><strong>Focus</strong><span>replaces chaos</span></div>
-        <div class="pill"><strong>Execution</strong><span>replaces effort</span></div>
-      </div>
-      <p class="closing">Systems don't just improve results&mdash;they make performance repeatable.</p>
-    </div>
-  </div>
-</section>
-
 <!-- EXPERIENCE -->
 <section class="experience" id="experience">
   <div class="wrap">
@@ -1561,23 +1631,23 @@ footer {
             <div class="exp-role-title">Plant Manager</div>
             <p class="exp-role-intro">I lead end-to-end operations for a high-volume manufacturing site, building disciplined data systems and operational cadence that drive predictable, scalable performance.</p>
             <ul class="exp-points">
-              <li>Own full P&amp;L for a high-volume manufacturing site, driving 36.7% output increase within first year through operational cadence redesign and data-driven target setting</li>
+              <li>Own full P&amp;L for a high-volume manufacturing site, driving a 36.7% output increase within the first year through operating-cadence redesign and data-driven target setting</li>
               <li>Built a financial forecasting model that improved operating net income visibility and reduced month-end variance, enabling faster executive decision-making</li>
               <li>Designed and installed a cross-functional daily management system aligning production, maintenance, quality, and safety&mdash;eliminating siloed reporting and accelerating issue resolution</li>
               <li>Led strategic shift from reactive to planned maintenance through CMMS implementation, reducing unplanned downtime and extending asset life across all critical equipment</li>
               <li>Developed and coached front-line leadership through structured Supervisor Standard Work, raising accountability, reducing turnover, and building a pipeline for internal promotion</li>
               <li>Established quality governance framework with automated SPC, material traceability, and quarantine controls&mdash;strengthening customer confidence and reducing cost of poor quality</li>
-              <li>Architecting enterprise-wide AI deployment strategy&mdash;standardizing SOPs across facilities, automating DMAIC workflows, and building AI agents that eliminate manual reporting across the organization</li>
+              <li>Digitized plant operations end-to-end&mdash;real-time machine monitoring with automated OEE and downtime analytics across 16 machines, plus automated daily performance reporting&mdash;so leaders act on data instead of assembling it</li>
             </ul>
             <div class="exp-tags">
-              <span class="exp-tag">OpsIQ</span>
-              <span class="exp-tag">AI Agents</span>
+              <span class="exp-tag">P&amp;L Ownership</span>
+              <span class="exp-tag">Daily Management</span>
               <span class="exp-tag">CMMS</span>
-              <span class="exp-tag">Workflow Automation</span>
+              <span class="exp-tag">OpsIQ</span>
             </div>
             <div class="exp-org">
               <div><strong>Reports to:</strong> VP of Operations</div>
-              <div><strong>Direct reports:</strong> Production Manager, 2 Supervisors, 2 Team Leads, 65 Technicians, 8 Material Handlers</div>
+              <div><strong>Team:</strong> Production Manager, 2 Supervisors, 2 Team Leads, 65 Technicians, 8 Material Handlers</div>
             </div>
           </div>
         </div>
@@ -1608,7 +1678,7 @@ footer {
             </div>
             <div class="exp-org">
               <div><strong>Reports to:</strong> Sr. Director of Operations</div>
-              <div><strong>Direct reports:</strong> 11 Production Supervisors, 6 Team Leads, 240 Technicians</div>
+              <div><strong>Team:</strong> 11 Production Supervisors, 6 Team Leads, 240 Technicians</div>
             </div>
 
             <div class="exp-sub">
@@ -1620,12 +1690,12 @@ footer {
                 <li>Developed a dynamic Quality Dashboard for visual metrics and rapid decision support</li>
                 <li>Led internal ISO 9001 compliance activities and structured audit programs</li>
                 <li>Cut scrap defects 30% with targeted initiatives backed by real data</li>
-                <li>Eliminated documentation risk through automated quality documentation processes</li>
+                <li>Eliminated documentation risk by automating quality record-keeping</li>
               </ul>
               <div class="exp-tags">
                 <span class="exp-tag">ISO 9001</span><span class="exp-tag">Quality Systems</span>
               </div>
-              <div class="exp-org"><div><strong>Reports to:</strong> Director of Quality</div><div><strong>Direct reports:</strong> 6 Quality Technicians</div></div>
+              <div class="exp-org"><div><strong>Reports to:</strong> Director of Quality</div><div><strong>Team:</strong> 6 Quality Technicians</div></div>
             </div>
           </div>
         </div>
@@ -1644,7 +1714,7 @@ footer {
             <p class="exp-role-intro">I drove operational excellence across multiple facilities by scaling visibility, reliability, and process discipline.</p>
             <ul class="exp-points">
               <li>Led Lean Six Sigma initiatives that increased specialty gas production 15%, adding over $1M in revenue</li>
-              <li>Delivered 15+ improvement projects, cutting downtime by 25+ days annually</li>
+              <li>Delivered 15+ improvement projects, cutting downtime by 25 days annually</li>
               <li>Standardized processes across sites to reduce lead times by ~30 days</li>
               <li>Guided budget oversight and risk mitigation to align spending with strategic goals</li>
               <li>Applied controls, instrumentation, and safety expertise to solve complex reliability challenges</li>
@@ -1668,7 +1738,7 @@ footer {
             <div class="exp-role-title">Shift Leader II</div>
             <p class="exp-role-intro">I drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
             <ul class="exp-points">
-              <li>Led cross-functional teams to achieve >5% OEE improvement with zero recordable injuries</li>
+              <li>Led a team of six technicians and a process control engineer to a >5% OEE gain with zero recordable injuries</li>
               <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
               <li>Cultivated a performance culture grounded in accountability, development, and continuous improvement</li>
             </ul>
@@ -1679,7 +1749,7 @@ footer {
               <p class="exp-role-intro">I built foundational technical and analytical leadership by optimizing automated processes and reducing losses.</p>
               <ul class="exp-points">
                 <li>Reduced cycle time 8% and defects 4% through targeted process optimization</li>
-                <li>Created a risk management tool that cut downtime and variability significantly</li>
+                <li>Designed a risk management tool that cut downtime 8 minutes per work order</li>
                 <li>Strengthened collaboration across functions, eliminating 35+ hours of annual downtime</li>
                 <li>Mentored technicians and fostered a data-driven culture for continuous improvement</li>
               </ul>
@@ -1712,7 +1782,7 @@ footer {
   <div class="wrap">
     <p class="eyebrow reveal">Connect</p>
     <h2 class="section-heading reveal">Let's talk.</h2>
-    <p class="contact-body reveal">Open to discussing operations leadership, AI-powered manufacturing, or how data-driven systems can transform your organization.</p>
+    <p class="contact-body reveal">Open to conversations about operations leadership, manufacturing performance, and what it takes to build teams and systems that deliver.</p>
     <div class="contact-grid reveal">
       <div class="c-item"><div class="c-item-label">Email</div><a href="mailto:NicholasKadunce@gmail.com">NicholasKadunce@gmail.com</a></div>
       <div class="c-item"><div class="c-item-label">LinkedIn</div><a href="https://linkedin.com/in/nicholaskadunce" target="_blank" rel="noopener">/in/nicholaskadunce</a></div>
@@ -1724,7 +1794,7 @@ footer {
 <footer><div class="wrap">&copy; 2026 Nicholas Kadunce</div></footer>
 
 <!-- AI Insight Widget -->
-<button class="ai-fab" id="aiFab" aria-label="AI Insight">
+<button class="ai-fab" id="aiFab" aria-label="Ask about Nicholas">
   <svg viewBox="0 0 24 24" fill="none">
     <path d="M12 2L12.9 9.8L21 12L12.9 14.2L12 22L11.1 14.2L3 12L11.1 9.8Z" fill="currentColor"/>
     <path d="M19.5 3.5L20.1 5.4L22 6L20.1 6.6L19.5 8.5L18.9 6.6L17 6L18.9 5.4Z" fill="currentColor" opacity="0.65"/>
@@ -1818,6 +1888,8 @@ const tt = { backgroundColor:'#051c2c', titleFont:{weight:500,size:12}, bodyFont
 const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light');
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#f0f0f0';
 const gridColorSub = isDark ? 'rgba(255,255,255,0.03)' : '#f8f8f8';
+const TITLE = isDark ? '#ecedf5' : INK;
+Chart.defaults.color = isDark ? '#82859d' : '#999999';
 
 // ─── EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
 const eqData = [];
@@ -1847,7 +1919,7 @@ new Chart(hourlyCtx, {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 9, weight: 400 }, filter: item => !item.text.includes('LCL') } },
-      title: { display: true, text: 'Press 1 \u2014 Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } },
+      title: { display: true, text: 'Press 1 \u2014 Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } },
       tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
     },
     scales: {
@@ -1965,7 +2037,7 @@ new Chart(document.getElementById('forecastChart'), {
     layout: { padding: { right: 90 } },
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' }, filter: item => item.text !== '_low' }},
-      title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
+      title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: TITLE, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: ctx => {
         if(ctx.dataset.label === '_low') return null;
         if(ctx.dataset.label === 'Forecast Range') return 'Forecast High: $' + ctx.parsed.y.toFixed(0) + 'K';
@@ -2003,7 +2075,7 @@ let maintChart = new Chart(document.getElementById('maintChart'), {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
       tooltip: tt
     },
     scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { stacked: true, grid: { display: true, color: gridColor }, border: { display: false }, title: { display: true, text: 'Work Orders', font: { size: 10 } } } }
@@ -2029,12 +2101,12 @@ document.querySelectorAll('.maint-toggle-btn').forEach(btn => {
 
 // ─── 8. SWIM LANE / LINE BALANCE ───
 const swimlaneData = [
-  { station: 'Shear', cycle: 28, takt: 38, operator: 'M. Torres', utilization: 74 },
-  { station: 'Press', cycle: 35, takt: 38, operator: 'J. Williams', utilization: 92 },
-  { station: 'Thread', cycle: 41, takt: 38, operator: 'R. Chen', utilization: 108 },
-  { station: 'Head', cycle: 33, takt: 38, operator: 'K. Patel', utilization: 87 },
-  { station: 'QC', cycle: 22, takt: 38, operator: 'A. Davis', utilization: 58 },
-  { station: 'Pack', cycle: 18, takt: 38, operator: 'S. Brown', utilization: 47 }
+  { station: 'Shear', cycle: 28, takt: 38, utilization: 74 },
+  { station: 'Press', cycle: 35, takt: 38, utilization: 92 },
+  { station: 'Thread', cycle: 41, takt: 38, utilization: 108 },
+  { station: 'Head', cycle: 33, takt: 38, utilization: 87 },
+  { station: 'QC', cycle: 22, takt: 38, utilization: 58 },
+  { station: 'Pack', cycle: 18, takt: 38, utilization: 47 }
 ];
 const maxCycle = Math.max(...swimlaneData.map(d => d.cycle), ...swimlaneData.map(d => d.takt)) * 1.2;
 const swimlaneEl = document.getElementById('swimlaneViz');
@@ -2053,7 +2125,7 @@ if (swimlaneEl) {
       <div class="swimlane-bar-track">
         <div class="swimlane-bar ${barClass}" style="width:${pct}%;">
           ${d.cycle}s
-          <div class="swimlane-tooltip">${d.station} &mdash; Cycle: ${d.cycle}s | Takt: ${d.takt}s | Operator: ${d.operator} | Util: ${d.utilization}%</div>
+          <div class="swimlane-tooltip">${d.station} &mdash; Cycle: ${d.cycle}s | Takt: ${d.takt}s | Utilization: ${d.utilization}%</div>
         </div>
         <div class="swimlane-takt-line" style="left:${taktPct}%;">
           ${d === swimlaneData[0] ? '<div class="swimlane-takt-label">Takt ' + d.takt + 's</div>' : ''}
@@ -2102,7 +2174,7 @@ if (sparkEl) {
 const wfCategoryLabels = ['Theoretical\nCapacity','Planned\nDowntime','Breakdowns','Changeover','Speed\nLoss','Minor\nStops','Scrap','Rework','Actual\nOutput'];
 const wfCategoryValues = [4800, -320, -280, -190, -240, -160, -85, -45, 3480];
 const wfCodeLabels = ['Theoretical\nCapacity','Scheduled\nMaint','Setup','Mechanical','Electrical','Material\nWait','Changeover','Speed\nLoss','Idling','Micro-Stops','Scrap','Rework','Startup\nReject','Actual\nOutput'];
-const wfCodeValues = [4800, -200, -120, -180, -100, -80, -110, -160, -80, -120, -50, -30, -20, 3550];
+const wfCodeValues = [4800, -200, -120, -250, -100, -80, -110, -160, -80, -120, -50, -30, -20, 3480];
 
 function buildWaterfallData(labels, values) {
   const hidden = [], loss = [], total = [];
@@ -2145,7 +2217,7 @@ function createWaterfallChart(labels, values) {
     options: { responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: 'Production Loss Waterfall \u2014 March (Units)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+        title: { display: true, text: 'Production Loss Waterfall \u2014 March (Units)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
         tooltip: { ...tt, callbacks: { label: ctx => {
           if (ctx.dataset.label === '_hidden') return null;
           return ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() + ' units';
@@ -2189,7 +2261,7 @@ new Chart(document.getElementById('dmaicChart'), {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'DMAIC Impact \u2014 Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } }
+      title: { display: true, text: 'DMAIC Impact \u2014 Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } }
     },
     scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 8 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 10 } }, grid: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' }, angleLines: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' } } }
   }
@@ -2234,7 +2306,7 @@ aiOverlay.addEventListener('click', () => toggleChat(true));
 
 // Fallback responses if the API is unreachable
 const aiFallback = {
-  'default': 'Nicholas Kadunce is an operations and AI leader who builds the systems that make manufacturing performance repeatable. He\'s delivered double-digit improvements at every company he\'s led, architected a full-stack IoT production platform from scratch, and scaled teams from 6 to 240+. Ask about his AI work, leadership approach, results, or technical skills.'
+  'default': 'Nicholas Kadunce is an operations executive who builds the teams and systems that make manufacturing performance repeatable. He\'s delivered measurable improvements at every company he\'s worked for, progressed from process engineer to plant manager in five years, and scaled teams from 6 to 240+. Ask about his leadership approach, career journey, results, or how he puts data and AI to work.'
 };
 
 function showTyping() {

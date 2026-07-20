@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>JMOS Dashboard — WV Bolt Plant</title>
+<title>OpsIQ Dashboard — Demo Plant</title>
 <link rel="manifest" href="/manifest.json"/>
 <meta name="theme-color" content="#1B3D6E"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="JMOS"/><style>.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#FF6B35,#FFA500);color:#fff;text-align:center;padding:8px 16px;font-size:11px;font-weight:600;z-index:1000}</style>
+<meta name="apple-mobile-web-app-title" content="OpsIQ"/><style>.demo-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#FF6B35,#FFA500);color:#fff;text-align:center;padding:8px 16px;font-size:11px;font-weight:600;z-index:1000}</style>
 <script>
 (function() {
   const orig = window.fetch;
@@ -85,11 +85,11 @@
     if (typeof url !== 'string') url = url.url;
     const base = url.split('?')[0];
     const now = new Date().toISOString();
-    console.log('[JMOS FETCH]', base);
+    console.log('[OpsIQ FETCH]', base);
 
     // Auth endpoints
-    if (base === '/api/login') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/me') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/login') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/me') return Promise.resolve(new Response(JSON.stringify({user: {id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/logout') return Promise.resolve(new Response(JSON.stringify({ok:true}), {status:200, headers:{'content-type':'application/json'}}));
 
     // Production data endpoints - CRITICAL
@@ -107,8 +107,8 @@
     if (base === '/api/approvals') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/bdr') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/yamazumi') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/users') return Promise.resolve(new Response(JSON.stringify([{id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}]), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo JMOS system with simulated production data for all 16 equipment',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/users') return Promise.resolve(new Response(JSON.stringify([{id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo OpsIQ system with simulated production data for all 16 equipment',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/ai/settings') return Promise.resolve(new Response(JSON.stringify({}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/sync') return Promise.resolve(new Response(JSON.stringify({success:true, synced:0}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/data') return Promise.resolve(new Response(JSON.stringify({submissions:[], lastSync: now}), {status:200, headers:{'content-type':'application/json'}}));
@@ -123,17 +123,17 @@
     try {
       return orig.apply(this, arguments);
     } catch(e) {
-      console.error('[JMOS] Fetch error:', e);
+      console.error('[OpsIQ] Fetch error:', e);
       return Promise.reject(e);
     }
   };
 
   // Pre-login to skip sign-in page
-  if (!localStorage.getItem('jmos-auth-token')) {
-    localStorage.setItem('jmos-auth-token', 'demo-'+Date.now());
-    localStorage.setItem('jmos-auth-user', JSON.stringify({id:1,username:'demo@jmos.local',displayName:'Demo User',role:'supervisor'}));
+  if (!localStorage.getItem('opsiq-auth-token')) {
+    localStorage.setItem('opsiq-auth-token', 'demo-'+Date.now());
+    localStorage.setItem('opsiq-auth-user', JSON.stringify({id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}));
   }
-  console.log('[JMOS] Full dashboard fetch interceptor - all equipment data populated');
+  console.log('[OpsIQ] Full dashboard fetch interceptor - all equipment data populated');
 })();
 /**
  * @license React
@@ -1786,7 +1786,7 @@ input[type=number]{-moz-appearance:textfield}
 <body><div class="demo-banner">DEMO MODE - All data is simulated. Not the live production system.</div>
 <div id="root"></div>
 <script>
-const LOGO_SRC='data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTIyLjA0IDQ5LjY2Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6IzIzMWYyMDt9LmNscy0ye2ZpbGw6IzAwMmY4Nzt9PC9zdHlsZT48L2RlZnM+PGcgaWQ9Ikplbm5tYXJfQ29ycCI+PHBhdGggZD0iTTAsNDkuNmwuNTQtMi41M2guMzVsLjQyLDIuMDloLjAzbDEuMzEtMi4wOWguMzlsLS41NCwyLjUzaC0uM2wuNDEtMS45M2gtLjAybC0xLjIsMS45MWgtLjI3bC0uMzktMS45MWgtLjAybC0uNDEsMS45M2gtLjNaIi8+PHBhdGggZD0iTTQuMiw0OS42bC41NC0yLjUzaC4zMmwtLjU0LDIuNTNoLS4zMloiLz48cGF0aCBkPSJNNi4yMiw0OS42bC41NC0yLjUzaC4zMWwuOTMsMi4wMmguMDNsLjQzLTIuMDJoLjMybC0uNTQsMi41M2gtLjMybC0uOTMtMi4wMWgtLjAzbC0uNDMsMi4wMWgtLjMyWiIvPjxwYXRoIGQ9Ik05Ljk0LDQ5LjZsLjU0LTIuNTNoLjMybC0uNTQsMi41M2gtLjMyWiIvPjxwYXRoIGQ9Ik0xMS45NSw0OS42bC41NC0yLjUzaC4zMWwuOTMsMi4wMmguMDNsLjQzLTIuMDJoLjMybC0uNTQsMi41M2gtLjMybC0uOTMtMi4wMWgtLjAzbC0uNDMsMi4wMWgtLjMyWiIvPjxwYXRoIGQ9Ik0xNy45OSw0OC42NmMtLjA3LjMzLS4yLjU4LS40MS43NS0uMi4xNy0uNDYuMjYtLjc3LjI2LS4xNSwwLS4yOS0uMDMtLjQxLS4wOC0uMTItLjA1LS4yMy0uMTItLjMyLS4yMXMtLjE2LS4yLS4yLS4zMy0uMDctLjI3LS4wNy0uNDMuMDEtLjMuMDUtLjQ0Yy4wMy0uMTQuMDgtLjI3LjEzLS4zOS4wNi0uMTIuMTMtLjIzLjItLjMyLjA4LS4xLjE3LS4xOC4yNy0uMjRzLjItLjEyLjMyLS4xNWMuMTEtLjA0LjI0LS4wNS4zNy0uMDVzLjI1LjAyLjM3LjA2Yy4xMS4wNC4yMS4wOS4yOS4xNnMuMTUuMTUuMi4yNWMuMDUuMS4wOC4yLjA5LjMydi4wNmgtLjMyYzAtLjA5LS4wMy0uMTYtLjA2LS4yMy0uMDMtLjA3LS4wOC0uMTMtLjE0LS4xOHMtLjEzLS4wOS0uMi0uMTFjLS4wOC0uMDMtLjE2LS4wNC0uMjYtLjA0cy0uMTguMDEtLjI2LjA0LS4xNi4wNy0uMjQuMTMtLjE0LjEyLS4yLjJjLS4wNi4wOC0uMTEuMTYtLjE1LjI2LS4wNC4wOS0uMDguMi0uMS4zMXMtLjA0LjIzLS4wNC4zNS4wMi4yMy4wNS4zMy4wOC4xOC4xNC4yNWMuMDYuMDcuMTQuMTIuMjMuMTYuMDkuMDQuMTkuMDUuMy4wNS4xLDAsLjE5LS4wMi4yOC0uMDVzLjE3LS4wOC4yNC0uMTRjLjA3LS4wNi4xMy0uMTMuMTgtLjIxLjA1LS4wOC4wOC0uMTguMS0uMjhsLjAyLS4xaC0uN2wuMDYtLjI4aDEuMDJsLS4wNy4zNFoiLz48cGF0aCBkPSJNMjUuNjEsNDkuNmwuNTQtMi41M2guMzJsLS41NCwyLjUzaC0uMzJaIi8+PHBhdGggZD0iTTI3LjYzLDQ5LjZsLjU0LTIuNTNoLjMxbC45MywyLjAyaC4wM2wuNDMtMi4wMmguMzJsLS41NCwyLjUzaC0uMzJsLS45My0yLjAxaC0uMDNsLS40MywyLjAxaC0uMzJaIi8+PHBhdGggZD0iTTMxLjM1LDQ5LjZsLjU0LTIuNTNoMS41NGwtLjA2LjI4aC0xLjIxbC0uMTkuODdoMS4xMWwtLjA2LjI4aC0xLjExbC0uMjMsMS4xaC0uMzJaIi8+PHBhdGggZD0iTTM0Ljk5LDQ3LjA3aC44N2MuMTEsMCwuMjIuMDEuMzEuMDVzLjE3LjA4LjI0LjE0Yy4wNi4wNi4xMi4xMy4xNS4yMXMuMDUuMTguMDUuMjgtLjAxLjE5LS4wNS4yOGMtLjAzLjA5LS4wOC4xNi0uMTQuMjQtLjA2LjA3LS4xMy4xMy0uMjEuMThzLS4xOC4wOS0uMjguMTFsLjM2LDEuMDVoLS4zNGwtLjMzLTFoLS42NGwtLjIxLDFoLS4zMmwuNTMtMi41M1pNMzUuMDUsNDguMzJoLjYxYy4wOSwwLC4xOC0uMDEuMjUtLjA0LjA4LS4wMy4xNC0uMDYuMi0uMTEuMDUtLjA1LjEtLjExLjEzLS4xN3MuMDUtLjE0LjA1LS4yMmMwLS4wNi0uMDEtLjEyLS4wMy0uMTctLjAyLS4wNS0uMDUtLjEtLjA5LS4xMy0uMDQtLjA0LS4wOC0uMDYtLjE0LS4wOC0uMDUtLjAyLS4xMS0uMDMtLjE4LS4wM2gtLjZsLS4yMS45NloiLz48cGF0aCBkPSJNMzkuNDEsNDguODhoLTEuMDFsLS40LjcyaC0uMzRsMS40OC0yLjUzaC4yOWwuMzksMi41M2gtLjMxbC0uMS0uNzJaTTM4LjU1LDQ4LjYxaC44M2wtLjE2LTEuMTJoLS4wM2wtLjYzLDEuMTJaIi8+PHBhdGggZD0iTTQxLjY0LDQ4LjljLjAxLjA3LjA0LjE0LjA4LjIuMDQuMDYuMDkuMTEuMTQuMTUuMDYuMDQuMTIuMDcuMTkuMDkuMDcuMDIuMTUuMDMuMjQuMDNzLjE3LS4wMS4yNC0uMDMuMTMtLjA1LjE5LS4wOS4wOS0uMDkuMTItLjE0Yy4wMy0uMDUuMDQtLjExLjA0LS4xOCwwLS4xLS4wNC0uMTktLjExLS4yNi0uMDctLjA3LS4xOS0uMTQtLjM1LS4xOWwtLjI0LS4wOGMtLjE3LS4wNi0uMzEtLjE1LS40LS4yNi0uMS0uMTEtLjE0LS4yNC0uMTQtLjM5LDAtLjEuMDItLjIuMDctLjI5cy4xMS0uMTYuMTktLjIzYy4wOC0uMDYuMTgtLjExLjI4LS4xNXMuMjMtLjA1LjM1LS4wNWMuMTIsMCwuMjMuMDIuMzQuMDUuMS4wNC4xOS4wOS4yNy4xNXMuMTQuMTQuMTkuMjNjLjA1LjA5LjA4LjE5LjA5LjNoLS4zMmMtLjAzLS4xNC0uMS0uMjUtLjItLjMzLS4xLS4wOC0uMjMtLjEyLS4zOS0uMTItLjA4LDAtLjE1LjAxLS4yMS4wMy0uMDYuMDItLjEyLjA1LS4xNy4wOS0uMDUuMDQtLjA5LjA4LS4xMS4xM3MtLjA0LjEtLjA0LjE2YzAsLjA5LjAzLjE3LjEuMjQuMDYuMDcuMTcuMTMuMzEuMThsLjIzLjA4Yy4yMS4wOC4zNi4xNy40Ni4yOHMuMTUuMjUuMTUuNGMwLC4xMS0uMDIuMjItLjA3LjMyLS4wNS4wOS0uMTEuMTgtLjE5LjI0cy0uMTguMTItLjMuMTZjLS4xMS4wNC0uMjQuMDYtLjM4LjA2LS4xMywwLS4yNS0uMDItLjM2LS4wNS0uMTEtLjA0LS4yLS4wOS0uMjgtLjE1LS4wOC0uMDYtLjE1LS4xNC0uMi0uMjQtLjA1LS4wOS0uMDktLjItLjEtLjMyaC4zMloiLz48cGF0aCBkPSJNNDUuMiw0OS42bC40OC0yLjI0aC0uODFsLjA2LS4yOGgxLjk0bC0uMDYuMjhoLS44MWwtLjQ4LDIuMjRoLS4zM1oiLz48cGF0aCBkPSJNNDguNCw0Ny4wN2guODdjLjExLDAsLjIyLjAxLjMxLjA1cy4xNy4wOC4yNC4xNGMuMDYuMDYuMTIuMTMuMTUuMjEuMDQuMDguMDUuMTguMDUuMjhzLS4wMS4xOS0uMDUuMjhjLS4wMy4wOS0uMDguMTYtLjE0LjI0cy0uMTMuMTMtLjIxLjE4LS4xOC4wOS0uMjguMTFsLjM2LDEuMDVoLS4zNGwtLjMzLTFoLS42NGwtLjIxLDFoLS4zMmwuNTMtMi41M1pNNDguNDYsNDguMzJoLjYxYy4wOSwwLC4xOC0uMDEuMjUtLjA0LjA4LS4wMy4xNC0uMDYuMi0uMTEuMDUtLjA1LjEtLjExLjEzLS4xN3MuMDUtLjE0LjA1LS4yMmMwLS4wNi0uMDEtLjEyLS4wMy0uMTctLjAyLS4wNS0uMDUtLjEtLjA5LS4xMy0uMDQtLjA0LS4wOC0uMDYtLjE0LS4wOC0uMDUtLjAyLS4xMS0uMDMtLjE4LS4wM2gtLjZsLS4yMS45NloiLz48cGF0aCBkPSJNNTIuMzQsNDkuNjZjLS4xNCwwLS4yNy0uMDItLjM4LS4wNi0uMTEtLjA0LS4yLS4xLS4yOC0uMTdzLS4xMy0uMTUtLjE3LS4yNWMtLjA0LS4xLS4wNi0uMi0uMDYtLjMxLDAtLjA0LDAtLjA4LDAtLjExcy4wMS0uMDguMDItLjExbC4zMy0xLjU4aC4zMmwtLjMzLDEuNTVzLS4wMS4wOC0uMDIuMTIsMCwuMDgsMCwuMTFjMCwuMDguMDIuMTUuMDQuMjEuMDMuMDYuMDYuMTIuMTEuMTYuMDUuMDQuMTEuMDguMTkuMS4wOC4wMy4xNi4wNC4yNi4wNC4wOSwwLC4xOC0uMDEuMjYtLjA0LjA4LS4wMy4xNi0uMDcuMjItLjEycy4xMi0uMTIuMTYtLjJjLjA1LS4wOC4wOC0uMTYuMS0uMjZsLjM1LTEuNjZoLjMybC0uMzcsMS43M2MtLjAzLjE0LS4wOC4yNi0uMTQuMzYtLjA2LjExLS4xNC4yLS4yMy4yNy0uMDkuMDgtLjIuMTMtLjMzLjE3cy0uMjYuMDUtLjQyLjA1WiIvPjxwYXRoIGQ9Ik01Ny4wOSw0Ny44NmMwLS4wOC0uMDMtLjE2LS4wNi0uMjNzLS4wOC0uMTMtLjE0LS4xOC0uMTMtLjA5LS4yLS4xMWMtLjA4LS4wMy0uMTYtLjA0LS4yNi0uMDQtLjE0LDAtLjI2LjAzLS4zOS4xLS4xMi4wNi0uMjIuMTYtLjMxLjI3cy0uMTYuMjUtLjIxLjQxLS4wOC4zMy0uMDguNTFjMCwuMTIuMDEuMjMuMDUuMzIuMDMuMS4wOC4xOC4xNC4yNC4wNi4wNy4xMy4xMi4yMi4xNS4wOS4wNC4xOC4wNS4yOS4wNS4wOSwwLC4xNi0uMDEuMjQtLjAzLjA4LS4wMi4xNS0uMDUuMjEtLjA5LjA2LS4wNC4xMS0uMDguMTYtLjE0LjA1LS4wNS4wOC0uMTEuMS0uMThoLjMzYy0uMDMuMTEtLjA4LjIxLS4xNS4zLS4wNi4wOS0uMTQuMTYtLjI0LjIzLS4wOS4wNi0uMi4xMS0uMzIuMTRzLS4yNS4wNS0uMzguMDVjLS4xNSwwLS4yOC0uMDMtLjQtLjA4cy0uMjMtLjEyLS4zMS0uMjEtLjE1LS4yLS4yLS4zM2MtLjA1LS4xMy0uMDctLjI3LS4wNy0uNDJzLjAxLS4zLjA1LS40NGMuMDMtLjE0LjA4LS4yNy4xMy0uMzkuMDYtLjEyLjEzLS4yMy4yLS4zM3MuMTctLjE4LjI3LS4yNS4yLS4xMi4zMi0uMTYuMjQtLjA1LjM3LS4wNWMuMTQsMCwuMjYuMDIuMzguMDZzLjIyLjEuMy4xOC4xNS4xNi4yLjI2Yy4wNS4xLjA3LjIxLjA3LjMzaDBzLS4zMi4wMS0uMzIuMDFoMFoiLz48cGF0aCBkPSJNNTkuMTcsNDkuNmwuNDgtMi4yNGgtLjgxbC4wNi0uMjhoMS45NGwtLjA2LjI4aC0uODFsLS40OCwyLjI0aC0uMzNaIi8+PHBhdGggZD0iTTYyLjkyLDQ5LjY2Yy0uMTQsMC0uMjctLjAyLS4zOC0uMDZzLS4yLS4xLS4yOC0uMTctLjEzLS4xNS0uMTctLjI1Yy0uMDQtLjEtLjA2LS4yLS4wNi0uMzEsMC0uMDQsMC0uMDgsMC0uMTFzLjAxLS4wOC4wMi0uMTFsLjMzLTEuNThoLjMybC0uMzMsMS41NXMtLjAxLjA4LS4wMi4xMiwwLC4wOCwwLC4xMWMwLC4wOC4wMi4xNS4wNC4yMS4wMy4wNi4wNi4xMi4xMS4xNi4wNS4wNC4xMS4wOC4xOS4xLjA4LjAzLjE2LjA0LjI2LjA0LjA5LDAsLjE4LS4wMS4yNi0uMDQuMDgtLjAzLjE2LS4wNy4yMi0uMTJzLjEyLS4xMi4xNi0uMmMuMDUtLjA4LjA4LS4xNi4xLS4yNmwuMzUtMS42NmguMzJsLS4zNywxLjczYy0uMDMuMTQtLjA4LjI2LS4xNC4zNi0uMDYuMTEtLjE0LjItLjIzLjI3LS4wOS4wOC0uMi4xMy0uMzMuMTdzLS4yNi4wNS0uNDIuMDVaIi8+PHBhdGggZD0iTTY2LjEsNDcuMDdoLjg3Yy4xMSwwLC4yMi4wMS4zMS4wNS4wOS4wMy4xNy4wOC4yNC4xNC4wNi4wNi4xMi4xMy4xNS4yMS4wNC4wOC4wNS4xOC4wNS4yOHMtLjAxLjE5LS4wNS4yOGMtLjAzLjA5LS4wOC4xNi0uMTQuMjRzLS4xMy4xMy0uMjEuMThjLS4wOC4wNS0uMTguMDktLjI4LjExbC4zNiwxLjA1aC0uMzRsLS4zMy0xaC0uNjRsLS4yMSwxaC0uMzJsLjUzLTIuNTNaTTY2LjE2LDQ4LjMyaC42MWMuMDksMCwuMTgtLjAxLjI1LS4wNC4wOC0uMDMuMTQtLjA2LjItLjExLjA1LS4wNS4xLS4xMS4xMy0uMTcuMDMtLjA3LjA1LS4xNC4wNS0uMjIsMC0uMDYtLjAxLS4xMi0uMDMtLjE3cy0uMDUtLjEtLjA5LS4xM2MtLjA0LS4wNC0uMDgtLjA2LS4xNC0uMDgtLjA1LS4wMi0uMTEtLjAzLS4xOC0uMDNoLS42bC0uMjEuOTZaIi8+PHBhdGggZD0iTTcwLjU0LDQ5LjZoLTEuNTdsLjU0LTIuNTNoMS41N2wtLjA2LjI4aC0xLjI1bC0uMTguODFoMS4xOGwtLjA2LjI4aC0xLjE4bC0uMTkuODdoMS4yNWwtLjA1LjI5WiIvPjxwYXRoIGQ9Ik03OC4zNyw0OS42bC41NC0yLjUzaC4zNWwuNDIsMi4wOWguMDNsMS4zMS0yLjA5aC4zOWwtLjU0LDIuNTNoLS4zbC40MS0xLjkzaC0uMDJsLTEuMiwxLjkxaC0uMjZsLS4zOS0xLjkxaC0uMDJsLS40MSwxLjkzaC0uM1oiLz48cGF0aCBkPSJNODQuMTIsNDguODhoLTEuMDFsLS40LjcyaC0uMzRsMS40OC0yLjUzaC4yOWwuNCwyLjUzaC0uMzFsLS4xMS0uNzJaTTgzLjI2LDQ4LjYxaC44M2wtLjE2LTEuMTJoLS4wM2wtLjYzLDEuMTJaIi8+PHBhdGggZD0iTTg2LjA0LDQ5LjZsLjU0LTIuNTNoLjMxbC45MywyLjAyaC4wM2wuNDMtMi4wMmguMzJsLS41NCwyLjUzaC0uMzJsLS45My0yLjAxaC0uMDNsLS40MywyLjAxaC0uMzJaIi8+PHBhdGggZD0iTTkwLjgzLDQ5LjY2Yy0uMTQsMC0uMjctLjAyLS4zOC0uMDYtLjExLS4wNC0uMi0uMS0uMjctLjE3cy0uMTMtLjE1LS4xNy0uMjUtLjA2LS4yLS4wNi0uMzFjMC0uMDQsMC0uMDgsMC0uMTFzLjAxLS4wOC4wMi0uMTFsLjMzLTEuNThoLjMybC0uMzMsMS41NXMtLjAxLjA4LS4wMi4xMiwwLC4wOCwwLC4xMWMwLC4wOC4wMi4xNS4wNC4yMXMuMDYuMTIuMTEuMTZjLjA1LjA0LjExLjA4LjE5LjEuMDguMDMuMTYuMDQuMjYuMDQuMDksMCwuMTgtLjAxLjI2LS4wNC4wOC0uMDMuMTYtLjA3LjIyLS4xMnMuMTItLjEyLjE2LS4yYy4wNS0uMDguMDgtLjE2LjEtLjI2bC4zNS0xLjY2aC4zMmwtLjM3LDEuNzNjLS4wMy4xNC0uMDguMjYtLjE0LjM2LS4wNi4xMS0uMTQuMi0uMjMuMjctLjA5LjA4LS4yLjEzLS4zMy4xN3MtLjI3LjA1LS40My4wNVoiLz48cGF0aCBkPSJNOTMuNDgsNDkuNmwuNTQtMi41M2gxLjU0bC0uMDYuMjhoLTEuMjFsLS4xOS44N2gxLjExbC0uMDYuMjhoLTEuMTJsLS4yMywxLjFoLS4zMloiLz48cGF0aCBkPSJNOTguMTEsNDguODhoLTEuMDFsLS40LjcyaC0uMzRsMS40OC0yLjUzaC4yOWwuNCwyLjUzaC0uMzFsLS4xMS0uNzJaTTk3LjI1LDQ4LjYxaC44M2wtLjE2LTEuMTJoLS4wM2wtLjYzLDEuMTJaIi8+PHBhdGggZD0iTTEwMiw0Ny44NmMwLS4wOC0uMDMtLjE2LS4wNi0uMjMtLjAzLS4wNy0uMDgtLjEzLS4xNC0uMThzLS4xMy0uMDktLjItLjExYy0uMDgtLjAzLS4xNi0uMDQtLjI2LS4wNC0uMTQsMC0uMjYuMDMtLjM5LjEtLjEyLjA2LS4yMi4xNi0uMzEuMjdzLS4xNi4yNS0uMjEuNDFjLS4wNS4xNi0uMDguMzMtLjA4LjUxLDAsLjEyLjAxLjIzLjA1LjMyLjAzLjEuMDguMTguMTQuMjRzLjEzLjEyLjIyLjE1Yy4wOS4wNC4xOC4wNS4yOS4wNS4wOSwwLC4xNi0uMDEuMjQtLjAzLjA4LS4wMi4xNS0uMDUuMjEtLjA5LjA2LS4wNC4xMS0uMDguMTYtLjE0LjA0LS4wNS4wOC0uMTEuMS0uMThoLjMzYy0uMDMuMTEtLjA4LjIxLS4xNS4zLS4wNi4wOS0uMTQuMTYtLjI0LjIzLS4wOS4wNi0uMi4xMS0uMzIuMTQtLjEyLjAzLS4yNS4wNS0uMzguMDUtLjE1LDAtLjI4LS4wMy0uNC0uMDgtLjEyLS4wNS0uMjMtLjEyLS4zMS0uMjFzLS4xNS0uMi0uMi0uMzNjLS4wNS0uMTMtLjA3LS4yNy0uMDctLjQycy4wMS0uMy4wNS0uNDRjLjAzLS4xNC4wOC0uMjcuMTMtLjM5LjA2LS4xMi4xMy0uMjMuMi0uMzNzLjE3LS4xOC4yNy0uMjUuMi0uMTIuMzItLjE2Yy4xMS0uMDQuMjQtLjA1LjM3LS4wNS4xNCwwLC4yNi4wMi4zOC4wNi4xMi4wNC4yMi4xLjMuMTguMDkuMDguMTUuMTYuMi4yNi4wNS4xLjA3LjIxLjA3LjMzaDBzLS4zMi4wMS0uMzIuMDFoMFoiLz48cGF0aCBkPSJNMTA0LjA4LDQ5LjZsLjQ4LTIuMjRoLS44MWwuMDYtLjI4aDEuOTRsLS4wNi4yOGgtLjgxbC0uNDgsMi4yNGgtLjMzWiIvPjxwYXRoIGQ9Ik0xMDcuODMsNDkuNjZjLS4xNCwwLS4yNy0uMDItLjM4LS4wNnMtLjItLjEtLjI4LS4xNy0uMTMtLjE1LS4xNy0uMjVjLS4wNC0uMS0uMDYtLjItLjA2LS4zMSwwLS4wNCwwLS4wOCwwLS4xMXMuMDEtLjA4LjAyLS4xMWwuMzMtMS41OGguMzJsLS4zMywxLjU1cy0uMDEuMDgtLjAyLjEyLDAsLjA4LDAsLjExYzAsLjA4LjAyLjE1LjA0LjIxcy4wNi4xMi4xMS4xNi4xMS4wOC4xOS4xYy4wOC4wMy4xNi4wNC4yNi4wNC4wOSwwLC4xOC0uMDEuMjYtLjA0LjA4LS4wMy4xNi0uMDcuMjItLjEycy4xMi0uMTIuMTYtLjJjLjA1LS4wOC4wOC0uMTYuMS0uMjZsLjM1LTEuNjZoLjMybC0uMzcsMS43M2MtLjAzLjE0LS4wOC4yNi0uMTQuMzYtLjA2LjExLS4xNC4yLS4yMy4yNy0uMDkuMDgtLjIuMTMtLjMzLjE3cy0uMjYuMDUtLjQyLjA1WiIvPjxwYXRoIGQ9Ik0xMTEuMDIsNDcuMDdoLjg3Yy4xMSwwLC4yMi4wMS4zMS4wNS4wOS4wMy4xNy4wOC4yNC4xNC4wNi4wNi4xMi4xMy4xNS4yMXMuMDUuMTguMDUuMjgtLjAxLjE5LS4wNS4yOGMtLjAzLjA5LS4wOC4xNi0uMTQuMjRzLS4xMy4xMy0uMjEuMThjLS4wOC4wNS0uMTguMDktLjI4LjExbC4zNiwxLjA1aC0uMzVsLS4zMy0xaC0uNjRsLS4yMSwxaC0uMzJsLjU0LTIuNTNaTTExMS4wNyw0OC4zMmguNjFjLjA5LDAsLjE4LS4wMS4yNS0uMDQuMDgtLjAzLjE0LS4wNi4yLS4xMS4wNS0uMDUuMS0uMTEuMTMtLjE3LjAzLS4wNy4wNS0uMTQuMDUtLjIyLDAtLjA2LS4wMS0uMTItLjAzLS4xN3MtLjA1LS4xLS4wOS0uMTNjLS4wNC0uMDQtLjA4LS4wNi0uMTQtLjA4LS4wNS0uMDItLjExLS4wMy0uMTgtLjAzaC0uNmwtLjIxLjk2WiIvPjxwYXRoIGQ9Ik0xMTMuODgsNDkuNmwuNTQtMi41M2guMzJsLS41NCwyLjUzaC0uMzJaIi8+PHBhdGggZD0iTTExNS45LDQ5LjZsLjU0LTIuNTNoLjMxbC45MywyLjAyaC4wM2wuNDMtMi4wMmguMzJsLS41NCwyLjUzaC0uMzJsLS45My0yLjAxaC0uMDNsLS40MywyLjAxaC0uMzJaIi8+PHBhdGggZD0iTTEyMS45NCw0OC42NmMtLjA3LjMzLS4yMS41OC0uNDEuNzUtLjIuMTctLjQ2LjI2LS43Ny4yNi0uMTUsMC0uMjktLjAzLS40MS0uMDgtLjEyLS4wNS0uMjMtLjEyLS4zMi0uMjFzLS4xNi0uMi0uMi0uMzMtLjA3LS4yNy0uMDctLjQzLjAxLS4zLjA1LS40NC4wOC0uMjcuMTMtLjM5Yy4wNi0uMTIuMTMtLjIzLjItLjMyLjA4LS4xLjE3LS4xOC4yNy0uMjRzLjItLjEyLjMyLS4xNWMuMTEtLjA0LjI0LS4wNS4zNy0uMDVzLjI1LjAyLjM3LjA2LjIxLjA5LjI5LjE2LjE1LjE1LjIuMjVjLjA1LjEuMDguMi4wOS4zMnYuMDZoLS4zMmMwLS4wOS0uMDMtLjE2LS4wNi0uMjMtLjAzLS4wNy0uMDgtLjEzLS4xNC0uMThzLS4xMy0uMDktLjItLjExLS4xNi0uMDQtLjI2LS4wNC0uMTguMDEtLjI2LjA0LS4xNi4wNy0uMjQuMTMtLjE0LjEyLS4yLjJjLS4wNi4wOC0uMTEuMTYtLjE1LjI2LS4wNC4wOS0uMDguMi0uMS4zMXMtLjA0LjIzLS4wNC4zNS4wMi4yMy4wNS4zMy4wOC4xOC4xNC4yNWMuMDYuMDcuMTQuMTIuMjMuMTYuMDkuMDQuMTkuMDUuMy4wNS4xLDAsLjE5LS4wMi4yOC0uMDVzLjE3LS4wOC4yNC0uMTQuMTMtLjEzLjE4LS4yMWMuMDUtLjA4LjA4LS4xOC4xLS4yOGwuMDItLjFoLS43bC4wNi0uMjhoMS4wMmwtLjA3LjM0WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTQuMTcsMzguNzZjMCwuNTguMTQsMS4wMi40NCwxLjMzcy43LjQ0LDEuMTkuNDQuOTEtLjE2LDEuMTktLjQ3Yy4yOC0uMy40Mi0uNzQuNDItMS4zM3YtOC41OWMwLS4wNy4wMy0uMTQuMDktLjIxLjA3LS4wNy4xNC0uMDkuMjEtLjA5aDMuNjNjLjA3LDAsLjE0LjAzLjIxLjA5LjA3LjA3LjA5LjE0LjA5LjIxdjguNGMwLDEuNjUtLjQ5LDIuOTgtMS40OSwzLjk4cy0yLjQ1LDEuNDktNC4zMywxLjQ5Yy0xLjc0LDAtMy4xNC0uMzktNC4yMS0xLjIxUzAsNDAuOSwwLDM5LjU1di0uODJjMC0uMDkuMDUtLjE5LjE0LS4zcy4xOS0uMTYuMy0uMTZoMy40MmMuMDcsMCwuMTQuMDUuMjEuMTJzLjEyLjE0LjEyLjIxbC0uMDIuMTZaIi8+PHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMTkuNTMsMzguNDZ2MS44Nmg3LjYzYy4wNywwLC4xNC4wNS4yMS4xMS4wNy4wNy4xMi4xNC4xMi4yMXYyLjg5YzAsLjA3LS4wMy4xNC0uMDkuMjEtLjA3LjA3LS4xNC4wOS0uMjEuMDloLTExLjU1Yy0uMDcsMC0uMTQtLjAzLS4xOS0uMDctLjA1LS4wNy0uMDctLjE0LS4wNy0uMjF2LTEzLjRjMC0uMDcuMDMtLjE0LjA3LS4yMS4wNS0uMDcuMTItLjA5LjE5LS4wOWgxMS40NWMuMDcsMCwuMTQuMDUuMjEuMTIuMDcuMDcuMTIuMTQuMTIuMjF2Mi44OWMwLC4wNy0uMDIuMTQtLjA5LjIxLS4wNy4wNy0uMTQuMTItLjIxLjEyaC03LjU0djEuNzJoNi44NGMuMDcsMCwuMTQuMDUuMjEuMTEuMDcuMDcuMTIuMTQuMTIuMjF2Mi42NWMwLC4wNy0uMDMuMTQtLjA5LjIxLS4wNy4wNy0uMTQuMTItLjIxLjEybC02LjkxLjA1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTM2Ljc4LDM3Ljg4bC0xLjQtMS41OGgtLjA5djcuMjRjMCwuMDctLjAyLjE0LS4wNy4yMS0uMDUuMDctLjEyLjA3LS4xOS4wN2gtMy42M2MtLjA3LDAtLjE0LDAtLjE5LS4wNy0uMDUtLjA3LS4wNy0uMTQtLjA3LS4yMXYtMTMuNDFjMC0uMDcuMDMtLjE0LjA3LS4yMXMuMTItLjA5LjE5LS4wOWgzLjE0bDUuOTgsNi4wNSwxLjI4LDEuNDRoLjA3di03LjIyYzAtLjA3LjAzLS4xNC4wNy0uMjEuMDUtLjA3LjEyLS4wOS4xOS0uMDloMy42M2MuMDcsMCwuMTQuMDMuMTkuMDlzLjA3LjE0LjA3LjIxdjEzLjRjMCwuMDctLjAzLjE0LS4wNy4yMS0uMDUuMDctLjEyLjA5LS4xOS4wOWgtMy4xNGwtNS44NS01LjkzWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTU1Ljg4LDM3Ljg4bC0xLjQtMS41OGgtLjA5djcuMjRjMCwuMDctLjAyLjE0LS4wNy4yMS0uMDUuMDctLjEyLjA3LS4xOS4wN2gtMy42M2MtLjA3LDAtLjE0LDAtLjE5LS4wNy0uMDUtLjA3LS4wNy0uMTQtLjA3LS4yMXYtMTMuNDFjMC0uMDcuMDMtLjE0LjA3LS4yMXMuMTItLjA5LjE5LS4wOWgzLjE0bDUuOTgsNi4wNSwxLjI4LDEuNDRoLjA3di03LjIyYzAtLjA3LjAzLS4xNC4wNy0uMjEuMDUtLjA3LjEyLS4wOS4xOS0uMDloMy42M2MuMDcsMCwuMTQuMDMuMTkuMDlzLjA3LjE0LjA3LjIxdjEzLjRjMCwuMDctLjAzLjE0LS4wNy4yMS0uMDUuMDctLjEyLjA5LS4xOS4wOWgtMy4xNGwtNS44NS01LjkzWiIvPjxwYXRoIGNsYXNzPSJjbHMtMiIgZD0iTTg1Ljk3LDI5Ljg3Yy4wNywwLC4xNC4wMy4xOS4wOS4wNS4wNy4wNy4xNC4wNy4yMXYxMy40YzAsLjA3LS4wMy4xNC0uMDcuMjEtLjA1LjA1LS4xMS4wNy0uMTkuMDdoLTMuNjNjLS4wNywwLS4xNC0uMDItLjE5LS4wNy0uMDUtLjA3LS4wNy0uMTQtLjA3LS4yMXYtNy4wN2gtLjA1Yy0uMjMuNDktLjUxLjk2LS44NiwxLjQybC0zLjQsNC42My0zLjM4LTQuNjNjLS4xNi0uMjEtLjMtLjQ0LS40NC0uNjhsLS4zMy0uNTgtLjA5LS4xOWgtLjA3djcuMDdjMCwuMDctLjAzLjE0LS4wNy4yMS0uMDUuMDUtLjEyLjA3LS4xOS4wN2gtMy42M2MtLjA3LDAtLjE0LS4wMy0uMTktLjA3LS4wNS0uMDctLjA3LS4xNC0uMDctLjIxdi0xMy40YzAtLjA3LjAyLS4xNC4wNy0uMjEuMDUtLjA3LjEyLS4wOS4xOS0uMDloMy4xMmMuMTksMCwuMzMuMDcuNDQuMjNsNC42Myw2LjM1aC4wNWw0LjYzLTYuMzVjLjEyLS4xNi4yNS0uMjMuNDQtLjIzbDMuMDcuMDJaIi8+PHBhdGggY2xhc3M9ImNscy0yIiBkPSJNMTAwLjQ1LDQxLjk1aC02LjFsLS42OCwxLjU2Yy0uMDkuMjEtLjI1LjMtLjQ5LjNoLTMuOTFjLS4xMiwwLS4xOS0uMDUtLjE5LS4xNiwwLS4wMi4wMi0uMTIuMDktLjI4bDYuMjYtMTMuNTJoMy45MWw2LjI2LDEzLjUyYy4wNy4xMi4wOS4yMS4wOS4yOCwwLC4xMi0uMDcuMTYtLjE5LjE2aC0zLjkxYy0uMjMsMC0uMzktLjA5LS40OS0uM2wtLjY4LTEuNTZaTTk1Ljc5LDM4LjY0aDMuMjFsLS42My0xLjQyLS45MS0yLjY1aC0uMTRjLS4zNSwxLjE5LS42NSwyLjA3LS45MSwyLjY1bC0uNjMsMS40MloiLz48cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0xMDguNzYsMzAuMTJjMC0uMDcuMDItLjE0LjA3LS4yMXMuMTItLjA5LjE5LS4wOWg2Ljk4YzEuNzUsMCwzLjE2LjQ3LDQuMjYsMS40MiwxLjEuOTYsMS42NSwyLjIxLDEuNjUsMy43NywwLDEuOTMtLjkxLDMuMzMtMi43LDQuMTl2LjA1Yy4yMS4yOC40LjU2LjU2LjgxbDIuMDksMy4yNGMuMTIuMTYuMTYuMjguMTYuMzUsMCwuMTItLjA3LjE2LS4yMy4xNmgtNC4yOGMtLjE2LDAtLjI4LS4wNS0uMzUtLjE2bC0yLjM1LTMuNjhoLTEuODl2My41NmMwLC4wNy0uMDIuMTQtLjA3LjIxLS4wNS4wNy0uMTEuMDctLjE5LjA3aC0zLjYzYy0uMDcsMC0uMTQsMC0uMTktLjA3LS4wNS0uMDctLjA3LS4xNC0uMDctLjIxbC0uMDItMTMuNFpNMTEyLjk0LDMzLjR2My4yOGgyLjdjLjY1LDAsMS4xNi0uMTYsMS41NC0uNDcuMzctLjMuNTYtLjcuNTYtMS4xOXMtLjE5LS44OC0uNTYtMS4xOWMtLjM3LS4zLS44OC0uNDctMS41NC0uNDdsLTIuNy4wM1oiLz48cGF0aCBkPSJNNTUuMDQsNy4zOGMxNy4yNiwwLDMyLjU5LDcuNDQsNDMuMjYsMTkuNDFoMjIuNjdDMTExLjg3LDExLjQ4LDkxLjMyLDAsNjYuODMsMCw0NS43NywwLDI0LjU2LDEwLjg2LDExLjg2LDI0LjcxLDIzLjMsMTMuOTYsMzguNzUsNy4zOCw1NS4wNCw3LjM4WiIvPjxjaXJjbGUgY2xhc3M9ImNscy0xIiBjeD0iMjEuOTgiIGN5PSI0OC4wNyIgcj0iLjM4Ii8+PGNpcmNsZSBjbGFzcz0iY2xzLTEiIGN4PSI3NC45NiIgY3k9IjQ4LjA3IiByPSIuMzgiLz48L2c+PC9zdmc+';
+const LOGO_SRC='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjIgNTAiPjx0ZXh0IHg9IjYxIiB5PSIzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMjI1MUZGIj5PcHNJUTwvdGV4dD48L3N2Zz4=';
 // ─── ALIASES ─────────────────────────────────────────────────────────────────
 const h=React.createElement;
 const{useState,useEffect,useRef,useCallback,useMemo}=React;
@@ -2824,7 +2824,7 @@ const OfflineQ={
   open(){
     return new Promise((resolve,reject)=>{
       if(this._db){resolve(this._db);return;}
-      const req=indexedDB.open('jmos_offline',1);
+      const req=indexedDB.open('opsiq_offline',1);
       req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('pending'))db.createObjectStore('pending',{keyPath:'clientId'});};
       req.onsuccess=e=>{this._db=e.target.result;resolve(this._db);};
       req.onerror=e=>reject(e);
@@ -3188,9 +3188,9 @@ function confirmAction(title,msg,yesLabel,noLabel){
 
 function Home({onEnterData,onAdmin,onDashboard,onTV}){
   return h('div',{className:'home-welcome'},
-    h('div',{className:'home-logo-big'},h('img',{src:LOGO_SRC,alt:'Jennmar'})),
-    h('div',{className:'home-title'},'JMOS Dashboard'),
-    h('div',{className:'home-subtitle'},'West Virginia Bolt Plant'),
+    h('div',{className:'home-logo-big'},h('img',{src:LOGO_SRC,alt:'OpsIQ'})),
+    h('div',{className:'home-title'},'OpsIQ Dashboard'),
+    h('div',{className:'home-subtitle'},'Demo Plant — Simulated Data'),
     h('div',{className:'home-cards'},
       h('div',{className:'home-card',onClick:onEnterData},h('div',{className:'home-card-icon'},h(Icon.clipboard)),h('div',{className:'home-card-title'},'Enter Data'),h('div',{className:'home-card-desc'},'Record shift production, downtime & defects')),
       h('div',{className:'home-card',onClick:onDashboard},h('div',{className:'home-card-icon'},h(Icon.chart)),h('div',{className:'home-card-title'},'Dashboard'),h('div',{className:'home-card-desc'},'View OEE metrics, trends & analytics')),
@@ -3882,10 +3882,10 @@ function Dashboard({dataVersion,master}){
     // ── HEADER ──
     h('div',{className:'dash-header'},
       h('div',{className:'dash-header-left'},
-        h('div',{className:'dash-header-title'},'JMOS Dashboard'),
-        h('div',{className:'dash-header-sub'},'West Virginia Bolt Plant'),
+        h('div',{className:'dash-header-title'},'OpsIQ Dashboard'),
+        h('div',{className:'dash-header-sub'},'Demo Plant — Simulated Data'),
         h('div',{className:'dash-header-date'},new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}))),
-      h('img',{src:LOGO_SRC,className:'dash-header-logo',alt:'Jennmar'})
+      h('img',{src:LOGO_SRC,className:'dash-header-logo',alt:'OpsIQ'})
     ),
 
     // ── FILTER BAR ──
@@ -4033,7 +4033,7 @@ function Dashboard({dataVersion,master}){
           h('div',{className:'oee-hr-header-left'},
             h('div',{className:'dash-card-title'},h(Icon.chart),' ',hourlyMode==='oee'?'OEE by Hour':'Production by Hour'),
             h('div',{style:{display:'flex',alignItems:'center',gap:8}},
-              h('div',{className:'oee-hr-scope-label'},selectedHour!==null?'Hour '+selectedHour+' — Process Breakdown':'WV Bolt Plant'),
+              h('div',{className:'oee-hr-scope-label'},selectedHour!==null?'Hour '+selectedHour+' — Process Breakdown':'Demo Plant'),
               h('div',{className:'dash-shift-toggle',style:{marginLeft:8}},
                 h('button',{className:'dash-shift-btn'+(hourlyMode==='oee'?' active':''),onClick:()=>setHourlyMode('oee'),style:{fontSize:10,padding:'2px 8px'}},'OEE'),
                 h('button',{className:'dash-shift-btn'+(hourlyMode==='production'?' active':''),onClick:()=>setHourlyMode('production'),style:{fontSize:10,padding:'2px 8px'}},'Production')
@@ -5960,7 +5960,7 @@ function YmzEditor({project,mutateData,mutateField,phaseIdx,setPhaseIdx,aiDraft,
     h('div',{className:'ymz-card ymz-header-card'},
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:12}},
         h(YmzField,{label:'Owner',value:data.owner,onChange:v=>mutateData(d=>({...d,owner:v}))}),
-        h(YmzField,{label:'Location',value:data.location,placeholder:'WV Bolt Plant',onChange:v=>mutateData(d=>({...d,location:v}))}),
+        h(YmzField,{label:'Location',value:data.location,placeholder:'Demo Plant',onChange:v=>mutateData(d=>({...d,location:v}))}),
         h(YmzField,{label:'Department',value:data.department,placeholder:'Presses',onChange:v=>mutateData(d=>({...d,department:v}))}),
         h(YmzField,{label:'Start Date',type:'date',value:data.startDate,onChange:v=>mutateData(d=>({...d,startDate:v}))}),
         h(YmzField,{label:'End Date',type:'date',value:data.endDate,onChange:v=>mutateData(d=>({...d,endDate:v}))}),
@@ -6233,7 +6233,7 @@ function YmzPreview({project,onClose,onDownload,pdfBusy}){
         h('div',{id:'ymz-onepager',className:'ymz-onepager'},
           // HEADER
           h('div',{className:'ymz-op-header'},
-            h('div',{className:'ymz-op-logo'},'JENNMAR'),
+            h('div',{className:'ymz-op-logo'},'OPSIQ'),
             h('div',{style:{flex:1,textAlign:'center'}},
               h('div',{className:'ymz-op-title'},(project.project_type||'SMED')+': '+(project.name||'Project')),
               h('div',{className:'ymz-op-subtitle'},[data.location,data.department,data.method].filter(Boolean).join(' • '))
@@ -7238,7 +7238,7 @@ function AnalyticsView({dataVersion,master}){
       h('div',{className:'dash-header-left'},
         h('div',{className:'dash-header-title'},'Analytics'),
         h('div',{style:{fontSize:12,color:'var(--jm-text-sec)',marginTop:2}},'Black Belt Analytics & Lean Manufacturing Tools')),
-      h('img',{src:LOGO_SRC,className:'dash-header-logo',alt:'Jennmar'})
+      h('img',{src:LOGO_SRC,className:'dash-header-logo',alt:'OpsIQ'})
     ),
 
     // ── MODULE TABS ──
@@ -7338,7 +7338,7 @@ function AnalyticsView({dataVersion,master}){
               ),
               h('button',{onClick:()=>{
                 const title='OEE Ranking — by '+(oeeViewBy==='process'?'Process':'Equipment');
-                downloadChartPNG(oeeChartRef.current,'JMOS_OEE_'+oeeViewBy,title);
+                downloadChartPNG(oeeChartRef.current,'OpsIQ_OEE_'+oeeViewBy,title);
               },style:{padding:'4px 10px',borderRadius:6,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',gap:4}},
                 h('svg',{width:13,height:13,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round'},
                   h('path',{d:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'}),h('polyline',{points:'7 10 12 15 17 10'}),h('line',{x1:12,y1:15,x2:12,y2:3})),' PNG')
@@ -7614,7 +7614,7 @@ function AnalyticsView({dataVersion,master}){
             const blob=new Blob(['\uFEFF'+csv],{type:'application/vnd.ms-excel;charset=utf-8'});
             const url=URL.createObjectURL(blob);
             const a=document.createElement('a');a.href=url;
-            a.download='JMOS_Downtime_'+dateFrom+'_to_'+dateTo+(dtScopeType!=='all'?'_'+(dtScopeType==='process'?dtScope:getEquipName(dtScope)):'')+'.xls';
+            a.download='OpsIQ_Downtime_'+dateFrom+'_to_'+dateTo+(dtScopeType!=='all'?'_'+(dtScopeType==='process'?dtScope:getEquipName(dtScope)):'')+'.xls';
             document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
             showToast('Downtime report exported');
           },style:{padding:'6px 14px',borderRadius:8,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',gap:5}},
@@ -7655,7 +7655,7 @@ function AnalyticsView({dataVersion,master}){
               style:{padding:'4px 10px',borderRadius:6,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer'}},'← Back'),
             h('button',{onClick:()=>{
               const level=dtDrillCode?'Sub_Items':dtDrillAsset?'DT_Codes':'Assets';
-              const fname='JMOS_DT_Pareto_'+level+(dtDrillAsset?'_'+dtDrillAsset:'');
+              const fname='OpsIQ_DT_Pareto_'+level+(dtDrillAsset?'_'+dtDrillAsset:'');
               const title='Downtime Pareto — '+(dtDrillCode?dtDrillAsset+' — '+dtDrillCode:dtDrillAsset?dtDrillAsset+' — by Code':'by Asset');
               downloadChartPNG(dtParetoChartRef.current,fname,title);
             },style:{padding:'4px 10px',borderRadius:6,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',gap:4}},
@@ -7836,7 +7836,7 @@ function AnalyticsView({dataVersion,master}){
             h('button',{onClick:()=>{
               const level=qualDefCode?'Products':qualDefAsset?'Defect_Codes':'Assets';
               const ctx=qualDefAsset?(qualityData.assetDefPareto||[]).find(a=>a.equipCode===qualDefAsset)?.name||'':'';
-              const fname='JMOS_Defect_Pareto_'+level+(ctx?'_'+ctx:'');
+              const fname='OpsIQ_Defect_Pareto_'+level+(ctx?'_'+ctx:'');
               const title='Defect Pareto — '+(qualDefCode?ctx+' — '+qualDefCode:qualDefAsset?ctx+' — by Code':'by Asset');
               downloadChartPNG(defParetoChartRef.current,fname,title);
             },style:{padding:'4px 10px',borderRadius:6,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer',display:'flex',alignItems:'center',gap:4}},
@@ -8581,7 +8581,7 @@ function TVView({dataVersion,master}){
     // Header bar
     h('div',{className:'tv-header'},
       h('div',{className:'tv-header-left'},
-        h('div',{className:'tv-header-title'},'JMOS \u2014 Floor Display'),
+        h('div',{className:'tv-header-title'},'OpsIQ \u2014 Floor Display'),
         h('div',{className:'tv-header-sub'},processFilter||'Select Process')
       ),
       h('div',{className:'tv-header-controls'},
@@ -8965,7 +8965,7 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
     const csv=rows.map(r=>r.map(c=>'"'+(String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
     const blob=new Blob(['\uFEFF'+csv],{type:'application/vnd.ms-excel;charset=utf-8'});
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download='JMOS_Export_'+(dbDateFrom||'all')+'_'+(dbDateTo||today())+'.xls';
+    const a=document.createElement('a');a.href=url;a.download='OpsIQ_Export_'+(dbDateFrom||'all')+'_'+(dbDateTo||today())+'.xls';
     document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
     showToast('Exported '+rows.length+' rows to Excel');
   }
@@ -9039,13 +9039,13 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
                 const splitName=thickness+' x '+sp.size+' x '+sp.size;
                 const wt=getPlateWeight(null,splitName);
                 const totalLbs=Math.round(sp.q*wt*100)/100;
-                rows.push([seq,sd.shiftDate,splitName,equipName,'Jennmar WV',sp.q,totalLbs,wt>0?defName:defName+' (weight unknown)']);
+                rows.push([seq,sd.shiftDate,splitName,equipName,'Demo Plant',sp.q,totalLbs,wt>0?defName:defName+' (weight unknown)']);
               });
             } else {
               seq++;
               const unitWt=getPlateWeight(hr.productCode,prodName);
               const totalLbs=Math.round(qty*unitWt*100)/100;
-              rows.push([seq,sd.shiftDate,prodName,equipName,'Jennmar WV',qty,totalLbs,unitWt>0?defName:defName+' (weight unknown)']);
+              rows.push([seq,sd.shiftDate,prodName,equipName,'Demo Plant',qty,totalLbs,unitWt>0?defName:defName+' (weight unknown)']);
             }
           });
         });
@@ -9055,7 +9055,7 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
     const csv=rows.map(r=>r.map(c=>'"'+(String(c).replace(/"/g,'""'))+'"').join(',')).join('\n');
     const blob=new Blob(['\uFEFF'+csv],{type:'application/vnd.ms-excel;charset=utf-8'});
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download='JMOS_Scrap_Report_'+scrapFrom+'_to_'+scrapTo+'.xls';
+    const a=document.createElement('a');a.href=url;a.download='OpsIQ_Scrap_Report_'+scrapFrom+'_to_'+scrapTo+'.xls';
     document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
     showToast('Exported '+seq+' scrap entries to Excel');
   }
@@ -10790,9 +10790,9 @@ function LoginScreen({onLogin}){
   return h('div',{className:'login-bg'},
     // Left hero panel
     h('div',{className:'login-hero'},
-      h('img',{src:LOGO_SRC,className:'login-hero-logo',alt:'Jennmar'}),
-      h('div',{className:'login-hero-title'},'JMOS'),
-      h('div',{className:'login-hero-sub'},'West Virginia Bolt Plant'),
+      h('img',{src:LOGO_SRC,className:'login-hero-logo',alt:'OpsIQ'}),
+      h('div',{className:'login-hero-title'},'OpsIQ'),
+      h('div',{className:'login-hero-sub'},'Demo Plant — Simulated Data'),
       h('hr',{className:'login-hero-divider'})
     ),
     // Right form panel
@@ -10820,10 +10820,10 @@ function LoginScreen({onLogin}){
           h('svg',{width:16,height:16,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:2},h('circle',{cx:12,cy:12,r:10}),h('line',{x1:15,y1:9,x2:9,y2:15}),h('line',{x1:9,y1:9,x2:15,y2:15})),
           error
         ),
-        h('div',{className:'login-footer'},'Jennmar Management Operating System')
+        h('div',{className:'login-footer'},'OpsIQ Management Operating System')
       )
     ),
-    h('div',{className:'login-version'},'JMOS v1.0')
+    h('div',{className:'login-version'},'OpsIQ v1.0')
   );
 }
 
@@ -10850,7 +10850,7 @@ function AppWrapper(){
   if(!authChecked)return h('div',{className:'login-bg',style:{justifyContent:'center'}},
     h('div',{style:{color:'#fff',fontSize:18,fontWeight:600,zIndex:1,textAlign:'center',animation:'login-fade-in .6s ease-out'}},
       h('img',{src:LOGO_SRC,style:{height:48,marginBottom:16,filter:'brightness(0) invert(1) drop-shadow(0 2px 12px rgba(0,0,0,.3))'},alt:''}),
-      h('div',{style:{fontSize:14,fontWeight:500,color:'rgba(255,255,255,.6)',letterSpacing:1.5,textTransform:'uppercase',marginBottom:20}},'Jennmar Operating System'),
+      h('div',{style:{fontSize:14,fontWeight:500,color:'rgba(255,255,255,.6)',letterSpacing:1.5,textTransform:'uppercase',marginBottom:20}},'OpsIQ Operating System'),
       h('svg',{width:24,height:24,viewBox:'0 0 24 24',fill:'none',stroke:'rgba(255,255,255,.5)',strokeWidth:2.5,style:{animation:'spin 1s linear infinite'}},h('path',{d:'M12 2a10 10 0 0 1 10 10',strokeLinecap:'round'}))
     ));
   if(!authUser)return h(LoginScreen,{onLogin:handleLogin});
@@ -10878,7 +10878,7 @@ function FirstPasswordScreen({authUser,onComplete}){
   }
   return h('div',{className:'login-bg'},
     h('form',{className:'login-card',onSubmit:handleSubmit,style:{maxWidth:400}},
-      h('img',{src:LOGO_SRC,className:'login-logo',alt:'Jennmar'}),
+      h('img',{src:LOGO_SRC,className:'login-logo',alt:'OpsIQ'}),
       h('div',{className:'login-title',style:{fontSize:20}},'Welcome, '+(authUser.displayName||authUser.username)),
       h('div',{className:'login-sub',style:{marginBottom:8}},'Choose Your Password'),
       h('div',{style:{fontSize:13,color:'var(--jm-text-sec)',textAlign:'center',marginBottom:16,lineHeight:1.5}},"Since this is your first time signing in, please choose a password you'll remember. You can change it anytime in Settings."),
@@ -10905,8 +10905,8 @@ function clearSession(){try{sessionStorage.removeItem(SESSION_KEY);}catch(e){}}
 
 function App({authUser,onLogout}){
   // Theme
-  const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('jmos-theme')||'light';}catch(e){return 'light';}});
-  useEffect(()=>{document.documentElement.setAttribute('data-theme',theme);try{localStorage.setItem('jmos-theme',theme);}catch(e){}},[theme]);
+  const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('opsiq-theme')||'light';}catch(e){return 'light';}});
+  useEffect(()=>{document.documentElement.setAttribute('data-theme',theme);try{localStorage.setItem('opsiq-theme',theme);}catch(e){}},[theme]);
   const toggleTheme=()=>setTheme(t=>t==='light'?'dark':'light');
   // Restore wizard state from sessionStorage if mid-entry
   const _saved=useMemo(()=>loadSession(),[]);
@@ -11220,7 +11220,7 @@ function App({authUser,onLogout}){
     h('div',{className:'app-layout'},
     // Sidebar
     h('nav',{className:'sidebar'},
-      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},'JMOS'),
+      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},'OpsIQ'),
       h('div',{className:'sidebar-nav'},
         h('button',{className:'sidebar-btn'+(screen==='dashboard'?' active':''),onClick:()=>setScreen('dashboard'),title:'Dashboard'},h(Icon.dashboard)),
         h('button',{className:'sidebar-btn'+(screen==='sixsigma'?' active':''),onClick:()=>setScreen('sixsigma'),title:'Six Sigma Toolbox'},h(Icon.sixsigma)),

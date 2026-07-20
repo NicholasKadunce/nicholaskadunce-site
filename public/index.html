@@ -195,8 +195,6 @@ header.scrolled .logo { opacity: 1; }
 /* ── SECTIONS SHARED ── */
 section { padding: 7rem 0; }
 
-.section-rule { width: 100%; height: 1px; background: var(--rule); margin-bottom: 7rem; }
-
 .eyebrow {
   font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;
@@ -345,36 +343,9 @@ section { padding: 7rem 0; }
 /* ── PHILOSOPHY ── */
 .philosophy { background: var(--surface); }
 
-.phil-intro {
-  font-family: var(--serif); font-size: 1.15rem;
-  font-weight: 400; font-style: italic; color: var(--ink-light);
-  line-height: 1.7; max-width: 620px; margin-bottom: 3.5rem;
-}
-
-.steps { margin-top: 0; }
-
-.step {
-  display: grid; grid-template-columns: 4rem 1fr; gap: 1.5rem;
-  padding: 2rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
-}
-
-.step:last-of-type { border-bottom: none; }
-
-.step-n {
-  font-family: var(--serif); font-size: 1.4rem; font-weight: 400;
-  color: var(--blue);
-}
-
-.step h3 { font-size: 0.95rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
-
-.step p {
-  font-size: 0.9rem; font-weight: 300; color: var(--ink-light); line-height: 1.7;
-}
-
-.step .detail {
-  margin-top: 0.5rem; font-size: 0.85rem; font-weight: 300;
-  color: var(--ink-muted); line-height: 1.7;
-}
+.phil-grid > div { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.phil-grid > div:nth-child(3n) { border-right: none; }
+.phil-grid > div:nth-child(n+4) { border-bottom: none; }
 
 .outcome {
   margin-top: 3.5rem; padding: 3rem; background: var(--surface-warm);
@@ -525,11 +496,6 @@ section { padding: 7rem 0; }
   padding: 0.15rem 0.45rem; border: 1px solid var(--rule);
 }
 
-/* Brief-style project (longer description, no demo) */
-.proj-brief .proj-desc {
-  max-width: 800px;
-}
-
 /* ── CREDENTIALS ── */
 .credentials { background: var(--surface); }
 
@@ -602,7 +568,10 @@ footer {
   .contact-grid { flex-direction: column; gap: 1.5rem; }
   .proj-top { grid-template-columns: 1fr; }
   .phil-grid { grid-template-columns: 1fr 1fr !important; }
-  .email-charts-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .phil-grid > div:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .phil-grid > div:nth-child(2n) { border-right: none; }
+  .phil-grid > div:nth-child(n+4) { border-bottom: 1px solid var(--rule); }
+  .phil-grid > div:nth-child(n+5) { border-bottom: none; }
   .fishbone-wrap svg { min-width: 0 !important; width: 100% !important; }
 }
 
@@ -619,7 +588,6 @@ footer {
   .tl-item { padding-left: 2.2rem; }
   .tl-story { font-size: 0.88rem; }
   .pillars { gap: 1.5rem; }
-  .step { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
   .exp-org { flex-direction: column; gap: 0.5rem; }
   .proj-item canvas { max-height: 200px; }
   .email-replica { max-width: 100% !important; }
@@ -629,6 +597,8 @@ footer {
 
 @media (max-width: 480px) {
   .phil-grid { grid-template-columns: 1fr !important; }
+  .phil-grid > div:nth-child(n) { border-right: none; border-bottom: 1px solid var(--rule); }
+  .phil-grid > div:last-child { border-bottom: none; }
   .metrics-row { grid-template-columns: 1fr; }
   .metrics-row .m-item { border-right: none; border-bottom: 1px solid var(--rule); }
   .metrics-row .m-item:last-child { border-bottom: none; }
@@ -1003,12 +973,21 @@ footer {
     --surface: #17181f; --surface-warm: #1d1e28;
     --dark: #0e0f18; --dark-card: #151626;
   }
-  :root:not([data-theme="light"]) header.scrolled,
-  :root:not([data-theme="light"]) .scrolled-hdr {
+  :root:not([data-theme="light"]) header.scrolled {
     background: rgba(23,24,31,0.94);
     backdrop-filter: blur(16px);
     box-shadow: 0 1px 0 #2a2c3c;
   }
+  :root:not([data-theme="light"]) .email-replica { border-color: var(--rule); background: var(--surface-warm); }
+  :root:not([data-theme="light"]) .ai-msg.bot { background: #1e2032; border-left-color: var(--blue); }
+  :root:not([data-theme="light"]) .ai-msg.user { background: #1e2845; color: rgba(255,255,255,0.88); }
+  :root:not([data-theme="light"]) .ai-panel { background: var(--surface-warm); border-color: var(--rule); }
+  :root:not([data-theme="light"]) .ai-panel-input { border-top-color: var(--rule); }
+  :root:not([data-theme="light"]) .ai-panel-input input { background: var(--surface); border-color: var(--rule); color: var(--ink-body); }
+  :root:not([data-theme="light"]) .proj-item { border-bottom-color: var(--rule); }
+  :root:not([data-theme="light"]) .cred-item:hover { background: var(--surface-warm); }
+  :root:not([data-theme="light"]) .fishbone-wrap svg text { fill: var(--ink-body) !important; }
+  :root:not([data-theme="light"]) .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 }
 
 /* Explicit dark toggle */
@@ -1031,7 +1010,6 @@ footer {
 [data-theme="dark"] .ai-panel-input input { background: var(--surface); border-color: var(--rule); color: var(--ink-body); }
 [data-theme="dark"] .proj-item { border-bottom-color: var(--rule); }
 [data-theme="dark"] .cred-item:hover { background: var(--surface-warm); }
-[data-theme="dark"] .step { border-bottom-color: var(--rule); }
 [data-theme="dark"] .fishbone-wrap svg text { fill: var(--ink-body) !important; }
 [data-theme="dark"] .email-replica .email-nav-pills span { color: var(--ink-light); border-color: var(--rule); }
 
@@ -1116,6 +1094,7 @@ footer {
     <ul class="nav-links">
       <li><a href="#journey">Journey</a></li>
       <li><a href="#philosophy">Approach</a></li>
+      <li><a href="#toolkit">Toolkit</a></li>
       <li><a href="#projects">Proof of Work</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#credentials">Credentials</a></li>
@@ -1134,6 +1113,7 @@ footer {
 <div class="mobile-nav" id="mNav">
   <a href="#journey" onclick="closeM()">Journey</a>
   <a href="#philosophy" onclick="closeM()">Approach</a>
+  <a href="#toolkit" onclick="closeM()">Toolkit</a>
   <a href="#projects" onclick="closeM()">Proof of Work</a>
   <a href="#experience" onclick="closeM()">Experience</a>
   <a href="#credentials" onclick="closeM()">Credentials</a>
@@ -1145,7 +1125,7 @@ footer {
   <div class="wrap">
     <p class="hero-eyebrow reveal">Operations Executive &middot; Plant Manager</p>
     <h1 class="reveal">I build systems that<br>drive results.</h1>
-    <p class="hero-body reveal">From the plant floor to full P&amp;L ownership in five years. I lead manufacturing operations by building high-performing teams and the operating discipline&mdash;real-time visibility, clear priorities, accountable execution&mdash;that makes performance repeatable. Lean, data, and AI are tools in the arsenal; leadership is the job.</p>
+    <p class="hero-body reveal">From the plant floor to full P&amp;L ownership in five years. I lead manufacturing operations by building high-performing teams and the operating discipline&mdash;real-time visibility, clear priorities, accountable execution&mdash;that makes performance repeatable.</p>
     <div class="hero-actions reveal">
       <a href="#journey" class="btn-primary">
         My journey
@@ -1186,7 +1166,7 @@ footer {
         <div class="tl-year">2022 &mdash; 2023</div>
         <div class="tl-title">The wider lens</div>
         <div class="tl-role">Messer Americas &middot; Regional Production Engineer</div>
-        <p class="tl-story">One plant became a region. Covering air-separation and specialty-gas facilities across the Northeast, I owned improvement projects, budgets, and reliability at sites I couldn't walk every day. That forces real discipline: standardized processes, honest metrics, and influence without direct authority. Six Sigma work on Krypton/Xenon production added over $1M in annual revenue, and 15+ reliability projects clawed back 25 days of annual downtime.</p>
+        <p class="tl-story">One plant became a region. Covering air-separation and specialty-gas facilities across the Northeast, I owned improvement projects, project budgets, and reliability at sites I couldn't walk every day. That forces real discipline: standardized processes, honest metrics, and influence without direct authority. Six Sigma work on Krypton/Xenon production added over $1M in annual revenue, and 15+ reliability projects clawed back 25 days of annual downtime.</p>
         <p class="tl-lesson">What it built: the systems mindset&mdash;at regional scale you don't manage machines, you manage processes and the people who run them.</p>
       </div>
 
@@ -1220,10 +1200,10 @@ footer {
     <h2 class="section-heading reveal">Results that speak.</h2>
     <div class="metrics-row reveal">
       <div class="m-item"><div class="m-num" data-t="36.7" data-s="%">0</div><div class="m-label">Plant Output Growth, Year One</div></div>
-      <div class="m-item"><div class="m-num" data-t="340" data-s="%">0</div><div class="m-label">Production Rate Increase</div></div>
+      <div class="m-item"><div class="m-num" style="white-space:nowrap;">0.5 &rarr; 2.2</div><div class="m-label">BESS Units/Day (4.4&times;)</div></div>
       <div class="m-item"><div class="m-num">$1M+</div><div class="m-label">Annual Revenue Added</div></div>
       <div class="m-item"><div class="m-num" data-t="66" data-s="%">0</div><div class="m-label">Rework Reduction</div></div>
-      <div class="m-item"><div class="m-num">Zero</div><div class="m-label">Lost-Time Injuries</div></div>
+      <div class="m-item"><div class="m-num" data-t="25">0</div><div class="m-label">Days of Annual Downtime Eliminated</div></div>
     </div>
   </div>
 </section>
@@ -1235,27 +1215,27 @@ footer {
     <h2 class="section-heading reveal">Complexity to execution&mdash;in six moves.</h2>
 
     <div class="phil-grid reveal" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-top:3rem; border:1px solid var(--rule);">
-      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+      <div style="padding:2rem;">
         <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">1</div>
         <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Instrument</div>
         <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build automated data flow. If it's painful to collect, it won't scale.</div>
       </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);">
+      <div style="padding:2rem;">
         <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">2</div>
         <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Surface</div>
         <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Visualize so problems are obvious. If leadership has to dig, the system failed.</div>
       </div>
-      <div style="padding:2rem; border-bottom:1px solid var(--rule);">
+      <div style="padding:2rem;">
         <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">3</div>
         <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Prioritize</div>
         <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Rank by impact with Pareto and SPC. Attack the constraint, not the symptom.</div>
       </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule);">
+      <div style="padding:2rem;">
         <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">4</div>
         <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Control</div>
         <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Eliminate recurrence. Process mapping, control logic, clear ownership. Controls over heroics.</div>
       </div>
-      <div style="padding:2rem; border-right:1px solid var(--rule);">
+      <div style="padding:2rem;">
         <div style="font-family:var(--serif); font-size:1.8rem; color:var(--blue); line-height:1; margin-bottom:0.5rem;">5</div>
         <div style="font-size:0.85rem; font-weight:500; color:var(--ink); margin-bottom:0.3rem;">Sustain</div>
         <div style="font-size:0.8rem; font-weight:300; color:var(--ink-light); line-height:1.55;">Build systems that self-correct. The system flags, guides, and sustains&mdash;without oversight.</div>
@@ -1318,7 +1298,7 @@ footer {
         <ul>
           <li>Automated daily performance reporting</li>
           <li>AI-assisted SOP standardization</li>
-          <li>Predictive maintenance signals from sensor data</li>
+          <li>Condition-based maintenance triggers from sensor data</li>
           <li>Automated SPC &amp; defect trend detection</li>
           <li>Workflow automation across ERP, CMMS &amp; quality systems</li>
         </ul>
@@ -1334,7 +1314,8 @@ footer {
   <div class="wrap">
     <p class="eyebrow reveal">Proof of Work</p>
     <h2 class="section-heading reveal">Systems I've built and run.</h2>
-    <p class="section-lead reveal">Dashboards, monitoring systems, forecasting tools, and improvement projects&mdash;shown as working examples, not slideware. This is what operational discipline looks like in practice.</p>
+    <p class="section-lead reveal">Dashboards, monitoring systems, forecasting tools, and improvement projects&mdash;this is what operational discipline looks like in practice.</p>
+    <p class="section-lead reveal" style="margin-top:0.75rem; font-size:0.85rem; font-style:italic; color:var(--ink-muted);">Every visual is a faithful recreation of a system I built, shown with representative data&mdash;the production versions run on live plant data, which stays inside the plant.</p>
 
     <div class="proj-categories">
 
@@ -1353,7 +1334,7 @@ footer {
           <div class="email-replica" style="margin-top:1.5rem; border:1px solid var(--rule); background:var(--surface); max-width:680px;">
             <!-- Email Header -->
             <div style="background:#051c2c; color:#fff; padding:1.2rem 1.5rem;">
-              <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.3rem;">JENNMAR &middot; WV Bolt</div>
+              <div style="font-size:0.65rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:0.3rem;">High-Volume Manufacturing Plant</div>
               <div style="font-size:1rem; font-weight:500;">Daily Operations Review</div>
               <div style="font-size:0.75rem; font-weight:300; color:rgba(255,255,255,0.5); margin-top:0.2rem;">Reporting date: March 19, 2026</div>
             </div>
@@ -1425,10 +1406,10 @@ footer {
           </div>
         </div>
 
-        <!-- Production Swim Lane / Line Balance -->
+        <!-- Line Balance vs Takt -->
         <div class="proj-item">
-          <div class="proj-name">Production Swim Lane / Line Balance</div>
-          <p class="proj-desc">Horizontal swim lane visualization mapping actual cycle times across sequential process steps. Identifies bottleneck stations relative to takt time for targeted line balancing and throughput improvement.</p>
+          <div class="proj-name">Line Balance vs. Takt</div>
+          <p class="proj-desc">Line-balance chart mapping actual cycle times across sequential process steps against takt time. Identifies bottleneck stations for targeted rebalancing and throughput improvement.</p>
           <div class="swimlane-wrap">
             <div class="swimlane" id="swimlaneViz">
               <div class="swimlane-header">
@@ -1447,20 +1428,20 @@ footer {
           </div>
         </div>
 
-        <!-- Predictive Maintenance Decision Example -->
+        <!-- Condition-Based Maintenance Example -->
         <div class="proj-item">
-          <div class="proj-name">Predictive Maintenance Decision Engine</div>
-          <p class="proj-desc">Analytics pipeline that turns vibration, temperature, and SPC signals into planned maintenance decisions before failures occur&mdash;an example of AI applied where it earns its keep: protecting uptime.</p>
+          <div class="proj-name">Condition-Based Maintenance Alerts</div>
+          <p class="proj-desc">Turns vibration, temperature, and SPC trend signals into planned work orders before failures occur&mdash;condition-based triggers, not guesswork. Automation applied where it earns its keep: protecting uptime.</p>
           <div class="ai-decision-card">
             <div class="ai-decision-header">
               <div class="ai-decision-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                Predictive Alert &mdash; Priority
+                Condition Alert &mdash; Priority
               </div>
               <span class="ai-decision-timestamp">Mar 17, 2026 &middot; 06:42 AM</span>
             </div>
             <div class="ai-decision-insight">
-              Cable 2 vibration amplitude increased <span class="highlight-metric">23% over 72 hours</span>. Frequency spectrum shift consistent with inner-race bearing degradation. Bearing failure probability: <span class="highlight-risk">87% within 14 days</span>. Estimated unplanned downtime cost if failure occurs: $18,400.
+              Cable 2 vibration amplitude rose <span class="highlight-metric">38% over seven days</span> and crossed its alert limit. Frequency spectrum consistent with <span class="highlight-risk">inner-race bearing wear</span>. Estimated cost if run to failure: $18,400 in unplanned downtime.
             </div>
             <div class="ai-decision-sparkline">
               <div style="font-size:0.55rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:0.3rem;">Vibration Trend &mdash; 7 Day</div>
@@ -1485,8 +1466,8 @@ footer {
                   <span class="ai-decision-outcome-label">Time Saved</span>
                 </div>
                 <div class="ai-decision-outcome-item">
-                  <span class="ai-decision-outcome-value">100%</span>
-                  <span class="ai-decision-outcome-label">OEE Protected</span>
+                  <span class="ai-decision-outcome-value">Zero</span>
+                  <span class="ai-decision-outcome-label">Unplanned Downtime</span>
                 </div>
               </div>
             </div>
@@ -1757,7 +1738,7 @@ footer {
             <div class="exp-role-title">Shift Leader II</div>
             <p class="exp-role-intro">I drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
             <ul class="exp-points">
-              <li>Led cross-functional teams to achieve >5% OEE improvement with zero recordable injuries</li>
+              <li>Led a team of six technicians and a process control engineer to a >5% OEE gain with zero recordable injuries</li>
               <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
               <li>Cultivated a performance culture grounded in accountability, development, and continuous improvement</li>
             </ul>
@@ -1768,7 +1749,7 @@ footer {
               <p class="exp-role-intro">I built foundational technical and analytical leadership by optimizing automated processes and reducing losses.</p>
               <ul class="exp-points">
                 <li>Reduced cycle time 8% and defects 4% through targeted process optimization</li>
-                <li>Created a risk management tool that cut downtime and variability significantly</li>
+                <li>Designed a risk management tool that cut downtime 8 minutes per work order</li>
                 <li>Strengthened collaboration across functions, eliminating 35+ hours of annual downtime</li>
                 <li>Mentored technicians and fostered a data-driven culture for continuous improvement</li>
               </ul>
@@ -1907,6 +1888,8 @@ const tt = { backgroundColor:'#051c2c', titleFont:{weight:500,size:12}, bodyFont
 const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light');
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#f0f0f0';
 const gridColorSub = isDark ? 'rgba(255,255,255,0.03)' : '#f8f8f8';
+const TITLE = isDark ? '#ecedf5' : INK;
+Chart.defaults.color = isDark ? '#82859d' : '#999999';
 
 // ─── EQUIPMENT OUTPUT — Scatter SPC (enhanced with gradient fill zone) ───
 const eqData = [];
@@ -1936,7 +1919,7 @@ new Chart(hourlyCtx, {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 10, font: { size: 9, weight: 400 }, filter: item => !item.text.includes('LCL') } },
-      title: { display: true, text: 'Press 1 \u2014 Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } },
+      title: { display: true, text: 'Press 1 \u2014 Real-Time Cycle Time (seconds per part)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } },
       tooltip: { ...tt, callbacks: { label: ctx => ctx.parsed.y.toFixed(1) + 's @ ' + ctx.parsed.x.toFixed(1) + ' min' } }
     },
     scales: {
@@ -2054,7 +2037,7 @@ new Chart(document.getElementById('forecastChart'), {
     layout: { padding: { right: 90 } },
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 12, font: { size: 10, weight: '400' }, filter: item => item.text !== '_low' }},
-      title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: INK, padding: { bottom: 16 } },
+      title: { display: true, text: 'Operating Net Income \u2014 March (Cumulative by Working Day, $K)', align: 'start', font: { size: 12, weight: '500' }, color: TITLE, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: ctx => {
         if(ctx.dataset.label === '_low') return null;
         if(ctx.dataset.label === 'Forecast Range') return 'Forecast High: $' + ctx.parsed.y.toFixed(0) + 'K';
@@ -2092,7 +2075,7 @@ let maintChart = new Chart(document.getElementById('maintChart'), {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 8, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+      title: { display: true, text: 'Work Orders by Asset & Maintenance Type (Mar)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
       tooltip: tt
     },
     scales: { x: { stacked: true, ticks: { font: { size: 9 }, maxRotation: 45 }, grid: { display: false }, border: { display: false } }, y: { stacked: true, grid: { display: true, color: gridColor }, border: { display: false }, title: { display: true, text: 'Work Orders', font: { size: 10 } } } }
@@ -2118,12 +2101,12 @@ document.querySelectorAll('.maint-toggle-btn').forEach(btn => {
 
 // ─── 8. SWIM LANE / LINE BALANCE ───
 const swimlaneData = [
-  { station: 'Shear', cycle: 28, takt: 38, operator: 'M. Torres', utilization: 74 },
-  { station: 'Press', cycle: 35, takt: 38, operator: 'J. Williams', utilization: 92 },
-  { station: 'Thread', cycle: 41, takt: 38, operator: 'R. Chen', utilization: 108 },
-  { station: 'Head', cycle: 33, takt: 38, operator: 'K. Patel', utilization: 87 },
-  { station: 'QC', cycle: 22, takt: 38, operator: 'A. Davis', utilization: 58 },
-  { station: 'Pack', cycle: 18, takt: 38, operator: 'S. Brown', utilization: 47 }
+  { station: 'Shear', cycle: 28, takt: 38, utilization: 74 },
+  { station: 'Press', cycle: 35, takt: 38, utilization: 92 },
+  { station: 'Thread', cycle: 41, takt: 38, utilization: 108 },
+  { station: 'Head', cycle: 33, takt: 38, utilization: 87 },
+  { station: 'QC', cycle: 22, takt: 38, utilization: 58 },
+  { station: 'Pack', cycle: 18, takt: 38, utilization: 47 }
 ];
 const maxCycle = Math.max(...swimlaneData.map(d => d.cycle), ...swimlaneData.map(d => d.takt)) * 1.2;
 const swimlaneEl = document.getElementById('swimlaneViz');
@@ -2142,7 +2125,7 @@ if (swimlaneEl) {
       <div class="swimlane-bar-track">
         <div class="swimlane-bar ${barClass}" style="width:${pct}%;">
           ${d.cycle}s
-          <div class="swimlane-tooltip">${d.station} &mdash; Cycle: ${d.cycle}s | Takt: ${d.takt}s | Operator: ${d.operator} | Util: ${d.utilization}%</div>
+          <div class="swimlane-tooltip">${d.station} &mdash; Cycle: ${d.cycle}s | Takt: ${d.takt}s | Utilization: ${d.utilization}%</div>
         </div>
         <div class="swimlane-takt-line" style="left:${taktPct}%;">
           ${d === swimlaneData[0] ? '<div class="swimlane-takt-label">Takt ' + d.takt + 's</div>' : ''}
@@ -2234,7 +2217,7 @@ function createWaterfallChart(labels, values) {
     options: { responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: 'Production Loss Waterfall \u2014 March (Units)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 16 } },
+        title: { display: true, text: 'Production Loss Waterfall \u2014 March (Units)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
         tooltip: { ...tt, callbacks: { label: ctx => {
           if (ctx.dataset.label === '_hidden') return null;
           return ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() + ' units';
@@ -2278,7 +2261,7 @@ new Chart(document.getElementById('dmaicChart'), {
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10, weight: 400 } } },
-      title: { display: true, text: 'DMAIC Impact \u2014 Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: INK, padding: { bottom: 12 } }
+      title: { display: true, text: 'DMAIC Impact \u2014 Normalized KPI Scores (0-100)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } }
     },
     scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 8 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 10 } }, grid: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' }, angleLines: { color: isDark ? 'rgba(255,255,255,0.08)' : '#e8e8e8' } } }
   }

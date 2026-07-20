@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>OpsIQ Dashboard — Demo Plant</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2333544E%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2227%22%20font-weight%3D%22700%22%20fill%3D%22%23FAF9F6%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%22-1.5%22%3ENK%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="/manifest.json"/>
 <meta name="theme-color" content="#1B3D6E"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -81,6 +82,65 @@
     equip: genEquipmentStatus()
   };
 
+
+  // ── DEMO SEED: deterministic shift-entry data so every view populates ──
+  function demoRng(seedStr){let h=2166136261;for(let i=0;i<seedStr.length;i++){h^=seedStr.charCodeAt(i);h=Math.imul(h,16777619);}return function(){h=Math.imul(h^(h>>>15),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
+  const DEMO_EQUIP=['WV-SHEAR-AS1','WV-SHEAR-AS2','WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B','WV-HEAD-H1','WV-HEAD-H2','WV-THREAD-T1','WV-PEEL-AUTO','WV-ASSY-A1','WV-ASSY-A2','WV-CABLE-C2'];
+  const DEMO_OPS=['A. Rivera','B. Chen','C. Novak','D. Ortiz','E. Walsh','F. Adams','G. Silva','H. Brooks'];
+  const DEMO_DTC=[1,2,5,8,10,14,15];
+  const DEMO_DEFC={'WV-SHEAR-AS1':[1,2,3],'WV-SHEAR-AS2':[1,2,4],'WV-PRESS-400':[2,11,19],'WV-PRESS-500A':[2,11,14],'WV-PRESS-500B':[2,19,21],'WV-HEAD-H1':[1,12,13],'WV-HEAD-H2':[2,11,12],'WV-THREAD-T1':[7,9,10],'WV-PEEL-AUTO':[5,6,2],'WV-ASSY-A1':[1,2,11],'WV-ASSY-A2':[1,2,11],'WV-CABLE-C2':[1,2,3]};
+  function demoHourRows(date, shiftNum, ec){
+    const rng=demoRng(date+'|'+shiftNum+'|'+ec);
+    const base=90+Math.floor(rng()*50);
+    const rows=[];
+    for(let hi=1;hi<=8;hi++){
+      const sm= hi===5?30:0;
+      const availMins=60-sm;
+      const target=Math.round(base*availMins/60);
+      const downtime=[];
+      let dtMins=0;
+      if(rng()<0.3){dtMins=5+Math.floor(rng()*25);downtime.push({id:date+ec+hi+'d',mins:dtMins,dtCode:String(DEMO_DTC[Math.floor(rng()*DEMO_DTC.length)]),subItem:''});}
+      const eff=0.9+rng()*0.18;
+      const good=Math.max(0,Math.round(target*((availMins-dtMins)/availMins)*eff));
+      const defects=[];
+      if(rng()<0.25){const codes=DEMO_DEFC[ec]||[1,2];defects.push({id:date+ec+hi+'q',qty:String(1+Math.floor(rng()*7)),defCode:String(codes[Math.floor(rng()*codes.length)])});}
+      rows.push({hourIdx:hi,productCode:'',scheduledMins:sm,target:target,goodUnits:String(good),downtime:downtime,defects:defects,submitted:true,operators:[DEMO_OPS[Math.floor(rng()*DEMO_OPS.length)]]});
+    }
+    return rows;
+  }
+  function demoDayEntries(date){
+    const entries=[];
+    ['1','2'].forEach(sn=>{
+      const equipData={};
+      DEMO_EQUIP.forEach(ec=>{equipData[ec]=demoHourRows(date,sn,ec);});
+      entries.push({shiftData:{shiftDate:date,shiftNum:sn},equipData:equipData,ts:Date.now(),id:'demo-'+date+'-'+sn});
+    });
+    return entries;
+  }
+  function demoFlatRecords(from,to){
+    const out=[];const d=new Date(from+'T12:00:00');const end=new Date(to+'T12:00:00');
+    let guard=0;
+    while(d<=end&&guard<200){
+      const ds=d.toISOString().split('T')[0];
+      if(d.getDay()!==0){
+        ['1','2'].forEach(sn=>{DEMO_EQUIP.forEach(ec=>{demoHourRows(ds,sn,ec).forEach(hr=>{
+          out.push({date:ds,shiftNum:sn,equipCode:ec,hourIdx:hr.hourIdx,productCode:'',scheduledMins:hr.scheduledMins,target:hr.target,goodUnits:hr.goodUnits,downtime:hr.downtime,defects:hr.defects,operators:hr.operators});
+        });});});
+      }
+      d.setDate(d.getDate()+1);guard++;
+    }
+    return out;
+  }
+  // Seed localStorage once per version so the app boots with a month of data
+  try{
+    if(localStorage.getItem('oee_demo_seed')!=='v3'){
+      const entries=[];const d=new Date();
+      for(let i=1;i<=32;i++){const dd=new Date(d);dd.setDate(dd.getDate()-i);if(dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(dd.toISOString().split('T')[0]));}
+      localStorage.setItem('oee_production_data',JSON.stringify(entries));
+      localStorage.setItem('oee_demo_seed','v3');
+    }
+  }catch(e){console.warn('demo seed skipped',e);}
+
   window.fetch = function(url, init) {
     if (typeof url !== 'string') url = url.url;
     const base = url.split('?')[0];
@@ -97,7 +157,7 @@
     if (base === '/api/mysql/status') return Promise.resolve(new Response(JSON.stringify({connected: true, lastSyncTime: now, productionRecords: 5000, downtimeRecords: 500}), {status:200, headers:{'content-type':'application/json'}}));
     if (base.startsWith('/api/mysql/production')) { if(!cache.prod[today]) cache.prod[today] = genProductionData(today); return Promise.resolve(new Response(JSON.stringify({date: today, equipment: cache.prod[today]}), {status:200, headers:{'content-type':'application/json'}})); }
     if (base.startsWith('/api/mysql/downtime')) { if(!cache.dt[today]) cache.dt[today] = genDowntimeData(today); return Promise.resolve(new Response(JSON.stringify({date: today, events: cache.dt[today]}), {status:200, headers:{'content-type':'application/json'}})); }
-    if (base === '/api/mysql/merged' || base.startsWith('/api/mysql/merged?')) { if(!cache.prod[today]) cache.prod[today] = genProductionData(today); if(!cache.dt[today]) cache.dt[today] = genDowntimeData(today); return Promise.resolve(new Response(JSON.stringify({equipment: cache.prod[today], downtime: cache.dt[today], timestamp: now}), {status:200, headers:{'content-type':'application/json'}})); }
+    if (base === '/api/mysql/merged' || base.startsWith('/api/mysql/merged?')) { const q = url.includes('?') ? url.split('?')[1] : ''; const params = {}; q.split('&').forEach(kv => { const [k,v] = kv.split('='); if(k) params[k] = decodeURIComponent(v||''); }); const from = params.from || params.date || today; const to = params.to || params.date || from; return Promise.resolve(new Response(JSON.stringify({records: demoFlatRecords(from, to), timestamp: now}), {status:200, headers:{'content-type':'application/json'}})); }
 
     // Other endpoints
     if (base.startsWith('/api/mysql/cycle-data')) { const d=[]; for(let i=0;i<20;i++) d.push({cycleTime: Math.round((10+Math.random()*20)*10)/10, timestamp: new Date(Date.now()-Math.random()*3600000).toISOString()}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }

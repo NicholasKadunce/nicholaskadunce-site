@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Nicholas Kadunce — Operations Executive</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2333544E%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2227%22%20font-weight%3D%22700%22%20fill%3D%22%23FAF9F6%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%22-1.5%22%3ENK%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Operations executive and plant manager who builds high-performing teams and data-driven manufacturing systems — from the plant floor to P&L ownership.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -694,6 +695,54 @@ footer {
   .capex-tl-months span:nth-child(2n) { visibility: hidden; }
 }
 
+
+/* Ask-about chips */
+.ai-suggs { display: flex; flex-direction: column; gap: 0.4rem; align-self: flex-start; }
+.ai-sugg {
+  font-family: var(--sans); font-size: 0.76rem; font-weight: 450; text-align: left;
+  color: var(--ink-light); background: none; border: 1px solid var(--rule);
+  padding: 0.45rem 0.75rem; cursor: pointer; border-radius: 999px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ai-sugg:hover { color: var(--blue); border-color: var(--blue); }
+
+/* Daily report preview */
+.rpt { border: 1px solid var(--rule); background: var(--surface); font-size: 0.78rem; }
+.rpt-head { background: #1B1C1A; color: #F4F3EE; padding: 1rem 1.25rem; text-align: center; }
+.rpt-brand { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,243,238,0.55); }
+.rpt-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; margin-top: 0.2rem; }
+.rpt-date { font-size: 0.68rem; color: rgba(244,243,238,0.5); margin-top: 0.15rem; }
+.rpt-oee { text-align: center; padding: 1.1rem 1rem 1rem; border-bottom: 1px solid var(--rule); }
+.rpt-oee-label { font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500; }
+.rpt-oee-num { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--blue); line-height: 1.15; }
+.rpt-apq { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.rpt-apq strong { color: var(--blue); font-weight: 600; margin-right: 0.2rem; }
+.rpt-shifts { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--rule); }
+.rpt-shift { padding: 1rem 1.25rem; }
+.rpt-shift + .rpt-shift { border-left: 1px solid var(--rule); }
+.rpt-shift-name { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; border-bottom: 2px solid var(--blue); display: inline-block; padding-bottom: 2px; }
+.rpt-shift-oee { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; color: var(--blue); margin-top: 0.4rem; }
+.rpt-shift-apq { font-size: 0.62rem; color: var(--ink-muted); margin: 0.1rem 0 0.6rem; }
+.rpt-kv { display: flex; justify-content: space-between; padding: 0.22rem 0; border-top: 1px solid var(--rule); font-size: 0.72rem; color: var(--ink-light); }
+.rpt-kv em { font-style: normal; font-weight: 600; color: var(--ink); }
+.rpt-kv em.bad { color: #B0524A; }
+.rpt-kv em.warn { color: #C1913C; }
+.rpt-bars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 1rem 1.25rem; }
+.rpt-bars-title { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 600; margin-bottom: 0.6rem; }
+.rpt-bar { display: grid; grid-template-columns: 72px 1fr 52px; gap: 0.5rem; align-items: center; margin-bottom: 0.45rem; }
+.rpt-bar span { font-size: 0.66rem; color: var(--ink-light); }
+.rpt-bar em { font-style: normal; font-size: 0.64rem; font-weight: 600; color: var(--ink); text-align: right; }
+.rpt-track { height: 4px; background: var(--rule); }
+.rpt-track i { display: block; height: 100%; }
+.rpt-track i.bad { background: #B0524A; }
+.rpt-track i.warn { background: #C1913C; }
+.rpt-foot { text-align: center; font-size: 0.6rem; color: var(--ink-muted); padding: 0.6rem; border-top: 1px solid var(--rule); }
+.capex-tl-lab.end { transform: translateX(-82%); }
+@media (max-width: 600px) {
+  .rpt-shifts, .rpt-bars-grid { grid-template-columns: 1fr; }
+  .rpt-shift + .rpt-shift { border-left: none; border-top: 1px solid var(--rule); }
+}
+
 /* ── CHAT WIDGET ── */
 .ai-fab {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
@@ -1087,7 +1136,7 @@ footer {
       <div class="proj-cat reveal">
         <div class="proj-cat-header">
           <span class="proj-cat-name">Operational Tools</span>
-          <span class="proj-cat-count">6 projects</span>
+          <span class="proj-cat-count">7 projects</span>
         </div>
 
         <!-- Operations Daily Dashboard — EMAIL REPLICA -->
@@ -1123,10 +1172,62 @@ footer {
                 <span style="padding:0.3rem 0.8rem; border:1px solid var(--rule); font-size:0.7rem; font-weight:400; border-radius:20px; color:var(--ink-light);">Action Items</span>
               </div>
             </div>
-            <!-- Emailed Dashboard Image (auto-rendered SVG attachment from OpsIQ) -->
+            <!-- Report preview (simulated data) -->
             <div style="padding:1.5rem;">
-              <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.6rem;">Attached dashboard snapshot</div>
-              <img src="daily-ops-email.svg" alt="Daily Operations Review dashboard image — Production vs Target, Downtime by Category, Quality Defects, OEE Breakdown" style="width:100%; display:block; border:1px solid var(--rule); background:#fff;">
+              <div style="font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.7rem;">Report preview &middot; simulated data</div>
+              <div class="rpt">
+                <div class="rpt-head">
+                  <div class="rpt-brand">OpsIQ &middot; Demo Plant</div>
+                  <div class="rpt-title">Daily Operations Report</div>
+                  <div class="rpt-date">Monday, June 22, 2026</div>
+                </div>
+                <div class="rpt-oee">
+                  <div class="rpt-oee-label">Plant OEE</div>
+                  <div class="rpt-oee-num">90.8%</div>
+                  <div class="rpt-apq"><span><strong>91.6%</strong> Avail</span><span><strong>99.4%</strong> Perf</span><span><strong>99.6%</strong> Quality</span></div>
+                </div>
+                <div class="rpt-shifts">
+                  <div class="rpt-shift">
+                    <div class="rpt-shift-name">Shift 1</div>
+                    <div class="rpt-shift-oee">94.6%</div>
+                    <div class="rpt-shift-apq">A 92.4 &middot; P 102.1 &middot; Q 99.7</div>
+                    <div class="rpt-kv"><span>Good units</span><em>34,120</em></div>
+                    <div class="rpt-kv"><span>Produced</span><em>34,290</em></div>
+                    <div class="rpt-kv"><span>Target</span><em>35,460</em></div>
+                    <div class="rpt-kv"><span>Downtime</span><em class="bad">340 min</em></div>
+                    <div class="rpt-kv"><span>Defects</span><em class="warn">152</em></div>
+                  </div>
+                  <div class="rpt-shift">
+                    <div class="rpt-shift-name">Shift 2</div>
+                    <div class="rpt-shift-oee">87.2%</div>
+                    <div class="rpt-shift-apq">A 90.6 &middot; P 96.4 &middot; Q 99.2</div>
+                    <div class="rpt-kv"><span>Good units</span><em>28,450</em></div>
+                    <div class="rpt-kv"><span>Produced</span><em>28,690</em></div>
+                    <div class="rpt-kv"><span>Target</span><em>31,080</em></div>
+                    <div class="rpt-kv"><span>Downtime</span><em class="bad">410 min</em></div>
+                    <div class="rpt-kv"><span>Defects</span><em class="warn">218</em></div>
+                  </div>
+                </div>
+                <div class="rpt-bars-grid">
+                  <div>
+                    <div class="rpt-bars-title">Downtime by equipment</div>
+                    <div class="rpt-bar"><span>Press A</span><div class="rpt-track"><i class="bad" style="width:100%"></i></div><em>170 min</em></div>
+                    <div class="rpt-bar"><span>Auto Peeler</span><div class="rpt-track"><i class="bad" style="width:88%"></i></div><em>150 min</em></div>
+                    <div class="rpt-bar"><span>Header 1</span><div class="rpt-track"><i class="bad" style="width:62%"></i></div><em>105 min</em></div>
+                    <div class="rpt-bar"><span>Threader 2</span><div class="rpt-track"><i class="bad" style="width:47%"></i></div><em>80 min</em></div>
+                    <div class="rpt-bar"><span>Cable Line 2</span><div class="rpt-track"><i class="bad" style="width:35%"></i></div><em>60 min</em></div>
+                  </div>
+                  <div>
+                    <div class="rpt-bars-title">Quality by equipment</div>
+                    <div class="rpt-bar"><span>Press A</span><div class="rpt-track"><i class="warn" style="width:100%"></i></div><em>140 def</em></div>
+                    <div class="rpt-bar"><span>Header 1</span><div class="rpt-track"><i class="warn" style="width:49%"></i></div><em>68 def</em></div>
+                    <div class="rpt-bar"><span>Press B</span><div class="rpt-track"><i class="warn" style="width:36%"></i></div><em>51 def</em></div>
+                    <div class="rpt-bar"><span>Header 2</span><div class="rpt-track"><i class="warn" style="width:21%"></i></div><em>30 def</em></div>
+                    <div class="rpt-bar"><span>Assembly 4</span><div class="rpt-track"><i class="warn" style="width:9%"></i></div><em>12 def</em></div>
+                  </div>
+                </div>
+                <div class="rpt-foot">OpsIQ &middot; auto-generated daily report</div>
+              </div>
               <div style="margin-top:1rem; display:flex; justify-content:center;">
                 <a href="dashboard.html" class="btn-primary" style="font-size:0.75rem;">
                   Open the live dashboard
@@ -1142,50 +1243,70 @@ footer {
           <div class="proj-name">Capital Planning &mdash; Annual Portfolio</div>
           <p class="proj-desc">The annual capital plan, balancing automation investment against care of the asset base&mdash;each project scoped, sequenced across the year, and tied to a payback case before submission.</p>
           <div class="capex">
-            <div class="capex-total"><span class="capex-total-label">Total planned capex</span><span class="capex-total-num">$1,050,000</span></div>
+            <div class="capex-total"><span class="capex-total-label">Total planned capex &middot; illustrative</span><span class="capex-total-num">$1,485,000</span></div>
             <div class="capex-row">
               <div>
-                <div class="capex-proj">Robotic Header &amp; Integrated Assembly</div>
-                <div class="capex-sub">Automated heading cell integrated directly with assembly</div>
+                <div class="capex-proj">Automated Cell &mdash; Line 2</div>
+                <div class="capex-sub">Combine forming and assembly into one robotic cell</div>
               </div>
               <span class="capex-type auto">Automation</span>
               <span class="capex-when">Nov</span>
-              <div class="capex-inv"><span>$850,000</span><div class="capex-bar"><i style="width:100%"></i></div></div>
+              <div class="capex-inv"><span>$1,050,000</span><div class="capex-bar"><i style="width:100%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Conveyor Upgrade &mdash; Line 3</div>
+                <div class="capex-sub">Replace worn conveyor and add an accumulation buffer</div>
+              </div>
+              <span class="capex-type">Maintenance</span>
+              <span class="capex-when">May</span>
+              <div class="capex-inv"><span>$180,000</span><div class="capex-bar"><i style="width:17%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Compressed Air Overhaul</div>
+                <div class="capex-sub">New compressor and dryer, plus leak-down repairs</div>
+              </div>
+              <span class="capex-type">Infrastructure</span>
+              <span class="capex-when">Aug</span>
+              <div class="capex-inv"><span>$120,000</span><div class="capex-bar"><i style="width:11%"></i></div></div>
             </div>
             <div class="capex-row">
               <div>
                 <div class="capex-proj">Critical Spares Program</div>
-                <div class="capex-sub">Plant-wide critical spares coverage for key assets</div>
+                <div class="capex-sub">Plant-wide coverage for long-lead components</div>
               </div>
               <span class="capex-type">Maintenance</span>
               <span class="capex-when">Jul</span>
-              <div class="capex-inv"><span>$150,000</span><div class="capex-bar"><i style="width:18%"></i></div></div>
+              <div class="capex-inv"><span>$85,000</span><div class="capex-bar"><i style="width:8%"></i></div></div>
             </div>
             <div class="capex-row">
               <div>
-                <div class="capex-proj">Roof Remediation</div>
-                <div class="capex-sub">Repair leaks and replace compromised sections</div>
+                <div class="capex-proj">LED Lighting Retrofit</div>
+                <div class="capex-sub">Plant-wide high-bay LED conversion</div>
               </div>
-              <span class="capex-type">Maintenance</span>
-              <span class="capex-when">Aug</span>
-              <div class="capex-inv"><span>$50,000</span><div class="capex-bar"><i style="width:6%"></i></div></div>
+              <span class="capex-type">Energy</span>
+              <span class="capex-when">Mar</span>
+              <div class="capex-inv"><span>$50,000</span><div class="capex-bar"><i style="width:5%"></i></div></div>
             </div>
             <div class="capex-tl">
               <div class="capex-tl-line"></div>
-              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-lab">Spares &middot; $150K</span></div>
-              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-lab below">Roof &middot; $50K</span></div>
-              <div class="capex-tl-dot auto" style="left:87.5%"><span class="capex-tl-lab">Robotic cell &middot; $850K</span></div>
+              <div class="capex-tl-dot" style="left:20.8%"><span class="capex-tl-lab">LED &middot; $50K</span></div>
+              <div class="capex-tl-dot" style="left:37.5%"><span class="capex-tl-lab below">Conveyor &middot; $180K</span></div>
+              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-lab">Spares &middot; $85K</span></div>
+              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-lab below">Air &middot; $120K</span></div>
+              <div class="capex-tl-dot auto" style="left:87.5%"><span class="capex-tl-lab end">Automated cell &middot; $1.05M</span></div>
               <div class="capex-tl-months"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
             </div>
           </div>
-        </div>
+          </div>
 
         <!-- Automation Business Case: Process Flow -->
         <div class="proj-item">
           <div class="proj-name">Automation Business Case &mdash; Current vs. Future State</div>
-          <p class="proj-desc">The process-flow case behind the robotic cell: two manual operations become one integrated cell&mdash;five operators to three per shift, WIP staging and forklift moves between them eliminated, one-piece flow with repeatable cycle times.</p>
+          <p class="proj-desc">An illustrative automation business case: two manual steps become one integrated cell&mdash;five operators to three per shift, WIP staging and forklift moves between them eliminated, one-piece flow with repeatable cycle times.</p>
           <div class="vsm-wrap">
-            <svg viewBox="0 0 960 268" role="img" aria-label="Current versus future state process flow: manual heading and assembly stations consolidated into one robotic cell">
+            <svg viewBox="0 0 960 268" role="img" aria-label="Current versus future state process flow: two manual steps consolidated into one automated cell (illustrative)">
               <defs>
                 <marker id="vsmArr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" style="fill:var(--ink-muted)"/></marker>
               </defs>
@@ -1197,7 +1318,7 @@ footer {
 
               <rect x="68" y="68" width="112" height="56" rx="2" style="fill:var(--surface);stroke:var(--ink-faint)"/>
               <rect x="68" y="68" width="112" height="6" style="fill:var(--ink)"/>
-              <text x="124" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Shear</text>
+              <text x="124" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Step 1</text>
               <text x="124" y="115" text-anchor="middle" style="fill:var(--ink-muted)" font-family="Inter,sans-serif" font-size="9.5">1 op</text>
               <line x1="182" y1="95" x2="193" y2="95" style="stroke:var(--ink-muted)" stroke-width="1"/>
               <polygon points="208,82 195,105 221,105" style="fill:none;stroke:#C1913C;stroke-width:1.5"/>
@@ -1206,7 +1327,7 @@ footer {
 
               <rect x="244" y="68" width="112" height="56" rx="2" style="fill:var(--surface);stroke:var(--ink-faint)"/>
               <rect x="244" y="68" width="112" height="6" style="fill:var(--ink)"/>
-              <text x="300" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Peel / Swage</text>
+              <text x="300" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Step 2</text>
               <text x="300" y="115" text-anchor="middle" style="fill:var(--ink-muted)" font-family="Inter,sans-serif" font-size="9.5">1 op</text>
               <line x1="358" y1="95" x2="369" y2="95" style="stroke:var(--ink-muted)" stroke-width="1"/>
               <polygon points="384,82 371,105 397,105" style="fill:none;stroke:#C1913C;stroke-width:1.5"/>
@@ -1215,7 +1336,7 @@ footer {
 
               <rect x="420" y="68" width="112" height="56" rx="2" style="fill:var(--surface);stroke:var(--ink-faint)"/>
               <rect x="420" y="68" width="112" height="6" style="fill:var(--ink)"/>
-              <text x="476" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Thread</text>
+              <text x="476" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Step 3</text>
               <text x="476" y="115" text-anchor="middle" style="fill:var(--ink-muted)" font-family="Inter,sans-serif" font-size="9.5">1 op</text>
               <line x1="534" y1="95" x2="545" y2="95" style="stroke:var(--ink-muted)" stroke-width="1"/>
               <polygon points="560,82 547,105 573,105" style="fill:none;stroke:#C1913C;stroke-width:1.5"/>
@@ -1224,7 +1345,7 @@ footer {
 
               <rect x="596" y="68" width="112" height="56" rx="2" style="fill:var(--surface);stroke:var(--ink-faint)"/>
               <rect x="596" y="68" width="112" height="6" style="fill:var(--ink)"/>
-              <text x="652" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Head</text>
+              <text x="652" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Step 4</text>
               <text x="652" y="115" text-anchor="middle" style="fill:var(--ink-muted)" font-family="Inter,sans-serif" font-size="9.5">2 ops</text>
 
               <rect x="712" y="56" width="64" height="76" rx="4" style="fill:rgba(176,82,74,0.06);stroke:rgba(176,82,74,0.4);stroke-dasharray:3 3"/>
@@ -1238,7 +1359,7 @@ footer {
 
               <rect x="782" y="68" width="112" height="56" rx="2" style="fill:var(--surface);stroke:var(--ink-faint)"/>
               <rect x="782" y="68" width="112" height="6" style="fill:var(--ink)"/>
-              <text x="838" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Assemble</text>
+              <text x="838" y="100" text-anchor="middle" style="fill:var(--ink)" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">Step 5</text>
               <text x="838" y="115" text-anchor="middle" style="fill:var(--ink-muted)" font-family="Inter,sans-serif" font-size="9.5">3 ops</text>
               <line x1="896" y1="95" x2="906" y2="95" style="stroke:var(--ink-muted)" stroke-width="1" marker-end="url(#vsmArr)"/>
               <polygon points="922,82 909,105 935,105" style="fill:none;stroke:#C1913C;stroke-width:1.5"/>
@@ -1250,7 +1371,7 @@ footer {
               <line x1="536" y1="206" x2="570" y2="206" style="stroke:var(--ink-faint);stroke-dasharray:4 3" stroke-width="1" marker-end="url(#vsmArr)"/>
               <line x1="920" y1="206" x2="954" y2="206" style="stroke:var(--ink-faint);stroke-dasharray:4 3" stroke-width="1" marker-end="url(#vsmArr)"/>
               <rect x="576" y="172" width="338" height="68" rx="3" fill="#33544E"/>
-              <text x="745" y="200" text-anchor="middle" fill="#FFFFFF" font-family="Inter,sans-serif" font-size="13" font-weight="600">Robotic Header &amp; Integrated Assembly</text>
+              <text x="745" y="200" text-anchor="middle" fill="#FFFFFF" font-family="Inter,sans-serif" font-size="13" font-weight="600">Automated Cell &mdash; Steps 4 + 5</text>
               <text x="745" y="220" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="Inter,sans-serif" font-size="9.5">3 operators per shift &middot; robot-direct transfer &middot; one-piece flow</text>
             </svg>
           </div>
@@ -1264,8 +1385,8 @@ footer {
               <div class="impact-lab">Indirect operator &mdash; forklift moves eliminated, handling workload rebalanced</div>
             </div>
             <div class="impact-tile save">
-              <div class="impact-num">$300K</div>
-              <div class="impact-lab">Projected annual savings &middot; 34-month payback on an $850K investment</div>
+              <div class="impact-num">$420K</div>
+              <div class="impact-lab">Projected annual savings &middot; 30-month payback on a $1.05M investment</div>
             </div>
           </div>
         </div>
@@ -1273,30 +1394,30 @@ footer {
         <!-- ROI -->
         <div class="proj-item">
           <div class="proj-name">Projected Savings &amp; ROI</div>
-          <p class="proj-desc">The financial case behind the same project&mdash;savings built bottom-up from labor and benefits, then tracked against a 36-month payback target.</p>
+          <p class="proj-desc">The financial case behind the same illustrative project&mdash;savings built bottom-up from labor and benefits, then tracked against a 36-month payback target.</p>
           <div class="stat-tiles">
-            <div class="stat-tile accent"><div class="st-label">Projected annual savings</div><div class="st-num">$300,000</div><div class="st-sub">recurring &middot; per year</div></div>
-            <div class="stat-tile"><div class="st-label">Monthly savings</div><div class="st-num">$25,000</div><div class="st-sub">per month</div></div>
-            <div class="stat-tile"><div class="st-label">Project investment</div><div class="st-num">$850,000</div><div class="st-sub">one-time capital</div></div>
-            <div class="stat-tile"><div class="st-label">Payback period</div><div class="st-num">34 mo</div><div class="st-sub">2.8 years to break-even</div></div>
+            <div class="stat-tile accent"><div class="st-label">Projected annual savings</div><div class="st-num">$420,000</div><div class="st-sub">recurring &middot; per year</div></div>
+            <div class="stat-tile"><div class="st-label">Monthly savings</div><div class="st-num">$35,000</div><div class="st-sub">per month</div></div>
+            <div class="stat-tile"><div class="st-label">Project investment</div><div class="st-num">$1,050,000</div><div class="st-sub">one-time capital</div></div>
+            <div class="stat-tile"><div class="st-label">Payback period</div><div class="st-num">30 mo</div><div class="st-sub">2.5 years to break-even</div></div>
           </div>
           <div class="roi-grid">
             <div class="chart-wrap" style="height:280px; position:relative;">
               <canvas id="paybackChart"></canvas>
             </div>
             <div class="roi-breakdown">
-              <div class="bd-title">Where the $300K / yr comes from</div>
+              <div class="bd-title">Where the $420K / yr comes from</div>
               <div class="bd-sub">Savings built bottom-up, not asserted</div>
               <div class="bd-row">
-                <div class="bd-top"><span>Direct labor</span><strong>$192,000</strong></div>
+                <div class="bd-top"><span>Direct labor</span><strong>$268,800</strong></div>
                 <div class="bd-bar"><i class="c-slate" style="width:64%"></i></div>
               </div>
               <div class="bd-row">
-                <div class="bd-top"><span>Indirect labor</span><strong>$48,000</strong></div>
+                <div class="bd-top"><span>Indirect labor</span><strong>$67,200</strong></div>
                 <div class="bd-bar"><i class="c-petrol" style="width:16%"></i></div>
               </div>
               <div class="bd-row">
-                <div class="bd-top"><span>Benefits (25%)</span><strong>$60,000</strong></div>
+                <div class="bd-top"><span>Benefits (25%)</span><strong>$84,000</strong></div>
                 <div class="bd-bar"><i class="c-amber" style="width:20%"></i></div>
               </div>
               <div class="bd-note">Five positions come out of the cell&mdash;four direct, one indirect&mdash;with people redeployed to constraint areas rather than cut adrift.</div>
@@ -1307,23 +1428,33 @@ footer {
         <!-- Inventory Pareto -->
         <div class="proj-item">
           <div class="proj-name">Inventory Breakdown &mdash; Where the Cash Sits</div>
-          <p class="proj-desc">Value on hand by category, Pareto-ordered within raw material, finished goods, and WIP. Representative snapshot: $8.7M total&mdash;and two raw-material categories hold most of it, which is where the working-capital work starts.</p>
-          <div class="chart-wrap" style="margin-top:1.5rem; max-width:820px; height:300px; position:relative;">
+          <p class="proj-desc">Value on hand with a Pareto inside each class&mdash;finished goods, raw material, and WIP&mdash;so the conversation starts where the cash actually sits. Illustrative snapshot: $7.8M total, and two raw-material categories hold most of it.</p>
+          <div class="chart-wrap" style="margin-top:1.5rem; max-width:900px; height:340px; position:relative;">
             <canvas id="inventoryChart"></canvas>
           </div>
           <div class="mini-legend">
-            <span><i class="c-petrol"></i> Raw material &middot; $5.4M (62%)</span>
-            <span><i class="c-slate"></i> Finished goods &middot; $2.0M (23%)</span>
-            <span><i class="c-amber"></i> WIP &middot; $1.3M (15%)</span>
+            <span><i class="c-slate"></i> Finished goods &middot; $1.83M (23.5%)</span>
+            <span><i class="c-petrol"></i> Raw material &middot; $4.75M (61.1%)</span>
+            <span><i class="c-amber"></i> WIP &middot; $1.20M (15.4%)</span>
+            <span style="color:var(--ink-faint)">&mdash;&bull;&mdash; cumulative % within class</span>
           </div>
         </div>
 
         <!-- Monthly Efficiency -->
         <div class="proj-item">
           <div class="proj-name">Monthly Efficiency &mdash; Year over Year</div>
-          <p class="proj-desc">Plant efficiency against prior year, with the current year split by shift. The gap between shifts is the point of the chart&mdash;it shows where the next improvement lives.</p>
+          <p class="proj-desc">Plant efficiency against prior year, with the current year split by shift&mdash;trending up year over year, with the two crews running nearly even.</p>
           <div class="chart-wrap" style="margin-top:1.5rem; max-width:820px; height:300px; position:relative;">
             <canvas id="efficiencyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Manufactured Tons -->
+        <div class="proj-item">
+          <div class="proj-name">Manufactured Tons &mdash; Volume in Context</div>
+          <p class="proj-desc">Volume tells the other half of the efficiency story. In this illustrative year, tons step down through Q2 as volume is rebalanced to a sister plant&mdash;while efficiency climbs&mdash;so demand is met without overtime or weekend hours.</p>
+          <div class="chart-wrap" style="margin-top:1.5rem; max-width:900px; height:300px; position:relative;">
+            <canvas id="tonsChart"></canvas>
           </div>
         </div>
 
@@ -1516,24 +1647,29 @@ footer {
 
 <!-- AI Insight Widget -->
 <button class="ai-fab" id="aiFab" aria-label="Ask about Nicholas">
-  <svg viewBox="0 0 24 24" fill="none">
-    <path d="M12 2L12.9 9.8L21 12L12.9 14.2L12 22L11.1 14.2L3 12L11.1 9.8Z" fill="currentColor"/>
-    <path d="M19.5 3.5L20.1 5.4L22 6L20.1 6.6L19.5 8.5L18.9 6.6L17 6L18.9 5.4Z" fill="currentColor" opacity="0.65"/>
-    <path d="M4.5 15L4.8 17.1L6.5 17.5L4.8 17.9L4.5 20L4.2 17.9L2.5 17.5L4.2 17.1Z" fill="currentColor" opacity="0.45"/>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    <line x1="8" y1="9" x2="16" y2="9"/>
+    <line x1="8" y1="13" x2="13" y2="13"/>
   </svg>
 </button>
 
 <div class="ai-overlay" id="aiOverlay"></div>
 <div class="ai-panel" id="aiPanel">
   <div class="ai-panel-header">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L12.9 9.8L21 12L12.9 14.2L12 22L11.1 14.2L3 12L11.1 9.8Z" fill="currentColor"/><path d="M19.5 3.5L20.1 5.4L22 6L20.1 6.6L19.5 8.5L18.9 6.6L17 6L18.9 5.4Z" fill="currentColor" opacity="0.6"/></svg>
-    Ask About Nicholas
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/></svg>
+    Ask about Nicholas
   </div>
   <div class="ai-panel-body" id="aiBody">
-    <div class="ai-msg bot">Ask me anything about Nicholas Kadunce&mdash;his leadership approach, technical capabilities, career impact, or what he brings to an executive operations role.</div>
+    <div class="ai-msg bot">Hi &mdash; I'm a small assistant trained on Nicholas's background. Ask how his teams delivered results, what the path from the plant floor to plant manager looked like, or how he runs operations today.</div>
+    <div class="ai-suggs" id="aiSuggs">
+      <button class="ai-sugg">The path to Plant Manager</button>
+      <button class="ai-sugg">How his teams improved output</button>
+      <button class="ai-sugg">How he uses data &amp; AI</button>
+    </div>
   </div>
   <div class="ai-panel-input">
-    <input type="text" id="aiInput" placeholder="Ask about Nicholas..." autocomplete="off">
+    <input type="text" id="aiInput" placeholder="Ask a question&hellip;" autocomplete="off">
     <button id="aiSend">Send</button>
   </div>
 </div>
@@ -1613,15 +1749,39 @@ Chart.defaults.color = isDark ? '#929086' : '#918F86';
 const ACCENT = isDark ? '#9DBBB1' : '#33544E';
 const SLATE = isDark ? '#8FA0B5' : '#4C5A6B';
 const AMBER = isDark ? '#D9A441' : '#C1913C';
+const LABEL = isDark ? '#C4C2B8' : '#55564F';
 
-// ─── PAYBACK CURVE ───
+// Shared data-label plugin: datasets opt in with dlFmt (formatter); dlBelow places under the point
+const dataLabels = {
+  id: 'dataLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    chart.data.datasets.forEach((ds, di) => {
+      if (!ds.dlFmt) return;
+      const meta = chart.getDatasetMeta(di);
+      if (meta.hidden) return;
+      meta.data.forEach((el, i) => {
+        const v = ds.data[i];
+        if (v === null || v === undefined) return;
+        ctx.save();
+        ctx.font = '500 9px Inter, sans-serif';
+        ctx.fillStyle = ds.dlColor || LABEL;
+        ctx.textAlign = 'center';
+        ctx.fillText(ds.dlFmt(v), el.x, ds.dlBelow ? el.y + 14 : el.y - 6);
+        ctx.restore();
+      });
+    });
+  }
+};
+
+// ─── PAYBACK CURVE (illustrative: $1.05M / $35K month / 30-mo break-even) ───
 const pbMonths = Array.from({length:49}, (_, i) => i);
-const pbInvest = 850;
+const pbInvest = 1050;
 const breakevenMarkers = {
   id: 'breakevenMarkers',
   afterDraw(chart) {
     const { ctx, scales: { x, y } } = chart;
-    const bx = x.getPixelForValue(34), tx = x.getPixelForValue(36), by = y.getPixelForValue(pbInvest);
+    const bx = x.getPixelForValue(30), tx = x.getPixelForValue(36), by = y.getPixelForValue(pbInvest);
     ctx.save();
     ctx.strokeStyle = isDark ? 'rgba(236,234,226,0.3)' : 'rgba(27,28,26,0.3)';
     ctx.setLineDash([3,3]); ctx.lineWidth = 1;
@@ -1632,9 +1792,9 @@ const breakevenMarkers = {
     ctx.beginPath(); ctx.arc(bx, by, 4.5, 0, Math.PI * 2); ctx.fill();
     ctx.font = '500 9px Inter, sans-serif'; ctx.textAlign = 'center';
     ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
-    ctx.fillText('Break-even · mo 34', bx, y.top + 10);
+    ctx.fillText('Break-even · mo 30', bx, y.top + 10);
     ctx.fillStyle = isDark ? '#929086' : '#918F86';
-    ctx.fillText('3-yr target', tx + 26, y.top + 24);
+    ctx.fillText('3-yr target', tx + 30, y.top + 24);
     ctx.restore();
   }
 };
@@ -1643,18 +1803,18 @@ new Chart(document.getElementById('paybackChart'), {
   data: {
     labels: pbMonths,
     datasets: [
-      { label: 'Projected cumulative savings', data: pbMonths.map(m => 25 * m), borderColor: ACCENT, backgroundColor: isDark ? 'rgba(157,187,177,0.10)' : 'rgba(51,84,78,0.08)', fill: true, borderWidth: 2, pointRadius: 0, tension: 0 },
-      { label: 'Investment ($850K)', data: pbMonths.map(() => pbInvest), borderColor: AMBER, borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false }
+      { label: 'Projected cumulative savings', data: pbMonths.map(m => 35 * m), borderColor: ACCENT, backgroundColor: isDark ? 'rgba(157,187,177,0.10)' : 'rgba(51,84,78,0.08)', fill: true, borderWidth: 2, pointRadius: 0, tension: 0 },
+      { label: 'Investment ($1.05M)', data: pbMonths.map(() => pbInvest), borderColor: AMBER, borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false }
     ]
   },
   plugins: [breakevenMarkers],
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } },
-      title: { display: true, text: 'Payback Curve — Cumulative Savings vs. Investment ($K)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } },
+      title: { display: true, text: 'Payback Curve — Cumulative Savings vs. Investment ($K, illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 12 } },
       tooltip: { ...tt, callbacks: {
         title: items => 'Month ' + items[0].label,
-        label: c => c.datasetIndex === 1 ? 'Investment: $850K' : 'Cumulative savings: $' + c.parsed.y.toLocaleString() + 'K'
+        label: c => c.datasetIndex === 1 ? 'Investment: $1.05M' : 'Cumulative savings: $' + c.parsed.y.toLocaleString() + 'K'
       } }
     },
     scales: {
@@ -1664,52 +1824,150 @@ new Chart(document.getElementById('paybackChart'), {
   }
 });
 
-// ─── INVENTORY PARETO ───
-const invLabels = ['Components','Bar / Rod / Cable','Coil Plate','Cable Bolts','Plate & Mats','Install Bolts','Rail & Track','Bolt Packages','Roof Bolts','Rebar Bolts','Work in Process'];
-const invValues = [3600, 1400, 400, 540, 470, 255, 235, 200, 155, 145, 1300];
-const invGroups = ['rm','rm','rm','fg','fg','fg','fg','fg','fg','fg','wip'];
+// ─── INVENTORY — three Paretos on one chart (FG / RM / WIP) ───
+const invLabels = ['Anchor Bolts','Plates & Mats','Rail Hardware','Mesh Panels','Fastener Kits','Channel Steel','Accessories','Components','Bar & Rod','Coil Plate','All WIP'];
+const invValues = [480, 420, 260, 220, 180, 150, 120, 3200, 1200, 350, 1200];
+const invGroups = ['fg','fg','fg','fg','fg','fg','fg','rm','rm','rm','wip'];
 const invColors = invGroups.map(g => g === 'rm' ? ACCENT : g === 'fg' ? SLATE : AMBER);
+const fgCum  = [26, 49, 63, 75, 85, 93, 100, null, null, null, null];
+const rmCum  = [null, null, null, null, null, null, null, 67, 93, 100, null];
+const wipCum = [null, null, null, null, null, null, null, null, null, null, 100];
+const invSections = {
+  id: 'invSections',
+  afterDraw(chart) {
+    const { ctx, scales: { x }, chartArea } = chart;
+    const groups = [
+      { from: 0, to: 6, label: 'Finished Goods', total: '$1.83M · 23.5%' },
+      { from: 7, to: 9, label: 'Raw Material', total: '$4.75M · 61.1%' },
+      { from: 10, to: 10, label: 'WIP', total: '$1.20M · 15.4%' }
+    ];
+    ctx.save();
+    groups.forEach((g, gi) => {
+      const cx = (x.getPixelForValue(g.from) + x.getPixelForValue(g.to)) / 2;
+      ctx.textAlign = 'center';
+      ctx.font = '600 11px Inter, sans-serif';
+      ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
+      ctx.fillText(g.label, cx, chartArea.top - 18);
+      ctx.font = '400 9px Inter, sans-serif';
+      ctx.fillStyle = isDark ? '#929086' : '#918F86';
+      ctx.fillText(g.total, cx, chartArea.top - 6);
+      if (gi > 0) {
+        const sep = (x.getPixelForValue(g.from - 1) + x.getPixelForValue(g.from)) / 2;
+        ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.10)' : '#DDDAD1';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(sep, chartArea.top - 26); ctx.lineTo(sep, chartArea.bottom); ctx.stroke();
+      }
+    });
+    ctx.restore();
+  }
+};
 new Chart(document.getElementById('inventoryChart'), {
-  type: 'bar',
   data: {
     labels: invLabels,
-    datasets: [{ label: 'Value on hand', data: invValues, backgroundColor: invColors, borderRadius: 2, barPercentage: 0.72 }]
+    datasets: [
+      { type: 'bar', label: 'Value on hand', data: invValues, backgroundColor: invColors, borderRadius: 2, barPercentage: 0.7, order: 2,
+        dlFmt: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K' },
+      { type: 'line', label: 'FG cumulative %', data: fgCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%', tension: 0.2 },
+      { type: 'line', label: 'RM cumulative %', data: rmCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%', tension: 0.2 },
+      { type: 'line', label: 'WIP cumulative %', data: wipCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%' }
+    ]
   },
+  plugins: [invSections, dataLabels],
   options: { responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 34 } },
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Inventory Value on Hand — Pareto by Category ($K, representative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
-      tooltip: { ...tt, callbacks: { label: c => '$' + c.parsed.y.toLocaleString() + 'K · ' + (c.parsed.y / 87).toFixed(1) + '% of total' } }
+      title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 26 } },
+      tooltip: { ...tt, callbacks: { label: c => c.dataset.type === 'line' ? 'Cumulative within class: ' + c.parsed.y + '%' : '$' + c.parsed.y.toLocaleString() + 'K' } }
     },
     scales: {
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 }, maxRotation: 45, minRotation: 45 } },
-      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K', font: { size: 9 } } }
+      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K', font: { size: 9 } } },
+      y1: { position: 'right', min: 0, max: 112, grid: { display: false }, border: { display: false }, ticks: { callback: v => v <= 100 ? v + '%' : '', font: { size: 9 } } }
     }
   }
 });
 
-// ─── MONTHLY EFFICIENCY ───
+// ─── MONTHLY EFFICIENCY — up year over year, shifts nearly even ───
 const effMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const nullPad = n => Array(n).fill(null);
 new Chart(document.getElementById('efficiencyChart'), {
   data: {
     labels: effMonths,
     datasets: [
-      { type: 'line', label: 'Plant — current year', data: [112.4,111.5,115.6,119.2,110.6].concat(nullPad(7)), borderColor: ACCENT, borderWidth: 2.5, pointRadius: 3.5, pointBackgroundColor: ACCENT, spanGaps: false, tension: 0.15 },
-      { type: 'line', label: 'Plant — prior year', data: [110.2,115.7,112.9,116.3,113.4,114.1,104.6,119.5,116.8,113.3,117.7,110.4], borderColor: AMBER, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: AMBER, tension: 0.15 },
-      { type: 'bar', label: 'Shift 1 (current)', data: [107.8,110.5,112.2,117.3,113.5].concat(nullPad(7)), backgroundColor: isDark ? 'rgba(143,160,181,0.4)' : 'rgba(76,90,107,0.28)', borderRadius: 2 },
-      { type: 'bar', label: 'Shift 2 (current)', data: [122.6,113.4,122.1,121.9,105.6].concat(nullPad(7)), backgroundColor: isDark ? 'rgba(157,187,177,0.4)' : 'rgba(51,84,78,0.24)', borderRadius: 2 }
+      { type: 'line', label: 'Plant — current year', data: [109.8,111.4,112.1,113.6,112.8,114.2].concat(nullPad(6)), borderColor: ACCENT, borderWidth: 2.5, pointRadius: 3.5, pointBackgroundColor: ACCENT, spanGaps: false, tension: 0.15, dlFmt: v => v.toFixed(1), dlColor: ACCENT },
+      { type: 'line', label: 'Plant — prior year', data: [106.2,108.5,107.1,109.4,108.0,110.2,105.8,111.0,109.6,108.8,110.5,107.9], borderColor: AMBER, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: AMBER, tension: 0.15, dlFmt: v => v.toFixed(1), dlBelow: true, dlColor: AMBER },
+      { type: 'bar', label: 'Shift 1 (current)', data: [109.2,110.8,111.5,113.1,112.2,113.8].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(143,160,181,0.4)' : 'rgba(76,90,107,0.28)', borderRadius: 2 },
+      { type: 'bar', label: 'Shift 2 (current)', data: [110.4,112.0,112.7,114.1,113.4,114.6].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(157,187,177,0.4)' : 'rgba(51,84,78,0.24)', borderRadius: 2 }
     ]
   },
+  plugins: [dataLabels],
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } },
-      title: { display: true, text: 'Plant Efficiency % — Current vs. Prior Year, with Shift Split', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      title: { display: true, text: 'Plant Efficiency % — Current vs. Prior Year, with Shift Split (illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toFixed(1) + '%' } }
     },
     scales: {
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 } } },
-      y: { min: 100, max: 126, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: 9 } } }
+      y: { min: 100, max: 120, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: 9 } } }
+    }
+  }
+});
+
+// ─── MANUFACTURED TONS — volume leveled while efficiency climbs ───
+const tons25 = [1980,2340,2230,2420,2240,1980,1905,2020,2300,2750,1945,2235];
+const tons26 = [2050,2110,2300,1990,1760,1810];
+function linFit(vals) {
+  const n = vals.length;
+  let sx = 0, sy = 0, sxy = 0, sxx = 0;
+  vals.forEach((v, i) => { sx += i; sy += v; sxy += i * v; sxx += i * i; });
+  const b = (n * sxy - sx * sy) / (n * sxx - sx * sx), a = (sy - b * sx) / n;
+  return vals.map((_, i) => Math.round(a + b * i));
+}
+const tonsBand = {
+  id: 'tonsBand',
+  beforeDatasetsDraw(chart) {
+    const { ctx, scales: { x, y }, chartArea } = chart;
+    const x0 = x.getPixelForValue(2.5), x1 = x.getPixelForValue(5.5);
+    ctx.save();
+    ctx.fillStyle = isDark ? 'rgba(157,187,177,0.07)' : 'rgba(51,84,78,0.06)';
+    ctx.fillRect(x0, chartArea.top, x1 - x0, chartArea.bottom - chartArea.top);
+    ctx.strokeStyle = isDark ? 'rgba(157,187,177,0.35)' : 'rgba(51,84,78,0.35)';
+    ctx.setLineDash([4,3]); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x0, chartArea.top); ctx.lineTo(x0, chartArea.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.textAlign = 'left';
+    ctx.font = '600 10px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
+    ctx.fillText('Volume rebalanced to sister plant', x0 + 8, chartArea.top + 14);
+    ctx.font = '400 9px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#929086' : '#918F86';
+    ctx.fillText('Apr – Jun · meets demand without OT or weekend hours', x0 + 8, chartArea.top + 27);
+    ctx.restore();
+  }
+};
+new Chart(document.getElementById('tonsChart'), {
+  type: 'line',
+  data: {
+    labels: effMonths,
+    datasets: [
+      { label: 'Current year', data: tons26.concat(nullPad(6)), borderColor: ACCENT, borderWidth: 2.5, pointRadius: 3.5, pointBackgroundColor: ACCENT, spanGaps: false, tension: 0.1 },
+      { label: 'Prior year', data: tons25, borderColor: AMBER, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: AMBER, tension: 0.1 },
+      { label: 'Trend — current', data: linFit(tons26).concat(nullPad(6)), borderColor: isDark ? 'rgba(157,187,177,0.5)' : 'rgba(51,84,78,0.4)', borderWidth: 1.5, borderDash: [2,3], pointRadius: 0, spanGaps: false },
+      { label: 'Trend — prior', data: linFit(tons25), borderColor: isDark ? 'rgba(217,164,65,0.45)' : 'rgba(193,145,60,0.4)', borderWidth: 1.5, borderDash: [2,3], pointRadius: 0 }
+    ]
+  },
+  plugins: [tonsBand],
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 }, filter: item => !item.text.startsWith('Trend') } },
+      title: { display: true, text: 'Manufactured Tons — Monthly, Current vs. Prior Year (illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toLocaleString() + ' tons' } }
+    },
+    scales: {
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 } } },
+      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: 9 } } }
     }
   }
 });
@@ -1835,6 +2093,18 @@ async function sendAI() {
 
 aiSend.addEventListener('click', sendAI);
 aiInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendAI(); });
+
+// Suggested questions — send on click, then retire the chips
+const aiSuggs = document.getElementById('aiSuggs');
+if (aiSuggs) {
+  aiSuggs.querySelectorAll('.ai-sugg').forEach(btn => {
+    btn.addEventListener('click', () => {
+      aiInput.value = btn.textContent;
+      aiSuggs.remove();
+      sendAI();
+    });
+  });
+}
 </script>
 </body>
 </html>

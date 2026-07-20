@@ -4,54 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nicholas Kadunce &mdash; Resume</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2333544E%22/%3E%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Arial%2CHelvetica%2Csans-serif%22%20font-size%3D%2227%22%20font-weight%3D%22700%22%20fill%3D%22%23FAF9F6%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%22-1.5%22%3ENK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@1,400;1,500&family=Schibsted+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital@1&family=Schibsted+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#ECEAE4;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10pt;color:#333;-webkit-font-smoothing:antialiased}
-:root{--blue:#33544E;--navy:#1B1C1A;--ink:#1B1C1A;--ink-body:#3B3C38;--ink-muted:#807E76;--rule:#E7E4DC;--accent-bg:#EEF1EC}
-.page{width:8.5in;min-height:11in;background:#fff;margin:.5in auto;box-shadow:0 4px 40px rgba(0,0,0,.15);page-break-after:always;position:relative}
-.resume-header{background:var(--navy);padding:.42in .55in .36in;position:relative;overflow:hidden}
-.resume-header::before{content:"";position:absolute;top:-30px;right:-30px;width:220px;height:220px;background:rgba(157,187,177,.14);border-radius:50%}
-.resume-header::after{content:"";position:absolute;bottom:-50px;right:80px;width:130px;height:130px;background:rgba(157,187,177,.08);border-radius:50%}
-.header-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem}
-.header-name{font-family:'Schibsted Grotesk',Inter,sans-serif;font-size:25pt;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1;margin-bottom:.09in}
-.header-tagline{font-size:8pt;font-weight:400;color:rgba(255,255,255,.6);letter-spacing:.13em;text-transform:uppercase;margin-bottom:.1in}
-.header-pillars{display:flex;gap:.07in;flex-wrap:wrap;margin-top:.04in}
-.header-pill{background:rgba(157,187,177,.14);border:1px solid rgba(157,187,177,.38);color:rgba(255,255,255,.85);font-size:6pt;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:2px}
-.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:.06in;flex-shrink:0;padding-bottom:2px}
-.hc{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.72);font-size:7.5pt;font-weight:400}
-.dot{width:4px;height:4px;background:#9DBBB1;border-radius:50%;flex-shrink:0}
-.header-divider{height:3px;background:linear-gradient(90deg,var(--blue) 0%,rgba(51,84,78,.25) 65%,transparent 100%)}
-.resume-body{padding:.28in .55in .5in}
-.brand-line{font-family:'Lora',Georgia,'Times New Roman',serif;font-style:italic;font-size:10pt;color:var(--navy);margin-bottom:.08in}
-.summary{margin-bottom:.18in;padding-bottom:.16in;border-bottom:1px solid var(--rule)}
-.summary p{font-size:8.5pt;font-weight:300;line-height:1.65}
-.section{margin-bottom:.16in}
-.sh{font-size:6.5pt;font-weight:600;color:var(--blue);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.08in;padding-bottom:.03in;border-bottom:1.5px solid var(--blue)}
-.competency-grid{display:grid;grid-template-columns:1fr 1fr;gap:.05in .18in}
-.comp-label{font-size:7pt;font-weight:600;color:var(--ink);margin-bottom:1px}
-.comp-items{font-size:7pt;font-weight:300;color:var(--ink-muted);line-height:1.5}
-.exp-entry{margin-bottom:.13in}
-.exp-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px}
-.exp-company{font-size:9pt;font-weight:600;color:var(--ink)}
-.exp-dates{font-size:7pt;font-weight:400;color:var(--ink-muted);flex-shrink:0;margin-left:8px}
-.exp-role{font-size:7.5pt;font-weight:500;color:var(--blue);margin-bottom:.02in}
-.exp-location{font-size:7pt;font-weight:300;color:var(--ink-muted);margin-bottom:.03in}
-.exp-scope{font-size:6.5pt;font-weight:500;color:var(--ink-muted);letter-spacing:.03em;margin-bottom:.04in;padding:.03in .07in;background:var(--accent-bg);border-left:2px solid var(--blue);display:inline-block}
-.exp-sub{font-size:7pt;font-weight:600;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase;margin:.04in 0 .02in}
-.exp-desc{font-size:7.5pt;font-weight:300;line-height:1.5;margin-bottom:.03in}
-ul.bullets{list-style:none;padding:0;margin:0}
-ul.bullets li{font-size:7pt;font-weight:300;line-height:1.52;padding-left:.12in;position:relative;margin-bottom:1.5px}
-ul.bullets li::before{content:"\25B8";position:absolute;left:0;color:var(--blue);font-size:5.5pt;top:1.5px}
-.certs-edu-row{display:grid;grid-template-columns:1fr 1fr;gap:.12in}
-.cert-item{display:flex;gap:.05in;align-items:flex-start;margin-bottom:.05in}
-.cert-badge{width:20px;height:20px;background:var(--accent-bg);border:1px solid rgba(51,84,78,.25);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7.5pt;color:var(--blue);font-weight:600}
-.cert-name{font-size:7pt;font-weight:500;color:var(--ink);line-height:1.3}
-.cert-issuer{font-size:6pt;font-weight:300;color:var(--ink-muted)}
-.edu-degree{font-size:8.5pt;font-weight:600;color:var(--ink)}
-.edu-school{font-size:8pt;font-weight:400;margin-top:2px}
-.edu-detail{font-size:7pt;font-weight:300;color:var(--ink-muted);margin-top:1px}
+html,body{background:#ECEAE4;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10pt;color:#3B3C38;-webkit-font-smoothing:antialiased}
+:root{--accent:#33544E;--ink:#1B1C1A;--body:#3B3C38;--muted:#807E76;--rule:#E2DFD7}
+.page{width:8.5in;min-height:11in;background:#fff;margin:.5in auto;box-shadow:0 4px 40px rgba(27,28,26,.14);page-break-after:always;padding:.52in .62in .5in;position:relative}
+
+/* ── Header ── */
+.name{font-family:'Schibsted Grotesk',Inter,sans-serif;font-size:21pt;font-weight:700;letter-spacing:-.015em;color:var(--ink);text-align:center;line-height:1}
+.contact{font-size:7.5pt;color:var(--muted);text-align:center;margin-top:.07in}
+.contact a{color:var(--muted);text-decoration:none}
+.contact .sep{margin:0 .06in;color:#C9C6BC}
+.brand{font-family:'Lora',Georgia,serif;font-style:italic;font-size:10.5pt;color:var(--ink);text-align:center;margin-top:.1in}
+.banner{font-size:7pt;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);text-align:center;margin-top:.09in}
+.head-rule{height:1px;background:var(--ink);margin:.14in 0 .13in}
+
+/* ── Sections ── */
+.summary{font-size:8.4pt;line-height:1.6;color:var(--body)}
+.sh{font-family:'Schibsted Grotesk',Inter,sans-serif;font-size:8.5pt;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);margin:.16in 0 .02in;padding-bottom:.035in;border-bottom:1px solid var(--rule);position:relative}
+.sh::after{content:"";position:absolute;left:0;bottom:-1px;width:.55in;height:2px;background:var(--accent)}
+
+/* ── Competencies ── */
+.comp{font-size:7.6pt;line-height:1.55;color:var(--muted);margin-top:.055in}
+.comp strong{color:var(--ink);font-weight:600}
+
+/* ── Experience ── */
+.exp{margin-top:.09in}
+.exp-line{display:flex;justify-content:space-between;align-items:baseline}
+.exp-co{font-family:'Schibsted Grotesk',Inter,sans-serif;font-size:9.5pt;font-weight:700;letter-spacing:.02em;color:var(--ink)}
+.exp-co span{font-family:Inter,sans-serif;font-size:7.5pt;font-weight:400;color:var(--muted);letter-spacing:0}
+.exp-dates{font-size:7.5pt;font-weight:500;color:var(--muted)}
+.exp-role{font-size:8.2pt;font-weight:600;color:var(--accent);margin-top:.015in}
+.exp-scope{font-size:7pt;font-style:italic;color:var(--muted);margin-top:.015in}
+.exp-desc{font-size:7.7pt;line-height:1.5;color:var(--body);margin-top:.035in}
+.exp-sub{font-size:6.8pt;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-top:.05in}
+ul.b{list-style:none;margin-top:.035in}
+ul.b li{font-size:7.5pt;line-height:1.5;color:var(--body);padding-left:.14in;position:relative;margin-bottom:.5mm}
+ul.b li::before{content:"\25B8";position:absolute;left:0;top:0;color:var(--accent);font-size:6pt}
+ul.b li strong{font-weight:600;color:var(--ink)}
+
+/* ── Certs & education ── */
+.two-col{display:grid;grid-template-columns:1.15fr .85fr;gap:.3in;margin-top:.07in}
+.cert{margin-bottom:.05in}
+.cert-name{font-size:7.8pt;font-weight:600;color:var(--ink)}
+.cert-org{font-size:7pt;color:var(--muted)}
+.edu-degree{font-size:8.2pt;font-weight:600;color:var(--ink)}
+.edu-school{font-size:7.8pt;color:var(--body);margin-top:.5mm}
+.edu-detail{font-size:7pt;color:var(--muted);margin-top:.5mm}
+
+/* ── Page 2 mini header ── */
+.mini-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:.08in;border-bottom:1px solid var(--ink);margin-bottom:.06in}
+.mini-name{font-family:'Schibsted Grotesk',Inter,sans-serif;font-size:11pt;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+.mini-contact{font-size:7pt;color:var(--muted)}
+
 @media print{
   html,body{background:white}
   .page{width:100%;min-height:0;margin:0;box-shadow:none;page-break-after:always}
@@ -62,178 +70,106 @@ ul.bullets li::before{content:"\25B8";position:absolute;left:0;color:var(--blue)
 <body>
 
 <div class="page">
-  <div class="resume-header">
-    <div class="header-inner">
-      <div style="flex:1">
-        <div class="header-name">Nicholas Kadunce</div>
-        <div class="header-tagline">Operations Executive &middot; Plant Manager &middot; P&amp;L Ownership</div>
-        <div class="header-pillars">
-          <span class="header-pill">Operational Excellence</span>
-          <span class="header-pill">High-Performance Teams</span>
-          <span class="header-pill">Lean Six Sigma Black Belt</span>
-          <span class="header-pill">Data &amp; AI-Enabled Operations</span>
-        </div>
-      </div>
-      <div class="header-right">
-        <span class="hc"><span class="dot"></span>724-996-3792</span>
-        <span class="hc"><span class="dot"></span>NicholasKadunce@gmail.com</span>
-        <span class="hc"><span class="dot"></span>nicholaskadunce.com</span>
-        <span class="hc"><span class="dot"></span>linkedin.com/in/nicholaskadunce</span>
-      </div>
-    </div>
+  <div class="name">Nicholas Kadunce</div>
+  <div class="contact">724-996-3792<span class="sep">&middot;</span>NicholasKadunce@gmail.com<span class="sep">&middot;</span>nicholaskadunce.com<span class="sep">&middot;</span>linkedin.com/in/nicholaskadunce</div>
+  <div class="brand">I build systems that drive results.</div>
+  <div class="banner">Transforming Operations &nbsp;&middot;&nbsp; Data-Driven Excellence &nbsp;&middot;&nbsp; High-Performing Teams</div>
+  <div class="head-rule"></div>
+
+  <p class="summary">Operations executive with a proven arc from process engineer to plant manager in five years&mdash;now leading a high-volume manufacturing site with full P&amp;L accountability. Builds high-performing teams and the operating discipline&mdash;daily management, real-time data, planned maintenance, quality governance&mdash;that makes performance repeatable. Measurable results across four manufacturers: 36.7% plant output growth, 340% production rate increase, 66% rework reduction, and $1M+ annual revenue added. Deploys automation and AI where they eliminate manual work and sharpen decisions.</p>
+
+  <div class="sh">Core Competencies</div>
+  <div class="comp"><strong>Leadership &amp; Team Development:</strong> High-Performance Team Building &middot; Change Leadership &middot; Talent Development &amp; Coaching &middot; Supervisor Standard Work &middot; Engagement &amp; Retention &middot; Cross-Functional Leadership</div>
+  <div class="comp"><strong>Operational Excellence:</strong> P&amp;L Accountability &middot; Safety &amp; Quality Systems (ISO 9001) &middot; Risk Management &amp; Mitigation &middot; CMMS &amp; Planned Maintenance &middot; Supplier &amp; Inventory Management</div>
+  <div class="comp"><strong>Continuous Improvement:</strong> Lean &amp; Six Sigma (Black Belt) &middot; Manufacturing Optimization &middot; Root Cause Analysis &middot; SPC &amp; Pareto Analytics &middot; Visual Management &amp; 5S</div>
+  <div class="comp"><strong>Strategy, Financials &amp; Digital Tools:</strong> KPI Development &amp; Daily Management &middot; Financial Forecasting &amp; Modeling &middot; Production Scalability &middot; Data-Driven Decision Making &middot; AI-Enabled Reporting &amp; Automation</div>
+
+  <div class="sh">Professional Experience</div>
+
+  <div class="exp">
+    <div class="exp-line"><div class="exp-co">JENNMAR <span>&mdash; Reedsville, WV</span></div><div class="exp-dates">2025 &ndash; Present</div></div>
+    <div class="exp-role">Plant Manager &mdash; Underground Mining &amp; Tunneling Infrastructure Solutions</div>
+    <div class="exp-scope">Full P&amp;L &middot; ~100-person site team &middot; accountable for safety, quality, production &amp; financial performance</div>
+    <p class="exp-desc">Lead end-to-end plant operations for a high-volume manufacturing site. Drive strategic improvements that strengthen KPI accountability, digitize operations, and embed a culture of performance and continuous improvement.</p>
+    <ul class="b">
+      <li>Increased plant output <strong>36.7%</strong> in year one by redesigning the operating cadence around a Daily Operations Dashboard&mdash;hour-by-hour tracking, downtime Pareto analysis, and statistically derived targets.</li>
+      <li>Built a rolling-average Financial Forecaster generating daily operating-income projections&mdash;strengthening financial oversight, streamlining consolidation, and enabling faster executive decisions.</li>
+      <li>Installed a cross-functional daily management system&mdash;an automated Operations Performance Summary aligning production, maintenance, quality, and safety on prior-day results each morning.</li>
+      <li>Led the shift from reactive to planned maintenance by implementing FIIX CMMS&mdash;disciplined work orders, spares control, and a Maintenance Analytics Dashboard tracking labor hours and work-order volume by asset.</li>
+      <li>Established quality governance with automated SPC and Pareto defect analytics plus a tagged, barriered quarantine zone&mdash;ensuring full traceability of hold/rework material and earlier trend detection.</li>
+      <li>Developed front-line leaders through structured Supervisor Standard Work and automated incentive-pay administration&mdash;raising accountability while saving hours of indirect labor weekly.</li>
+      <li>Digitized the plant floor with real-time machine monitoring across 16 assets (2.8M+ sensor records) and automated daily performance reporting&mdash;eliminating manual data entry so leaders act on data rather than assemble it.</li>
+    </ul>
   </div>
-  <div class="header-divider"></div>
-  <div class="resume-body">
-    <div class="summary">
-      <div class="brand-line">I build systems that drive results.</div>
-      <p>Operations executive with a proven arc from process engineer to plant manager in five years&mdash;now leading a high-volume manufacturing site with full P&amp;L accountability. Builds high-performing teams and the operating discipline&mdash;daily management, real-time data, planned maintenance, quality governance&mdash;that makes performance repeatable. Measurable results across four manufacturers: 36.7% plant output growth, 340% production rate increase, 66% rework reduction, and $1M+ annual revenue added. Deploys automation and AI where they eliminate manual work and sharpen decisions.</p>
-    </div>
-    <div class="section">
-      <div class="sh">Core Competencies</div>
-      <div class="competency-grid">
-        <div>
-          <div class="comp-label">Leadership &amp; Team Development</div>
-          <div class="comp-items">High-Performance Team Building &middot; Change Leadership &middot; Talent Development &amp; Coaching &middot; Supervisor Standard Work &middot; Engagement &amp; Retention &middot; Cross-Functional Leadership</div>
-        </div>
-        <div>
-          <div class="comp-label">Operational Excellence</div>
-          <div class="comp-items">P&amp;L Accountability &middot; Safety &amp; Quality Systems (ISO 9001) &middot; Risk Management &amp; Mitigation &middot; CMMS &amp; Planned Maintenance &middot; Supplier &amp; Inventory Management</div>
-        </div>
-        <div style="margin-top:.04in">
-          <div class="comp-label">Continuous Improvement</div>
-          <div class="comp-items">Lean &amp; Six Sigma (Black Belt) &middot; Manufacturing Optimization &middot; Root Cause Analysis &middot; SPC &amp; Pareto Analytics &middot; Visual Management &amp; 5S</div>
-        </div>
-        <div style="margin-top:.04in">
-          <div class="comp-label">Strategy, Financials &amp; Digital Tools</div>
-          <div class="comp-items">KPI Development &amp; Daily Management &middot; Financial Forecasting &amp; Modeling &middot; Production Scalability &middot; Data-Driven Decision Making &middot; AI-Enabled Reporting &amp; Automation</div>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="sh">Professional Experience</div>
-      <div class="exp-entry">
-        <div class="exp-header">
-          <div class="exp-company">JENNMAR</div>
-          <div class="exp-dates">2025 &ndash; Present</div>
-        </div>
-        <div class="exp-role">Plant Manager &mdash; Underground Mining &amp; Tunneling Infrastructure Solutions</div>
-        <div class="exp-location">Reedsville, WV</div>
-        <div class="exp-scope">Scope: Full P&amp;L &middot; ~100-person site team &middot; Accountable for safety, quality, production &amp; financial performance</div>
-        <div class="exp-desc">Lead end-to-end plant operations for a high-volume manufacturing site. Drive strategic improvements that strengthen KPI accountability, digitize operations, and embed a culture of performance and continuous improvement.</div>
-        <ul class="bullets">
-          <li>Increased plant output <strong>36.7%</strong> in year one by redesigning the operating cadence around a Daily Operations Dashboard&mdash;hour-by-hour tracking, downtime Pareto analysis, and statistically derived targets.</li>
-          <li>Built a rolling-average Financial Forecaster generating daily operating-income projections&mdash;strengthening financial oversight, streamlining consolidation, and enabling faster executive decisions.</li>
-          <li>Installed a cross-functional daily management system&mdash;an automated Operations Performance Summary aligning production, maintenance, quality, and safety on prior-day results each morning.</li>
-          <li>Led the shift from reactive to planned maintenance by implementing FIIX CMMS&mdash;disciplined work orders, spares control, and a Maintenance Analytics Dashboard tracking labor hours and work-order volume by asset.</li>
-          <li>Established quality governance with automated SPC and Pareto defect analytics plus a tagged, barriered quarantine zone&mdash;ensuring full traceability of hold/rework material and earlier trend detection.</li>
-          <li>Developed front-line leaders through structured Supervisor Standard Work and automated incentive-pay administration&mdash;raising accountability while saving hours of indirect labor weekly.</li>
-          <li>Digitized the plant floor with real-time machine monitoring across 16 assets (2.8M+ sensor records) and automated daily performance reporting&mdash;eliminating manual data entry so leaders act on data rather than assemble it.</li>
-        </ul>
-      </div>
-    </div>
+
+  <div class="exp">
+    <div class="exp-line"><div class="exp-co">EOS ENERGY ENTERPRISES <span>&mdash; Turtle Creek, PA</span></div><div class="exp-dates">2023 &ndash; 2025</div></div>
+    <div class="exp-role">Operations Manager &mdash; Battery Energy Storage Systems (BESS) &amp; Module Operations</div>
+    <div class="exp-scope">11 supervisors &middot; 6 team leads &middot; 240 technicians across two production buildings</div>
+    <p class="exp-desc">Promoted from Quality Engineer to lead manufacturing operations at a battery-storage scale-up&mdash;transforming fragmented processes into data-driven, flow-oriented production.</p>
+    <div class="exp-sub">Module Operations</div>
+    <ul class="b">
+      <li>Built the company's first production dashboards&mdash;OEE metrics, automated gap analysis, and KPI control charts&mdash;enabling real-time visibility and strategic decision-making.</li>
+      <li>Converted subassembly from batch to one-piece flow, <strong>increasing production 41%</strong> and reducing defects 22%; cut equipment downtime 36% in two months through Pareto-driven mitigation plans.</li>
+      <li>Implemented visual management (Kanban boards, Andon lights) and automated performance and attendance tracking&mdash;raising workforce accountability and accelerating response to issues.</li>
+      <li>Built and trained a new 40-person third shift from scratch&mdash;<strong>the plant's highest-performing shift within one month</strong>.</li>
+    </ul>
   </div>
 </div>
 
-
 <div class="page">
-  <div class="resume-header" style="padding:.25in .55in .22in">
-    <div class="header-inner">
-      <div style="flex:1">
-        <div class="header-name" style="font-size:17pt;margin-bottom:.03in">Nicholas Kadunce</div>
-        <div class="header-tagline" style="font-size:7pt;margin-bottom:0">Operations Executive &middot; Plant Manager &middot; P&amp;L Ownership</div>
-      </div>
-      <div class="header-right">
-        <span class="hc"><span class="dot"></span>724-996-3792</span>
-        <span class="hc"><span class="dot"></span>NicholasKadunce@gmail.com</span>
-      </div>
-    </div>
+  <div class="mini-head">
+    <div class="mini-name">Nicholas Kadunce</div>
+    <div class="mini-contact">724-996-3792 &nbsp;&middot;&nbsp; NicholasKadunce@gmail.com</div>
   </div>
-  <div class="header-divider"></div>
-  <div class="resume-body">
-    <div class="section">
-      <div class="sh">Professional Experience (continued)</div>
-      <div class="exp-entry">
-        <div class="exp-header">
-          <div class="exp-company">EOS ENERGY ENTERPRISES, INC.</div>
-          <div class="exp-dates">2023 &ndash; 2025</div>
-        </div>
-        <div class="exp-role">Operations Manager &mdash; Battery Energy Storage Systems (BESS) &amp; Module Operations</div>
-        <div class="exp-location">Turtle Creek, PA</div>
-        <div class="exp-scope">Scope: 11 supervisors &middot; 6 team leads &middot; 240 technicians across two production buildings</div>
-        <div class="exp-desc">Promoted from Quality Engineer to lead manufacturing operations at a battery-storage scale-up&mdash;transforming fragmented processes into data-driven, flow-oriented production.</div>
-        <div class="exp-sub">Module Operations</div>
-        <ul class="bullets">
-          <li>Built the company's first production dashboards&mdash;OEE metrics, automated gap analysis, and KPI control charts&mdash;enabling real-time visibility and strategic decision-making.</li>
-          <li>Converted subassembly from batch to one-piece flow, <strong>increasing production 41%</strong> and reducing defects 22%; cut equipment downtime 36% in two months through Pareto-driven mitigation plans.</li>
-          <li>Implemented visual management (Kanban boards, Andon lights) and automated performance and attendance tracking&mdash;raising workforce accountability and accelerating response to issues.</li>
-          <li>Built and trained a new 40-person third shift from scratch&mdash;<strong>the plant's highest-performing shift within one month</strong>.</li>
-        </ul>
-        <div class="exp-sub">BESS Operations</div>
-        <ul class="bullets">
-          <li>Grew BESS output from 0.5 to 2.2 units/day&mdash;a <strong>340% increase</strong>&mdash;via Yamazumi workload balancing, takt alignment, and team-based workflows; reduced rework 66%.</li>
-          <li>Integrated an Andon system with automated data collection and control charts for real-time monitoring of quality, downtime, and production; standardized workflows with 5S, safety stocks, and shadow boards.</li>
-        </ul>
-        <div class="exp-role" style="margin-top:.06in">Quality Engineer &mdash; Battery Energy Storage Systems &amp; Module Operations</div>
-        <ul class="bullets">
-          <li>Engineered a high-efficiency battery testing routine, <strong>reducing cycle times 60%</strong> and lifting overall production throughput.</li>
-          <li>Led defect-reduction initiatives achieving a 30% decrease in scrap defects and fewer downstream quality excursions; automated quality documentation and dashboards for rapid decision support.</li>
-          <li>Obtained ISO 9001 Lead Auditor licensure and spearheaded the internal audit program, aligning operations with international standards.</li>
-        </ul>
-      </div>
-      <div class="exp-entry">
-        <div class="exp-header">
-          <div class="exp-company">MESSER AMERICAS</div>
-          <div class="exp-dates">2022 &ndash; 2023</div>
-        </div>
-        <div class="exp-role">Regional Production Engineer &mdash; ASU Bulk, Tonnage &amp; Specialty Industrial Gases</div>
-        <div class="exp-location">Northeast Region, USA</div>
-        <ul class="bullets">
-          <li>Led Six Sigma initiatives boosting Krypton/Xenon production 15%, <strong>adding over $1M in annual revenue</strong>.</li>
-          <li>Drove 15+ system enhancement projects across regional facilities&mdash;cutting annual downtime by 25 days and improving daily output consistency 16%.</li>
-          <li>Streamlined production and delivery through cross-functional collaboration, reducing average lead times by 30 days; managed regional project and expense budgets with disciplined financial oversight.</li>
-        </ul>
-      </div>
-      <div class="exp-entry">
-        <div class="exp-header">
-          <div class="exp-company">JOHNSON MATTHEY</div>
-          <div class="exp-dates">2020 &ndash; 2022</div>
-        </div>
-        <div class="exp-role">Production Team Shift Leader II / Process Control Engineer &mdash; Clean Air Division</div>
-        <div class="exp-location">Smithfield, PA</div>
-        <ul class="bullets">
-          <li>Led a high-performing team of six production technicians and a process control engineer&mdash;increasing OEE more than <strong>5%</strong> with <strong>zero lost-time or recordable injuries</strong> across all shifts.</li>
-          <li>Reduced cycle time 8% and defects 4% through targeted optimization of an automated diesel-catalyst line; designed a risk management tool cutting downtime 8 minutes per work order.</li>
-          <li>Mentored technicians and embedded lean problem-solving in daily routines&mdash;building the data-driven, continuous-improvement culture that anchored the team's performance.</li>
-        </ul>
-      </div>
+
+  <div class="exp">
+    <div class="exp-line"><div class="exp-co">EOS ENERGY ENTERPRISES <span>&mdash; continued</span></div><div class="exp-dates">2023 &ndash; 2025</div></div>
+    <div class="exp-sub">BESS Operations</div>
+    <ul class="b">
+      <li>Grew BESS output from 0.5 to 2.2 units/day&mdash;a <strong>340% increase</strong>&mdash;via Yamazumi workload balancing, takt alignment, and team-based workflows; reduced rework 66%.</li>
+      <li>Integrated an Andon system with automated data collection and control charts for real-time monitoring of quality, downtime, and production; standardized workflows with 5S, safety stocks, and shadow boards.</li>
+    </ul>
+    <div class="exp-role" style="margin-top:.06in">Quality Engineer &mdash; Battery Energy Storage Systems &amp; Module Operations</div>
+    <ul class="b">
+      <li>Engineered a high-efficiency battery testing routine, <strong>reducing cycle times 60%</strong> and lifting overall production throughput.</li>
+      <li>Led defect-reduction initiatives achieving a 30% decrease in scrap defects and fewer downstream quality excursions; automated quality documentation and dashboards for rapid decision support.</li>
+      <li>Obtained ISO 9001 Lead Auditor licensure and spearheaded the internal audit program, aligning operations with international standards.</li>
+    </ul>
+  </div>
+
+  <div class="exp">
+    <div class="exp-line"><div class="exp-co">MESSER AMERICAS <span>&mdash; Northeast Region, USA</span></div><div class="exp-dates">2022 &ndash; 2023</div></div>
+    <div class="exp-role">Regional Production Engineer &mdash; ASU Bulk, Tonnage &amp; Specialty Industrial Gases</div>
+    <ul class="b">
+      <li>Led Six Sigma initiatives boosting Krypton/Xenon production 15%, <strong>adding over $1M in annual revenue</strong>.</li>
+      <li>Drove 15+ system enhancement projects across regional facilities&mdash;cutting annual downtime by 25 days and improving daily output consistency 16%.</li>
+      <li>Streamlined production and delivery through cross-functional collaboration, reducing average lead times by 30 days; managed regional project and expense budgets with disciplined financial oversight.</li>
+    </ul>
+  </div>
+
+  <div class="exp">
+    <div class="exp-line"><div class="exp-co">JOHNSON MATTHEY <span>&mdash; Smithfield, PA</span></div><div class="exp-dates">2020 &ndash; 2022</div></div>
+    <div class="exp-role">Production Team Shift Leader II / Process Control Engineer &mdash; Clean Air Division</div>
+    <ul class="b">
+      <li>Led a high-performing team of six production technicians and a process control engineer&mdash;increasing OEE more than <strong>5%</strong> with <strong>zero lost-time or recordable injuries</strong> across all shifts.</li>
+      <li>Reduced cycle time 8% and defects 4% through targeted optimization of an automated diesel-catalyst line; designed a risk management tool cutting downtime 8 minutes per work order.</li>
+      <li>Mentored technicians and embedded lean problem-solving in daily routines&mdash;building the data-driven, continuous-improvement culture that anchored the team's performance.</li>
+    </ul>
+  </div>
+
+  <div class="sh">Certifications &amp; Education</div>
+  <div class="two-col">
+    <div>
+      <div class="cert"><div class="cert-name">Certified Lean Six Sigma Black Belt (CSSBB)</div><div class="cert-org">Six Sigma Global Institute (SSGI)</div></div>
+      <div class="cert"><div class="cert-name">Certified Lean Six Sigma Green Belt (CSSGB)</div><div class="cert-org">Messer Americas, EMBRACE Training Academy</div></div>
+      <div class="cert"><div class="cert-name">ISO 9001 Lead Auditor</div><div class="cert-org">Exemplar Global</div></div>
+      <div class="cert"><div class="cert-name">Certified ScrumMaster&reg; (CSM)</div><div class="cert-org">Scrum Alliance</div></div>
     </div>
-    <div class="section">
-      <div class="sh">Certifications &amp; Education</div>
-      <div class="certs-edu-row">
-        <div>
-          <div class="cert-item">
-            <div class="cert-badge">&#9670;</div>
-            <div><div class="cert-name">Certified Lean Six Sigma Black Belt (CSSBB)</div><div class="cert-issuer">Six Sigma Global Institute (SSGI)</div></div>
-          </div>
-          <div class="cert-item">
-            <div class="cert-badge">&#9670;</div>
-            <div><div class="cert-name">Certified Lean Six Sigma Green Belt (CSSGB)</div><div class="cert-issuer">Messer Americas, EMBRACE Training Academy</div></div>
-          </div>
-          <div class="cert-item">
-            <div class="cert-badge">&#9670;</div>
-            <div><div class="cert-name">ISO 9001 Lead Auditor</div><div class="cert-issuer">Exemplar Global</div></div>
-          </div>
-          <div class="cert-item">
-            <div class="cert-badge">&#9670;</div>
-            <div><div class="cert-name">Certified ScrumMaster&reg; (CSM)</div><div class="cert-issuer">Scrum Alliance</div></div>
-          </div>
-        </div>
-        <div>
-          <div class="edu-degree">B.S., Chemical Engineering</div>
-          <div class="edu-school">West Virginia University &mdash; Morgantown, WV</div>
-          <div class="edu-detail">Class of 2020</div>
-        </div>
-      </div>
+    <div>
+      <div class="edu-degree">B.S., Chemical Engineering</div>
+      <div class="edu-school">West Virginia University &mdash; Morgantown, WV</div>
+      <div class="edu-detail">Class of 2020</div>
     </div>
   </div>
 </div>

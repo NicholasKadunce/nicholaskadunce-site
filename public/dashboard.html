@@ -87,24 +87,59 @@
   function demoRng(seedStr){let h=2166136261;for(let i=0;i<seedStr.length;i++){h^=seedStr.charCodeAt(i);h=Math.imul(h,16777619);}return function(){h=Math.imul(h^(h>>>15),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
   const DEMO_EQUIP=['EQ-01','EQ-02','EQ-03','EQ-04','EQ-05','EQ-06','EQ-07','EQ-10','EQ-14','EQ-16','EQ-17','EQ-21','EQ-24','EQ-25'];
   const DEMO_OPS=['Person 1','Person 2','Person 3','Person 4','Person 5','Person 6','Person 7','Person 8'];
-  const DEMO_DTC=[1,2,5,8,10,14,15];
+  const DEMO_DTC=[1,2,5,8,11,14,15];
+  const DEMO_DT_SUBN={1:2,5:7,8:5,11:2,14:2};
   const DEMO_DEFC={'EQ-01':[1,2,3],'EQ-02':[1,2,4],'EQ-03':[2,11,19],'EQ-04':[2,11,14],'EQ-05':[2,19,21],'EQ-06':[1,12,13],'EQ-07':[2,11,12],'EQ-10':[7,9,10],'EQ-14':[5,6,2],'EQ-16':[1,2,11],'EQ-17':[1,2,11],'EQ-21':[1,2,3],'EQ-24':[20,21],'EQ-25':[28,30]};
+  const DEMO_PROD={
+    'EQ-01':[['PR-001',130],['PR-013',90],['PR-008',105]],
+    'EQ-02':[['PR-030',95],['PR-021',130],['PR-024',110]],
+    'EQ-03':[['PR-082',65],['PR-083',60],['PR-086',55]],
+    'EQ-04':[['PR-088',55],['PR-087',60],['PR-094',45]],
+    'EQ-05':[['PR-095',55]],
+    'EQ-06':[['PR-041',75],['PR-044',80],['PR-042',70]],
+    'EQ-07':[['PR-046',90],['PR-047',85],['PR-049',70]],
+    'EQ-10':[['PR-071',110],['PR-072',105],['PR-073',100]],
+    'EQ-14':[['PR-063',95],['PR-064',90]],
+    'EQ-16':[['PR-112',48],['PR-118',43],['PR-114',45]],
+    'EQ-17':[['PR-112',48],['PR-113',46],['PR-117',45]],
+    'EQ-21':[['PR-096',35],['PR-100',32],['PR-097',30]],
+    'EQ-24':[['PR-125',40],['PR-127',35]],
+    'EQ-25':[['PR-129',50],['PR-130',45]]
+  };
+  const DEMO_ASSY={'EQ-16':1,'EQ-17':1};
   function demoHourRows(date, shiftNum, ec){
     const rng=demoRng(date+'|'+shiftNum+'|'+ec);
-    const base=90+Math.floor(rng()*50);
+    const prods=DEMO_PROD[ec]||[['',100]];
+    const pidx=Math.floor(rng()*prods.length);
+    const hasSwitch=prods.length>1&&rng()<0.3;
+    const switchHour=hasSwitch?4+Math.floor(rng()*3):9;
+    const pidx2=hasSwitch?(pidx+1)%prods.length:pidx;
+    const crew=DEMO_ASSY[ec]?(2+Math.floor(rng()*3)):(ec==='EQ-21'?2:(rng()<0.15?2:1));
+    const opStart=Math.floor(rng()*DEMO_OPS.length);
+    const ops=[];for(let k=0;k<crew;k++)ops.push(DEMO_OPS[(opStart+k)%DEMO_OPS.length]);
     const rows=[];
     for(let hi=1;hi<=8;hi++){
-      const sm= hi===5?30:0;
+      const sm=hi===5?30:0;
       const availMins=60-sm;
-      const target=Math.round(base*availMins/60);
+      const pr=hi>=switchHour?prods[pidx2]:prods[pidx];
+      const rateEff=DEMO_ASSY[ec]?Math.round(pr[1]*crew/3):pr[1];
+      const target=Math.round(rateEff*availMins/60);
       const downtime=[];
       let dtMins=0;
-      if(rng()<0.3){dtMins=5+Math.floor(rng()*25);downtime.push({id:date+ec+hi+'d',mins:dtMins,dtCode:String(DEMO_DTC[Math.floor(rng()*DEMO_DTC.length)]),subItem:''});}
-      const eff=0.9+rng()*0.18;
-      const good=Math.max(0,Math.round(target*((availMins-dtMins)/availMins)*eff));
+      if(hasSwitch&&hi===switchHour){
+        dtMins=15+Math.floor(rng()*22);
+        downtime.push({id:date+ec+hi+'c',mins:dtMins,dtCode:'10',subItem:''});
+      }else if(rng()<0.3){
+        dtMins=5+Math.floor(rng()*25);
+        const code=DEMO_DTC[Math.floor(rng()*DEMO_DTC.length)];
+        const subN=DEMO_DT_SUBN[code];
+        downtime.push({id:date+ec+hi+'d',mins:dtMins,dtCode:String(code),subItem:subN?('Sub-item '+(1+Math.floor(rng()*subN))):''});
+      }
+      const eff=0.88+rng()*0.18;
+      const good=Math.max(0,Math.round(target*((availMins-Math.min(dtMins,availMins))/availMins)*eff));
       const defects=[];
       if(rng()<0.25){const codes=DEMO_DEFC[ec]||[1,2];defects.push({id:date+ec+hi+'q',qty:String(1+Math.floor(rng()*7)),defCode:String(codes[Math.floor(rng()*codes.length)])});}
-      rows.push({hourIdx:hi,productCode:'',scheduledMins:sm,target:target,goodUnits:String(good),downtime:downtime,defects:defects,submitted:true,operators:[DEMO_OPS[Math.floor(rng()*DEMO_OPS.length)]]});
+      rows.push({hourIdx:hi,productCode:pr[0],scheduledMins:sm,target:target,goodUnits:String(good),downtime:downtime,defects:defects,submitted:true,operators:ops});
     }
     return rows;
   }
@@ -124,7 +159,7 @@
       const ds=d.toISOString().split('T')[0];
       if(d.getDay()!==0){
         ['1','2'].forEach(sn=>{DEMO_EQUIP.forEach(ec=>{demoHourRows(ds,sn,ec).forEach(hr=>{
-          out.push({date:ds,shiftNum:sn,equipCode:ec,hourIdx:hr.hourIdx,productCode:'',scheduledMins:hr.scheduledMins,target:hr.target,goodUnits:hr.goodUnits,downtime:hr.downtime,defects:hr.defects,operators:hr.operators});
+          out.push({date:ds,shiftNum:sn,equipCode:ec,hourIdx:hr.hourIdx,productCode:hr.productCode,scheduledMins:hr.scheduledMins,target:hr.target,goodUnits:hr.goodUnits,downtime:hr.downtime,defects:hr.defects,operators:hr.operators});
         });});});
       }
       d.setDate(d.getDate()+1);guard++;
@@ -133,14 +168,95 @@
   }
   // Seed localStorage once per version so the app boots with a month of data
   try{
-    if(localStorage.getItem('oee_demo_seed')!=='v4'){
+    if(localStorage.getItem('oee_demo_seed')!=='v5'){
       localStorage.removeItem('oee_master_data');
       const entries=[];const d=new Date();
       for(let i=0;i<=32;i++){const dd=new Date(d);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(dd.toISOString().split('T')[0]));}
       localStorage.setItem('oee_production_data',JSON.stringify(entries));
-      localStorage.setItem('oee_demo_seed','v4');
+      localStorage.setItem('oee_demo_seed','v5');
     }
   }catch(e){console.warn('demo seed skipped',e);}
+
+
+  // ── DEMO API STATE: BDR approvals + Yamazumi projects (persisted so actions stick) ──
+  const DEMO_API_KEY='oee_demo_api_v1';
+  function demoDay(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split('T')[0];}
+  function demoApiSave(){try{localStorage.setItem(DEMO_API_KEY,JSON.stringify(demoApi));}catch(e){}}
+  function jres(obj,status){return Promise.resolve(new Response(JSON.stringify(obj),{status:status||200,headers:{'content-type':'application/json'}}));}
+  function ymzMeta(p){return{id:p.id,name:p.name,project_type:p.project_type,starred:!!p.starred,updated_at:p.updated_at,phase_count:((p.data&&p.data.phases)||[]).length};}
+  function demoApiDefaults(){
+    const hg=arr=>arr.map((v,i)=>({hourIdx:i+1,goodUnits:v}));
+    return {
+      bdr:[
+        {id:9101,status:'pending',equip_code:'EQ-01',product_code:'PR-013',detected_rate:104,current_target:90,hours_count:8,total_good:788,shift_date:demoDay(1),operators:['Person 3','Person 6'],created_at:demoDay(1)+'T21:40:00Z',total_dt_minutes:12,total_defects:3,availability:97.4,performance:111.2,quality:99.6,oee:107.9,hourly_good:hg([102,105,104,99,68,103,106,101])},
+        {id:9102,status:'pending',equip_code:'EQ-04',product_code:'PR-088',detected_rate:61,current_target:55,hours_count:8,total_good:462,shift_date:demoDay(2),operators:['Person 2'],created_at:demoDay(2)+'T21:15:00Z',total_dt_minutes:9,total_defects:2,availability:98.1,performance:109.6,quality:99.5,oee:106.9,hourly_good:hg([60,61,62,58,33,60,64,64])},
+        {id:9103,status:'pending',equip_code:'EQ-21',product_code:'PR-096',detected_rate:39,current_target:35,hours_count:8,total_good:295,shift_date:demoDay(3),operators:['Person 5','Person 7'],created_at:demoDay(3)+'T20:55:00Z',total_dt_minutes:16,total_defects:1,availability:96.7,performance:110.8,quality:99.7,oee:106.8,hourly_good:hg([38,39,40,37,20,39,41,41])},
+        {id:9104,status:'approved',equip_code:'EQ-02',product_code:'PR-030',detected_rate:104,current_target:95,hours_count:8,total_good:812,shift_date:demoDay(7),operators:['Person 1','Person 4'],created_at:demoDay(7)+'T21:20:00Z',decided_by:'Demo User',decided_at:demoDay(6)+'T13:05:00Z',hourly_good:hg([104,106,103,100,70,105,112,112])},
+        {id:9105,status:'approved',equip_code:'EQ-07',product_code:'PR-046',detected_rate:97,current_target:90,hours_count:8,total_good:756,shift_date:demoDay(9),operators:['Person 8'],created_at:demoDay(9)+'T21:30:00Z',decided_by:'Demo User',decided_at:demoDay(8)+'T14:45:00Z',hourly_good:hg([96,98,97,95,64,97,105,104])},
+        {id:9106,status:'approved',equip_code:'EQ-21',product_code:'PR-100',detected_rate:36,current_target:32,hours_count:8,total_good:283,shift_date:demoDay(12),operators:['Person 5','Person 2'],created_at:demoDay(12)+'T21:00:00Z',decided_by:'Demo User',decided_at:demoDay(11)+'T09:20:00Z',hourly_good:hg([36,37,36,35,19,36,42,42])}
+      ],
+      ymz:[{id:7001,name:'Equipment 5 Die Changeover',project_type:'SMED',starred:true,updated_at:demoDay(4)+'T16:30:00Z',data:{
+        name:'Equipment 5 Die Changeover',projectType:'SMED',owner:'Person 3',startDate:demoDay(75),endDate:demoDay(14),location:'Demo Plant',department:'Process 2',method:'Video Analysis + Yamazumi',
+        problemStatement:'Die changeovers on Equipment 5 averaged 63 minutes at baseline, consuming roughly 11 hours of capacity per month and forcing long production runs that inflated finished-goods inventory. The method varied by operator, and every step was performed with the press stopped.',
+        resultsStatement:'Two kaizen rounds converted external work, standardized the sequence, and staged tooling at point of use. Changeover time fell from 63.0 to 28.5 minutes (a 55% reduction) and the crew now follows one documented method across both shifts.',
+        financial:{laborRate:64.25,headcount:2,frequencyPerYear:104},
+        categories:[{id:'prep',name:'Preparation',color:'#4e79a7'},{id:'cleanup',name:'Cleanup',color:'#f28e2b'},{id:'remove',name:'Remove',color:'#e15759'},{id:'insert',name:'Insert',color:'#76b7b2'},{id:'setup',name:'Setup',color:'#59a14f'},{id:'plate',name:'Plate Setup',color:'#edc948'}],
+        phases:[
+          {id:'ph-base',name:'Baseline',notes:'Filmed three changeovers and averaged step times.',steps:[
+            {id:'b1',name:'Find and gather tools',duration:'7',categoryId:'prep',smedType:'',workType:'Waste',operator:'Person 3',notes:''},
+            {id:'b2',name:'Stage incoming die at press',duration:'6.5',categoryId:'prep',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'b3',name:'Drain and disconnect lines',duration:'5',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:''},
+            {id:'b4',name:'Unbolt and remove outgoing die',duration:'11',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:''},
+            {id:'b5',name:'Clean bolster and locate pins',duration:'6',categoryId:'cleanup',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'b6',name:'Set incoming die and align',duration:'12',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:''},
+            {id:'b7',name:'Torque hold-downs',duration:'6.5',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:''},
+            {id:'b8',name:'Reconnect and leak-check',duration:'4',categoryId:'setup',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'b9',name:'First-piece setup and adjust',duration:'5',categoryId:'setup',smedType:'',workType:'VA',operator:'Person 3',notes:''}
+          ]},
+          {id:'ph-k1',name:'Post-Kaizen 1',notes:'Externalized staging and tool presentation; changeover cart built.',steps:[
+            {id:'k1',name:'Find and gather tools',duration:'1',categoryId:'prep',smedType:'',workType:'NVA',operator:'Person 3',notes:'Shadow board on cart'},
+            {id:'k2',name:'Stage incoming die at press',duration:'0.5',categoryId:'prep',smedType:'',workType:'NVA',operator:'Person 3',notes:'Done before the stop'},
+            {id:'k3',name:'Drain and disconnect lines',duration:'4',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:''},
+            {id:'k4',name:'Unbolt and remove outgoing die',duration:'9',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:''},
+            {id:'k5',name:'Clean bolster and locate pins',duration:'4',categoryId:'cleanup',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'k6',name:'Set incoming die and align',duration:'11',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:''},
+            {id:'k7',name:'Torque hold-downs',duration:'5.5',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:''},
+            {id:'k8',name:'Reconnect and leak-check',duration:'3.5',categoryId:'setup',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'k9',name:'First-piece setup and adjust',duration:'4.5',categoryId:'setup',smedType:'',workType:'VA',operator:'Person 3',notes:''}
+          ]},
+          {id:'ph-cur',name:'Current State',notes:'Quick clamps installed; two-person parallel sequence standardized.',steps:[
+            {id:'c1',name:'Find and gather tools',duration:'0.5',categoryId:'prep',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'c2',name:'Stage incoming die at press',duration:'0.5',categoryId:'prep',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'c3',name:'Drain and disconnect lines',duration:'2.5',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:'Quick couplers'},
+            {id:'c4',name:'Unbolt and remove outgoing die',duration:'5.5',categoryId:'remove',smedType:'',workType:'NVA',operator:'Person 4',notes:'Quick clamps'},
+            {id:'c5',name:'Clean bolster and locate pins',duration:'2.5',categoryId:'cleanup',smedType:'',workType:'NVA',operator:'Person 3',notes:'Parallel with removal'},
+            {id:'c6',name:'Set incoming die and align',duration:'8.5',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:'Guide rails added'},
+            {id:'c7',name:'Torque hold-downs',duration:'3',categoryId:'insert',smedType:'',workType:'VA',operator:'Person 4',notes:'Quick clamps'},
+            {id:'c8',name:'Reconnect and leak-check',duration:'2.5',categoryId:'setup',smedType:'',workType:'NVA',operator:'Person 3',notes:''},
+            {id:'c9',name:'First-piece setup and adjust',duration:'3',categoryId:'setup',smedType:'',workType:'VA',operator:'Person 3',notes:'Preset standards card'}
+          ]}
+        ],
+        improvementsByPhase:[
+          {phase:1,text:'Built a changeover cart with shadow board; die staged before the press stops'},
+          {phase:1,text:'Converted tool gathering and die staging to external work'},
+          {phase:2,text:'Quick-clamp hold-downs replaced threaded fasteners'},
+          {phase:2,text:'Two-person parallel sequence documented and posted at the press'}
+        ],
+        equipmentUpgrades:['Hydraulic quick-clamp system for the remaining die set','Powered die cart to remove forklift dependency'],
+        yokotenOpportunities:['Apply the changeover cart concept to Equipment 3 and Equipment 4','Quick couplers on hydraulic lines across Process 2']
+      }}]
+    };
+  }
+  let demoApi=null;
+  try{demoApi=JSON.parse(localStorage.getItem(DEMO_API_KEY));}catch(e){}
+  if(!demoApi||!Array.isArray(demoApi.bdr)||!Array.isArray(demoApi.ymz)){demoApi=demoApiDefaults();demoApiSave();}
+  const DEMO_AI_DRAFTS={
+    problem:'Changeovers on this asset averaged 63 minutes at baseline, consuming roughly 11 hours of capacity per month. The method varied by operator and every step was performed with the equipment stopped.',
+    results:'External staging, quick clamps, and a standardized two-person sequence reduced changeover time by 55% versus baseline, recovering roughly 60 hours of capacity per year.',
+    improvements:'P1: Converted die staging and tool gathering to external work\nP1: Built a dedicated changeover cart with shadow board\nP2: Replaced threaded hold-downs with quick clamps\nP2: Documented a two-person parallel sequence',
+    equipment:'- Hydraulic quick-clamp system for the remaining die set\n- Powered die cart to remove forklift dependency',
+    yokoten:'- Apply the changeover cart concept to sister equipment in the same process\n- Quick couplers on hydraulic lines across the area'
+  };
 
   window.fetch = function(url, init) {
     if (typeof url !== 'string') url = url.url;
@@ -160,14 +276,75 @@
     if (base.startsWith('/api/mysql/downtime')) { if(!cache.dt[today]) cache.dt[today] = genDowntimeData(today); return Promise.resolve(new Response(JSON.stringify({date: today, events: cache.dt[today]}), {status:200, headers:{'content-type':'application/json'}})); }
     if (base === '/api/mysql/merged' || base.startsWith('/api/mysql/merged?')) { const q = url.includes('?') ? url.split('?')[1] : ''; const params = {}; q.split('&').forEach(kv => { const [k,v] = kv.split('='); if(k) params[k] = decodeURIComponent(v||''); }); const from = params.from || params.date || today; const to = params.to || params.date || from; return Promise.resolve(new Response(JSON.stringify({records: demoFlatRecords(from, to), timestamp: now}), {status:200, headers:{'content-type':'application/json'}})); }
 
+    // Demo BDR endpoints (stateful)
+    if (base === '/api/bdr' && (!init || !init.method || init.method === 'GET')) {
+      const q2 = url.includes('?') ? url.split('?')[1] : '';
+      const stM = q2.match(/status=([a-z]+)/);
+      return jres(stM ? demoApi.bdr.filter(b => b.status === stM[1]) : demoApi.bdr);
+    }
+    if (base === '/api/bdr' && init && init.method === 'POST') {
+      let b = {}; try { b = JSON.parse(init.body || '{}'); } catch(e) {}
+      const row = {id: Date.now(), status: 'pending', equip_code: b.equipCode, product_code: b.productCode,
+        detected_rate: b.detectedRate, current_target: b.currentTarget, hours_count: b.hoursCount,
+        total_good: b.totalGood, shift_date: b.shiftDate, operators: b.operators || [],
+        created_at: now, total_dt_minutes: b.totalDTMinutes || 0, total_defects: b.totalDefects || 0,
+        availability: b.availability || 0, performance: b.performance || 0, quality: b.quality || 0, oee: b.oee || 0,
+        hourly_good: b.hourlyGood || []};
+      demoApi.bdr.push(row); demoApiSave();
+      return jres({success: true, id: row.id});
+    }
+    const mBdr = base.match(/^\/api\/bdr\/(\d+)\/(approve|decline)$/);
+    if (mBdr) {
+      let b = {}; try { b = JSON.parse((init && init.body) || '{}'); } catch(e) {}
+      const row = demoApi.bdr.find(x => String(x.id) === mBdr[1]);
+      if (row) {
+        row.status = mBdr[2] === 'approve' ? 'approved' : 'declined';
+        row.decided_by = b.approvedBy || b.declinedBy || 'Demo User'; row.decided_at = now;
+        if (mBdr[2] === 'decline') row.decline_reason = b.reason || '';
+        demoApiSave();
+      }
+      return jres({success: true});
+    }
+    if (base === '/api/rates' && (!init || !init.method || init.method === 'GET')) {
+      return jres(demoApi.bdr.filter(b => b.status === 'approved').map(b => ({equip_code: b.equip_code, product_code: b.product_code, rate: b.detected_rate})));
+    }
+    // Demo Yamazumi endpoints (stateful)
+    if (base === '/api/yamazumi' && (!init || !init.method || init.method === 'GET')) return jres({projects: demoApi.ymz.map(ymzMeta)});
+    if (base === '/api/yamazumi' && init && init.method === 'POST') {
+      let b = {}; try { b = JSON.parse(init.body || '{}'); } catch(e) {}
+      const p = {id: Date.now(), name: b.name || 'Untitled', project_type: b.projectType || 'SMED', starred: false, updated_at: now, data: b.data || {}};
+      demoApi.ymz.push(p); demoApiSave();
+      return jres({project: p});
+    }
+    if (base === '/api/yamazumi/ai-draft') {
+      let b = {}; try { b = JSON.parse((init && init.body) || '{}'); } catch(e) {}
+      return jres({draft: DEMO_AI_DRAFTS[b.field] || 'Demo draft: refine this text to match your project.'});
+    }
+    if (/^\/api\/yamazumi\/\d+\/export/.test(base)) return jres({error: 'File export is turned off in this demo'}, 400);
+    const mYmz = base.match(/^\/api\/yamazumi\/(\d+)$/);
+    if (mYmz) {
+      const idx = demoApi.ymz.findIndex(p => String(p.id) === mYmz[1]);
+      const method = (init && init.method) || 'GET';
+      if (idx < 0) return jres({error: 'Not found'}, 404);
+      if (method === 'GET') return jres({project: demoApi.ymz[idx]});
+      if (method === 'PUT') {
+        let b = {}; try { b = JSON.parse(init.body || '{}'); } catch(e) {}
+        const p = demoApi.ymz[idx];
+        if (b.name !== undefined) p.name = b.name;
+        if (b.projectType !== undefined) p.project_type = b.projectType;
+        if (b.data !== undefined) p.data = b.data;
+        if (b.starred !== undefined) p.starred = b.starred;
+        p.updated_at = now; demoApiSave();
+        return jres({success: true});
+      }
+      if (method === 'DELETE') { demoApi.ymz.splice(idx, 1); demoApiSave(); return jres({success: true}); }
+    }
+
     // Other endpoints
     if (base.startsWith('/api/mysql/cycle-data')) { const d=[]; for(let i=0;i<20;i++) d.push({cycleTime: Math.round((10+Math.random()*20)*10)/10, timestamp: new Date(Date.now()-Math.random()*3600000).toISOString()}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }
     if (base.startsWith('/api/mysql/minute-data')) { const d=[]; for(let i=0;i<60;i++) d.push({minute: i, output: Math.floor(Math.random()*100), timestamp: new Date(Date.now()-i*60000).toISOString()}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }
-    if (base === '/api/rates') return Promise.resolve(new Response(JSON.stringify([{equipment:'EQ-01',rate:100},{equipment:'EQ-02',rate:105},{equipment:'EQ-03',rate:95},{equipment:'EQ-04',rate:110},{equipment:'EQ-05',rate:110},{equipment:'EQ-07',rate:98},{equipment:'EQ-10',rate:102}]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/rates/history') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/approvals') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/bdr') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/yamazumi') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/users') return Promise.resolve(new Response(JSON.stringify([{id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo OpsIQ system with simulated production data for all equipment',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/ai/settings') return Promise.resolve(new Response(JSON.stringify({}), {status:200, headers:{'content-type':'application/json'}}));
@@ -1143,11 +1320,11 @@ input[type=number]{-moz-appearance:textfield}
 .tv-range-btn{height:26px;padding:0 10px;border:none;border-radius:4px;font-size:10px;font-weight:600;font-family:inherit;background:transparent;color:var(--jm-text-ter);cursor:pointer;transition:all .15s}
 .tv-range-btn:hover{color:var(--jm-navy)}
 .tv-range-btn.active{background:var(--jm-navy);color:#fff;box-shadow:0 1px 3px rgba(27,61,110,.25)}
-.tv-grid{display:grid;gap:8px;flex:1;min-height:0;overflow:hidden}
+.tv-grid{display:grid;gap:10px;flex:1;min-height:0;overflow:hidden}
 .tv-empty{text-align:center;padding:80px 20px;color:var(--jm-text-sec)}
 .tv-empty svg{width:48px;height:48px;color:var(--jm-text-ter)}
-.tv-equip-card{background:var(--jm-surface);border-radius:10px;box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column;min-height:0}
-.tv-equip-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:linear-gradient(135deg,var(--jm-navy),#2A5199);color:#fff;flex-wrap:nowrap;gap:8px;flex-shrink:0}
+.tv-equip-card{background:var(--jm-surface);border-radius:14px;border:1px solid rgba(15,23,42,0.06);box-shadow:0 10px 28px rgba(15,23,42,0.09);overflow:hidden;display:flex;flex-direction:column;min-height:0}
+.tv-equip-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(120deg,#152E55 0%,var(--jm-navy) 55%,#2A5199 100%);color:#fff;flex-wrap:nowrap;gap:8px;flex-shrink:0}
 .tv-equip-name{display:flex;flex-direction:column;gap:1px;min-width:0;flex-shrink:1}
 .tv-equip-title{font-size:14px;font-weight:700;letter-spacing:-0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tv-equip-product{font-size:9px;opacity:0.7;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1168,7 +1345,7 @@ input[type=number]{-moz-appearance:textfield}
 .tv-bar-prev{height:100%;position:absolute;top:0;left:0;background:#D1D5DB;border-radius:3px;opacity:0.5}
 .tv-prev-info{font-size:7px;color:#94A3B8;padding:1px 8px;font-style:italic}
 .tv-summary-row{display:flex;gap:1px;background:var(--jm-border-light);flex-shrink:0}
-.tv-summary-stat{flex:1;text-align:center;padding:6px 4px;background:var(--jm-surface)}
+.tv-summary-stat{flex:1;text-align:center;padding:7px 4px;background:var(--jm-surface)}
 .tv-summary-val{display:block;font-size:14px;font-weight:800;color:var(--jm-navy);font-variant-numeric:tabular-nums}
 .tv-summary-label{display:block;font-size:8px;font-weight:600;color:var(--jm-text-ter);text-transform:uppercase;letter-spacing:0.3px;margin-top:1px}
 .tv-content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--jm-border-light);flex:1;min-height:0}
@@ -1847,7 +2024,7 @@ input[type=number]{-moz-appearance:textfield}
 <body><div class="demo-banner">DEMO MODE - All data is simulated. Not the live production system.</div>
 <div id="root"></div>
 <script>
-const LOGO_SRC='favicon.png';
+const LOGO_SRC='nk-logo.png';
 // ─── ALIASES ─────────────────────────────────────────────────────────────────
 const h=React.createElement;
 const{useState,useEffect,useRef,useCallback,useMemo}=React;
@@ -5779,7 +5956,7 @@ function SSYamazumi({user}){
   const [xlsBusy,setXlsBusy]=useState(false);
 
   // Load project list on mount
-  useEffect(()=>{API.ymzList().then(p=>{setProjects(p);if(p.length===0)setShowPicker(true);}).catch(()=>{});},[]);
+  useEffect(()=>{API.ymzList().then(p=>{setProjects(p);if(p.length===0)setShowPicker(true);else openProject((p.find(x=>x.starred)||p[0]).id);}).catch(()=>{});},[]);
 
   // Autosave debounced
   useEffect(()=>{
@@ -6590,7 +6767,7 @@ function SSDTAnalyzer({filtered,master}){
         ):h('div',{className:'dash-empty',style:{minHeight:200,display:'flex',alignItems:'center',justifyContent:'center'}},
           h('div',{style:{textAlign:'center'}},
             h('p',{style:{color:'var(--jm-text-ter)',fontSize:13}},'No sub-classifications recorded'),
-            h('p',{style:{color:'var(--jm-text-ter)',fontSize:11,marginTop:4}},'Sub-items appear when operators select Forklift/Operator etc.')))
+            h('p',{style:{color:'var(--jm-text-ter)',fontSize:11,marginTop:4}},'Sub-items appear when downtime events are classified with a sub-item.')))
       )
     ),
 
@@ -6978,6 +7155,44 @@ function AnalyticsView({dataVersion,master}){
     return [...set].sort();
   },[filtered,dataVersion]);
 
+  // ── AUTO-INSIGHTS: what needs attention in the selected range ──
+  const insights=useMemo(()=>{
+    if(filtered.length===0)return[];
+    const eqAgg={},dtAgg={},defAgg={},s1={},s2={};
+    filtered.forEach(r=>{
+      const av=60-(r.scheduledMins||0);const dtm=totalDTMins(r.downtime);const udtm=unschedDTMins(r.downtime);
+      const def=r.defects.reduce((s,x)=>s+parseInt(x.qty||0),0);
+      const tgt=(r.productCode?calcTarget(r.equipCode,r.productCode,r.scheduledMins||0,0):r.target)||r.target||0;
+      const ec=r.equipCode;
+      if(!eqAgg[ec])eqAgg[ec]={ec,sm:0,dtm:0,udtm:0,tgt:0,good:0,def:0,hrs:0};
+      const e=eqAgg[ec];e.sm+=av;e.dtm+=dtm;e.udtm+=udtm;e.tgt+=tgt;e.good+=r.goodUnits;e.def+=def;e.hrs++;
+      (r.downtime||[]).forEach(d=>{const c=String(d.dtCode||'');if(!c||c==='16')return;dtAgg[c]=(dtAgg[c]||0)+parseInt(d.mins||0);});
+      (r.defects||[]).forEach(d=>{const c=String(d.defCode||'');if(!c)return;defAgg[c]=(defAgg[c]||0)+parseInt(d.qty||0);});
+      const sh=String(r.shiftNum)==='2'?s2:s1;
+      sh.sm=(sh.sm||0)+av;sh.dtm=(sh.dtm||0)+dtm;sh.udtm=(sh.udtm||0)+udtm;sh.tgt=(sh.tgt||0)+tgt;sh.good=(sh.good||0)+r.goodUnits;sh.def=(sh.def||0)+def;
+    });
+    const oeeOf=e=>{const run=(e.sm||0)-(e.dtm||0),tp=(e.good||0)+(e.def||0),a=e.sm>0?((e.sm-(e.udtm||0))/e.sm)*100:0,p=run>0&&e.tgt>0?((tp*e.sm)/(run*e.tgt))*100:0,q=tp>0?(e.good/tp)*100:100;return a*p*q/10000;};
+    const eqs=Object.values(eqAgg).filter(e=>e.hrs>=8).map(e=>({...e,oee:oeeOf(e)}));
+    const out=[];
+    if(eqs.length>0){
+      const worst=[...eqs].sort((a,b)=>a.oee-b.oee)[0];
+      out.push({icon:'!',tone:worst.oee<60?'bad':'warn',title:getEquipName(worst.ec)+' \u2014 '+worst.oee.toFixed(1)+'% OEE',sub:'Lowest asset in range \u00b7 '+Math.round(worst.udtm)+' min unplanned DT',go:()=>{setSelectedEquip(worst.ec);setModule('equipment');}});
+    }
+    const topDT=Object.entries(dtAgg).sort((a,b)=>b[1]-a[1])[0];
+    if(topDT)out.push({icon:'\u23F1',tone:'warn',title:(DT_CODES[topDT[0]]||('Code '+topDT[0]))+' \u2014 '+Math.round(topDT[1])+' min',sub:'Top unplanned downtime driver',go:()=>setModule('downtime')});
+    const topDef=Object.entries(defAgg).sort((a,b)=>b[1]-a[1])[0];
+    if(topDef)out.push({icon:'\u25C6',tone:'warn',title:(DEF_CODES[topDef[0]]||('Code '+topDef[0]))+' \u2014 '+topDef[1]+' pcs',sub:'Top defect in range',go:()=>setModule('quality')});
+    if(s1.sm&&s2.sm){
+      const o1=oeeOf(s1),o2=oeeOf(s2);
+      if(Math.abs(o1-o2)>=2)out.push({icon:'\u21C4',tone:'info',title:'Shift gap \u2014 '+Math.abs(o1-o2).toFixed(1)+' pts',sub:'S1 '+o1.toFixed(1)+'% vs S2 '+o2.toFixed(1)+'% OEE',go:()=>setShiftFilter(o1<o2?'1':'2')});
+    }
+    if(eqs.length>1){
+      const best=[...eqs].sort((a,b)=>b.oee-a.oee)[0];
+      out.push({icon:'\u2605',tone:'good',title:getEquipName(best.ec)+' \u2014 '+best.oee.toFixed(1)+'% OEE',sub:'Best asset in range \u00b7 replicate the method',go:()=>{setSelectedEquip(best.ec);setModule('equipment');}});
+    }
+    return out;
+  },[filtered]);
+
   const modules=[
     {key:'oee',label:'OEE',icon:Icon.analytics},
     {key:'operator',label:'Operators',icon:Icon.users},
@@ -7303,10 +7518,11 @@ function AnalyticsView({dataVersion,master}){
     ),
 
     // ── MODULE TABS ──
-    h('div',{style:{display:'flex',gap:4,marginBottom:16,overflowX:'auto',paddingBottom:4,scrollbarWidth:'none',WebkitOverflowScrolling:'touch'}},
+    h('div',{style:{display:'inline-flex',gap:2,marginBottom:16,overflowX:'auto',padding:4,background:'var(--jm-bg)',borderRadius:12,maxWidth:'100%',scrollbarWidth:'none',WebkitOverflowScrolling:'touch'}},
       modules.map(m=>h('button',{key:m.key,onClick:()=>setModule(m.key),
-        style:{display:'flex',alignItems:'center',gap:6,padding:'8px 16px',borderRadius:8,border:module===m.key?'2px solid var(--jm-navy)':'2px solid var(--jm-border)',
-          background:module===m.key?'var(--jm-navy)':'#fff',color:module===m.key?'#fff':'var(--jm-text-sec)',
+        style:{display:'flex',alignItems:'center',gap:6,padding:'8px 14px',borderRadius:9,border:'none',
+          background:module===m.key?'var(--jm-navy)':'transparent',color:module===m.key?'#fff':'var(--jm-text-sec)',
+          boxShadow:module===m.key?'0 2px 8px rgba(27,61,110,.28)':'none',
           fontSize:12,fontWeight:600,cursor:'pointer',whiteSpace:'nowrap',transition:'all .15s'}},
         h('span',{style:{width:16,height:16}},h(m.icon)),m.label))
     ),
@@ -7333,6 +7549,36 @@ function AnalyticsView({dataVersion,master}){
           style:{padding:'6px 14px',borderRadius:6,border:aPreset===p.k?'2px solid var(--jm-navy)':'1px solid var(--jm-border)',
             background:aPreset===p.k?'var(--jm-navy)':'#fff',color:aPreset===p.k?'#fff':'var(--jm-text-sec)',
             fontSize:11,fontWeight:600,cursor:'pointer'}},p.l)
+      )
+    ),
+
+    // ── NEEDS ATTENTION + QUICK FIND ──
+    insights.length>0&&h('div',{style:{marginBottom:16}},
+      h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',gap:10,margin:'2px 0 8px',flexWrap:'wrap'}},
+        h('div',{style:{fontSize:10,fontWeight:800,color:'var(--jm-text-ter)',textTransform:'uppercase',letterSpacing:1.2}},'Needs attention \u2014 click to drill in'),
+        h('select',{defaultValue:'',onChange:e=>{const v=e.target.value;if(!v)return;if(v.indexOf('eq:')===0){setSelectedEquip(v.slice(3));setModule('equipment');}else{setSelectedOp(v.slice(3));setModule('operator');}e.target.value='';},
+          style:{padding:'6px 10px',borderRadius:8,border:'1px solid var(--jm-border)',fontSize:11,fontWeight:600,background:'var(--jm-surface, #fff)',color:'var(--jm-text-sec)',maxWidth:230}},
+          h('option',{value:''},'Quick find: asset or operator\u2026'),
+          h('optgroup',{label:'Equipment'},allEquip.filter(eq=>filtered.some(r=>r.equipCode===eq.code)).map(eq=>h('option',{key:eq.code,value:'eq:'+eq.code},eq.name))),
+          h('optgroup',{label:'Operators'},allOperators.map(op=>h('option',{key:op,value:'op:'+op},op)))
+        )
+      ),
+      h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(215px,1fr))',gap:10}},
+        insights.map((ins,i)=>{
+          const tones={bad:['#EF4444','rgba(239,68,68,.08)'],warn:['#F0A500','rgba(240,165,0,.10)'],good:['#34C759','rgba(52,199,89,.10)'],info:['#3B82F6','rgba(59,130,246,.08)']};
+          const t=tones[ins.tone]||tones.info;
+          return h('div',{key:i,onClick:ins.go,role:'button',tabIndex:0,
+            onMouseEnter:e=>{e.currentTarget.style.transform='translateY(-1px)';e.currentTarget.style.boxShadow='0 6px 18px rgba(15,23,42,.10)';},
+            onMouseLeave:e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 2px 10px rgba(15,23,42,.05)';},
+            style:{display:'flex',gap:10,alignItems:'flex-start',padding:'12px 14px',background:'var(--jm-surface)',border:'1px solid var(--jm-border)',borderLeft:'4px solid '+t[0],borderRadius:12,cursor:'pointer',boxShadow:'0 2px 10px rgba(15,23,42,.05)',transition:'transform .12s, box-shadow .12s'}},
+            h('div',{style:{width:26,height:26,borderRadius:8,background:t[1],color:t[0],display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:800,flexShrink:0}},ins.icon),
+            h('div',{style:{minWidth:0}},
+              h('div',{style:{fontSize:12.5,fontWeight:800,color:'var(--jm-navy)',lineHeight:1.3}},ins.title),
+              h('div',{style:{fontSize:10.5,color:'var(--jm-text-ter)',marginTop:2}},ins.sub),
+              h('div',{style:{fontSize:10,color:t[0],fontWeight:700,marginTop:4,letterSpacing:0.3}},'View \u2192')
+            )
+          );
+        })
       )
     ),
 
@@ -8664,7 +8910,7 @@ function TVView({dataVersion,master}){
       const isIdle=ls&&ls.idleSince;
       const isActiveDT=ls&&ls.activeDowntime;
       const liveCT=ls?ls.liveCycleTime:null;
-      return h('div',{key:eq.ec,className:'tv-equip-card'},
+      return h('div',{key:eq.ec,className:'tv-equip-card',style:{borderTop:'3px solid '+oeeColor(eq.oee)}},
       // Equipment header with OEE pills — OEE stands out
       h('div',{className:'tv-equip-header'+(isActiveDT||isIdle?' dt-active':'')},
         h('div',{className:'tv-equip-name'},
@@ -8713,6 +8959,13 @@ function TVView({dataVersion,master}){
             h('span',{key:'l',className:'tv-summary-label'},gap>=0?'Ahead':'Behind')
           ];})()
         ),
+        (()=>{const shiftHrs=(eq.currentShift==='2'?eq.s2:eq.s1);const hrsDone=shiftHrs.filter(r2=>parseInt(r2.goodUnits||0)>0).length;
+          if(hrsDone===0)return null;
+          const proj=Math.round(eq.good/hrsDone*8);const projTgt=eq.tgt>0?Math.round(eq.tgt/Math.max(shiftHrs.length,1)*8):0;
+          return h('div',{className:'tv-summary-stat'},
+            h('span',{className:'tv-summary-val',style:{color:projTgt>0?(proj>=projTgt?'#34C759':'#F0A500'):'var(--jm-navy)'}},proj.toLocaleString()),
+            h('span',{className:'tv-summary-label'},'Proj 8h')
+          );})(),
         h('div',{className:'tv-summary-stat'},
           h('span',{className:'tv-summary-val'},Math.round(eq.dtm)+'m'),
           h('span',{className:'tv-summary-label'},'DT')
@@ -8745,10 +8998,12 @@ function TVView({dataVersion,master}){
           // Header with prior shift info + operators
           h('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:isTV?4:1,flexShrink:0}},
             h('div',{className:'tv-section-title',style:{margin:0}},'Hourly — Shift ',eq.currentShift),
-            h('div',{style:{display:'flex',gap:isTV?14:8,alignItems:'center'}},
-              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#34C759'}}),'Over'),
-              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#FF3B30'}}),'Under'),
-              priorLabel&&h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#CBD5E1'}}),'Prior')
+            h('div',{style:{display:'flex',gap:isTV?12:7,alignItems:'center'}},
+              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#2FB25B'}}),'At target'),
+              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#F0A500'}}),'Within 10%'),
+              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#E5484D'}}),'Under'),
+              priorLabel&&h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz,height:dotSz,borderRadius:2,display:'inline-block',background:'#CBD5E1'}}),'Prior'),
+              h('span',{style:{fontSize:legFs,color:'#64748B',display:'flex',alignItems:'center',gap:3}},h('span',{style:{width:dotSz+4,height:2,display:'inline-block',background:'#64748B'}}),'Target')
             )
           ),
           eq.priorShift.isBDR?h('div',{style:{fontSize:priorFs,marginBottom:2,flexShrink:0,display:'flex',alignItems:'center',gap:4}},
@@ -8759,12 +9014,12 @@ function TVView({dataVersion,master}){
           h('div',{className:'tv-chart-wrap',style:isMobile?{height:240}:{flex:1,minHeight:0}},
             h(ResponsiveContainer,{width:'100%',height:isMobile?240:'100%'},
               h(ComposedChart,{data:chartData,margin:{top:isTV?28:20,right:4,bottom:4,left:0},barGap:1,barCategoryGap:'20%'},
-                h(CartesianGrid,{strokeDasharray:'3 3',stroke:'#E5E7EB',vertical:false}),
+                h(CartesianGrid,{stroke:'#EEF2F7',vertical:false}),
                 h(XAxis,{dataKey:'hour',tick:{fontSize:axFs,fill:'#64748B',fontWeight:isTV?700:400},tickLine:false,axisLine:{stroke:'#E5E7EB'}}),
                 h(YAxis,{tick:{fontSize:axFs,fill:'#94A3B8'},tickLine:false,axisLine:false,width:yW}),
-                priorLabel&&h(Bar,{dataKey:'prior',name:'Prior',fill:'#CBD5E1',radius:[2,2,0,0],isAnimationActive:false,maxBarSize:barMax}),
-                h(Bar,{dataKey:'current',name:'Current',radius:[2,2,0,0],isAnimationActive:false,maxBarSize:barMax},
-                  chartData.map((d,i)=>h(Cell,{key:i,fill:d.current>=d.target?'#34C759':'#FF3B30'})),
+                priorLabel&&h(Bar,{dataKey:'prior',name:'Prior',fill:'#CBD5E1',radius:[3,3,0,0],isAnimationActive:false,maxBarSize:barMax}),
+                h(Bar,{dataKey:'current',name:'Current',radius:[3,3,0,0],isAnimationActive:false,maxBarSize:barMax},
+                  chartData.map((d,i)=>h(Cell,{key:i,fill:d.current>=d.target?'#2FB25B':(d.current>=d.target*0.9?'#F0A500':'#E5484D')})),
                   h(LabelList,{dataKey:'current',position:'top',content:props=>{
                     const{x,y,width:w,value}=props;
                     if(typeof value==='undefined')return null;
@@ -8772,7 +9027,7 @@ function TVView({dataVersion,master}){
                     return h('text',{x:(x||0)+(w||0)/2,y:(y||0)-(isTV?4:2),textAnchor:'middle',fontSize:lblFs,fontWeight:800,fill:isDk?'#F1F5F9':'#374151'},value);
                   }})
                 ),
-                h(Line,{dataKey:'target',stroke:'#F59E0B',strokeDasharray:'6 3',strokeWidth:isTV?2.5:1.5,dot:false,isAnimationActive:false,connectNulls:true,name:'Target',legendType:'none',type:'step'})
+                h(Line,{dataKey:'target',stroke:'#64748B',strokeOpacity:0.9,strokeWidth:isTV?2.5:1.5,dot:false,isAnimationActive:false,connectNulls:true,name:'Target',legendType:'none',type:'step'})
               )
             )
           )
@@ -11281,7 +11536,7 @@ function App({authUser,onLogout}){
     h('div',{className:'app-layout'},
     // Sidebar
     h('nav',{className:'sidebar'},
-      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},h('img',{src:'favicon.png',alt:'',style:{width:30,height:30,display:'block',margin:'0 auto'}})),
+      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},h('img',{src:'nk-logo.png',alt:'',style:{width:30,height:30,display:'block',margin:'0 auto'}})),
       h('div',{className:'sidebar-nav'},
         h('button',{className:'sidebar-btn'+(screen==='dashboard'?' active':''),onClick:()=>setScreen('dashboard'),title:'Dashboard'},h(Icon.dashboard)),
         h('button',{className:'sidebar-btn'+(screen==='sixsigma'?' active':''),onClick:()=>setScreen('sixsigma'),title:'Six Sigma Toolbox'},h(Icon.sixsigma)),

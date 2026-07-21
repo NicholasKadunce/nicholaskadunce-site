@@ -620,18 +620,23 @@ footer {
 .capex-inv span { font-family: var(--serif); font-size: 0.9rem; font-weight: 600; color: var(--ink); display: block; margin-bottom: 0.35rem; }
 .capex-bar { height: 4px; background: var(--rule); }
 .capex-bar i { display: block; height: 100%; background: var(--blue); }
-.capex-tl { position: relative; height: 104px; margin-top: 2.25rem; }
-.capex-tl-line { position: absolute; left: 0; right: 0; top: 50px; height: 1px; background: var(--ink-faint); }
+.capex-tl { position: relative; height: 218px; margin-top: 2rem; }
+.capex-tl-line { position: absolute; left: 0; right: 0; top: 172px; height: 1px; background: var(--ink-faint); }
 .capex-tl-dot {
-  position: absolute; top: 50px; width: 9px; height: 9px; border-radius: 50%;
+  position: absolute; top: 172px; width: 9px; height: 9px; border-radius: 50%;
   background: var(--ink-muted); transform: translate(-50%, -50%);
 }
 .capex-tl-dot.auto { background: var(--blue); width: 13px; height: 13px; box-shadow: 0 0 0 4px rgba(51,84,78,0.14); }
-.capex-tl-lab {
-  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
-  white-space: nowrap; font-size: 0.62rem; font-weight: 500; color: var(--ink-light);
+.capex-tl-vwrap {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 3px; align-items: flex-end; justify-content: center;
 }
-.capex-tl-lab.below { top: 19px; bottom: auto; }
+.capex-tl-vlab {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  white-space: nowrap; font-size: 0.6rem; font-weight: 450; color: var(--ink-light);
+  letter-spacing: 0.02em;
+}
+.capex-tl-vlab.major { font-weight: 600; color: var(--ink); }
 .capex-tl-months {
   position: absolute; left: 0; right: 0; bottom: 0;
   display: flex; justify-content: space-between;
@@ -674,6 +679,17 @@ footer {
 .mini-legend { display: flex; gap: 1.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
 .mini-legend span { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.68rem; color: var(--ink-muted); }
 .mini-legend i { width: 10px; height: 10px; display: inline-block; border-radius: 1px; }
+.mini-legend .ml-note { color: var(--ink-faint); }
+
+/* Inventory class headers (aligned to chart group widths) */
+.inv-heads { display: flex; max-width: 900px; margin-top: 1.75rem; align-items: flex-end; }
+.inv-heads i { width: 58px; flex: none; }
+.inv-heads i.r { width: 48px; }
+.inv-heads span { flex: 7; text-align: center; }
+.inv-heads span.g2 { flex: 3; }
+.inv-heads span.g3 { flex: 1; }
+.inv-heads b { display: block; font-family: var(--serif); font-size: 0.8rem; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+.inv-heads em { display: block; font-style: normal; font-size: 0.66rem; color: var(--ink-muted); margin-top: 1px; }
 
 @media (max-width: 900px) {
   .roi-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -683,7 +699,7 @@ footer {
   .capex-row > div:first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 600px) {
-  .capex-tl-lab { font-size: 0.56rem; }
+  .capex-tl-vlab { font-size: 0.54rem; }
   .capex-tl-months span:nth-child(2n) { visibility: hidden; }
 }
 
@@ -729,7 +745,6 @@ footer {
 .rpt-track i.bad { background: #B0524A; }
 .rpt-track i.warn { background: #C1913C; }
 .rpt-foot { text-align: center; font-size: 0.6rem; color: var(--ink-muted); padding: 0.6rem; border-top: 1px solid var(--rule); }
-.capex-tl-lab.end { transform: translateX(-80%); bottom: 20px; }
 @media (max-width: 600px) {
   .rpt-shifts, .rpt-bars-grid { grid-template-columns: 1fr; }
   .rpt-shift + .rpt-shift { border-left: none; border-top: 1px solid var(--rule); }
@@ -847,7 +862,8 @@ footer {
   :root:not([data-theme="light"]) .c-slate { background: #8FA0B5; }
   :root:not([data-theme="light"]) .c-amber { background: #D9A441; }
 :root:not([data-theme="light"]) .capex-tl-months { color: var(--ink-light); }
-:root:not([data-theme="light"]) .capex-tl-lab { color: var(--ink-body); }
+:root:not([data-theme="light"]) .capex-tl-vlab { color: var(--ink-body); }
+:root:not([data-theme="light"]) .mini-legend .ml-note { color: var(--ink-light); }
 }
 
 [data-theme="dark"] {
@@ -872,7 +888,8 @@ footer {
 [data-theme="dark"] .c-slate { background: #8FA0B5; }
 [data-theme="dark"] .c-amber { background: #D9A441; }
 [data-theme="dark"] .capex-tl-months { color: var(--ink-light); }
-[data-theme="dark"] .capex-tl-lab { color: var(--ink-body); }
+[data-theme="dark"] .capex-tl-vlab { color: var(--ink-body); }
+[data-theme="dark"] .mini-legend .ml-note { color: var(--ink-light); }
 
 /* ── THEME TOGGLE ── */
 .theme-toggle {
@@ -1350,18 +1367,18 @@ footer {
             </div>
             <div class="capex-tl">
               <div class="capex-tl-line"></div>
-              <div class="capex-tl-dot" style="left:4.17%"></div>
-              <div class="capex-tl-dot" style="left:12.5%"></div>
-              <div class="capex-tl-dot" style="left:20.8%"><span class="capex-tl-lab below">LED &middot; $50K</span></div>
-              <div class="capex-tl-dot" style="left:29.2%"></div>
-              <div class="capex-tl-dot" style="left:37.5%"><span class="capex-tl-lab">Conveyor &middot; $180K</span></div>
-              <div class="capex-tl-dot" style="left:45.8%"></div>
-              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-lab below">Spares &middot; $85K</span></div>
-              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-lab">Air &middot; $120K</span></div>
-              <div class="capex-tl-dot" style="left:70.8%"><span class="capex-tl-lab below">Packaging &middot; $240K</span></div>
-              <div class="capex-tl-dot" style="left:79.2%"></div>
-              <div class="capex-tl-dot auto" style="left:87.5%"><span class="capex-tl-lab end">Automated cell &middot; $1.05M</span></div>
-              <div class="capex-tl-dot" style="left:95.8%"></div>
+              <div class="capex-tl-dot" style="left:4.17%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Dock Levelers &middot; $45K</span></span></div>
+              <div class="capex-tl-dot" style="left:12.5%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Spindle Rebuild &middot; $95K</span></span></div>
+              <div class="capex-tl-dot" style="left:20.8%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">LED Retrofit &middot; $50K</span></span></div>
+              <div class="capex-tl-dot" style="left:29.2%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Dust Collection &middot; $70K</span></span></div>
+              <div class="capex-tl-dot" style="left:37.5%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Conveyor Upgrade &middot; $180K</span></span></div>
+              <div class="capex-tl-dot" style="left:45.8%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Racking &middot; $75K</span></span></div>
+              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Critical Spares &middot; $85K</span></span></div>
+              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Air Overhaul &middot; $120K</span></span></div>
+              <div class="capex-tl-dot" style="left:70.8%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Packaging Robot &middot; $240K</span></span></div>
+              <div class="capex-tl-dot" style="left:79.2%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Guarding &middot; $40K</span></span></div>
+              <div class="capex-tl-dot auto" style="left:87.5%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab major">Automated Cell &middot; $1.05M</span></span></div>
+              <div class="capex-tl-dot" style="left:95.8%"><span class="capex-tl-vwrap"><span class="capex-tl-vlab">Water Skid &middot; $35K</span></span></div>
               <div class="capex-tl-months"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
             </div>
           </div>
@@ -1494,15 +1511,22 @@ footer {
         <!-- Inventory Pareto -->
         <div class="proj-item">
           <div class="proj-name">Inventory Breakdown &mdash; Where the Cash Sits</div>
-          <p class="proj-desc">Value on hand with a Pareto inside each class&mdash;finished goods, raw material, and WIP&mdash;so the conversation starts where the cash actually sits. Illustrative snapshot: $7.8M total, and two raw-material categories hold most of it.</p>
-          <div class="chart-wrap" style="margin-top:1.5rem; max-width:900px; height:340px; position:relative;">
+          <p class="proj-desc">Value on hand with a Pareto inside each class&mdash;finished goods, raw material, and WIP&mdash;so the conversation starts where the cash actually sits. Illustrative snapshot: $7.8M held near a healthy mix&mdash;roughly half finished goods for service level, a third raw material sized to supplier lead times, and minimal WIP.</p>
+          <div class="inv-heads">
+            <i></i>
+            <span><b>Finished Goods</b><em>$3.90M &middot; 50%</em></span>
+            <span class="g2"><b>Raw Material</b><em>$2.73M &middot; 35%</em></span>
+            <span class="g3"><b>WIP</b><em>$1.17M &middot; 15%</em></span>
+            <i class="r"></i>
+          </div>
+          <div class="chart-wrap" style="margin-top:0.4rem; max-width:900px; height:320px; position:relative;">
             <canvas id="inventoryChart"></canvas>
           </div>
           <div class="mini-legend">
-            <span><i class="c-slate"></i> Finished goods &middot; $1.83M (23.5%)</span>
-            <span><i class="c-petrol"></i> Raw material &middot; $4.75M (61.1%)</span>
-            <span><i class="c-amber"></i> WIP &middot; $1.20M (15.4%)</span>
-            <span style="color:var(--ink-faint)">&mdash;&bull;&mdash; cumulative % within class</span>
+            <span><i class="c-slate"></i> Finished goods &middot; $3.90M (50%)</span>
+            <span><i class="c-petrol"></i> Raw material &middot; $2.73M (35%)</span>
+            <span><i class="c-amber"></i> WIP &middot; $1.17M (15%)</span>
+            <span class="ml-note">&mdash;&bull;&mdash; cumulative % within class</span>
           </div>
         </div>
 
@@ -1547,7 +1571,7 @@ footer {
           </div>
           <div>
             <div class="exp-role-title">Plant Manager</div>
-            <p class="exp-role-intro">I lead end-to-end operations for a high-volume manufacturing site&mdash;a team of about 100&mdash;building the data systems and operating cadence that make performance predictable and scalable.</p>
+            <p class="exp-role-intro">Leading end-to-end operations for a high-volume manufacturing site&mdash;a team of about 100&mdash;and building the data systems and operating cadence that make performance predictable and scalable.</p>
             <ul class="exp-points">
               <li>Own full P&amp;L for a high-volume manufacturing site; in year one the team delivered a 36.7% output increase through operating-cadence redesign and data-driven target setting</li>
               <li>Built a financial forecasting model that improved operating net income visibility and reduced month-end variance, enabling faster executive decision-making</li>
@@ -1574,7 +1598,7 @@ footer {
           </div>
           <div>
             <div class="exp-role-title">Operations Manager</div>
-            <p class="exp-role-intro">Together with 17 front-line leaders, I turned fragmented operations into data-driven, flow-oriented manufacturing&mdash;scaling output while cutting losses.</p>
+            <p class="exp-role-intro">Together with 17 front-line leaders, turned fragmented operations into data-driven, flow-oriented manufacturing&mdash;scaling output while cutting losses.</p>
             <ul class="exp-points">
               <li>Launched the company's first production dashboards with OEE, automated gap analysis, and KPI charts for real-time clarity</li>
               <li>Shifted subassembly to one-piece flow, increasing throughput 41% and cutting defects 22%</li>
@@ -1590,7 +1614,7 @@ footer {
 
             <div class="exp-sub">
               <div class="exp-role-title">Quality Engineer</div>
-              <p class="exp-role-intro">I built the quality backbone that enabled next-generation products&mdash;faster testing, fewer defects, and ISO-anchored compliance.</p>
+              <p class="exp-role-intro">Built the quality backbone that enabled next-generation products&mdash;faster testing, fewer defects, and ISO-anchored compliance.</p>
               <ul class="exp-points">
                 <li>Built comprehensive quality systems for new product families, including controls and test protocols</li>
                 <li>Reduced testing cycles by ~60% with a high-efficiency routine that boosted throughput</li>
@@ -1615,7 +1639,7 @@ footer {
           </div>
           <div>
             <div class="exp-role-title">Regional Production Engineer</div>
-            <p class="exp-role-intro">I drove operational excellence across multiple facilities by scaling visibility, reliability, and process discipline.</p>
+            <p class="exp-role-intro">Drove operational excellence across multiple facilities by scaling visibility, reliability, and process discipline.</p>
             <ul class="exp-points">
               <li>Led Lean Six Sigma initiatives that increased specialty gas production 15%, adding over $1M in revenue</li>
               <li>Delivered 15+ improvement projects, cutting downtime by 25 days annually</li>
@@ -1637,7 +1661,7 @@ footer {
           </div>
           <div>
             <div class="exp-role-title">Shift Leader II</div>
-            <p class="exp-role-intro">I drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
+            <p class="exp-role-intro">Drove shift-level performance and safety excellence by empowering teams with lean discipline and data clarity.</p>
             <ul class="exp-points">
               <li>Led a team of six technicians and a process control engineer to a >5% OEE gain with zero recordable injuries</li>
               <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
@@ -1813,7 +1837,7 @@ const dataLabels = {
         const v = ds.data[i];
         if (v === null || v === undefined) return;
         ctx.save();
-        ctx.font = '500 9px Inter, sans-serif';
+        ctx.font = (ds.dlBold ? '600 9.5px' : '500 9px') + ' Inter, sans-serif';
         ctx.fillStyle = ds.dlColor || LABEL;
         ctx.textAlign = 'center';
         ctx.fillText(ds.dlFmt(v), el.x, ds.dlBelow ? el.y + 14 : el.y - 6);
@@ -1875,36 +1899,28 @@ new Chart(document.getElementById('paybackChart'), {
 
 // ─── INVENTORY — three Paretos on one chart (FG / RM / WIP) ───
 const invLabels = ['Product 1','Product 2','Product 3','Product 4','Product 5','Product 6','Product 7','Material 1','Material 2','Material 3','All WIP'];
-const invValues = [700, 420, 260, 170, 120, 90, 70, 3400, 1000, 350, 1200];
+const invValues = [1500, 900, 550, 380, 260, 180, 130, 1900, 600, 230, 1170];
 const invGroups = ['fg','fg','fg','fg','fg','fg','fg','rm','rm','rm','wip'];
 const invColors = invGroups.map(g => g === 'rm' ? ACCENT : g === 'fg' ? SLATE : AMBER);
-const fgCum  = [38, 61, 75, 85, 91, 96, 100, null, null, null, null];
-const rmCum  = [null, null, null, null, null, null, null, 72, 93, 100, null];
+const fgCum  = [38, 62, 76, 85, 92, 97, 100, null, null, null, null];
+const rmCum  = [null, null, null, null, null, null, null, 70, 92, 100, null];
 const wipCum = [null, null, null, null, null, null, null, null, null, null, 100];
 const invSections = {
   id: 'invSections',
   afterDraw(chart) {
     const { ctx, scales: { x }, chartArea } = chart;
     const groups = [
-      { from: 0, to: 6, label: 'Finished Goods', total: '$1.83M · 23.5%' },
-      { from: 7, to: 9, label: 'Raw Material', total: '$4.75M · 61.1%' },
-      { from: 10, to: 10, label: 'WIP', total: '$1.20M · 15.4%' }
+      { from: 0, to: 6, label: 'Finished Goods', total: '$3.90M · 50%' },
+      { from: 7, to: 9, label: 'Raw Material', total: '$2.73M · 35%' },
+      { from: 10, to: 10, label: 'WIP', total: '$1.17M · 15%' }
     ];
     ctx.save();
     groups.forEach((g, gi) => {
-      const cx = (x.getPixelForValue(g.from) + x.getPixelForValue(g.to)) / 2;
-      ctx.textAlign = 'center';
-      ctx.font = '600 11px Inter, sans-serif';
-      ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
-      ctx.fillText(g.label, cx, chartArea.top - 18);
-      ctx.font = '400 9px Inter, sans-serif';
-      ctx.fillStyle = isDark ? '#929086' : '#918F86';
-      ctx.fillText(g.total, cx, chartArea.top - 6);
       if (gi > 0) {
         const sep = (x.getPixelForValue(g.from - 1) + x.getPixelForValue(g.from)) / 2;
         ctx.strokeStyle = isDark ? 'rgba(255,255,255,0.10)' : '#DDDAD1';
         ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(sep, chartArea.top - 26); ctx.lineTo(sep, chartArea.bottom); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(sep, chartArea.top - 4); ctx.lineTo(sep, chartArea.bottom); ctx.stroke();
       }
     });
     ctx.restore();
@@ -1915,7 +1931,7 @@ new Chart(document.getElementById('inventoryChart'), {
     labels: invLabels,
     datasets: [
       { type: 'bar', label: 'Value on hand', data: invValues, backgroundColor: invColors, borderRadius: 2, barPercentage: 0.7, order: 2,
-        dlFmt: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K' },
+        dlFmt: v => v >= 1000 ? '$' + (v / 1000).toFixed(2) + 'M' : '$' + v + 'K', dlBold: true, dlColor: isDark ? '#ECEAE2' : '#1B1C1A' },
       { type: 'line', label: 'FG cumulative %', data: fgCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%', tension: 0.2 },
       { type: 'line', label: 'RM cumulative %', data: rmCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%', tension: 0.2 },
       { type: 'line', label: 'WIP cumulative %', data: wipCum, yAxisID: 'y1', borderColor: isDark ? '#ECEAE2' : '#1B1C1A', borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: isDark ? '#ECEAE2' : '#1B1C1A', spanGaps: false, order: 1, dlFmt: v => v + '%' }
@@ -1923,10 +1939,10 @@ new Chart(document.getElementById('inventoryChart'), {
   },
   plugins: [invSections, dataLabels],
   options: { responsive: true, maintainAspectRatio: false,
-    layout: { padding: { top: 34 } },
+    layout: { padding: { top: 12 } },
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 26 } },
+      title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.type === 'line' ? 'Cumulative within class: ' + c.parsed.y + '%' : '$' + c.parsed.y.toLocaleString() + 'K' } }
     },
     scales: {

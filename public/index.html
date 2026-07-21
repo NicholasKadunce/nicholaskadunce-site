@@ -606,14 +606,15 @@ footer {
 .capex-total-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500; }
 .capex-total-num { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--ink); }
 .capex-row {
-  display: grid; grid-template-columns: 1fr 100px 44px 170px; gap: 1.25rem;
+  display: grid; grid-template-columns: 1fr 118px 44px 170px; gap: 1.25rem;
   align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--rule);
 }
 .capex-proj { font-size: 0.86rem; font-weight: 500; color: var(--ink); }
 .capex-sub { font-size: 0.74rem; color: var(--ink-muted); margin-top: 2px; }
 .capex-type {
-  font-size: 0.58rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase;
-  color: var(--ink-muted); border: 1px solid var(--rule); padding: 0.2rem 0.4rem; text-align: center;
+  font-size: 0.56rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--ink-muted); border: 1px solid var(--rule); padding: 0.3rem 0.55rem; text-align: center;
+  white-space: nowrap;
 }
 .capex-type.auto { color: var(--blue); border-color: var(--blue); }
 .capex-when { font-size: 0.74rem; color: var(--ink-light); }
@@ -628,9 +629,10 @@ footer {
 }
 .capex-tl-dot.auto { background: var(--blue); width: 13px; height: 13px; box-shadow: 0 0 0 4px rgba(51,84,78,0.14); }
 .capex-tl-vwrap {
-  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 19px; left: 50%; transform: translateX(-50%);
   display: flex; gap: 3px; align-items: flex-end; justify-content: center;
 }
+.capex-tl-dot.auto .capex-tl-vwrap { bottom: 23px; }
 .capex-tl-vlab {
   writing-mode: vertical-rl; transform: rotate(180deg);
   white-space: nowrap; font-size: 0.6rem; font-weight: 450; color: var(--ink-light);

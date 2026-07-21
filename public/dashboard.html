@@ -13,7 +13,7 @@
 <script>
 (function() {
   const orig = window.fetch;
-  const equipmentNames = ['WV-SHEAR-AS1','WV-SHEAR-AS2','WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B','WV-HEAD-H2','WV-THREAD-T1','WV-THREAD-T2','WV-THREAD-AT','WV-PEEL-MAN','WV-PEEL-AUTO','WV-PEEL-SWAG','WV-CABLE-C1','WV-CABLE-C2','WV-CABLE-C3','WV-CABLE-C4'];
+  const equipmentNames = ['EQ-01','EQ-02','EQ-03','EQ-04','EQ-05','EQ-07','EQ-10','EQ-11','EQ-12','EQ-13','EQ-14','EQ-15','EQ-20','EQ-21','EQ-22','EQ-23'];
 
   function genEquipmentStatus() {
     const e = {};
@@ -85,10 +85,10 @@
 
   // ── DEMO SEED: deterministic shift-entry data so every view populates ──
   function demoRng(seedStr){let h=2166136261;for(let i=0;i<seedStr.length;i++){h^=seedStr.charCodeAt(i);h=Math.imul(h,16777619);}return function(){h=Math.imul(h^(h>>>15),2246822507);h=Math.imul(h^(h>>>13),3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
-  const DEMO_EQUIP=['WV-SHEAR-AS1','WV-SHEAR-AS2','WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B','WV-HEAD-H1','WV-HEAD-H2','WV-THREAD-T1','WV-PEEL-AUTO','WV-ASSY-A1','WV-ASSY-A2','WV-CABLE-C2'];
-  const DEMO_OPS=['A. Rivera','B. Chen','C. Novak','D. Ortiz','E. Walsh','F. Adams','G. Silva','H. Brooks'];
+  const DEMO_EQUIP=['EQ-01','EQ-02','EQ-03','EQ-04','EQ-05','EQ-06','EQ-07','EQ-10','EQ-14','EQ-16','EQ-17','EQ-21','EQ-24','EQ-25'];
+  const DEMO_OPS=['Person 1','Person 2','Person 3','Person 4','Person 5','Person 6','Person 7','Person 8'];
   const DEMO_DTC=[1,2,5,8,10,14,15];
-  const DEMO_DEFC={'WV-SHEAR-AS1':[1,2,3],'WV-SHEAR-AS2':[1,2,4],'WV-PRESS-400':[2,11,19],'WV-PRESS-500A':[2,11,14],'WV-PRESS-500B':[2,19,21],'WV-HEAD-H1':[1,12,13],'WV-HEAD-H2':[2,11,12],'WV-THREAD-T1':[7,9,10],'WV-PEEL-AUTO':[5,6,2],'WV-ASSY-A1':[1,2,11],'WV-ASSY-A2':[1,2,11],'WV-CABLE-C2':[1,2,3]};
+  const DEMO_DEFC={'EQ-01':[1,2,3],'EQ-02':[1,2,4],'EQ-03':[2,11,19],'EQ-04':[2,11,14],'EQ-05':[2,19,21],'EQ-06':[1,12,13],'EQ-07':[2,11,12],'EQ-10':[7,9,10],'EQ-14':[5,6,2],'EQ-16':[1,2,11],'EQ-17':[1,2,11],'EQ-21':[1,2,3],'EQ-24':[20,21],'EQ-25':[28,30]};
   function demoHourRows(date, shiftNum, ec){
     const rng=demoRng(date+'|'+shiftNum+'|'+ec);
     const base=90+Math.floor(rng()*50);
@@ -133,11 +133,12 @@
   }
   // Seed localStorage once per version so the app boots with a month of data
   try{
-    if(localStorage.getItem('oee_demo_seed')!=='v3'){
+    if(localStorage.getItem('oee_demo_seed')!=='v4'){
+      localStorage.removeItem('oee_master_data');
       const entries=[];const d=new Date();
-      for(let i=1;i<=32;i++){const dd=new Date(d);dd.setDate(dd.getDate()-i);if(dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(dd.toISOString().split('T')[0]));}
+      for(let i=0;i<=32;i++){const dd=new Date(d);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(dd.toISOString().split('T')[0]));}
       localStorage.setItem('oee_production_data',JSON.stringify(entries));
-      localStorage.setItem('oee_demo_seed','v3');
+      localStorage.setItem('oee_demo_seed','v4');
     }
   }catch(e){console.warn('demo seed skipped',e);}
 
@@ -162,13 +163,13 @@
     // Other endpoints
     if (base.startsWith('/api/mysql/cycle-data')) { const d=[]; for(let i=0;i<20;i++) d.push({cycleTime: Math.round((10+Math.random()*20)*10)/10, timestamp: new Date(Date.now()-Math.random()*3600000).toISOString()}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }
     if (base.startsWith('/api/mysql/minute-data')) { const d=[]; for(let i=0;i<60;i++) d.push({minute: i, output: Math.floor(Math.random()*100), timestamp: new Date(Date.now()-i*60000).toISOString()}); return Promise.resolve(new Response(JSON.stringify({data: d}), {status:200, headers:{'content-type':'application/json'}})); }
-    if (base === '/api/rates') return Promise.resolve(new Response(JSON.stringify([{equipment:'WV-SHEAR-AS1',rate:100},{equipment:'WV-SHEAR-AS2',rate:105},{equipment:'WV-PRESS-400',rate:95},{equipment:'WV-PRESS-500A',rate:110},{equipment:'WV-PRESS-500B',rate:110},{equipment:'WV-HEAD-H2',rate:98},{equipment:'WV-THREAD-T1',rate:102}]), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/rates') return Promise.resolve(new Response(JSON.stringify([{equipment:'EQ-01',rate:100},{equipment:'EQ-02',rate:105},{equipment:'EQ-03',rate:95},{equipment:'EQ-04',rate:110},{equipment:'EQ-05',rate:110},{equipment:'EQ-07',rate:98},{equipment:'EQ-10',rate:102}]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/rates/history') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/approvals') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/bdr') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/yamazumi') return Promise.resolve(new Response(JSON.stringify([]), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/users') return Promise.resolve(new Response(JSON.stringify([{id:1,username:'demo@opsiq.local',displayName:'Demo User',role:'supervisor'}]), {status:200, headers:{'content-type':'application/json'}}));
-    if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo OpsIQ system with simulated production data for all 16 equipment',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
+    if (base === '/api/ai/ask') return Promise.resolve(new Response(JSON.stringify({response:'Demo OpsIQ system with simulated production data for all equipment',sources:[]}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/ai/settings') return Promise.resolve(new Response(JSON.stringify({}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/sync') return Promise.resolve(new Response(JSON.stringify({success:true, synced:0}), {status:200, headers:{'content-type':'application/json'}}));
     if (base === '/api/data') return Promise.resolve(new Response(JSON.stringify({submissions:[], lastSync: now}), {status:200, headers:{'content-type':'application/json'}}));
@@ -1046,8 +1047,8 @@ input[type=number]{-moz-appearance:textfield}
 
 /* HOME */
 .home-welcome{text-align:center;padding:40px 20px}
-.home-logo-big{width:220px;margin:0 auto 20px}
-.home-logo-big img{width:100%;mix-blend-mode:multiply}
+.home-logo-big{width:140px;margin:0 auto 20px}
+.home-logo-big img{width:100%}
 .home-title{font-size:28px;font-weight:700;color:var(--jm-navy);letter-spacing:-0.5px;margin-bottom:8px}
 .home-subtitle{font-size:16px;color:var(--jm-text-sec);margin-bottom:32px}
 .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:500px;margin:0 auto}
@@ -1816,26 +1817,26 @@ input[type=number]{-moz-appearance:textfield}
 /* TV Live Status Enhancements */
 .tv-equip-header.dt-active{animation:tv-dt-pulse 2s ease-in-out infinite}
 @keyframes tv-dt-pulse{0%,100%{background:linear-gradient(135deg,#1B3D6E 0%,#234B8A 100%)}50%{background:linear-gradient(135deg,#7F1D1D 0%,#991B1B 100%)}}
-@keyframes gideon-spin-in{
+@keyframes recog-spin-in{
   0%{transform:scale(0.02) rotate(-1080deg);opacity:0}
   20%{opacity:1}
   70%{transform:scale(0.8) rotate(-90deg)}
   85%{transform:scale(1.05) rotate(5deg)}
   100%{transform:scale(1) rotate(0deg)}
 }
-@keyframes gideon-fade-out{
+@keyframes recog-fade-out{
   0%{opacity:1;transform:scale(1)}
   100%{opacity:0;transform:scale(1.1)}
 }
-.gideon-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);pointer-events:none}
-.gideon-card{animation:gideon-spin-in 2.5s cubic-bezier(0.22,1,0.36,1) forwards;max-width:90vw;max-height:90vh;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 0 80px rgba(245,158,11,0.5),0 0 160px rgba(245,158,11,0.2)}
-.gideon-card.fade-out{animation:gideon-fade-out 1.5s ease-in forwards}
-.gideon-card img{width:100%;height:auto;display:block;max-height:80vh;object-fit:contain}
-.gideon-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:20px 24px 16px;color:#fff}
-.gideon-info-title{font-size:28px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#F59E0B;text-shadow:0 2px 8px rgba(0,0,0,0.5);margin-bottom:4px}
-.gideon-info-equip{font-size:14px;font-weight:600;color:#FCD34D;margin-bottom:6px}
-.gideon-info-ops{display:flex;flex-wrap:wrap;gap:6px}
-.gideon-info-op{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#FCD34D}
+.recog-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);pointer-events:none}
+.recog-card{animation:recog-spin-in 2.5s cubic-bezier(0.22,1,0.36,1) forwards;max-width:90vw;max-height:90vh;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 0 80px rgba(245,158,11,0.5),0 0 160px rgba(245,158,11,0.2)}
+.recog-card.fade-out{animation:recog-fade-out 1.5s ease-in forwards}
+.recog-card img{width:100%;height:auto;display:block;max-height:80vh;object-fit:contain}
+.recog-info{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:20px 24px 16px;color:#fff}
+.recog-info-title{font-size:28px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#F59E0B;text-shadow:0 2px 8px rgba(0,0,0,0.5);margin-bottom:4px}
+.recog-info-equip{font-size:14px;font-weight:600;color:#FCD34D;margin-bottom:6px}
+.recog-info-ops{display:flex;flex-wrap:wrap;gap:6px}
+.recog-info-op{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#FCD34D}
 .tv-live-ct{display:flex;align-items:baseline;gap:4px;margin-top:4px}
 .tv-live-ct-val{font-size:16px;font-weight:800;color:#34C759;font-variant-numeric:tabular-nums}
 .tv-live-ct-label{font-size:8px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
@@ -1846,7 +1847,7 @@ input[type=number]{-moz-appearance:textfield}
 <body><div class="demo-banner">DEMO MODE - All data is simulated. Not the live production system.</div>
 <div id="root"></div>
 <script>
-const LOGO_SRC='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjIgNTAiPjx0ZXh0IHg9IjYxIiB5PSIzNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI2IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMjI1MUZGIj5PcHNJUTwvdGV4dD48L3N2Zz4=';
+const LOGO_SRC='favicon.png';
 // ─── ALIASES ─────────────────────────────────────────────────────────────────
 const h=React.createElement;
 const{useState,useEffect,useRef,useCallback,useMemo}=React;
@@ -1880,199 +1881,199 @@ const Icon={
 
 // ─── MASTER DATA ──────────────────────────────────────────────────────────────
 let INIT_EMPLOYEES=[];
-const INIT_OPERATORS=['ADAMS, JOSHUA L','BAYLOR, MORGAN','BIGGINS, CHRISTOPHER','BISHOFF, KEVIN','BOLYARD, MINGO','BORN, JEFFREY','BOWERS, ANTHONY','BOYLEN, CARL (RICKY)','CALE, WILLIAM','CASINO, MICHAEL','CASTEEL, PAYTON','DALTON, VERNON','DEAVERS, JAMES','DEAVERS, LUKE','DEAVERS, TYLER','DEGLER, GREGORY','DESANTIS, RODNEY (RUBBER)','DURR, WYATT','EVERLY, DAVID','FEARER, TRACY','GABLE, JOSH','GRIBBLE, ANTHONY','HARDESTY, BRIAN','HART, DEREK','HASKIELL, RICKY','HATCH, RODNEY','HAWKINS, JEREMY','HAYNES, CHRISTOPHER','HENLINE, GLEN','HERSHMAN, GIDEON','HERSHMAN, TRAVIS','HERSHMAN, WALKER','JOHNSON, ROBERT','KELLEY, CHRISTOPHER','KESNER, DAKOTA','KINSLEY, TERRY','KISNER, MARTY','KOSIK, ERIC','LONG, TONY','LONG, TONY JR','MACE, JUSTIN','MARKLEY, LEE','MARSH, QUENTIN','MAY, JAMES','MCCROBIE, ZACHARY','MCDONALD, JOHN','MCROBIE, ADAM','MENEAR, JERAMIAH','MORELAND, HAYDEN','MURRAY, RYAN','POLING, JAMES','PYLES, RONALD','RIFFLE, GEORGE','SHAFFER, ROY','SISLER, DAKOTA','SMITH, BYRON','SMITH, MATTHEW','STEMPLE, NICK','STEMPLE, RYAN','STOCKDALE, JUSTIN','STRAHIN, DARREN','STRAHIN, TRAVIS','SUMMERS, CASEY','SYPOLT, BRADLEY','TEETS, ALLEN','TEETS, SCOTT','THOMAS, JUNIOR(SKIP)','TRENUM, MATTHEW','TURNER, CODY','WEAVER, KOBE','WELCH, CARL','WHITE, WILLIAM','WILFONG, JAMES','WOLFE, GRANT','YANKOVICH, RYAN','ZEIGLER, TYLER'];
+const INIT_OPERATORS=['Person 1','Person 2','Person 3','Person 4','Person 5','Person 6','Person 7','Person 8','Person 9','Person 10','Person 11','Person 12','Person 13','Person 14','Person 15','Person 16','Person 17','Person 18','Person 19','Person 20','Person 21','Person 22','Person 23','Person 24','Person 25','Person 26','Person 27','Person 28','Person 29','Person 30','Person 31','Person 32','Person 33','Person 34','Person 35','Person 36','Person 37','Person 38','Person 39','Person 40','Person 41','Person 42','Person 43','Person 44','Person 45','Person 46','Person 47','Person 48','Person 49','Person 50','Person 51','Person 52','Person 53','Person 54','Person 55','Person 56','Person 57','Person 58','Person 59','Person 60','Person 61','Person 62','Person 63','Person 64','Person 65','Person 66','Person 67','Person 68','Person 69','Person 70','Person 71','Person 72','Person 73','Person 74','Person 75','Person 76','Person 77','Person 78','Person 79','Person 80','Person 81','Person 82','Person 83','Person 84','Person 85','Person 86','Person 87','Person 88','Person 89','Person 90','Person 91','Person 92','Person 93','Person 94','Person 95','Person 96','Person 97','Person 98','Person 99','Person 100','Person 101','Person 102','Person 103','Person 104','Person 105','Person 106','Person 107','Person 108','Person 109','Person 110','Person 111','Person 112','Person 113','Person 114','Person 115','Person 116','Person 117','Person 118','Person 119','Person 120','Person 121','Person 122','Person 123','Person 124','Person 125','Person 126','Person 127','Person 128','Person 129','Person 130','Person 131','Person 132','Person 133','Person 134','Person 135','Person 136','Person 137','Person 138','Person 139','Person 140','Person 141','Person 142','Person 143','Person 144','Person 145','Person 146','Person 147','Person 148','Person 149','Person 150','Person 151','Person 152'];
 const INIT_EQUIPMENT=[
-  {code:'WV-SHEAR-AS1',name:'Autoshear #1',process:'Shears',active:true},
-  {code:'WV-SHEAR-AS2',name:'Autoshear #2',process:'Shears',active:true},
-  {code:'WV-PRESS-400',name:'400 Press',process:'Presses',active:true},
-  {code:'WV-PRESS-500A',name:'500A Press',process:'Presses',active:true},
-  {code:'WV-PRESS-500B',name:'500B Press',process:'Presses',active:true},
-  {code:'WV-HEAD-H1',name:'Header #1',process:'Headers',active:true},
-  {code:'WV-HEAD-H2',name:'Header #2',process:'Headers',active:true},
-  {code:'WV-HEAD-H3',name:'Header #3',process:'Headers',active:true},
-  {code:'WV-HEAD-AUTO',name:'Auto Header',process:'Headers',active:true},
-  {code:'WV-THREAD-T1',name:'Threader #1',process:'Threaders',active:true},
-  {code:'WV-THREAD-T2',name:'Threader #2',process:'Threaders',active:true},
-  {code:'WV-THREAD-AT',name:'Autothreader',process:'Threaders',active:true},
-  {code:'WV-PEEL-MAN',name:'Manual Peeler',process:'Peeling',active:true},
-  {code:'WV-PEEL-AUTO',name:'AutoPeeler',process:'Peeling',active:true},
-  {code:'WV-PEEL-SWAG',name:'Swager',process:'Peeling',active:true},
-  {code:'WV-ASSY-A1',name:'Assembly #1',process:'Assembly',active:true},
-  {code:'WV-ASSY-A2',name:'Assembly #2',process:'Assembly',active:true},
-  {code:'WV-ASSY-A3',name:'Assembly #3',process:'Assembly',active:true},
-  {code:'WV-ASSY-A4',name:'Assembly #4',process:'Assembly',active:true},
-  {code:'WV-CABLE-C1',name:'Cable Line #1',process:'Cable Lines',active:true},
-  {code:'WV-CABLE-C2',name:'Cable Line #2',process:'Cable Lines',active:true},
-  {code:'WV-CABLE-C3',name:'Cable Line #3',process:'Cable Lines',active:true},
-  {code:'WV-CABLE-C4',name:'Cable Line #4',process:'Cable Lines',active:true},
-  {code:'WV-MISC-BIGSAW',name:'Big Saw',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-TIELINE',name:'Tie Line',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-OFFWELD',name:'Offline Welding',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-EYEBOLT',name:'Eyebolt',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-LANDISASSM',name:'Landis Threader',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-PIPEASSY',name:'Pipe Assembly',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-UNITS',name:'Unit Assembly',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-UNITS2',name:'Unit Assembly #2',process:'Misc Equipment',active:true},
-  {code:'WV-MISC-O2',name:'Offline Welding #2',process:'Misc Equipment',active:true},
+  {code:'EQ-01',name:'Equipment 1',process:'Process 1',active:true},
+  {code:'EQ-02',name:'Equipment 2',process:'Process 1',active:true},
+  {code:'EQ-03',name:'Equipment 3',process:'Process 2',active:true},
+  {code:'EQ-04',name:'Equipment 4',process:'Process 2',active:true},
+  {code:'EQ-05',name:'Equipment 5',process:'Process 2',active:true},
+  {code:'EQ-06',name:'Equipment 6',process:'Process 3',active:true},
+  {code:'EQ-07',name:'Equipment 7',process:'Process 3',active:true},
+  {code:'EQ-08',name:'Equipment 8',process:'Process 3',active:true},
+  {code:'EQ-09',name:'Equipment 9',process:'Process 3',active:true},
+  {code:'EQ-10',name:'Equipment 10',process:'Process 4',active:true},
+  {code:'EQ-11',name:'Equipment 11',process:'Process 4',active:true},
+  {code:'EQ-12',name:'Equipment 12',process:'Process 4',active:true},
+  {code:'EQ-13',name:'Equipment 13',process:'Process 5',active:true},
+  {code:'EQ-14',name:'Equipment 14',process:'Process 5',active:true},
+  {code:'EQ-15',name:'Equipment 15',process:'Process 5',active:true},
+  {code:'EQ-16',name:'Equipment 16',process:'Process 6',active:true},
+  {code:'EQ-17',name:'Equipment 17',process:'Process 6',active:true},
+  {code:'EQ-18',name:'Equipment 18',process:'Process 6',active:true},
+  {code:'EQ-19',name:'Equipment 19',process:'Process 6',active:true},
+  {code:'EQ-20',name:'Equipment 20',process:'Process 7',active:true},
+  {code:'EQ-21',name:'Equipment 21',process:'Process 7',active:true},
+  {code:'EQ-22',name:'Equipment 22',process:'Process 7',active:true},
+  {code:'EQ-23',name:'Equipment 23',process:'Process 7',active:true},
+  {code:'EQ-24',name:'Equipment 24',process:'Process 8',active:true},
+  {code:'EQ-25',name:'Equipment 25',process:'Process 8',active:true},
+  {code:'EQ-26',name:'Equipment 26',process:'Process 8',active:true},
+  {code:'EQ-27',name:'Equipment 27',process:'Process 8',active:true},
+  {code:'EQ-28',name:'Equipment 28',process:'Process 8',active:true},
+  {code:'EQ-29',name:'Equipment 29',process:'Process 8',active:true},
+  {code:'EQ-30',name:'Equipment 30',process:'Process 8',active:true},
+  {code:'EQ-31',name:'Equipment 31',process:'Process 8',active:true},
+  {code:'EQ-32',name:'Equipment 32',process:'Process 8',active:true},
 ];
-const ASSEMBLY_EQUIP=['WV-ASSY-A1','WV-ASSY-A2','WV-ASSY-A3','WV-ASSY-A4'];
+const ASSEMBLY_EQUIP=['EQ-16','EQ-17','EQ-18','EQ-19'];
 const PROCESS_GROUPS={
-  'Shears':{equipPrefix:'WV-SHEAR',letter:'AS',productPrefixes:['P-SH1','P-SH2']},
-  'Presses':{equipPrefix:'WV-PRESS',letter:'',productPrefixes:['P-P40','P-P5A','P-P5B']},
-  'Headers':{equipPrefix:'WV-HEAD',letter:'H',productPrefixes:['P-HD1','P-HD2','P-HD3']},
-  'Threaders':{equipPrefix:'WV-THREAD',letter:'T',productPrefixes:['P-TR1','P-TR2','P-ATH']},
-  'Peeling':{equipPrefix:'WV-PEEL',letter:'',productPrefixes:['P-MPL','P-APL','P-SWG']},
-  'Assembly':{equipPrefix:'WV-ASSY',letter:'A',productPrefixes:['P-ASY']},
-  'Cable Lines':{equipPrefix:'WV-CABLE',letter:'C',productPrefixes:['P-CBL']},
-  'Misc Equipment':{equipPrefix:'WV-MISC',letter:'',productPrefixes:['P-MSC']}
+  'Process 1':{equipPrefix:'EQ-G1',letter:'',productPrefixes:['PR-G1']},
+  'Process 2':{equipPrefix:'EQ-G2',letter:'',productPrefixes:['PR-G2']},
+  'Process 3':{equipPrefix:'EQ-G3',letter:'',productPrefixes:['PR-G3']},
+  'Process 4':{equipPrefix:'EQ-G4',letter:'',productPrefixes:['PR-G4']},
+  'Process 5':{equipPrefix:'EQ-G5',letter:'',productPrefixes:['PR-G5']},
+  'Process 6':{equipPrefix:'EQ-G6',letter:'',productPrefixes:['PR-G6']},
+  'Process 7':{equipPrefix:'EQ-G7',letter:'',productPrefixes:['PR-G7']},
+  'Process 8':{equipPrefix:'EQ-G8',letter:'',productPrefixes:['PR-G8']},
 };
 
 const INIT_PRODUCTS=[
-  // Shear 1
-  {code:'P-SH1-001',name:'5/8 x 24"'},{code:'P-SH1-002',name:'5/8 x 36"'},{code:'P-SH1-003',name:'5/8 x 48"'},{code:'P-SH1-004',name:'5/8 x 72"'},
-  {code:'P-SH1-005',name:'3/4 Eyebolt'},{code:'P-SH1-006',name:'51/64 x 48"'},{code:'P-SH1-007',name:'.677 x 60"'},
-  {code:'P-SH1-008',name:'6RB x 48"'},{code:'P-SH1-009',name:'6RB x 60"'},{code:'P-SH1-010',name:'6RB x 72"'},{code:'P-SH1-011',name:'6RB x 96"'},
-  {code:'P-SH1-012',name:'.804 x 48"'},{code:'P-SH1-013',name:'.804 x 72"'},{code:'P-SH1-014',name:'.804 x 96"'},{code:'P-SH1-015',name:'.804 x 120"'},{code:'P-SH1-016',name:'.804 x 174"'},
-  {code:'P-SH1-017',name:'7RB x 48"'},{code:'P-SH1-018',name:'7RB x 60"'},
-  // Shear 1 composites — produce primary length + drop simultaneously
-  {code:'P-SH1-C72-48',name:'.804 x 72", 48" drop',isComposite:true,primaryProductCode:'P-SH1-013',dropProductCode:'P-SH1-012'},
-  {code:'P-SH1-C96-72',name:'.804 x 96", 72" drop',isComposite:true,primaryProductCode:'P-SH1-014',dropProductCode:'P-SH1-013'},
-  // Shear 2
-  {code:'P-SH2-001',name:'5/8 x 24"'},{code:'P-SH2-002',name:'5/8 x 36"'},{code:'P-SH2-003',name:'5/8 x 48"'},{code:'P-SH2-004',name:'5/8 x 72"'},
-  {code:'P-SH2-005',name:'3/4 Eyebolt'},{code:'P-SH2-006',name:'51/64 x 48"'},{code:'P-SH2-007',name:'.677 x 60"'},
-  {code:'P-SH2-008',name:'6RB x 48"'},{code:'P-SH2-009',name:'6RB x 60"'},{code:'P-SH2-010',name:'6RB x 72"'},{code:'P-SH2-011',name:'6RB x 96"'},
-  {code:'P-SH2-012',name:'.804 x 48"'},{code:'P-SH2-013',name:'.804 x 72"'},{code:'P-SH2-014',name:'.804 x 96"'},{code:'P-SH2-015',name:'.804 x 120"'},{code:'P-SH2-016',name:'.804 x 174"'},
-  {code:'P-SH2-017',name:'7RB x 48"'},{code:'P-SH2-018',name:'7RB x 60"'},
-  // Shear 2 composites — produce primary length + drop simultaneously
-  {code:'P-SH2-C72-48',name:'.804 x 72", 48" drop',isComposite:true,primaryProductCode:'P-SH2-013',dropProductCode:'P-SH2-012'},
-  {code:'P-SH2-C96-72',name:'.804 x 96", 72" drop',isComposite:true,primaryProductCode:'P-SH2-014',dropProductCode:'P-SH2-013'},
-  // Header 1
-  {code:'P-HD1-001',name:'.804 x 72"'},{code:'P-HD1-002',name:'.804 x 96"'},{code:'P-HD1-003',name:'.804 x 120"'},
-  {code:'P-HD1-004',name:'7RB x 48"'},{code:'P-HD1-005',name:'7RB x 60"'},
-  // Header 2
-  {code:'P-HD2-001',name:'5/8 x 24"'},{code:'P-HD2-002',name:'5/8 x 36"'},{code:'P-HD2-003',name:'5/8 x 48"'},{code:'P-HD2-004',name:'5/8 x 72"'},
-  // Header 3
-  {code:'P-HD3-001',name:'.804 x 72"'},{code:'P-HD3-002',name:'.804 x 96"'},{code:'P-HD3-003',name:'.804 x 120"'},
-  {code:'P-HD3-004',name:'7RB x 48"'},{code:'P-HD3-005',name:'7RB x 60"'},
-  {code:'P-HD3-006',name:'6RB x 48"'},{code:'P-HD3-007',name:'6RB x 60"'},{code:'P-HD3-008',name:'6RB x 72"'},{code:'P-HD3-009',name:'51/64 x 48"'},
-  // Swaging
-  {code:'P-SWG-001',name:'.804 x 48"'},{code:'P-SWG-002',name:'.804 x 72"'},{code:'P-SWG-003',name:'.804 x 174"'},{code:'P-SWG-004',name:'.677 x 60"'},
-  // Auto Peel
-  {code:'P-APL-001',name:'.804 x 48"'},{code:'P-APL-002',name:'.804 x 72"'},
-  // Manual Peel
-  {code:'P-MPL-001',name:'.804 x 48"'},{code:'P-MPL-002',name:'.804 x 72"'},
-  // Auto Thread
-  {code:'P-ATH-001',name:'51/64 x 48"'},{code:'P-ATH-002',name:'.677 x 60"'},{code:'P-ATH-003',name:'.804 x 48"'},{code:'P-ATH-004',name:'.804 x 72"'},
-  // Threader 1
-  {code:'P-TR1-001',name:'5/8 x 24"'},{code:'P-TR1-002',name:'5/8 x 36"'},{code:'P-TR1-003',name:'5/8 x 48"'},
-  // Threader 2
-  {code:'P-TR2-001',name:'.677 x 60"'},{code:'P-TR2-002',name:'.804 x 48"'},{code:'P-TR2-003',name:'.804 x 72"'},{code:'P-TR2-004',name:'.804 x 174"'},
-  // Landis
-  {code:'P-LND-001',name:'Thread 1" x 48"'},{code:'P-LND-002',name:'Thread 7/8 x 48"'},{code:'P-LND-003',name:'Assm 1" x 48"'},{code:'P-LND-004',name:'Assm 7/8 x 48"'},
-  // Press 400T
-  {code:'P-P40-001',name:'5/32 x 6 x 6 Donut'},{code:'P-P40-002',name:'1/4 x 6 x 6 Donut'},{code:'P-P40-003',name:'5/32 x 8 x 8 Donut'},{code:'P-P40-004',name:'1/4 x 8 x 8 Donut'},{code:'P-P40-005',name:'Truss'},
-  // Press 500A
-  {code:'P-P5A-001',name:'1/4 x 4 x 4'},{code:'P-P5A-002',name:'1/4 x 6 x 6'},{code:'P-P5A-003',name:'3/8 x 4 x 4'},
-  {code:'P-P5A-004',name:'5/16 x 8 x 8 Volc'},{code:'P-P5A-005',name:'3/8 x 8 x 8 Flat'},{code:'P-P5A-006',name:'3/8 x 6 x 6 Flat'},
-  {code:'P-P5A-007',name:'1/2 x 6 x 6 Flat'},{code:'P-P5A-008',name:'1/2 x 8 x 8 Flat'},
-  // Press 500B
-  {code:'P-P5B-001',name:'1/4 x 6 x 7 Dome'},
-  // Cable Bolts
-  {code:'P-CBL-001',name:'.6 x 8\' ICC'},{code:'P-CBL-002',name:'.7 x 12\' ICC'},{code:'P-CBL-003',name:'.7 x 16\' ICC'},{code:'P-CBL-004',name:'.7 x 20\' ICC'},
 
-  {code:'P-CBL-007',name:'.7 x 8\' Passive'},{code:'P-CBL-008',name:'.7 x 12\' Passive'},{code:'P-CBL-009',name:'.7 x 14\' Passive'},
-  {code:'P-CBL-010',name:'.7 x 16\' Passive'},{code:'P-CBL-011',name:'.7 x 16\' passive w/plate'},{code:'P-CBL-012',name:'.7 x 20\' Passive'},
-  {code:'P-CBL-013',name:'.7 x 24\' Passive'},
-  {code:'P-CBL-014',name:'.7 x 10\' FG'},{code:'P-CBL-015',name:'.7 x 12\' FG'},{code:'P-CBL-016',name:'.7 x 16\' FG'},{code:'P-CBL-017',name:'.7 x 20\' FG'},
-  {code:'P-CBL-018',name:'.6 x 10\' Low Pro'},
-  // Assembly
-  {code:'P-ASY-001',name:'5/8 x 24"'},{code:'P-ASY-002',name:'5/8 x 36"'},{code:'P-ASY-003',name:'5/8 x 48"'},{code:'P-ASY-004',name:'5/8 x 72"'},
-  {code:'P-ASY-005',name:'.677 x 60"'},{code:'P-ASY-006',name:'51/64 x 48"'},
-  {code:'P-ASY-007',name:'.804 x 48"'},{code:'P-ASY-008',name:'.804 x 72"'},{code:'P-ASY-009',name:'.804 x 174"'},
-  {code:'P-ASY-010',name:'18mm x 48" Fiber'},
-  // Units
-  {code:'P-UNT-001',name:'7/8 Split'},{code:'P-UNT-002',name:'3/4 Split'},{code:'P-UNT-003',name:'5/8 J1M'},
-  // Big Saw
-  {code:'P-SAW-001',name:'7/8 x 48" HW'},{code:'P-SAW-002',name:'1" x 48" HW'},{code:'P-SAW-003',name:'1/2 x 40" Conduit'},{code:'P-SAW-004',name:'3/4 x 40" Conduit'},
-  // Tie Line
-  {code:'P-TIE-001',name:'Standard'},{code:'P-TIE-002',name:'Countersink'},
-  // Eye Bolt
-  {code:'P-EYE-001',name:'5/8'},{code:'P-EYE-002',name:'5/8 w/Tail'},{code:'P-EYE-003',name:'3/4'},{code:'P-EYE-004',name:'3/4 w/Tail'},
-  {code:'P-EYE-005',name:'.677 x 24"'},{code:'P-EYE-006',name:'7RB x 48"'},
-  // Weld
-  {code:'P-WLD-001',name:'3/4 x 40" Conduit'},{code:'P-WLD-002',name:'3/4 x 18" Conduit'},{code:'P-WLD-003',name:'Eye Bolts'},{code:'P-WLD-004',name:'Eye Bolts w/Tail'},
-  // Pipe Assembly
-  {code:'P-PPA-001',name:'3/4 x 40" Conduit'},{code:'P-PPA-002',name:'3/4 x 40" Half Grip'},
+  {code:'PR-001',name:'Product 1'},{code:'PR-002',name:'Product 2'},{code:'PR-003',name:'Product 3'},{code:'PR-004',name:'Product 4'},
+  {code:'PR-005',name:'Product 5'},{code:'PR-006',name:'Product 6'},{code:'PR-007',name:'Product 7'},
+  {code:'PR-008',name:'Product 8'},{code:'PR-009',name:'Product 9'},{code:'PR-010',name:'Product 10'},{code:'PR-011',name:'Product 11'},
+  {code:'PR-012',name:'Product 12'},{code:'PR-013',name:'Product 13'},{code:'PR-014',name:'Product 14'},{code:'PR-015',name:'Product 15'},{code:'PR-016',name:'Product 16'},
+  {code:'PR-017',name:'Product 17'},{code:'PR-018',name:'Product 18'},
+
+  {code:'PR-019',name:'Product 19',isComposite:true,primaryProductCode:'PR-013',dropProductCode:'PR-012'},
+  {code:'PR-020',name:'Product 20',isComposite:true,primaryProductCode:'PR-014',dropProductCode:'PR-013'},
+
+  {code:'PR-021',name:'Product 21'},{code:'PR-022',name:'Product 22'},{code:'PR-023',name:'Product 23'},{code:'PR-024',name:'Product 24'},
+  {code:'PR-025',name:'Product 25'},{code:'PR-026',name:'Product 26'},{code:'PR-027',name:'Product 27'},
+  {code:'PR-028',name:'Product 28'},{code:'PR-029',name:'Product 29'},{code:'PR-030',name:'Product 30'},{code:'PR-031',name:'Product 31'},
+  {code:'PR-032',name:'Product 32'},{code:'PR-033',name:'Product 33'},{code:'PR-034',name:'Product 34'},{code:'PR-035',name:'Product 35'},{code:'PR-036',name:'Product 36'},
+  {code:'PR-037',name:'Product 37'},{code:'PR-038',name:'Product 38'},
+
+  {code:'PR-039',name:'Product 39',isComposite:true,primaryProductCode:'PR-033',dropProductCode:'PR-032'},
+  {code:'PR-040',name:'Product 40',isComposite:true,primaryProductCode:'PR-034',dropProductCode:'PR-033'},
+
+  {code:'PR-041',name:'Product 41'},{code:'PR-042',name:'Product 42'},{code:'PR-043',name:'Product 43'},
+  {code:'PR-044',name:'Product 44'},{code:'PR-045',name:'Product 45'},
+
+  {code:'PR-046',name:'Product 46'},{code:'PR-047',name:'Product 47'},{code:'PR-048',name:'Product 48'},{code:'PR-049',name:'Product 49'},
+
+  {code:'PR-050',name:'Product 50'},{code:'PR-051',name:'Product 51'},{code:'PR-052',name:'Product 52'},
+  {code:'PR-053',name:'Product 53'},{code:'PR-054',name:'Product 54'},
+  {code:'PR-055',name:'Product 55'},{code:'PR-056',name:'Product 56'},{code:'PR-057',name:'Product 57'},{code:'PR-058',name:'Product 58'},
+
+  {code:'PR-059',name:'Product 59'},{code:'PR-060',name:'Product 60'},{code:'PR-061',name:'Product 61'},{code:'PR-062',name:'Product 62'},
+
+  {code:'PR-063',name:'Product 63'},{code:'PR-064',name:'Product 64'},
+
+  {code:'PR-065',name:'Product 65'},{code:'PR-066',name:'Product 66'},
+
+  {code:'PR-067',name:'Product 67'},{code:'PR-068',name:'Product 68'},{code:'PR-069',name:'Product 69'},{code:'PR-070',name:'Product 70'},
+
+  {code:'PR-071',name:'Product 71'},{code:'PR-072',name:'Product 72'},{code:'PR-073',name:'Product 73'},
+
+  {code:'PR-074',name:'Product 74'},{code:'PR-075',name:'Product 75'},{code:'PR-076',name:'Product 76'},{code:'PR-077',name:'Product 77'},
+
+  {code:'PR-078',name:'Product 78'},{code:'PR-079',name:'Product 79'},{code:'PR-080',name:'Product 80'},{code:'PR-081',name:'Product 81'},
+
+  {code:'PR-082',name:'Product 82'},{code:'PR-083',name:'Product 83'},{code:'PR-084',name:'Product 84'},{code:'PR-085',name:'Product 85'},{code:'PR-086',name:'Product 86'},
+
+  {code:'PR-087',name:'Product 87'},{code:'PR-088',name:'Product 88'},{code:'PR-089',name:'Product 89'},
+  {code:'PR-090',name:'Product 90'},{code:'PR-091',name:'Product 91'},{code:'PR-092',name:'Product 92'},
+  {code:'PR-093',name:'Product 93'},{code:'PR-094',name:'Product 94'},
+
+  {code:'PR-095',name:'Product 95'},
+
+  {code:'PR-096',name:'Product 96'},{code:'PR-097',name:'Product 97'},{code:'PR-098',name:'Product 98'},{code:'PR-099',name:'Product 99'},
+
+  {code:'PR-100',name:'Product 100'},{code:'PR-101',name:'Product 101'},{code:'PR-102',name:'Product 102'},
+  {code:'PR-103',name:'Product 103'},{code:'PR-104',name:'Product 104'},{code:'PR-105',name:'Product 105'},
+  {code:'PR-106',name:'Product 106'},
+  {code:'PR-107',name:'Product 107'},{code:'PR-108',name:'Product 108'},{code:'PR-109',name:'Product 109'},{code:'PR-110',name:'Product 110'},
+  {code:'PR-111',name:'Product 111'},
+
+  {code:'PR-112',name:'Product 112'},{code:'PR-113',name:'Product 113'},{code:'PR-114',name:'Product 114'},{code:'PR-115',name:'Product 115'},
+  {code:'PR-116',name:'Product 116'},{code:'PR-117',name:'Product 117'},
+  {code:'PR-118',name:'Product 118'},{code:'PR-119',name:'Product 119'},{code:'PR-120',name:'Product 120'},
+  {code:'PR-121',name:'Product 121'},
+
+  {code:'PR-122',name:'Product 122'},{code:'PR-123',name:'Product 123'},{code:'PR-124',name:'Product 124'},
+
+  {code:'PR-125',name:'Product 125'},{code:'PR-126',name:'Product 126'},{code:'PR-127',name:'Product 127'},{code:'PR-128',name:'Product 128'},
+
+  {code:'PR-129',name:'Product 129'},{code:'PR-130',name:'Product 130'},
+
+  {code:'PR-131',name:'Product 131'},{code:'PR-132',name:'Product 132'},{code:'PR-133',name:'Product 133'},{code:'PR-134',name:'Product 134'},
+  {code:'PR-135',name:'Product 135'},{code:'PR-136',name:'Product 136'},
+
+  {code:'PR-137',name:'Product 137'},{code:'PR-138',name:'Product 138'},{code:'PR-139',name:'Product 139'},{code:'PR-140',name:'Product 140'},
+
+  {code:'PR-141',name:'Product 141'},{code:'PR-142',name:'Product 142'},
 ];
 
 const EQUIP_PRODUCTS={
-  'WV-SHEAR-AS1':['P-SH1-001','P-SH1-002','P-SH1-003','P-SH1-004','P-SH1-005','P-SH1-006','P-SH1-007','P-SH1-008','P-SH1-009','P-SH1-010','P-SH1-011','P-SH1-012','P-SH1-013','P-SH1-014','P-SH1-015','P-SH1-016','P-SH1-017','P-SH1-018','P-SH1-C72-48','P-SH1-C96-72'],
-  'WV-SHEAR-AS2':['P-SH2-001','P-SH2-002','P-SH2-003','P-SH2-004','P-SH2-005','P-SH2-006','P-SH2-007','P-SH2-008','P-SH2-009','P-SH2-010','P-SH2-011','P-SH2-012','P-SH2-013','P-SH2-014','P-SH2-015','P-SH2-016','P-SH2-017','P-SH2-018','P-SH2-C72-48','P-SH2-C96-72'],
-  'WV-PRESS-400':['P-P40-001','P-P40-002','P-P40-003','P-P40-004','P-P40-005'],
-  'WV-PRESS-500A':['P-P5A-001','P-P5A-002','P-P5A-003','P-P5A-004','P-P5A-005','P-P5A-006','P-P5A-007','P-P5A-008'],
-  'WV-PRESS-500B':['P-P5B-001'],
-  'WV-HEAD-H1':['P-HD1-001','P-HD1-002','P-HD1-003','P-HD1-004','P-HD1-005'],
-  'WV-HEAD-H2':['P-HD2-001','P-HD2-002','P-HD2-003','P-HD2-004'],
-  'WV-HEAD-H3':['P-HD3-001','P-HD3-002','P-HD3-003','P-HD3-004','P-HD3-005','P-HD3-006','P-HD3-007','P-HD3-008','P-HD3-009'],
-  'WV-HEAD-AUTO':['P-HD1-001','P-HD1-002','P-HD1-003','P-HD1-004','P-HD1-005'],
-  'WV-THREAD-T1':['P-TR1-001','P-TR1-002','P-TR1-003'],
-  'WV-THREAD-T2':['P-TR2-001','P-TR2-002','P-TR2-003','P-TR2-004'],
-  'WV-THREAD-AT':['P-ATH-001','P-ATH-002','P-ATH-003','P-ATH-004'],
-  'WV-PEEL-MAN':['P-MPL-001','P-MPL-002'],
-  'WV-PEEL-AUTO':['P-APL-001','P-APL-002'],
-  'WV-PEEL-SWAG':['P-SWG-001','P-SWG-002','P-SWG-003','P-SWG-004'],
-  'WV-ASSY-A1':['P-ASY-001','P-ASY-002','P-ASY-003','P-ASY-004','P-ASY-005','P-ASY-006','P-ASY-007','P-ASY-008','P-ASY-009','P-ASY-010'],
-  'WV-ASSY-A2':['P-ASY-001','P-ASY-002','P-ASY-003','P-ASY-004','P-ASY-005','P-ASY-006','P-ASY-007','P-ASY-008','P-ASY-009','P-ASY-010'],
-  'WV-ASSY-A3':['P-ASY-001','P-ASY-002','P-ASY-003','P-ASY-004','P-ASY-005','P-ASY-006','P-ASY-007','P-ASY-008','P-ASY-009'],
-  'WV-ASSY-A4':['P-ASY-001','P-ASY-002','P-ASY-003','P-ASY-004','P-ASY-005','P-ASY-006','P-ASY-007','P-ASY-008','P-ASY-009'],
-  'WV-CABLE-C1':['P-CBL-001','P-CBL-002','P-CBL-003','P-CBL-004','P-CBL-007','P-CBL-008','P-CBL-009','P-CBL-010','P-CBL-011','P-CBL-012','P-CBL-013','P-CBL-014','P-CBL-015','P-CBL-016','P-CBL-017','P-CBL-018'],
-  'WV-CABLE-C2':['P-CBL-001','P-CBL-002','P-CBL-003','P-CBL-004','P-CBL-007','P-CBL-008','P-CBL-009','P-CBL-010','P-CBL-011','P-CBL-012','P-CBL-013','P-CBL-014','P-CBL-015','P-CBL-016','P-CBL-017','P-CBL-018'],
-  'WV-CABLE-C3':['P-CBL-001','P-CBL-002','P-CBL-003','P-CBL-004','P-CBL-007','P-CBL-008','P-CBL-009','P-CBL-010','P-CBL-011','P-CBL-012','P-CBL-013','P-CBL-014','P-CBL-015','P-CBL-016','P-CBL-017','P-CBL-018'],
-  'WV-CABLE-C4':['P-CBL-001','P-CBL-002','P-CBL-003','P-CBL-004','P-CBL-007','P-CBL-008','P-CBL-009','P-CBL-010','P-CBL-011','P-CBL-012','P-CBL-013','P-CBL-014','P-CBL-015','P-CBL-016','P-CBL-017','P-CBL-018'],
-  'WV-MISC-BIGSAW':['P-SAW-001','P-SAW-002','P-SAW-003','P-SAW-004'],
-  'WV-MISC-TIELINE':['P-TIE-001','P-TIE-002'],
-  'WV-MISC-OFFWELD':['P-WLD-001','P-WLD-002','P-WLD-003','P-WLD-004'],
-  'WV-MISC-EYEBOLT':['P-EYE-001','P-EYE-002','P-EYE-003','P-EYE-004','P-EYE-005','P-EYE-006'],
-  'WV-MISC-LANDISASSM':['P-LND-001','P-LND-002','P-LND-003','P-LND-004'],
-  'WV-MISC-PIPEASSY':['P-PPA-001','P-PPA-002'],
-  'WV-MISC-UNITS':['P-UNT-001','P-UNT-002','P-UNT-003'],
-  'WV-MISC-UNITS2':['P-UNT-001','P-UNT-002','P-UNT-003'],
-  'WV-MISC-O2':['P-WLD-001'],
+  'EQ-01':['PR-001','PR-002','PR-003','PR-004','PR-005','PR-006','PR-007','PR-008','PR-009','PR-010','PR-011','PR-012','PR-013','PR-014','PR-015','PR-016','PR-017','PR-018','PR-019','PR-020'],
+  'EQ-02':['PR-021','PR-022','PR-023','PR-024','PR-025','PR-026','PR-027','PR-028','PR-029','PR-030','PR-031','PR-032','PR-033','PR-034','PR-035','PR-036','PR-037','PR-038','PR-039','PR-040'],
+  'EQ-03':['PR-082','PR-083','PR-084','PR-085','PR-086'],
+  'EQ-04':['PR-087','PR-088','PR-089','PR-090','PR-091','PR-092','PR-093','PR-094'],
+  'EQ-05':['PR-095'],
+  'EQ-06':['PR-041','PR-042','PR-043','PR-044','PR-045'],
+  'EQ-07':['PR-046','PR-047','PR-048','PR-049'],
+  'EQ-08':['PR-050','PR-051','PR-052','PR-053','PR-054','PR-055','PR-056','PR-057','PR-058'],
+  'EQ-09':['PR-041','PR-042','PR-043','PR-044','PR-045'],
+  'EQ-10':['PR-071','PR-072','PR-073'],
+  'EQ-11':['PR-074','PR-075','PR-076','PR-077'],
+  'EQ-12':['PR-067','PR-068','PR-069','PR-070'],
+  'EQ-13':['PR-065','PR-066'],
+  'EQ-14':['PR-063','PR-064'],
+  'EQ-15':['PR-059','PR-060','PR-061','PR-062'],
+  'EQ-16':['PR-112','PR-113','PR-114','PR-115','PR-116','PR-117','PR-118','PR-119','PR-120','PR-121'],
+  'EQ-17':['PR-112','PR-113','PR-114','PR-115','PR-116','PR-117','PR-118','PR-119','PR-120','PR-121'],
+  'EQ-18':['PR-112','PR-113','PR-114','PR-115','PR-116','PR-117','PR-118','PR-119','PR-120'],
+  'EQ-19':['PR-112','PR-113','PR-114','PR-115','PR-116','PR-117','PR-118','PR-119','PR-120'],
+  'EQ-20':['PR-096','PR-097','PR-098','PR-099','PR-100','PR-101','PR-102','PR-103','PR-104','PR-105','PR-106','PR-107','PR-108','PR-109','PR-110','PR-111'],
+  'EQ-21':['PR-096','PR-097','PR-098','PR-099','PR-100','PR-101','PR-102','PR-103','PR-104','PR-105','PR-106','PR-107','PR-108','PR-109','PR-110','PR-111'],
+  'EQ-22':['PR-096','PR-097','PR-098','PR-099','PR-100','PR-101','PR-102','PR-103','PR-104','PR-105','PR-106','PR-107','PR-108','PR-109','PR-110','PR-111'],
+  'EQ-23':['PR-096','PR-097','PR-098','PR-099','PR-100','PR-101','PR-102','PR-103','PR-104','PR-105','PR-106','PR-107','PR-108','PR-109','PR-110','PR-111'],
+  'EQ-24':['PR-125','PR-126','PR-127','PR-128'],
+  'EQ-25':['PR-129','PR-130'],
+  'EQ-26':['PR-137','PR-138','PR-139','PR-140'],
+  'EQ-27':['PR-131','PR-132','PR-133','PR-134','PR-135','PR-136'],
+  'EQ-28':['PR-078','PR-079','PR-080','PR-081'],
+  'EQ-29':['PR-141','PR-142'],
+  'EQ-30':['PR-122','PR-123','PR-124'],
+  'EQ-31':['PR-122','PR-123','PR-124'],
+  'EQ-32':['PR-137'],
 };
 
 // ─── Auto equipment lookup (MySQL-connected machines) ───
 const MYSQL_EQUIP_CODES=(()=>{const m={};INIT_EQUIPMENT.filter(e=>e.autoData).forEach(e=>{m[e.code]=true;});return m;})();
 
 // ─── FINISHED PRODUCT DEFINITIONS (for Swim Lane / RTY) ───
-const BOLT_EQUIP={Shears:['WV-SHEAR-AS1','WV-SHEAR-AS2'],Peeling:['WV-PEEL-MAN','WV-PEEL-AUTO','WV-PEEL-SWAG'],Threading:['WV-THREAD-T1','WV-THREAD-T2','WV-THREAD-AT'],Heading:['WV-HEAD-H1','WV-HEAD-H2','WV-HEAD-H3','WV-HEAD-AUTO'],Assembly:['WV-ASSY-A1','WV-ASSY-A2','WV-ASSY-A3','WV-ASSY-A4']};
-const BOLT_ROUTE=['Shears','Peeling','Threading','Heading','Assembly'];
+const BOLT_EQUIP={'Process 1':['EQ-01','EQ-02'],'Process 5':['EQ-13','EQ-14','EQ-15'],'Process 4':['EQ-10','EQ-11','EQ-12'],'Process 3':['EQ-06','EQ-07','EQ-08','EQ-09'],'Process 6':['EQ-16','EQ-17','EQ-18','EQ-19']};
+const BOLT_ROUTE=['Process 1','Process 5','Process 4','Process 3','Process 6'];
 const FINISHED_PRODUCTS=[
-  {id:'bolt-58',name:'5/8 Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD[123]|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/5\/8/.test(getProductName(c))},
-  {id:'bolt-34',name:'3/4 Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD[123]|ATH|TR[12]|MPL|APL|SWG|ASY|EYE)/.test(c)&&/3\/4/.test(getProductName(c))},
-  {id:'bolt-5164',name:'51/64 Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD3|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/51\/64/.test(getProductName(c))},
-  {id:'bolt-677',name:'.677 Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD3|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/\.677/.test(getProductName(c))},
-  {id:'bolt-6rb',name:'6RB Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD3|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/6RB/.test(getProductName(c))},
-  {id:'bolt-804',name:'.804 Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD[13]|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/\.804/.test(getProductName(c))},
-  {id:'bolt-7rb',name:'7RB Bolts',category:'Bolts',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
-    productFilter:c=>/^P-(SH[12]|HD[13]|ATH|TR[12]|MPL|APL|SWG|ASY)/.test(c)&&/7RB/.test(getProductName(c))},
-  {id:'plates',name:'All Plates',category:'Plates',route:['Presses'],
-    equipGroups:{Presses:['WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B']},
-    productFilter:c=>/^P-(P40|P5A|P5B)/.test(c)},
-  {id:'cable-icc',name:'ICC Cables',category:'Cables',route:['Cable Lines'],
-    equipGroups:{'Cable Lines':['WV-CABLE-C1','WV-CABLE-C2','WV-CABLE-C3','WV-CABLE-C4']},
-    productFilter:c=>c.startsWith('P-CBL-')&&/ICC/.test(getProductName(c))},
-  {id:'cable-passive',name:'Passive Cables',category:'Cables',route:['Big Saw','Cable Lines'],
-    equipGroups:{'Big Saw':['WV-MISC-BIGSAW'],'Cable Lines':['WV-CABLE-C1','WV-CABLE-C2','WV-CABLE-C3','WV-CABLE-C4']},
-    productFilter:c=>(c.startsWith('P-CBL-')&&/[Pp]assive/.test(getProductName(c)))||c==='P-SAW-003'||c==='P-SAW-004'},
-  {id:'cable-fg',name:'Fully Grouted Cables',category:'Cables',route:['Big Saw','Offline Welding','Pipe Assembly','Cable Lines'],
-    equipGroups:{'Big Saw':['WV-MISC-BIGSAW'],'Offline Welding':['WV-MISC-OFFWELD'],'Pipe Assembly':['WV-MISC-PIPEASSY'],'Cable Lines':['WV-CABLE-C3']},
-    productFilter:c=>(c.startsWith('P-CBL-')&&/FG/.test(getProductName(c)))||c==='P-SAW-003'||c==='P-SAW-004'||c==='P-WLD-001'||c==='P-WLD-002'||c==='P-PPA-001'||c==='P-PPA-002'},
+  {id:'fp-01',name:'Product Group 1',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-001','PR-002','PR-003','PR-004','PR-021','PR-022','PR-023','PR-024','PR-046','PR-047','PR-048','PR-049','PR-071','PR-072','PR-073','PR-112','PR-113','PR-114','PR-115'].includes(c)},
+  {id:'fp-02',name:'Product Group 2',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-005','PR-025','PR-133','PR-134'].includes(c)},
+  {id:'fp-03',name:'Product Group 3',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-006','PR-026','PR-058','PR-067','PR-117'].includes(c)},
+  {id:'fp-04',name:'Product Group 4',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-007','PR-027','PR-062','PR-068','PR-074','PR-116'].includes(c)},
+  {id:'fp-05',name:'Product Group 5',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-008','PR-009','PR-010','PR-011','PR-028','PR-029','PR-030','PR-031','PR-055','PR-056','PR-057'].includes(c)},
+  {id:'fp-06',name:'Product Group 6',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-012','PR-013','PR-014','PR-015','PR-016','PR-019','PR-020','PR-032','PR-033','PR-034','PR-035','PR-036','PR-039','PR-040','PR-041','PR-042','PR-043','PR-050','PR-051','PR-052','PR-059','PR-060','PR-061','PR-063','PR-064','PR-065','PR-066','PR-069','PR-070','PR-075','PR-076','PR-077','PR-118','PR-119','PR-120'].includes(c)},
+  {id:'fp-07',name:'Product Group 7',category:'Group A',route:BOLT_ROUTE,equipGroups:BOLT_EQUIP,
+    productFilter:c=>['PR-017','PR-018','PR-037','PR-038','PR-044','PR-045','PR-053','PR-054'].includes(c)},
+  {id:'fp-08',name:'Product Group 8',category:'Group B',route:['Process 2'],
+    equipGroups:{'Process 2':['EQ-03','EQ-04','EQ-05']},
+    productFilter:c=>['PR-082','PR-083','PR-084','PR-085','PR-086','PR-087','PR-088','PR-089','PR-090','PR-091','PR-092','PR-093','PR-094','PR-095'].includes(c)},
+  {id:'fp-09',name:'Product Group 9',category:'Group C',route:['Process 7'],
+    equipGroups:{'Process 7':['EQ-20','EQ-21','EQ-22','EQ-23']},
+    productFilter:c=>['PR-096','PR-097','PR-098','PR-099'].includes(c)},
+  {id:'fp-10',name:'Product Group 10',category:'Group C',route:['Equipment 24','Process 7'],
+    equipGroups:{'Equipment 24':['EQ-24'],'Process 7':['EQ-20','EQ-21','EQ-22','EQ-23']},
+    productFilter:c=>['PR-100','PR-101','PR-102','PR-103','PR-104','PR-105','PR-106','PR-127','PR-128'].includes(c)},
+  {id:'fp-11',name:'Product Group 11',category:'Group C',route:['Equipment 24','Equipment 26','Equipment 29','Process 7'],
+    equipGroups:{'Equipment 24':['EQ-24'],'Equipment 26':['EQ-26'],'Equipment 29':['EQ-29'],'Process 7':['EQ-22']},
+    productFilter:c=>['PR-107','PR-108','PR-109','PR-110','PR-127','PR-128','PR-137','PR-138','PR-141','PR-142'].includes(c)},
 ];
 
 // ─── SIX SIGMA STATISTICAL UTILITIES ───
@@ -2088,80 +2089,80 @@ function ssMovingAvg(data,n){return data.map((v,i)=>i<n-1?null:ssMean(data.slice
 function ssMovingRange(data){return data.map((v,i)=>i===0?null:Math.abs(v-data[i-1]));}
 
 const TARGET_RATES={
-  // ─── SHEARS (~120/hr base, varies by diameter/length) ───
-  'WV-SHEAR-AS1_P-SH1-001':130,'WV-SHEAR-AS1_P-SH1-002':125,'WV-SHEAR-AS1_P-SH1-003':120,'WV-SHEAR-AS1_P-SH1-004':110,
-  'WV-SHEAR-AS1_P-SH1-005':115,'WV-SHEAR-AS1_P-SH1-006':110,'WV-SHEAR-AS1_P-SH1-007':105,
-  'WV-SHEAR-AS1_P-SH1-008':105,'WV-SHEAR-AS1_P-SH1-009':100,'WV-SHEAR-AS1_P-SH1-010':95,'WV-SHEAR-AS1_P-SH1-011':85,
-  'WV-SHEAR-AS1_P-SH1-012':100,'WV-SHEAR-AS1_P-SH1-013':90,'WV-SHEAR-AS1_P-SH1-014':80,'WV-SHEAR-AS1_P-SH1-015':70,'WV-SHEAR-AS1_P-SH1-016':55,
-  'WV-SHEAR-AS1_P-SH1-017':100,'WV-SHEAR-AS1_P-SH1-018':95,
-  'WV-SHEAR-AS1_P-SH1-C72-48':90,'WV-SHEAR-AS1_P-SH1-C96-72':80,
-  'WV-SHEAR-AS2_P-SH2-001':130,'WV-SHEAR-AS2_P-SH2-002':125,'WV-SHEAR-AS2_P-SH2-003':120,'WV-SHEAR-AS2_P-SH2-004':110,
-  'WV-SHEAR-AS2_P-SH2-005':115,'WV-SHEAR-AS2_P-SH2-006':110,'WV-SHEAR-AS2_P-SH2-007':105,
-  'WV-SHEAR-AS2_P-SH2-008':105,'WV-SHEAR-AS2_P-SH2-009':100,'WV-SHEAR-AS2_P-SH2-010':95,'WV-SHEAR-AS2_P-SH2-011':85,
-  'WV-SHEAR-AS2_P-SH2-012':100,'WV-SHEAR-AS2_P-SH2-013':90,'WV-SHEAR-AS2_P-SH2-014':80,'WV-SHEAR-AS2_P-SH2-015':70,'WV-SHEAR-AS2_P-SH2-016':55,
-  'WV-SHEAR-AS2_P-SH2-017':100,'WV-SHEAR-AS2_P-SH2-018':95,
-  'WV-SHEAR-AS2_P-SH2-C72-48':90,'WV-SHEAR-AS2_P-SH2-C96-72':80,
-  // ─── HEADERS (~80/hr base) ───
-  'WV-HEAD-H1_P-HD1-001':75,'WV-HEAD-H1_P-HD1-002':70,'WV-HEAD-H1_P-HD1-003':65,
-  'WV-HEAD-H1_P-HD1-004':80,'WV-HEAD-H1_P-HD1-005':75,
-  'WV-HEAD-H2_P-HD2-001':90,'WV-HEAD-H2_P-HD2-002':85,'WV-HEAD-H2_P-HD2-003':80,'WV-HEAD-H2_P-HD2-004':70,
-  'WV-HEAD-H3_P-HD3-001':75,'WV-HEAD-H3_P-HD3-002':70,'WV-HEAD-H3_P-HD3-003':65,
-  'WV-HEAD-H3_P-HD3-004':80,'WV-HEAD-H3_P-HD3-005':75,
-  'WV-HEAD-H3_P-HD3-006':80,'WV-HEAD-H3_P-HD3-007':75,'WV-HEAD-H3_P-HD3-008':70,'WV-HEAD-H3_P-HD3-009':75,
-  'WV-HEAD-AUTO_P-HD1-001':80,'WV-HEAD-AUTO_P-HD1-002':75,'WV-HEAD-AUTO_P-HD1-003':70,
-  'WV-HEAD-AUTO_P-HD1-004':85,'WV-HEAD-AUTO_P-HD1-005':80,
-  // ─── PRESSES (~60/hr base) ───
-  'WV-PRESS-400_P-P40-001':65,'WV-PRESS-400_P-P40-002':60,'WV-PRESS-400_P-P40-003':55,'WV-PRESS-400_P-P40-004':50,'WV-PRESS-400_P-P40-005':55,
-  'WV-PRESS-500A_P-P5A-001':60,'WV-PRESS-500A_P-P5A-002':55,'WV-PRESS-500A_P-P5A-003':55,
-  'WV-PRESS-500A_P-P5A-004':50,'WV-PRESS-500A_P-P5A-005':50,'WV-PRESS-500A_P-P5A-006':50,
-  'WV-PRESS-500A_P-P5A-007':45,'WV-PRESS-500A_P-P5A-008':45,
-  'WV-PRESS-500B_P-P5B-001':55,
-  // ─── THREADING (~100/hr base) ───
-  'WV-THREAD-T1_P-TR1-001':110,'WV-THREAD-T1_P-TR1-002':105,'WV-THREAD-T1_P-TR1-003':100,
-  'WV-THREAD-T2_P-TR2-001':100,'WV-THREAD-T2_P-TR2-002':95,'WV-THREAD-T2_P-TR2-003':90,'WV-THREAD-T2_P-TR2-004':70,
-  'WV-THREAD-AT_P-ATH-001':105,'WV-THREAD-AT_P-ATH-002':100,'WV-THREAD-AT_P-ATH-003':95,'WV-THREAD-AT_P-ATH-004':90,
-  // ─── PEELING (~90/hr base) ───
-  'WV-PEEL-MAN_P-MPL-001':80,'WV-PEEL-MAN_P-MPL-002':75,
-  'WV-PEEL-AUTO_P-APL-001':95,'WV-PEEL-AUTO_P-APL-002':90,
-  'WV-PEEL-SWAG_P-SWG-001':85,'WV-PEEL-SWAG_P-SWG-002':80,'WV-PEEL-SWAG_P-SWG-003':60,'WV-PEEL-SWAG_P-SWG-004':85,
-  // ─── ASSEMBLY (base 75/hr reduced 40% → ~45/hr; BDR will raise) ───
-  'WV-ASSY-A1_P-ASY-001':48,'WV-ASSY-A1_P-ASY-002':46,'WV-ASSY-A1_P-ASY-003':45,'WV-ASSY-A1_P-ASY-004':42,
-  'WV-ASSY-A1_P-ASY-005':44,'WV-ASSY-A1_P-ASY-006':45,'WV-ASSY-A1_P-ASY-007':43,'WV-ASSY-A1_P-ASY-008':40,'WV-ASSY-A1_P-ASY-009':35,
-  'WV-ASSY-A1_P-ASY-010':40,
-  'WV-ASSY-A2_P-ASY-001':48,'WV-ASSY-A2_P-ASY-002':46,'WV-ASSY-A2_P-ASY-003':45,'WV-ASSY-A2_P-ASY-004':42,
-  'WV-ASSY-A2_P-ASY-005':44,'WV-ASSY-A2_P-ASY-006':45,'WV-ASSY-A2_P-ASY-007':43,'WV-ASSY-A2_P-ASY-008':40,'WV-ASSY-A2_P-ASY-009':35,
-  'WV-ASSY-A2_P-ASY-010':40,
-  'WV-ASSY-A3_P-ASY-001':48,'WV-ASSY-A3_P-ASY-002':46,'WV-ASSY-A3_P-ASY-003':45,'WV-ASSY-A3_P-ASY-004':42,
-  'WV-ASSY-A3_P-ASY-005':44,'WV-ASSY-A3_P-ASY-006':45,'WV-ASSY-A3_P-ASY-007':43,'WV-ASSY-A3_P-ASY-008':40,'WV-ASSY-A3_P-ASY-009':35,
-  'WV-ASSY-A4_P-ASY-001':48,'WV-ASSY-A4_P-ASY-002':46,'WV-ASSY-A4_P-ASY-003':45,'WV-ASSY-A4_P-ASY-004':42,
-  'WV-ASSY-A4_P-ASY-005':44,'WV-ASSY-A4_P-ASY-006':45,'WV-ASSY-A4_P-ASY-007':43,'WV-ASSY-A4_P-ASY-008':40,'WV-ASSY-A4_P-ASY-009':35,
-  // ─── CABLES (~30/hr base) ───
-  'WV-CABLE-C1_P-CBL-001':35,'WV-CABLE-C1_P-CBL-002':30,'WV-CABLE-C1_P-CBL-003':25,'WV-CABLE-C1_P-CBL-004':22,
-  'WV-CABLE-C1_P-CBL-007':32,'WV-CABLE-C1_P-CBL-008':28,'WV-CABLE-C1_P-CBL-009':26,
-  'WV-CABLE-C1_P-CBL-010':24,'WV-CABLE-C1_P-CBL-011':24,'WV-CABLE-C1_P-CBL-012':20,
-  'WV-CABLE-C1_P-CBL-013':18,'WV-CABLE-C1_P-CBL-014':28,'WV-CABLE-C1_P-CBL-015':26,'WV-CABLE-C1_P-CBL-016':22,'WV-CABLE-C1_P-CBL-017':18,'WV-CABLE-C1_P-CBL-018':30,
-  'WV-CABLE-C2_P-CBL-001':35,'WV-CABLE-C2_P-CBL-002':30,'WV-CABLE-C2_P-CBL-003':25,'WV-CABLE-C2_P-CBL-004':22,
-  'WV-CABLE-C2_P-CBL-007':32,'WV-CABLE-C2_P-CBL-008':28,'WV-CABLE-C2_P-CBL-009':26,
-  'WV-CABLE-C2_P-CBL-010':24,'WV-CABLE-C2_P-CBL-011':24,'WV-CABLE-C2_P-CBL-012':20,
-  'WV-CABLE-C2_P-CBL-013':18,'WV-CABLE-C2_P-CBL-014':28,'WV-CABLE-C2_P-CBL-015':26,'WV-CABLE-C2_P-CBL-016':22,'WV-CABLE-C2_P-CBL-017':18,'WV-CABLE-C2_P-CBL-018':30,
-  'WV-CABLE-C3_P-CBL-001':35,'WV-CABLE-C3_P-CBL-002':30,'WV-CABLE-C3_P-CBL-003':25,'WV-CABLE-C3_P-CBL-004':22,
-  'WV-CABLE-C3_P-CBL-007':32,'WV-CABLE-C3_P-CBL-008':28,'WV-CABLE-C3_P-CBL-009':26,
-  'WV-CABLE-C3_P-CBL-010':24,'WV-CABLE-C3_P-CBL-011':24,'WV-CABLE-C3_P-CBL-012':20,
-  'WV-CABLE-C3_P-CBL-013':18,'WV-CABLE-C3_P-CBL-014':28,'WV-CABLE-C3_P-CBL-015':26,'WV-CABLE-C3_P-CBL-016':22,'WV-CABLE-C3_P-CBL-017':18,'WV-CABLE-C3_P-CBL-018':30,
-  'WV-CABLE-C4_P-CBL-001':35,'WV-CABLE-C4_P-CBL-002':30,'WV-CABLE-C4_P-CBL-003':25,'WV-CABLE-C4_P-CBL-004':22,
-  'WV-CABLE-C4_P-CBL-007':32,'WV-CABLE-C4_P-CBL-008':28,'WV-CABLE-C4_P-CBL-009':26,
-  'WV-CABLE-C4_P-CBL-010':24,'WV-CABLE-C4_P-CBL-011':24,'WV-CABLE-C4_P-CBL-012':20,
-  'WV-CABLE-C4_P-CBL-013':18,'WV-CABLE-C4_P-CBL-014':28,'WV-CABLE-C4_P-CBL-015':26,'WV-CABLE-C4_P-CBL-016':22,'WV-CABLE-C4_P-CBL-017':18,'WV-CABLE-C4_P-CBL-018':30,
-  // ─── MISC ───
-  'WV-MISC-BIGSAW_P-SAW-001':40,'WV-MISC-BIGSAW_P-SAW-002':38,'WV-MISC-BIGSAW_P-SAW-003':35,'WV-MISC-BIGSAW_P-SAW-004':35,
-  'WV-MISC-TIELINE_P-TIE-001':50,'WV-MISC-TIELINE_P-TIE-002':45,
-  'WV-MISC-OFFWELD_P-WLD-001':25,'WV-MISC-OFFWELD_P-WLD-002':25,'WV-MISC-OFFWELD_P-WLD-003':30,'WV-MISC-OFFWELD_P-WLD-004':28,
-  'WV-MISC-EYEBOLT_P-EYE-001':60,'WV-MISC-EYEBOLT_P-EYE-002':55,'WV-MISC-EYEBOLT_P-EYE-003':55,'WV-MISC-EYEBOLT_P-EYE-004':50,'WV-MISC-EYEBOLT_P-EYE-005':50,'WV-MISC-EYEBOLT_P-EYE-006':55,
-  'WV-MISC-LANDISASSM_P-LND-001':40,'WV-MISC-LANDISASSM_P-LND-002':42,'WV-MISC-LANDISASSM_P-LND-003':35,'WV-MISC-LANDISASSM_P-LND-004':37,
-  'WV-MISC-PIPEASSY_P-PPA-001':30,'WV-MISC-PIPEASSY_P-PPA-002':28,
-  'WV-MISC-UNITS_P-UNT-001':45,'WV-MISC-UNITS_P-UNT-002':45,'WV-MISC-UNITS_P-UNT-003':50,
-  'WV-MISC-UNITS2_P-UNT-001':45,'WV-MISC-UNITS2_P-UNT-002':45,'WV-MISC-UNITS2_P-UNT-003':50,
-  'WV-MISC-O2_P-WLD-001':25,
+  // ─── rates ───
+  'EQ-01_PR-001':130,'EQ-01_PR-002':125,'EQ-01_PR-003':120,'EQ-01_PR-004':110,
+  'EQ-01_PR-005':115,'EQ-01_PR-006':110,'EQ-01_PR-007':105,
+  'EQ-01_PR-008':105,'EQ-01_PR-009':100,'EQ-01_PR-010':95,'EQ-01_PR-011':85,
+  'EQ-01_PR-012':100,'EQ-01_PR-013':90,'EQ-01_PR-014':80,'EQ-01_PR-015':70,'EQ-01_PR-016':55,
+  'EQ-01_PR-017':100,'EQ-01_PR-018':95,
+  'EQ-01_PR-019':90,'EQ-01_PR-020':80,
+  'EQ-02_PR-021':130,'EQ-02_PR-022':125,'EQ-02_PR-023':120,'EQ-02_PR-024':110,
+  'EQ-02_PR-025':115,'EQ-02_PR-026':110,'EQ-02_PR-027':105,
+  'EQ-02_PR-028':105,'EQ-02_PR-029':100,'EQ-02_PR-030':95,'EQ-02_PR-031':85,
+  'EQ-02_PR-032':100,'EQ-02_PR-033':90,'EQ-02_PR-034':80,'EQ-02_PR-035':70,'EQ-02_PR-036':55,
+  'EQ-02_PR-037':100,'EQ-02_PR-038':95,
+  'EQ-02_PR-039':90,'EQ-02_PR-040':80,
+  // ─── rates ───
+  'EQ-06_PR-041':75,'EQ-06_PR-042':70,'EQ-06_PR-043':65,
+  'EQ-06_PR-044':80,'EQ-06_PR-045':75,
+  'EQ-07_PR-046':90,'EQ-07_PR-047':85,'EQ-07_PR-048':80,'EQ-07_PR-049':70,
+  'EQ-08_PR-050':75,'EQ-08_PR-051':70,'EQ-08_PR-052':65,
+  'EQ-08_PR-053':80,'EQ-08_PR-054':75,
+  'EQ-08_PR-055':80,'EQ-08_PR-056':75,'EQ-08_PR-057':70,'EQ-08_PR-058':75,
+  'EQ-09_PR-041':80,'EQ-09_PR-042':75,'EQ-09_PR-043':70,
+  'EQ-09_PR-044':85,'EQ-09_PR-045':80,
+  // ─── rates ───
+  'EQ-03_PR-082':65,'EQ-03_PR-083':60,'EQ-03_PR-084':55,'EQ-03_PR-085':50,'EQ-03_PR-086':55,
+  'EQ-04_PR-087':60,'EQ-04_PR-088':55,'EQ-04_PR-089':55,
+  'EQ-04_PR-090':50,'EQ-04_PR-091':50,'EQ-04_PR-092':50,
+  'EQ-04_PR-093':45,'EQ-04_PR-094':45,
+  'EQ-05_PR-095':55,
+  // ─── rates ───
+  'EQ-10_PR-071':110,'EQ-10_PR-072':105,'EQ-10_PR-073':100,
+  'EQ-11_PR-074':100,'EQ-11_PR-075':95,'EQ-11_PR-076':90,'EQ-11_PR-077':70,
+  'EQ-12_PR-067':105,'EQ-12_PR-068':100,'EQ-12_PR-069':95,'EQ-12_PR-070':90,
+  // ─── rates ───
+  'EQ-13_PR-065':80,'EQ-13_PR-066':75,
+  'EQ-14_PR-063':95,'EQ-14_PR-064':90,
+  'EQ-15_PR-059':85,'EQ-15_PR-060':80,'EQ-15_PR-061':60,'EQ-15_PR-062':85,
+  // ─── rates ───
+  'EQ-16_PR-112':48,'EQ-16_PR-113':46,'EQ-16_PR-114':45,'EQ-16_PR-115':42,
+  'EQ-16_PR-116':44,'EQ-16_PR-117':45,'EQ-16_PR-118':43,'EQ-16_PR-119':40,'EQ-16_PR-120':35,
+  'EQ-16_PR-121':40,
+  'EQ-17_PR-112':48,'EQ-17_PR-113':46,'EQ-17_PR-114':45,'EQ-17_PR-115':42,
+  'EQ-17_PR-116':44,'EQ-17_PR-117':45,'EQ-17_PR-118':43,'EQ-17_PR-119':40,'EQ-17_PR-120':35,
+  'EQ-17_PR-121':40,
+  'EQ-18_PR-112':48,'EQ-18_PR-113':46,'EQ-18_PR-114':45,'EQ-18_PR-115':42,
+  'EQ-18_PR-116':44,'EQ-18_PR-117':45,'EQ-18_PR-118':43,'EQ-18_PR-119':40,'EQ-18_PR-120':35,
+  'EQ-19_PR-112':48,'EQ-19_PR-113':46,'EQ-19_PR-114':45,'EQ-19_PR-115':42,
+  'EQ-19_PR-116':44,'EQ-19_PR-117':45,'EQ-19_PR-118':43,'EQ-19_PR-119':40,'EQ-19_PR-120':35,
+  // ─── rates ───
+  'EQ-20_PR-096':35,'EQ-20_PR-097':30,'EQ-20_PR-098':25,'EQ-20_PR-099':22,
+  'EQ-20_PR-100':32,'EQ-20_PR-101':28,'EQ-20_PR-102':26,
+  'EQ-20_PR-103':24,'EQ-20_PR-104':24,'EQ-20_PR-105':20,
+  'EQ-20_PR-106':18,'EQ-20_PR-107':28,'EQ-20_PR-108':26,'EQ-20_PR-109':22,'EQ-20_PR-110':18,'EQ-20_PR-111':30,
+  'EQ-21_PR-096':35,'EQ-21_PR-097':30,'EQ-21_PR-098':25,'EQ-21_PR-099':22,
+  'EQ-21_PR-100':32,'EQ-21_PR-101':28,'EQ-21_PR-102':26,
+  'EQ-21_PR-103':24,'EQ-21_PR-104':24,'EQ-21_PR-105':20,
+  'EQ-21_PR-106':18,'EQ-21_PR-107':28,'EQ-21_PR-108':26,'EQ-21_PR-109':22,'EQ-21_PR-110':18,'EQ-21_PR-111':30,
+  'EQ-22_PR-096':35,'EQ-22_PR-097':30,'EQ-22_PR-098':25,'EQ-22_PR-099':22,
+  'EQ-22_PR-100':32,'EQ-22_PR-101':28,'EQ-22_PR-102':26,
+  'EQ-22_PR-103':24,'EQ-22_PR-104':24,'EQ-22_PR-105':20,
+  'EQ-22_PR-106':18,'EQ-22_PR-107':28,'EQ-22_PR-108':26,'EQ-22_PR-109':22,'EQ-22_PR-110':18,'EQ-22_PR-111':30,
+  'EQ-23_PR-096':35,'EQ-23_PR-097':30,'EQ-23_PR-098':25,'EQ-23_PR-099':22,
+  'EQ-23_PR-100':32,'EQ-23_PR-101':28,'EQ-23_PR-102':26,
+  'EQ-23_PR-103':24,'EQ-23_PR-104':24,'EQ-23_PR-105':20,
+  'EQ-23_PR-106':18,'EQ-23_PR-107':28,'EQ-23_PR-108':26,'EQ-23_PR-109':22,'EQ-23_PR-110':18,'EQ-23_PR-111':30,
+  // ─── rates ───
+  'EQ-24_PR-125':40,'EQ-24_PR-126':38,'EQ-24_PR-127':35,'EQ-24_PR-128':35,
+  'EQ-25_PR-129':50,'EQ-25_PR-130':45,
+  'EQ-26_PR-137':25,'EQ-26_PR-138':25,'EQ-26_PR-139':30,'EQ-26_PR-140':28,
+  'EQ-27_PR-131':60,'EQ-27_PR-132':55,'EQ-27_PR-133':55,'EQ-27_PR-134':50,'EQ-27_PR-135':50,'EQ-27_PR-136':55,
+  'EQ-28_PR-078':40,'EQ-28_PR-079':42,'EQ-28_PR-080':35,'EQ-28_PR-081':37,
+  'EQ-29_PR-141':30,'EQ-29_PR-142':28,
+  'EQ-30_PR-122':45,'EQ-30_PR-123':45,'EQ-30_PR-124':50,
+  'EQ-31_PR-122':45,'EQ-31_PR-123':45,'EQ-31_PR-124':50,
+  'EQ-32_PR-137':25,
 };
 // Target rates above are interim defaults; BDR system will refine over time
 
@@ -2173,7 +2174,7 @@ const TARGET_RATES={
 // 5) Average rate across the process group
 function getBaseRate(equipCode, productCode) {
   // 0) Legacy code fallback (database migration should have fixed these)
-  const OLD_PREFIX_MAP={'P-HDR':'P-HD1','P-HDG':'P-HD1','P-SHR':'P-SH1','P-THR':'P-TR1','P-PRS':'P-P40','P-PEL':'P-MPL','P-ASS':'P-ASY','P-CAB':'P-CBL'};
+  const OLD_PREFIX_MAP={};
   const pfx=productCode?productCode.substring(0,5):'';
   if(OLD_PREFIX_MAP[pfx])productCode=OLD_PREFIX_MAP[pfx]+productCode.substring(5);
   // 1) Direct match
@@ -2251,21 +2252,21 @@ function getAssemblyTarget(equipCode, productCode, numOps) {
 }
 
 
-const DT_CODES={1:'Tooling',2:'Hydraulic Issues',3:'Air Issues',4:'Water Issues',5:'Electrical Issues',6:'Sensor Issues',7:'Encoder Issues',8:'Mechanical Issues',9:'Lubrication Issues',10:'Changeover',11:'Loading Material',12:'Unloading Material',13:'Material Issues',14:'QC',15:'Assisting Operator',16:'Scheduled Downtime',17:'Programming Issues',18:'Vibration Issues',19:'Robot Issues',20:'Welder Issues',21:'Vision Issues',22:'Gideon Time',23:'Cut-Back'};
-const DEF_CODES={1:'Bent Bar',2:'Burr',3:'Bad Ribs',4:'Failing Bar Length',5:'Failing Peel Length',6:'Failing Diameter',7:'Cross Thread',8:'Incomplete Starter Thread',9:'Cracked Threads',10:'Failing Thread Length',11:'Failing Stamp',12:'Head Off-Center',13:'Failing Washer',14:'Failing Tensile',15:'Failing Yield',16:'Bad Break',17:'Rounded Head',18:'Improper Assembly',19:'Failing Width',20:'Failing Length',21:'Cracked Steel',22:'Bend Cable',23:'Broken Strand',24:'Broken Housing',25:'Failing Cable Length',26:'Failing Bird Cage',27:'Failing Crimp',28:'Failing Teeth Depth',29:'Failing Weld',30:'Hole Alignment',31:'Missing Component',32:'Miss Hit',33:'Destructive Testing',34:'Destructive Test'};
-const EQUIP_DT_CODES={'WV-SHEAR-AS1':[1,2,3,5,6,8,10,11,12,14,15,16,17,18,22],'WV-SHEAR-AS2':[1,2,3,5,6,8,10,11,12,14,15,16,17,18,22],'WV-PRESS-400':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'WV-PRESS-500A':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'WV-PRESS-500B':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'WV-HEAD-H1':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'WV-HEAD-H2':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'WV-HEAD-H3':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'WV-HEAD-AUTO':[1,3,4,5,6,8,9,10,11,12,14,15,16,17,19,21,22,23],'WV-THREAD-T1':[1,3,5,8,9,10,11,12,13,14,15,16,22],'WV-THREAD-T2':[1,3,5,8,9,10,11,12,13,14,15,16,22],'WV-THREAD-AT':[1,3,5,6,8,9,10,11,12,13,14,15,16,22],'WV-PEEL-MAN':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,22],'WV-PEEL-AUTO':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,19,22],'WV-PEEL-SWAG':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,22],'WV-ASSY-A1':[1,5,6,8,10,11,12,14,15,16,22],'WV-ASSY-A2':[1,5,6,8,10,11,12,14,15,16,22],'WV-ASSY-A3':[1,5,6,8,10,11,12,14,15,16,22],'WV-ASSY-A4':[1,5,6,8,10,11,12,14,15,16,22],'WV-CABLE-C1':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'WV-CABLE-C2':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'WV-CABLE-C3':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,20,22],'WV-CABLE-C4':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'WV-MISC-BIGSAW':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-TIELINE':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-OFFWELD':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-EYEBOLT':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-LANDISASSM':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-PIPEASSY':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-UNITS':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'WV-MISC-UNITS2':[1,2,3,5,6,8,9,10,11,12,14,15,16,22]};
-const EQUIP_DEF_CODES={'WV-SHEAR-AS1':[1,2,3,4],'WV-SHEAR-AS2':[1,2,3,4],'WV-PRESS-400':[2,11,19,20,21,14,34],'WV-PRESS-500A':[2,11,19,20,21,14,34],'WV-PRESS-500B':[2,11,19,20,21,14,34],'WV-HEAD-H1':[1,2,11,12,13,4,14,15,16,17,32,33],'WV-HEAD-H2':[1,2,11,12,13,4,14,15,16,17,32,33],'WV-HEAD-H3':[1,2,11,12,13,4,14,15,16,17,32,33],'WV-HEAD-AUTO':[1,2,11,12,13,4,14,15,16,17,32,33],'WV-THREAD-T1':[1,2,7,8,9,6,10],'WV-THREAD-T2':[1,2,7,8,9,6,10],'WV-THREAD-AT':[1,2,7,8,9,6,10],'WV-PEEL-MAN':[1,2,5,6,21],'WV-PEEL-AUTO':[1,2,5,6,21],'WV-PEEL-SWAG':[1,2,5,6,21],'WV-ASSY-A1':[1,18,31],'WV-ASSY-A2':[1,18,31],'WV-ASSY-A3':[1,18,31],'WV-ASSY-A4':[1,18,31],'WV-CABLE-C1':[22,23,24,25,26,27,33],'WV-CABLE-C2':[22,23,24,25,26,27,33],'WV-CABLE-C3':[22,23,24,25,26,27,29,33],'WV-CABLE-C4':[22,23,24,25,26,27,33],'WV-MISC-BIGSAW':[20,21],'WV-MISC-TIELINE':[28,30],'WV-MISC-OFFWELD':[29],'WV-MISC-EYEBOLT':[1],'WV-MISC-LANDISASSM':[1,7,8,9],'WV-MISC-PIPEASSY':[1,18,29,31],'WV-MISC-UNITS':[1,18,31],'WV-MISC-UNITS2':[1,18,31]};
-const EQUIP_DEFAULTS={'WV-SHEAR-AS1':'P-SH1-013','WV-SHEAR-AS2':'P-SH2-010','WV-PRESS-400':'P-P40-001','WV-PRESS-500A':'P-P5A-002','WV-PRESS-500B':'P-P5B-001','WV-HEAD-H1':'P-HD1-001','WV-HEAD-H2':'P-HD2-001','WV-HEAD-H3':'P-HD3-001','WV-THREAD-T1':'P-TR1-001','WV-THREAD-T2':'P-TR2-001','WV-THREAD-AT':'P-ATH-003','WV-PEEL-MAN':'P-MPL-001','WV-PEEL-AUTO':'P-APL-001','WV-PEEL-SWAG':'P-SWG-001','WV-ASSY-A1':'P-ASY-007','WV-ASSY-A2':'P-ASY-007','WV-ASSY-A3':'P-ASY-003','WV-ASSY-A4':'P-ASY-007','WV-CABLE-C1':'P-CBL-001','WV-CABLE-C2':'P-CBL-007','WV-CABLE-C3':'P-CBL-014','WV-CABLE-C4':'P-CBL-010','WV-MISC-BIGSAW':'P-SAW-003','WV-MISC-TIELINE':'P-TIE-001','WV-MISC-OFFWELD':'P-WLD-001','WV-MISC-UNITS':'P-UNT-001','WV-MISC-EYEBOLT':'P-EYE-001','WV-MISC-LANDISASSM':'P-LND-001','WV-MISC-PIPEASSY':'P-PPA-001'};
+const DT_CODES={1:'Downtime Code 1',2:'Downtime Code 2',3:'Downtime Code 3',4:'Downtime Code 4',5:'Downtime Code 5',6:'Downtime Code 6',7:'Downtime Code 7',8:'Downtime Code 8',9:'Downtime Code 9',10:'Downtime Code 10',11:'Downtime Code 11',12:'Downtime Code 12',13:'Downtime Code 13',14:'Downtime Code 14',15:'Downtime Code 15',16:'Downtime Code 16',17:'Downtime Code 17',18:'Downtime Code 18',19:'Downtime Code 19',20:'Downtime Code 20',21:'Downtime Code 21',22:'Downtime Code 22',23:'Downtime Code 23'};
+const DEF_CODES={1:'Defect Code 1',2:'Defect Code 2',3:'Defect Code 3',4:'Defect Code 4',5:'Defect Code 5',6:'Defect Code 6',7:'Defect Code 7',8:'Defect Code 8',9:'Defect Code 9',10:'Defect Code 10',11:'Defect Code 11',12:'Defect Code 12',13:'Defect Code 13',14:'Defect Code 14',15:'Defect Code 15',16:'Defect Code 16',17:'Defect Code 17',18:'Defect Code 18',19:'Defect Code 19',20:'Defect Code 20',21:'Defect Code 21',22:'Defect Code 22',23:'Defect Code 23',24:'Defect Code 24',25:'Defect Code 25',26:'Defect Code 26',27:'Defect Code 27',28:'Defect Code 28',29:'Defect Code 29',30:'Defect Code 30',31:'Defect Code 31',32:'Defect Code 32',33:'Defect Code 33',34:'Defect Code 34'};
+const EQUIP_DT_CODES={'EQ-01':[1,2,3,5,6,8,10,11,12,14,15,16,17,18,22],'EQ-02':[1,2,3,5,6,8,10,11,12,14,15,16,17,18,22],'EQ-03':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'EQ-04':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'EQ-05':[1,2,3,5,8,9,10,11,12,13,14,15,16,22],'EQ-06':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'EQ-07':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'EQ-08':[1,3,4,5,6,8,9,10,11,12,14,15,16,22,23],'EQ-09':[1,3,4,5,6,8,9,10,11,12,14,15,16,17,19,21,22,23],'EQ-10':[1,3,5,8,9,10,11,12,13,14,15,16,22],'EQ-11':[1,3,5,8,9,10,11,12,13,14,15,16,22],'EQ-12':[1,3,5,6,8,9,10,11,12,13,14,15,16,22],'EQ-13':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,22],'EQ-14':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,19,22],'EQ-15':[1,3,4,5,6,8,9,10,11,12,13,14,15,16,17,22],'EQ-16':[1,5,6,8,10,11,12,14,15,16,22],'EQ-17':[1,5,6,8,10,11,12,14,15,16,22],'EQ-18':[1,5,6,8,10,11,12,14,15,16,22],'EQ-19':[1,5,6,8,10,11,12,14,15,16,22],'EQ-20':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'EQ-21':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'EQ-22':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,20,22],'EQ-23':[1,2,3,5,6,7,8,10,11,13,14,15,16,17,22],'EQ-24':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-25':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-26':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-27':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-28':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-29':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-30':[1,2,3,5,6,8,9,10,11,12,14,15,16,22],'EQ-31':[1,2,3,5,6,8,9,10,11,12,14,15,16,22]};
+const EQUIP_DEF_CODES={'EQ-01':[1,2,3,4],'EQ-02':[1,2,3,4],'EQ-03':[2,11,19,20,21,14,34],'EQ-04':[2,11,19,20,21,14,34],'EQ-05':[2,11,19,20,21,14,34],'EQ-06':[1,2,11,12,13,4,14,15,16,17,32,33],'EQ-07':[1,2,11,12,13,4,14,15,16,17,32,33],'EQ-08':[1,2,11,12,13,4,14,15,16,17,32,33],'EQ-09':[1,2,11,12,13,4,14,15,16,17,32,33],'EQ-10':[1,2,7,8,9,6,10],'EQ-11':[1,2,7,8,9,6,10],'EQ-12':[1,2,7,8,9,6,10],'EQ-13':[1,2,5,6,21],'EQ-14':[1,2,5,6,21],'EQ-15':[1,2,5,6,21],'EQ-16':[1,18,31],'EQ-17':[1,18,31],'EQ-18':[1,18,31],'EQ-19':[1,18,31],'EQ-20':[22,23,24,25,26,27,33],'EQ-21':[22,23,24,25,26,27,33],'EQ-22':[22,23,24,25,26,27,29,33],'EQ-23':[22,23,24,25,26,27,33],'EQ-24':[20,21],'EQ-25':[28,30],'EQ-26':[29],'EQ-27':[1],'EQ-28':[1,7,8,9],'EQ-29':[1,18,29,31],'EQ-30':[1,18,31],'EQ-31':[1,18,31]};
+const EQUIP_DEFAULTS={'EQ-01':'PR-013','EQ-02':'PR-030','EQ-03':'PR-082','EQ-04':'PR-088','EQ-05':'PR-095','EQ-06':'PR-041','EQ-07':'PR-046','EQ-08':'PR-050','EQ-10':'PR-071','EQ-11':'PR-074','EQ-12':'PR-069','EQ-13':'PR-065','EQ-14':'PR-063','EQ-15':'PR-059','EQ-16':'PR-118','EQ-17':'PR-118','EQ-18':'PR-114','EQ-19':'PR-118','EQ-20':'PR-096','EQ-21':'PR-100','EQ-22':'PR-107','EQ-23':'PR-103','EQ-24':'PR-127','EQ-25':'PR-129','EQ-26':'PR-137','EQ-30':'PR-122','EQ-27':'PR-131','EQ-28':'PR-078','EQ-29':'PR-141'};
 
 // ─── DOWNTIME SUB-ITEMS ──────────────────────────────────────────────────────
 const DT_SUBITEMS={
-  tooling:{'WV-SHEAR-AS1':['Shear Blades','Fingers'],'WV-SHEAR-AS2':['Shear Blades','Fingers'],'WV-PRESS-400':['Punch','Insert','Shear Blade','Hanger','Stamp','Forms','Ribs'],'WV-PRESS-500A':['Punch','Insert','Shear Blade','Hanger','Stamp','Forms','Ribs'],'WV-PRESS-500B':['Punch','Insert','Shear Blade','Hanger','Stamp','Forms','Ribs'],'WV-HEAD-H1':['Blocks','Stamp','Cone','Head'],'WV-HEAD-H2':['Blocks','Stamp','Cone','Head'],'WV-HEAD-H3':['Blocks','Stamp','Cone','Head'],'WV-HEAD-AUTO':['Blocks','Stamp','Cone','Head'],'WV-PEEL-MAN':['Head','Gripper'],'WV-PEEL-AUTO':['Head','Gripper'],'WV-PEEL-SWAG':['Head','Gripper'],'WV-CABLE-C1':['Press','Gripper','Pins','Stamp'],'WV-CABLE-C2':['Press','Gripper','Pins','Stamp'],'WV-CABLE-C3':['Press','Gripper','Pins','Stamp'],'WV-CABLE-C4':['Press','Gripper','Pins','Stamp']},
-  mechanical:{'WV-SHEAR-AS1':['Load Table','Feed Rollers','Shear','Carriage','Exit Rollers','Packer'],'WV-SHEAR-AS2':['Load Table','Feed Rollers','Shear','Carriage','Exit Rollers','Packer'],'WV-PRESS-400':['Straightener','Uncoiler','Drop Table','Press','Shaker Conveyor','Exit Conveyor','Stack Table'],'WV-PRESS-500A':['Sessco','Drop Table','Press','Shaker Conveyor','Exit Conveyor','Stack Table'],'WV-PRESS-500B':['Sessco','Drop Table','Press','Shaker Conveyor','Exit Conveyor','Stack Table'],'WV-HEAD-H1':['Step Loader','Tocco Conveyor','Header','Exit Conveyor'],'WV-HEAD-H2':['Step Loader','Tocco Conveyor','Header','Exit Conveyor'],'WV-HEAD-H3':['Step Loader','Tocco Conveyor','Header','Exit Conveyor'],'WV-HEAD-AUTO':['Step Loader','Tocco Conveyor','Header','Exit Conveyor'],'WV-THREAD-T1':['Load Table','Drag Table','Roll Down Arms','Pusher','Threader','Packer','Exit Conveyor','Flipper System'],'WV-THREAD-T2':['Load Table','Drag Table','Roll Down Arms','Pusher','Threader','Packer','Exit Conveyor','Flipper System'],'WV-THREAD-AT':['Load Table','Drag Table','Roll Down Arms','Pusher','Threader','Packer','Exit Conveyor','Flipper System'],'WV-PEEL-MAN':['Safety Systems','Step Loader','Cat Walk','Peel Head Unit','Magnetic Conveyor','Unload Rack'],'WV-PEEL-AUTO':['Safety Systems','Step Loader','Tic Tok','Feed Conveyor','Robot','Peel Head Unit','Exit Conveyor','Unload Cart','Magnetic Conveyor'],'WV-PEEL-SWAG':['Safety Systems','Step Loader','Cat Walk','Peel Head Unit','Magnetic Conveyor','Unload Rack'],'WV-CABLE-C1':['Uncoiler','Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','HW Crimper','Glue Machine','Safety Systems'],'WV-CABLE-C2':['Uncoiler','Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','HW Crimper','Glue Machine','Safety Systems'],'WV-CABLE-C3':['Uncoiler','Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','Crimper','Glue Machine','Autowelder','Safety Systems'],'WV-CABLE-C4':['Uncoiler','Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','Crimper','Glue Machine','Safety Systems']},
-  electrical:{'WV-SHEAR-AS1':['Load Table','Feed Rollers','Carriage','Exit Rollers','Packer','Electrical Cabinet','Control Panel','HMI'],'WV-SHEAR-AS2':['Load Table','Feed Rollers','Carriage','Exit Rollers','Packer','Electrical Cabinet','Control Panel','HMI'],'WV-PRESS-400':['Straightener','Uncoiler','Drop Table','PA Feeder','Press','Tonnage Monitor','Shaker Conveyor','Control Panel','Electrical Cabinet'],'WV-PRESS-500A':['Sessco','Drop Table','PA Feeder','Press','Tonnage Monitor','Shaker Conveyor','Control Panel','HMI','Electrical Cabinet'],'WV-PRESS-500B':['Sessco','Drop Table','PA Feeder','Press','Tonnage Monitor','Shaker Conveyor','Control Panel','HMI','Electrical Cabinet'],'WV-HEAD-H1':['Oil Mist Collector','Step Loader','Tocco Conveyor','Tocco Coil','Header','Exit Conveyor','Control Panel','Electrical Cabinet','Tocco Cabinet'],'WV-HEAD-H2':['Oil Mist Collector','Step Loader','Tocco Conveyor','Tocco Coil','Header','Exit Conveyor','Control Panel','Electrical Cabinet','Tocco Cabinet'],'WV-HEAD-H3':['Oil Mist Collector','Step Loader','Tocco Conveyor','Tocco Coil','Header','Exit Conveyor','Control Panel','Electrical Cabinet','Tocco Cabinet'],'WV-HEAD-AUTO':['Oil Mist Collector','Step Loader','Tocco Conveyor','Tocco Coil','Header','Exit Conveyor','Control Panel','Electrical Cabinet','Tocco Cabinet'],'WV-THREAD-T1':['Step Loader','Drag Table','Flipper System','Threader','Exit Conveyor','Electrical Cabinet','Control Panel'],'WV-THREAD-T2':['Step Loader','Drag Table','Flipper System','Threader','Exit Conveyor','Electrical Cabinet','Control Panel'],'WV-THREAD-AT':['Step Loader','Drag Table','Flipper System','Threader','Exit Conveyor','Electrical Cabinet','Control Panel'],'WV-PEEL-MAN':['Safety Systems','Step Loader','Cat Walk','Peel Head Unit','Magnetic Conveyor','HMI','Control Panel'],'WV-PEEL-AUTO':['Safety Systems','Step Loader','Tic Tok','Feed Conveyor','Robot','Peel Head Unit','Exit Conveyor','Unload Cart','Magnetic Conveyor','HMI','Control Panel','Electrical Cabinet','Medallion'],'WV-PEEL-SWAG':['Safety Systems','Step Loader','Cat Walk','Peel Head Unit','Magnetic Conveyor','HMI','Control Panel'],'WV-CABLE-C1':['Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','HW Crimper','Glue Machine','Safety Systems','Control Panel','Electrical Cabinet'],'WV-CABLE-C2':['Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','HW Crimper','Glue Machine','Safety Systems','Control Panel','Electrical Cabinet'],'WV-CABLE-C3':['Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','Crimper','Glue Machine','Autowelder','Safety Systems','Control Panel','Electrical Cabinet'],'WV-CABLE-C4':['Tugger','Encoder','Bulber','Saw','Barrel & Wedge Press','Stamper','Crimper','Glue Machine','Safety Systems','HMI','Control Panel','Electrical Cabinet']},
-  lubrication:{'WV-THREAD-T1':['Mechanical Lube System','Die Lube System'],'WV-THREAD-T2':['Mechanical Lube System','Die Lube System'],'WV-THREAD-AT':['Mechanical Lube System','Die Lube System']},
-  scheduled:{'*':['Meeting','Extra Cleaning','Boot Truck','Wellness Visit','Contractor Work','PM Activity','Changing Stations','Drug Test']},
-  qc:{'*':['Waiting on Results','Failed Test']},
-  loading:{'WV-PRESS-400':['Forklift','Operator'],'WV-PRESS-500A':['Forklift','Operator'],'WV-PRESS-500B':['Forklift','Operator']}
+  tooling:{'EQ-01':['Sub-item 1','Sub-item 2'],'EQ-02':['Sub-item 1','Sub-item 2'],'EQ-03':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-04':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-05':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-06':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-07':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-08':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-09':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-13':['Sub-item 1','Sub-item 2'],'EQ-14':['Sub-item 1','Sub-item 2'],'EQ-15':['Sub-item 1','Sub-item 2'],'EQ-20':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-21':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-22':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-23':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4']},
+  mechanical:{'EQ-01':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-02':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-03':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-04':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-05':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-06':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-07':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-08':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-09':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4'],'EQ-10':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8'],'EQ-11':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8'],'EQ-12':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8'],'EQ-13':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-14':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-15':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6'],'EQ-20':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10'],'EQ-21':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10'],'EQ-22':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11'],'EQ-23':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10']},
+  electrical:{'EQ-01':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8'],'EQ-02':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8'],'EQ-03':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-04':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-05':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-06':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-07':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-08':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-09':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9'],'EQ-10':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-11':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-12':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-13':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-14':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11','Sub-item 12','Sub-item 13'],'EQ-15':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7'],'EQ-20':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11'],'EQ-21':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11'],'EQ-22':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11','Sub-item 12'],'EQ-23':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8','Sub-item 9','Sub-item 10','Sub-item 11','Sub-item 12']},
+  lubrication:{'EQ-10':['Sub-item 1','Sub-item 2'],'EQ-11':['Sub-item 1','Sub-item 2'],'EQ-12':['Sub-item 1','Sub-item 2']},
+  scheduled:{'*':['Sub-item 1','Sub-item 2','Sub-item 3','Sub-item 4','Sub-item 5','Sub-item 6','Sub-item 7','Sub-item 8']},
+  qc:{'*':['Sub-item 1','Sub-item 2']},
+  loading:{'EQ-03':['Sub-item 1','Sub-item 2'],'EQ-04':['Sub-item 1','Sub-item 2'],'EQ-05':['Sub-item 1','Sub-item 2']}
 };
 const DT_CODE_SUBCAT={1:'tooling',5:'electrical',8:'mechanical',9:'lubrication',11:'loading',14:'qc',16:'scheduled'};
 const DT_CODE_TO_CAT={1:'Mechanical',2:'Mechanical',3:'Process',4:'Process',5:'Electrical',6:'Electrical',7:'Electrical',8:'Mechanical',9:'Mechanical',10:'Changeover',11:'Material',12:'Material',13:'Material',14:'Quality',15:'Process',16:'Other',17:'Electrical',18:'Mechanical',19:'Mechanical',20:'Mechanical',21:'Electrical'};
@@ -2307,7 +2308,7 @@ function getProductName(c){
   const cp=(_masterRef&&_masterRef.customProducts||[]).find(x=>x.code===c);if(cp)return cp.name;
   // Fallback: try to map old/discontinued codes to standard products by prefix pattern
   // Legacy code fallback — try mapping old prefixes (database migration should have fixed these)
-  const codeMap={'P-HDR':'P-HD1','P-HDG':'P-HD1','P-SHR':'P-SH1','P-THR':'P-TR1','P-PRS':'P-P40','P-PEL':'P-MPL','P-ASS':'P-ASY','P-CAB':'P-CBL'};
+  const codeMap={};
   const prefix=c.substring(0,5);const mapped=codeMap[prefix];
   if(mapped){const suffix=c.substring(5);const std=INIT_PRODUCTS.find(x=>x.code===mapped+suffix);if(std)return std.name;}
   return c;
@@ -2370,7 +2371,7 @@ function getDefCodeName(id,master){
   return'Code '+id;
 }
 function generateEquipCode(processGroup,master){
-  const pg=PROCESS_GROUPS[processGroup];if(!pg)return'WV-NEW-001';
+  const pg=PROCESS_GROUPS[processGroup];if(!pg)return'EQ-NEW-001';
   const prefix=pg.equipPrefix;const letter=pg.letter;
   const allEquip=[...INIT_EQUIPMENT,...(master&&master.customEquipment||[])];
   const existing=allEquip.filter(e=>e.code.startsWith(prefix));
@@ -3061,7 +3062,7 @@ const BDR={
   // Map old product codes to standard codes
   _mapCode(pc){
     if(!pc)return pc;
-    const m={'P-HDR':'P-HD1','P-HDG':'P-HD1','P-SHR':'P-SH1','P-THR':'P-TR1','P-PRS':'P-P40','P-PEL':'P-MPL','P-ASS':'P-ASY','P-CAB':'P-CBL'};
+    const m={};
     const p=pc.substring(0,5);return m[p]?m[p]+pc.substring(5):pc;
   },
   // Get current target rate (TARGET_RATES already has BDR overrides applied, falls back to best-fit)
@@ -3091,7 +3092,7 @@ const BDR={
 
   // Admin approves a pending BDR (async)
   // Equipment that share rates — approving BDR on one updates the other
-  _linkedEquip:{'WV-MISC-UNITS':'WV-MISC-UNITS2','WV-MISC-UNITS2':'WV-MISC-UNITS'},
+  _linkedEquip:{'EQ-30':'EQ-31','EQ-31':'EQ-30'},
   async approve(bdrId,approvedBy){
     try{
       const result=await API.approveBDR(bdrId,approvedBy);
@@ -3252,7 +3253,7 @@ function Home({onEnterData,onAdmin,onDashboard,onTV}){
     h('div',{className:'home-title'},'OpsIQ Dashboard'),
     h('div',{className:'home-subtitle'},'Demo Plant — Simulated Data'),
     h('div',{className:'home-cards'},
-      h('div',{className:'home-card',onClick:onEnterData},h('div',{className:'home-card-icon'},h(Icon.clipboard)),h('div',{className:'home-card-title'},'Enter Data'),h('div',{className:'home-card-desc'},'Record shift production, downtime & defects')),
+      h('div',{className:'home-card',style:{opacity:.5,cursor:'not-allowed'},title:'Disabled in demo'},h('div',{className:'home-card-icon'},h(Icon.clipboard)),h('div',{className:'home-card-title'},'Enter Data'),h('div',{className:'home-card-desc'},'Record shift production, downtime & defects')),
       h('div',{className:'home-card',onClick:onDashboard},h('div',{className:'home-card-icon'},h(Icon.chart)),h('div',{className:'home-card-title'},'Dashboard'),h('div',{className:'home-card-desc'},'View OEE metrics, trends & analytics')),
       h('div',{className:'home-card',onClick:onTV},h('div',{className:'home-card-icon'},h(Icon.tv)),h('div',{className:'home-card-title'},'TV Display'),h('div',{className:'home-card-desc'},'Live production display for shop floor')),
       h('div',{className:'home-card',onClick:onAdmin},h('div',{className:'home-card-icon'},h(Icon.settings)),h('div',{className:'home-card-title'},'Settings'),h('div',{className:'home-card-desc'},'Manage employees, equipment & master data'))
@@ -5456,15 +5457,15 @@ function SSLaborHour({filtered,master}){
   const [productFilter,setProductFilter]=useState('all');
   const [opCountFilter,setOpCountFilter]=useState('all');
 
-  // Exclude Misc Equipment
-  const processes=getProcessList(_masterRef).filter(p=>p!=='Misc Equipment');
-  const allEquip=getActiveEquipment(master).filter(e=>e.process!=='Misc Equipment').sort((a,b)=>a.name.localeCompare(b.name));
+  // Exclude Process 8
+  const processes=getProcessList(_masterRef).filter(p=>p!=='Process 8');
+  const allEquip=getActiveEquipment(master).filter(e=>e.process!=='Process 8').sort((a,b)=>a.name.localeCompare(b.name));
 
   // Filter records by scope, exclude misc equipment
   const scoped=useMemo(()=>{
     let data=filtered.filter(r=>{
       const eq=findEquipment(r.equipCode,_masterRef);
-      return eq&&eq.process!=='Misc Equipment';
+      return eq&&eq.process!=='Process 8';
     });
     if(scopeType==='process'&&scope) data=data.filter(r=>{const eq=findEquipment(r.equipCode,_masterRef);return eq&&eq.process===scope;});
     else if(scopeType==='equipment'&&scope) data=data.filter(r=>r.equipCode===scope);
@@ -6021,7 +6022,7 @@ function YmzEditor({project,mutateData,mutateField,phaseIdx,setPhaseIdx,aiDraft,
       h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:12}},
         h(YmzField,{label:'Owner',value:data.owner,onChange:v=>mutateData(d=>({...d,owner:v}))}),
         h(YmzField,{label:'Location',value:data.location,placeholder:'Demo Plant',onChange:v=>mutateData(d=>({...d,location:v}))}),
-        h(YmzField,{label:'Department',value:data.department,placeholder:'Presses',onChange:v=>mutateData(d=>({...d,department:v}))}),
+        h(YmzField,{label:'Department',value:data.department,placeholder:'Process 2',onChange:v=>mutateData(d=>({...d,department:v}))}),
         h(YmzField,{label:'Start Date',type:'date',value:data.startDate,onChange:v=>mutateData(d=>({...d,startDate:v}))}),
         h(YmzField,{label:'End Date',type:'date',value:data.endDate,onChange:v=>mutateData(d=>({...d,endDate:v}))}),
         h(YmzField,{label:'Method',value:data.method,onChange:v=>mutateData(d=>({...d,method:v}))})
@@ -6235,7 +6236,7 @@ function YmzPicker({projects,onOpen,onCreate,onDelete,onStar,onClose,canClose}){
         h('div',{style:{background:'var(--jm-bg)',padding:12,borderRadius:10,marginBottom:16}},
           h('div',{style:{fontSize:11,fontWeight:700,color:'var(--jm-text-ter)',textTransform:'uppercase',marginBottom:8,letterSpacing:1}},'Start New'),
           h('div',{style:{display:'flex',gap:8}},
-            h('input',{className:'ymz-cell-input',style:{flex:1},placeholder:'Project name, e.g. "500B Die Changeover"',value:newName,onChange:e=>setNewName(e.target.value)}),
+            h('input',{className:'ymz-cell-input',style:{flex:1},placeholder:'Project name, e.g. "Equipment 5 Die Changeover"',value:newName,onChange:e=>setNewName(e.target.value)}),
             h('select',{className:'ymz-cell-input',style:{width:140},value:newType,onChange:e=>setNewType(e.target.value)},
               ['SMED','Changeover','PM','Line Balancing','Other'].map(t=>h('option',{key:t,value:t},t))
             ),
@@ -6675,7 +6676,7 @@ function SixSigmaView({dataVersion,master}){
 
 // ── SWIM LANE FLOWCHART ──
 function SSSwimLane({filtered,master}){
-  const [selProd,setSelProd]=useState('bolt-804');
+  const [selProd,setSelProd]=useState('fp-06');
   const [selLength,setSelLength]=useState('all');
   const [viewMode,setViewMode]=useState('swimlane');
   const fp=FINISHED_PRODUCTS.find(p=>p.id===selProd);
@@ -6731,16 +6732,16 @@ function SSSwimLane({filtered,master}){
 
   const allEquip=getActiveEquipment(master);
   const SIPOC_DATA={
-    Shears:{s:'Steel Mill / Coil Yard',i:'Steel coil, bar stock',o:'Cut bars to specified length',c:'Peeling'},
-    Peeling:{s:'Shears',i:'Cut bars',o:'Peeled bars (smooth surface)',c:'Threading'},
-    Threading:{s:'Peeling',i:'Peeled bars',o:'Threaded bars',c:'Heading'},
-    Heading:{s:'Threading',i:'Threaded bars',o:'Headed bars (forged head)',c:'Assembly'},
-    Assembly:{s:'Heading / Plates',i:'Headed bars, plates, washers, nuts',o:'Finished anchor bolts',c:'Shipping / Customer'},
-    Presses:{s:'Steel Supply',i:'Steel plate stock',o:'Formed plates (channel, donut, etc.)',c:'Assembly / Shipping'},
-    'Big Saw':{s:'Tubing Supply',i:'Raw tubing stock',o:'Cut tubing to length',c:'Offline Welding / Cable Lines'},
-    'Offline Welding':{s:'Big Saw',i:'Cut tubing, conduit, fittings',o:'Welded sub-assemblies',c:'Pipe Assembly'},
-    'Pipe Assembly':{s:'Offline Welding',i:'Welded sub-assemblies, components',o:'Assembled pipe units',c:'Cable Line #3'},
-    'Cable Lines':{s:'Big Saw / Pipe Assembly',i:'Cut tubing or pipe assemblies, strand',o:'Finished cable bolts',c:'Shipping / Customer'}
+    'Process 1':{s:'Material Supply',i:'Raw material stock',o:'Cut material to length',c:'Process 5'},
+    'Process 5':{s:'Process 1',i:'Cut material',o:'Refined material',c:'Process 4'},
+    'Process 4':{s:'Process 5',i:'Refined material',o:'Formed components',c:'Process 3'},
+    'Process 3':{s:'Process 4',i:'Formed components',o:'Finished components',c:'Process 6'},
+    'Process 6':{s:'Process 3 / Process 2',i:'Components and hardware',o:'Finished goods',c:'Shipping / Customer'},
+    'Process 2':{s:'Material Supply',i:'Raw material stock',o:'Formed parts',c:'Process 6 / Shipping'},
+    'Equipment 24':{s:'Material Supply',i:'Raw stock',o:'Cut stock to length',c:'Equipment 26 / Process 7'},
+    'Equipment 26':{s:'Equipment 24',i:'Cut stock and components',o:'Welded sub-assemblies',c:'Equipment 29'},
+    'Equipment 29':{s:'Equipment 26',i:'Sub-assemblies, components',o:'Assembled units',c:'Equipment 22'},
+    'Process 7':{s:'Equipment 24 / Equipment 29',i:'Prepared stock and components',o:'Finished goods',c:'Shipping / Customer'}
   };
   const LANE_COLORS=['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#10B981','#6366F1','#EF4444','#14B8A6'];
 
@@ -6750,9 +6751,9 @@ function SSSwimLane({filtered,master}){
         h('div',null,h('div',{className:'ss-card-title'},'Swim Lane Flowchart'),h('div',{className:'ss-card-sub'},'Product flow through process areas with production quantities')),
         h('div',{style:{display:'flex',gap:10,alignItems:'center',flexWrap:'wrap'}},
           h('select',{className:'form-select',style:{height:36,fontSize:13,minWidth:180},value:selProd,onChange:e=>{setSelProd(e.target.value);setSelLength('all');}},
-            h('optgroup',{label:'Bolts'},FINISHED_PRODUCTS.filter(p=>p.category==='Bolts').map(p=>h('option',{key:p.id,value:p.id},p.name))),
-            h('optgroup',{label:'Plates'},FINISHED_PRODUCTS.filter(p=>p.category==='Plates').map(p=>h('option',{key:p.id,value:p.id},p.name))),
-            h('optgroup',{label:'Cables'},FINISHED_PRODUCTS.filter(p=>p.category==='Cables').map(p=>h('option',{key:p.id,value:p.id},p.name)))),
+            h('optgroup',{label:'Group A'},FINISHED_PRODUCTS.filter(p=>p.category==='Group A').map(p=>h('option',{key:p.id,value:p.id},p.name))),
+            h('optgroup',{label:'Group B'},FINISHED_PRODUCTS.filter(p=>p.category==='Group B').map(p=>h('option',{key:p.id,value:p.id},p.name))),
+            h('optgroup',{label:'Group C'},FINISHED_PRODUCTS.filter(p=>p.category==='Group C').map(p=>h('option',{key:p.id,value:p.id},p.name)))),
           availLengths.length>1&&h('select',{className:'form-select',style:{height:36,fontSize:13,minWidth:160},value:selLength,onChange:e=>setSelLength(e.target.value)},
             h('option',{value:'all'},'All Lengths'),
             availLengths.map(nm=>h('option',{key:nm,value:nm},nm))),
@@ -8400,11 +8401,11 @@ function TVView({dataVersion,master}){
   const [processFilter,setProcessFilter]=useState('');
   const [timeRange,setTimeRange]=useState('today');
   const [liveStatus,setLiveStatus]=useState(null);
-  const [gideonShow,setGideonShow]=useState(false);
-  const [gideonFading,setGideonFading]=useState(false);
-  const [gideonInfo,setGideonInfo]=useState({equip:'',operators:[]});
-  const gideonSeenRef=useRef(new Set()); // track which submissions we've already triggered for
-  const gideonInitRef=useRef(false); // true after first data load seeds the seen set
+  const [recogShow,setRecogShow]=useState(false);
+  const [recogFading,setRecogFading]=useState(false);
+  const [recogInfo,setRecogInfo]=useState({equip:'',operators:[]});
+  const recogSeenRef=useRef(new Set()); // track which submissions we've already triggered for
+  const recogInitRef=useRef(false); // true after first data load seeds the seen set
   const processes=getProcessList(_masterRef);
   if(!processFilter&&processes.length>0)setTimeout(()=>setProcessFilter(processes[0]),0);
 
@@ -8476,42 +8477,42 @@ function TVView({dataVersion,master}){
   // Records for current day (always used for live view)
   const todayRecords=useMemo(()=>allRecords.filter(r=>r.date===todayStr),[allRecords,todayStr]);
 
-  // Detect Gideon Time downtime submissions
+  // Detect recognition downtime submissions
   // On first data load, seed the seen set so old entries don't trigger.
   // Only NEW entries (appearing after page load) trigger the animation.
   useEffect(()=>{
-    if(gideonShow)return;
-    if(!gideonInitRef.current&&todayRecords.length>0){
-      // First load — mark all existing Gideon Time entries as already seen
+    if(recogShow)return;
+    if(!recogInitRef.current&&todayRecords.length>0){
+      // First load — mark all existing recognition entries as already seen
       todayRecords.forEach(r=>{
         (r.downtime||[]).forEach(dt=>{
           if(String(dt.dtCode)==='22'){
-            gideonSeenRef.current.add(r.equipCode+'|'+r.hourIdx+'|'+r.date);
+            recogSeenRef.current.add(r.equipCode+'|'+r.hourIdx+'|'+r.date);
           }
         });
       });
-      gideonInitRef.current=true;
+      recogInitRef.current=true;
       return;
     }
-    if(!gideonInitRef.current)return;
-    // After init, detect NEW Gideon Time entries
+    if(!recogInitRef.current)return;
+    // After init, detect NEW recognition entries
     todayRecords.forEach(r=>{
       (r.downtime||[]).forEach(dt=>{
         if(String(dt.dtCode)==='22'){
           const key=r.equipCode+'|'+r.hourIdx+'|'+r.date;
-          if(!gideonSeenRef.current.has(key)){
-            gideonSeenRef.current.add(key);
+          if(!recogSeenRef.current.has(key)){
+            recogSeenRef.current.add(key);
             const eqName=getEquipName(r.equipCode);
             const ops=(r.operators||[]).filter(Boolean);
-            setGideonInfo({equip:eqName,operators:ops});
-            setGideonShow(true);setGideonFading(false);
-            setTimeout(()=>setGideonFading(true),28000);
-            setTimeout(()=>{setGideonShow(false);setGideonFading(false);},30000);
+            setRecogInfo({equip:eqName,operators:ops});
+            setRecogShow(true);setRecogFading(false);
+            setTimeout(()=>setRecogFading(true),28000);
+            setTimeout(()=>{setRecogShow(false);setRecogFading(false);},30000);
           }
         }
       });
     });
-  },[todayRecords,gideonShow]);
+  },[todayRecords,recogShow]);
 
   // Determine which shift is currently active (based on ET time)
   // Re-evaluate on each data refresh so shift transitions are picked up
@@ -8625,15 +8626,15 @@ function TVView({dataVersion,master}){
   const gridStyle={gridTemplateColumns:'repeat('+gridCols+',1fr)',gridTemplateRows:'repeat('+gridRows+',1fr)'};
 
   return h('div',{className:'tv-display'},
-    // GIDEON TIME OVERLAY
-    gideonShow&&h('div',{className:'gideon-overlay'},
-      h('div',{className:'gideon-card'+(gideonFading?' fade-out':'')},
-        h('img',{src:'/gideon.png',alt:'GIDEON TIME'}),
-        h('div',{className:'gideon-info'},
-          h('div',{className:'gideon-info-title'},'\u23F0 GIDEON TIME \u23F0'),
-          gideonInfo.equip&&h('div',{className:'gideon-info-equip'},'\uD83D\uDD27 ',gideonInfo.equip),
-          gideonInfo.operators.length>0&&h('div',{className:'gideon-info-ops'},
-            gideonInfo.operators.map(op=>h('span',{key:op,className:'gideon-info-op'},'\uD83D\uDC64 ',op))
+    // RECOGNITION OVERLAY
+    recogShow&&h('div',{className:'recog-overlay'},
+      h('div',{className:'recog-card'+(recogFading?' fade-out':'')},
+        h('img',{src:'/recog.png',alt:'Recognition'}),
+        h('div',{className:'recog-info'},
+          h('div',{className:'recog-info-title'},'\u23F0 TEAM RECOGNITION \u23F0'),
+          recogInfo.equip&&h('div',{className:'recog-info-equip'},'\uD83D\uDD27 ',recogInfo.equip),
+          recogInfo.operators.length>0&&h('div',{className:'recog-info-ops'},
+            recogInfo.operators.map(op=>h('span',{key:op,className:'recog-info-op'},'\uD83D\uDC64 ',op))
           )
         )
       )
@@ -9031,12 +9032,12 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
   }
   // ── Scrap Report Export ──
   const PLATE_WEIGHTS={
-    'P-P40-001':1.51,'P-P40-002':2.42,'P-P40-003':2.69,'P-P40-004':4.31,
-    'P-P5A-001':1.08,'P-P5A-002':2.42,'P-P5A-003':1.61,'P-P5A-004':5.38,
-    'P-P5A-005':6.46,'P-P5A-006':3.63,'P-P5A-007':4.84,'P-P5A-008':8.61,
-    'P-P5B-001':2.83
+    'PR-082':1.51,'PR-083':2.42,'PR-084':2.69,'PR-085':4.31,
+    'PR-087':1.08,'PR-088':2.42,'PR-089':1.61,'PR-090':5.38,
+    'PR-091':6.46,'PR-092':3.63,'PR-093':4.84,'PR-094':8.61,
+    'PR-095':2.83
   };
-  const PRESS_EQUIP=['WV-PRESS-400','WV-PRESS-500A','WV-PRESS-500B'];
+  const PRESS_EQUIP=['EQ-03','EQ-04','EQ-05'];
   function isPlateProduct(productCode,equipCode){
     if(PLATE_WEIGHTS[productCode])return true;
     if(PRESS_EQUIP.includes(equipCode))return true;
@@ -9262,9 +9263,9 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
     setProdEquipAssign([]);setProdTargetRates({});
   }
   function getProdName(){
-    if(prodCategory==='Bolt')return prodDiameter+' x '+prodLength;
-    if(prodCategory==='Plate')return prodThickness+' x '+prodDimensions+(prodVariant?' '+prodVariant:'');
-    if(prodCategory==='Cable')return prodDiameter+' x '+prodLength+' '+prodCableType;
+    if(prodCategory==='Type A')return prodDiameter+' x '+prodLength;
+    if(prodCategory==='Type B')return prodThickness+' x '+prodDimensions+(prodVariant?' '+prodVariant:'');
+    if(prodCategory==='Type C')return prodDiameter+' x '+prodLength+' '+prodCableType;
     if(prodCategory==='Misc')return prodMiscName;
     return'';
   }
@@ -9523,7 +9524,7 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
         prodWizardStep===1&&h('div',null,
           h('label',{style:{fontSize:13,fontWeight:600,color:'var(--jm-text)',display:'block',marginBottom:12}},'Select Product Category'),
           h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',gap:10}},
-            ['Bolt','Plate','Cable','Misc'].map(cat=>h('button',{key:cat,className:'dash-shift-btn'+(prodCategory===cat?' active':''),onClick:()=>{setProdCategory(cat);setProdWizardStep(2);setProdDiameter('');setProdLength('');setProdThickness('');setProdDimensions('');setProdVariant('');setProdCableType('');setProdMiscName('');},style:{padding:'20px 16px',fontSize:15,fontWeight:700,borderRadius:10,border:'2px solid '+(prodCategory===cat?'var(--jm-blue)':'var(--jm-border)'),background:prodCategory===cat?'#EBF5FF':'var(--jm-bg)',color:prodCategory===cat?'var(--jm-blue)':'var(--jm-text)',cursor:'pointer',textAlign:'center',transition:'all 0.15s'}},cat))
+            ['Type A','Type B','Type C','Misc'].map(cat=>h('button',{key:cat,className:'dash-shift-btn'+(prodCategory===cat?' active':''),onClick:()=>{setProdCategory(cat);setProdWizardStep(2);setProdDiameter('');setProdLength('');setProdThickness('');setProdDimensions('');setProdVariant('');setProdCableType('');setProdMiscName('');},style:{padding:'20px 16px',fontSize:15,fontWeight:700,borderRadius:10,border:'2px solid '+(prodCategory===cat?'var(--jm-blue)':'var(--jm-border)'),background:prodCategory===cat?'#EBF5FF':'var(--jm-bg)',color:prodCategory===cat?'var(--jm-blue)':'var(--jm-text)',cursor:'pointer',textAlign:'center',transition:'all 0.15s'}},cat))
           ),
           h('div',{style:{display:'flex',justifyContent:'flex-end',gap:8,marginTop:16}},
             h('button',{className:'btn',onClick:resetProdWizard,style:{fontSize:13,padding:'8px 16px'}},'Cancel')
@@ -9532,65 +9533,65 @@ function AdminPanel({master,onUpdate,onDataChange,authUser}){
         // Step 2: Product Details
         prodWizardStep===2&&h('div',null,
           h('label',{style:{fontSize:13,fontWeight:600,color:'var(--jm-text)',display:'block',marginBottom:12}},'Product Details \u2014 '+prodCategory),
-          prodCategory==='Bolt'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
+          prodCategory==='Type A'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
             h('div',{style:{flex:'1 1 160px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Diameter'),
               h('select',{value:prodDiameter,onChange:e=>setProdDiameter(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['5/8','3/4','51/64','.677','.804','6RB','7RB'].map(v=>h('option',{key:v,value:v},v))
+                ['Size 1','Size 2','Size 3','Size 4','Size 5','Size 6','Size 7'].map(v=>h('option',{key:v,value:v},v))
               )
             ),
             h('div',{style:{flex:'1 1 160px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Length'),
               h('select',{value:prodLength,onChange:e=>setProdLength(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['24"','36"','48"','60"','72"','96"','120"','174"'].map(v=>h('option',{key:v,value:v},v))
+                ['Length 1','Length 2','Length 3','Length 4','Length 5','Length 6','Length 7','Length 8'].map(v=>h('option',{key:v,value:v},v))
               )
             )
           ),
-          prodCategory==='Plate'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
+          prodCategory==='Type B'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Thickness'),
               h('select',{value:prodThickness,onChange:e=>setProdThickness(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['5/32','1/4','5/16','3/8','1/2'].map(v=>h('option',{key:v,value:v},v))
+                ['Size 1','Size 2','Size 3','Size 4','Size 5'].map(v=>h('option',{key:v,value:v},v))
               )
             ),
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Dimensions'),
               h('select',{value:prodDimensions,onChange:e=>setProdDimensions(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['4 x 4','6 x 6','6 x 7','8 x 8'].map(v=>h('option',{key:v,value:v},v))
+                ['Dim 1','Dim 2','Dim 3','Dim 4'].map(v=>h('option',{key:v,value:v},v))
               )
             ),
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Variant'),
               h('select',{value:prodVariant,onChange:e=>setProdVariant(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'(none)'),
-                ['Flat','Donut','Dome','Volcanic'].map(v=>h('option',{key:v,value:v},v))
+                ['Variant 1','Variant 2','Variant 3','Variant 4'].map(v=>h('option',{key:v,value:v},v))
               )
             )
           ),
-          prodCategory==='Cable'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
+          prodCategory==='Type C'&&h('div',{style:{display:'flex',gap:12,flexWrap:'wrap',marginBottom:12}},
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Diameter'),
               h('select',{value:prodDiameter,onChange:e=>setProdDiameter(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['.6','.7'].map(v=>h('option',{key:v,value:v},v))
+                ['Size 1','Size 2'].map(v=>h('option',{key:v,value:v},v))
               )
             ),
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Length'),
               h('select',{value:prodLength,onChange:e=>setProdLength(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ["8'","10'","12'","14'","16'","20'","24'"].map(v=>h('option',{key:v,value:v},v))
+                ['Length 1','Length 2','Length 3','Length 4','Length 5','Length 6','Length 7'].map(v=>h('option',{key:v,value:v},v))
               )
             ),
             h('div',{style:{flex:'1 1 140px'}},
               h('label',{style:{fontSize:12,fontWeight:600,color:'var(--jm-text-sec)',display:'block',marginBottom:4}},'Type'),
               h('select',{value:prodCableType,onChange:e=>setProdCableType(e.target.value),style:{width:'100%',height:38,fontSize:13,borderRadius:8,border:'1px solid var(--jm-border)',padding:'0 10px'}},
                 h('option',{value:''},'-- Select --'),
-                ['ICC','Passive','FG','Low Pro'].map(v=>h('option',{key:v,value:v},v))
+                ['Type 1','Type 2','Type 3','Type 4'].map(v=>h('option',{key:v,value:v},v))
               )
             )
           ),
@@ -10637,7 +10638,7 @@ function EquipmentSelect({selected,onToggle,onBack,onNext,master}){
   return h('div',null,
     h('div',{className:'card'},
       h('div',{className:'card-title'},'Equipment Selection'),h('div',{className:'card-sub'},'Select all equipment for this shift. ',selected.length,' selected.'),
-      Object.entries(byP).map(([proc,equips])=>h('div',{key:proc},h('div',{className:'process-header'},proc),h('div',{className:'equip-grid'},equips.map(eq=>h('div',{key:eq.code,className:`equip-card${selected.includes(eq.code)?' selected':''}`,onClick:()=>onToggle(eq.code)},h('div',{className:'equip-card-code'},eq.code.replace('WV-','')),h('div',{className:'equip-card-name'},eq.name))))))
+      Object.entries(byP).map(([proc,equips])=>h('div',{key:proc},h('div',{className:'process-header'},proc),h('div',{className:'equip-grid'},equips.map(eq=>h('div',{key:eq.code,className:`equip-card${selected.includes(eq.code)?' selected':''}`,onClick:()=>onToggle(eq.code)},h('div',{className:'equip-card-code'},eq.code),h('div',{className:'equip-card-name'},eq.name))))))
     ),
     h('div',{className:'nav-footer'},h('button',{className:'btn btn-secondary',onClick:onBack},'\u2190 Back'),h('button',{className:'btn btn-primary',onClick:selected.length?onNext:null,style:{opacity:selected.length?1:.45}},`Enter Production Data (${selected.length}) \u2192`))
   );
@@ -10970,7 +10971,7 @@ function App({authUser,onLogout}){
   const toggleTheme=()=>setTheme(t=>t==='light'?'dark':'light');
   // Restore wizard state from sessionStorage if mid-entry
   const _saved=useMemo(()=>loadSession(),[]);
-  const [screen,setScreen]=useState(_saved?.screen||'dashboard');
+  const [screen,setScreen]=useState(_saved&&_saved.screen&&_saved.screen!=='entry'?_saved.screen:'dashboard');
   const [dataVersion,setDataVersion]=useState(0);
   const [step,setStep]=useState(_saved?.step||1);
   const [master,setMaster]=useState(()=>{
@@ -11280,11 +11281,11 @@ function App({authUser,onLogout}){
     h('div',{className:'app-layout'},
     // Sidebar
     h('nav',{className:'sidebar'},
-      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},'OpsIQ'),
+      h('div',{className:'sidebar-logo',onClick:()=>setScreen('dashboard')},h('img',{src:'favicon.png',alt:'',style:{width:30,height:30,display:'block',margin:'0 auto'}})),
       h('div',{className:'sidebar-nav'},
         h('button',{className:'sidebar-btn'+(screen==='dashboard'?' active':''),onClick:()=>setScreen('dashboard'),title:'Dashboard'},h(Icon.dashboard)),
         h('button',{className:'sidebar-btn'+(screen==='sixsigma'?' active':''),onClick:()=>setScreen('sixsigma'),title:'Six Sigma Toolbox'},h(Icon.sixsigma)),
-        h('button',{className:'sidebar-btn'+(screen==='entry'?' active':''),onClick:()=>setScreen('entry'),title:'Enter Data'},h(Icon.clipboard)),
+        h('button',{className:'sidebar-btn',disabled:true,title:'Enter Data (disabled in demo)',style:{opacity:.35,cursor:'not-allowed'}},h(Icon.clipboard)),
         h('button',{className:'sidebar-btn'+(screen==='tv'?' active':''),onClick:()=>setScreen('tv'),title:'TV Display'},h(Icon.tv)),
         (authUser.role==='admin'||authUser.role==='supervisor')&&h('button',{className:'sidebar-btn'+(screen==='analytics'?' active':''),onClick:()=>setScreen('analytics'),title:'Analytics'},h(Icon.analytics)),
         (authUser.role==='admin'||authUser.role==='supervisor')&&h('button',{className:'sidebar-btn'+(screen==='admin'?' active':''),onClick:()=>setScreen('admin'),title:'Settings'},h(Icon.settings)),

@@ -502,14 +502,6 @@ section { padding: 6.5rem 0; }
   width: 5px; height: 1px; background: var(--blue);
 }
 
-.exp-tags { display: flex; gap: 0.5rem; margin-top: 0.9rem; flex-wrap: wrap; }
-
-.exp-tag {
-  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink-muted);
-  padding: 0.2rem 0.5rem; border: 1px solid var(--rule);
-}
-
 .exp-org {
   margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule);
   display: flex; gap: 2rem; font-size: 0.74rem; color: var(--ink-muted); flex-wrap: wrap;
@@ -615,7 +607,7 @@ footer {
 .capex-total-num { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--ink); }
 .capex-row {
   display: grid; grid-template-columns: 1fr 100px 44px 170px; gap: 1.25rem;
-  align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule);
+  align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--rule);
 }
 .capex-proj { font-size: 0.86rem; font-weight: 500; color: var(--ink); }
 .capex-sub { font-size: 0.74rem; color: var(--ink-muted); margin-top: 2px; }
@@ -636,10 +628,10 @@ footer {
 }
 .capex-tl-dot.auto { background: var(--blue); width: 13px; height: 13px; box-shadow: 0 0 0 4px rgba(51,84,78,0.14); }
 .capex-tl-lab {
-  position: absolute; bottom: 13px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   white-space: nowrap; font-size: 0.62rem; font-weight: 500; color: var(--ink-light);
 }
-.capex-tl-lab.below { top: 15px; bottom: auto; }
+.capex-tl-lab.below { top: 19px; bottom: auto; }
 .capex-tl-months {
   position: absolute; left: 0; right: 0; bottom: 0;
   display: flex; justify-content: space-between;
@@ -737,7 +729,7 @@ footer {
 .rpt-track i.bad { background: #B0524A; }
 .rpt-track i.warn { background: #C1913C; }
 .rpt-foot { text-align: center; font-size: 0.6rem; color: var(--ink-muted); padding: 0.6rem; border-top: 1px solid var(--rule); }
-.capex-tl-lab.end { transform: translateX(-82%); }
+.capex-tl-lab.end { transform: translateX(-80%); bottom: 20px; }
 @media (max-width: 600px) {
   .rpt-shifts, .rpt-bars-grid { grid-template-columns: 1fr; }
   .rpt-shift + .rpt-shift { border-left: none; border-top: 1px solid var(--rule); }
@@ -854,6 +846,8 @@ footer {
   :root:not([data-theme="light"]) .c-petrol { background: #9DBBB1; }
   :root:not([data-theme="light"]) .c-slate { background: #8FA0B5; }
   :root:not([data-theme="light"]) .c-amber { background: #D9A441; }
+:root:not([data-theme="light"]) .capex-tl-months { color: var(--ink-light); }
+:root:not([data-theme="light"]) .capex-tl-lab { color: var(--ink-body); }
 }
 
 [data-theme="dark"] {
@@ -877,6 +871,8 @@ footer {
 [data-theme="dark"] .c-petrol { background: #9DBBB1; }
 [data-theme="dark"] .c-slate { background: #8FA0B5; }
 [data-theme="dark"] .c-amber { background: #D9A441; }
+[data-theme="dark"] .capex-tl-months { color: var(--ink-light); }
+[data-theme="dark"] .capex-tl-lab { color: var(--ink-body); }
 
 /* ── THEME TOGGLE ── */
 .theme-toggle {
@@ -1243,7 +1239,7 @@ footer {
           <div class="proj-name">Capital Planning &mdash; Annual Portfolio</div>
           <p class="proj-desc">The annual capital plan, balancing automation investment against care of the asset base&mdash;each project scoped, sequenced across the year, and tied to a payback case before submission.</p>
           <div class="capex">
-            <div class="capex-total"><span class="capex-total-label">Total planned capex &middot; illustrative</span><span class="capex-total-num">$1,485,000</span></div>
+            <div class="capex-total"><span class="capex-total-label">Total planned capex &middot; illustrative &middot; 12 projects</span><span class="capex-total-num">$2,085,000</span></div>
             <div class="capex-row">
               <div>
                 <div class="capex-proj">Automated Cell &mdash; Line 2</div>
@@ -1252,6 +1248,15 @@ footer {
               <span class="capex-type auto">Automation</span>
               <span class="capex-when">Nov</span>
               <div class="capex-inv"><span>$1,050,000</span><div class="capex-bar"><i style="width:100%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Packaging Robot &mdash; End of Line</div>
+                <div class="capex-sub">Robotic case packing and palletizing</div>
+              </div>
+              <span class="capex-type auto">Automation</span>
+              <span class="capex-when">Sep</span>
+              <div class="capex-inv"><span>$240,000</span><div class="capex-bar"><i style="width:23%"></i></div></div>
             </div>
             <div class="capex-row">
               <div>
@@ -1273,12 +1278,39 @@ footer {
             </div>
             <div class="capex-row">
               <div>
+                <div class="capex-proj">CNC Spindle Rebuild</div>
+                <div class="capex-sub">Planned rebuild of two high-hour spindles</div>
+              </div>
+              <span class="capex-type">Maintenance</span>
+              <span class="capex-when">Feb</span>
+              <div class="capex-inv"><span>$95,000</span><div class="capex-bar"><i style="width:9%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
                 <div class="capex-proj">Critical Spares Program</div>
                 <div class="capex-sub">Plant-wide coverage for long-lead components</div>
               </div>
               <span class="capex-type">Maintenance</span>
               <span class="capex-when">Jul</span>
               <div class="capex-inv"><span>$85,000</span><div class="capex-bar"><i style="width:8%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Warehouse Racking Expansion</div>
+                <div class="capex-sub">Add selective racking for finished-goods overflow</div>
+              </div>
+              <span class="capex-type">Infrastructure</span>
+              <span class="capex-when">Jun</span>
+              <div class="capex-inv"><span>$75,000</span><div class="capex-bar"><i style="width:7%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Dust Collection Upgrade</div>
+                <div class="capex-sub">Higher-capacity baghouse for the finishing area</div>
+              </div>
+              <span class="capex-type">EHS</span>
+              <span class="capex-when">Apr</span>
+              <div class="capex-inv"><span>$70,000</span><div class="capex-bar"><i style="width:7%"></i></div></div>
             </div>
             <div class="capex-row">
               <div>
@@ -1289,13 +1321,47 @@ footer {
               <span class="capex-when">Mar</span>
               <div class="capex-inv"><span>$50,000</span><div class="capex-bar"><i style="width:5%"></i></div></div>
             </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Dock Leveler Replacement</div>
+                <div class="capex-sub">Replace two end-of-life dock levelers</div>
+              </div>
+              <span class="capex-type">Infrastructure</span>
+              <span class="capex-when">Jan</span>
+              <div class="capex-inv"><span>$45,000</span><div class="capex-bar"><i style="width:4%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Machine Guarding Program</div>
+                <div class="capex-sub">Bring legacy equipment to current guarding standard</div>
+              </div>
+              <span class="capex-type">EHS</span>
+              <span class="capex-when">Oct</span>
+              <div class="capex-inv"><span>$40,000</span><div class="capex-bar"><i style="width:4%"></i></div></div>
+            </div>
+            <div class="capex-row">
+              <div>
+                <div class="capex-proj">Water Treatment Skid</div>
+                <div class="capex-sub">Closed-loop treatment for quench water</div>
+              </div>
+              <span class="capex-type">Infrastructure</span>
+              <span class="capex-when">Dec</span>
+              <div class="capex-inv"><span>$35,000</span><div class="capex-bar"><i style="width:3%"></i></div></div>
+            </div>
             <div class="capex-tl">
               <div class="capex-tl-line"></div>
-              <div class="capex-tl-dot" style="left:20.8%"><span class="capex-tl-lab">LED &middot; $50K</span></div>
-              <div class="capex-tl-dot" style="left:37.5%"><span class="capex-tl-lab below">Conveyor &middot; $180K</span></div>
-              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-lab">Spares &middot; $85K</span></div>
-              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-lab below">Air &middot; $120K</span></div>
+              <div class="capex-tl-dot" style="left:4.17%"></div>
+              <div class="capex-tl-dot" style="left:12.5%"></div>
+              <div class="capex-tl-dot" style="left:20.8%"><span class="capex-tl-lab below">LED &middot; $50K</span></div>
+              <div class="capex-tl-dot" style="left:29.2%"></div>
+              <div class="capex-tl-dot" style="left:37.5%"><span class="capex-tl-lab">Conveyor &middot; $180K</span></div>
+              <div class="capex-tl-dot" style="left:45.8%"></div>
+              <div class="capex-tl-dot" style="left:54.2%"><span class="capex-tl-lab below">Spares &middot; $85K</span></div>
+              <div class="capex-tl-dot" style="left:62.5%"><span class="capex-tl-lab">Air &middot; $120K</span></div>
+              <div class="capex-tl-dot" style="left:70.8%"><span class="capex-tl-lab below">Packaging &middot; $240K</span></div>
+              <div class="capex-tl-dot" style="left:79.2%"></div>
               <div class="capex-tl-dot auto" style="left:87.5%"><span class="capex-tl-lab end">Automated cell &middot; $1.05M</span></div>
+              <div class="capex-tl-dot" style="left:95.8%"></div>
               <div class="capex-tl-months"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
             </div>
           </div>
@@ -1491,14 +1557,7 @@ footer {
               <li>Established quality governance framework with automated SPC, material traceability, and quarantine controls&mdash;strengthening customer confidence and reducing cost of poor quality</li>
               <li>Digitized plant operations end-to-end&mdash;real-time machine monitoring with automated OEE and downtime analytics across 16 machines, plus automated daily performance reporting&mdash;so leaders act on data instead of assembling it</li>
             </ul>
-            <div class="exp-tags">
-              <span class="exp-tag">P&amp;L Ownership</span>
-              <span class="exp-tag">Daily Management</span>
-              <span class="exp-tag">CMMS</span>
-              <span class="exp-tag">OpsIQ</span>
-            </div>
             <div class="exp-org">
-              <div><strong>Reports to:</strong> VP of Operations</div>
               <div><strong>Team:</strong> ~100 people across production, maintenance, quality &amp; shipping</div>
             </div>
           </div>
@@ -1525,11 +1584,7 @@ footer {
               <li>Cut rework 66% by driving data capture, analysis, and targeted process improvement</li>
               <li>Built a new third-shift team into the highest-performing shift within one month</li>
             </ul>
-            <div class="exp-tags">
-              <span class="exp-tag">Scrum</span><span class="exp-tag">Lean</span><span class="exp-tag">OEE</span><span class="exp-tag">Kanban</span>
-            </div>
             <div class="exp-org">
-              <div><strong>Reports to:</strong> Sr. Director of Operations</div>
               <div><strong>Team:</strong> 11 Production Supervisors, 6 Team Leads, 240 Technicians</div>
             </div>
 
@@ -1544,10 +1599,7 @@ footer {
                 <li>Cut scrap defects 30% with targeted initiatives backed by real data</li>
                 <li>Eliminated documentation risk by automating quality record-keeping</li>
               </ul>
-              <div class="exp-tags">
-                <span class="exp-tag">ISO 9001</span><span class="exp-tag">Quality Systems</span>
-              </div>
-              <div class="exp-org"><div><strong>Reports to:</strong> Director of Quality</div><div><strong>Team:</strong> 6 Quality Technicians</div></div>
+              <div class="exp-org"><div><strong>Team:</strong> 6 Quality Technicians</div></div>
             </div>
           </div>
         </div>
@@ -1571,9 +1623,6 @@ footer {
               <li>Guided budget oversight and risk mitigation to align spending with strategic goals</li>
               <li>Applied controls, instrumentation, and safety expertise to solve complex reliability challenges</li>
             </ul>
-            <div class="exp-tags">
-              <span class="exp-tag">Six Sigma</span><span class="exp-tag">OEE</span><span class="exp-tag">Process Safety</span>
-            </div>
           </div>
         </div>
       </div>
@@ -1594,7 +1643,6 @@ footer {
               <li>Integrated lean problem-solving into daily routines, improving flow and safety consistency</li>
               <li>Cultivated a performance culture grounded in accountability, development, and continuous improvement</li>
             </ul>
-            <div class="exp-tags"><span class="exp-tag">Leadership</span><span class="exp-tag">Lean</span><span class="exp-tag">Safety</span></div>
 
             <div class="exp-sub">
               <div class="exp-role-title">Process Control Engineer</div>
@@ -1605,7 +1653,6 @@ footer {
                 <li>Strengthened collaboration across functions, eliminating 35+ hours of annual downtime</li>
                 <li>Mentored technicians and fostered a data-driven culture for continuous improvement</li>
               </ul>
-              <div class="exp-tags"><span class="exp-tag">Process Control</span><span class="exp-tag">CI</span><span class="exp-tag">Mentoring</span></div>
             </div>
           </div>
         </div>
@@ -1704,6 +1751,7 @@ function closeM() { mb.classList.remove('open'); mn.classList.remove('open'); }
     const next = isDark() ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+    if (window.__reinitCharts) window.__reinitCharts();
   });
 })();
 
@@ -1741,6 +1789,7 @@ const RULE = '#E7E4DC';
 const LIGHT_BLUE = 'rgba(51,84,78,0.12)';
 
 function initChartsWhenVisible() {
+['paybackChart','inventoryChart','efficiencyChart','tonsChart'].forEach(id => { const el = document.getElementById(id); if (el) { const ex = Chart.getChart(el); if (ex) ex.destroy(); } });
 const tt = { backgroundColor:'#1B1C1A', titleFont:{weight:500,size:12}, bodyFont:{weight:400,size:11}, padding:10, cornerRadius:0, displayColors:false };
 const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light');
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#EDEBE4';
@@ -1825,12 +1874,12 @@ new Chart(document.getElementById('paybackChart'), {
 });
 
 // ─── INVENTORY — three Paretos on one chart (FG / RM / WIP) ───
-const invLabels = ['Anchor Bolts','Plates & Mats','Rail Hardware','Mesh Panels','Fastener Kits','Channel Steel','Accessories','Components','Bar & Rod','Coil Plate','All WIP'];
-const invValues = [480, 420, 260, 220, 180, 150, 120, 3200, 1200, 350, 1200];
+const invLabels = ['Product 1','Product 2','Product 3','Product 4','Product 5','Product 6','Product 7','Material 1','Material 2','Material 3','All WIP'];
+const invValues = [700, 420, 260, 170, 120, 90, 70, 3400, 1000, 350, 1200];
 const invGroups = ['fg','fg','fg','fg','fg','fg','fg','rm','rm','rm','wip'];
 const invColors = invGroups.map(g => g === 'rm' ? ACCENT : g === 'fg' ? SLATE : AMBER);
-const fgCum  = [26, 49, 63, 75, 85, 93, 100, null, null, null, null];
-const rmCum  = [null, null, null, null, null, null, null, 67, 93, 100, null];
+const fgCum  = [38, 61, 75, 85, 91, 96, 100, null, null, null, null];
+const rmCum  = [null, null, null, null, null, null, null, 72, 93, 100, null];
 const wipCum = [null, null, null, null, null, null, null, null, null, null, 100];
 const invSections = {
   id: 'invSections',
@@ -1895,10 +1944,10 @@ new Chart(document.getElementById('efficiencyChart'), {
   data: {
     labels: effMonths,
     datasets: [
-      { type: 'line', label: 'Plant — current year', data: [109.8,111.4,112.1,113.6,112.8,114.2].concat(nullPad(6)), borderColor: ACCENT, borderWidth: 2.5, pointRadius: 3.5, pointBackgroundColor: ACCENT, spanGaps: false, tension: 0.15, dlFmt: v => v.toFixed(1), dlColor: ACCENT },
-      { type: 'line', label: 'Plant — prior year', data: [106.2,108.5,107.1,109.4,108.0,110.2,105.8,111.0,109.6,108.8,110.5,107.9], borderColor: AMBER, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: AMBER, tension: 0.15, dlFmt: v => v.toFixed(1), dlBelow: true, dlColor: AMBER },
-      { type: 'bar', label: 'Shift 1 (current)', data: [109.2,110.8,111.5,113.1,112.2,113.8].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(143,160,181,0.4)' : 'rgba(76,90,107,0.28)', borderRadius: 2 },
-      { type: 'bar', label: 'Shift 2 (current)', data: [110.4,112.0,112.7,114.1,113.4,114.6].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(157,187,177,0.4)' : 'rgba(51,84,78,0.24)', borderRadius: 2 }
+      { type: 'line', label: 'Plant — current year', data: [91.8,93.4,94.1,95.6,94.8,96.2].concat(nullPad(6)), borderColor: ACCENT, borderWidth: 2.5, pointRadius: 3.5, pointBackgroundColor: ACCENT, spanGaps: false, tension: 0.15, dlFmt: v => v.toFixed(1), dlColor: ACCENT },
+      { type: 'line', label: 'Plant — prior year', data: [88.2,90.5,89.1,91.4,90.0,92.2,87.8,93.0,91.6,90.8,92.5,89.9], borderColor: AMBER, borderWidth: 1.5, pointRadius: 2.5, pointBackgroundColor: AMBER, tension: 0.15, dlFmt: v => v.toFixed(1), dlBelow: true, dlColor: AMBER },
+      { type: 'bar', label: 'Shift 1 (current)', data: [91.2,92.8,93.5,95.1,94.2,95.8].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(143,160,181,0.4)' : 'rgba(76,90,107,0.28)', borderRadius: 2 },
+      { type: 'bar', label: 'Shift 2 (current)', data: [92.4,94.0,94.7,96.1,95.4,96.6].concat(nullPad(6)), backgroundColor: isDark ? 'rgba(157,187,177,0.4)' : 'rgba(51,84,78,0.24)', borderRadius: 2 }
     ]
   },
   plugins: [dataLabels],
@@ -1910,14 +1959,14 @@ new Chart(document.getElementById('efficiencyChart'), {
     },
     scales: {
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 } } },
-      y: { min: 100, max: 120, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: 9 } } }
+      y: { min: 80, max: 100, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: 9 } } }
     }
   }
 });
 
 // ─── MANUFACTURED TONS — volume leveled while efficiency climbs ───
-const tons25 = [1980,2340,2230,2420,2240,1980,1905,2020,2300,2750,1945,2235];
-const tons26 = [2050,2110,2300,1990,1760,1810];
+const tons25 = [5940,7020,6690,7260,6720,5940,5715,6060,6900,8250,5835,6705];
+const tons26 = [6150,6330,6900,5970,5280,5430];
 function linFit(vals) {
   const n = vals.length;
   let sx = 0, sy = 0, sxy = 0, sxx = 0;
@@ -1961,7 +2010,7 @@ new Chart(document.getElementById('tonsChart'), {
   plugins: [tonsBand],
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 }, filter: item => !item.text.startsWith('Trend') } },
+      legend: { display: true, position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } },
       title: { display: true, text: 'Manufactured Tons — Monthly, Current vs. Prior Year (illustrative)', align: 'start', font: { size: 12, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toLocaleString() + ' tons' } }
     },
@@ -1974,6 +2023,9 @@ new Chart(document.getElementById('tonsChart'), {
 
 } // end initChartsWhenVisible
 
+window.__reinitCharts = function() { if (window.__chartsInited) initChartsWhenVisible(); };
+if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (window.__reinitCharts) window.__reinitCharts(); });
+
 // Initialize charts when the projects section scrolls into view
 const projSection = document.getElementById('projects');
 if (projSection) {
@@ -1981,6 +2033,7 @@ if (projSection) {
     entries.forEach(e => {
       if (e.isIntersecting) {
         initChartsWhenVisible();
+        window.__chartsInited = true;
         chartObs.unobserve(e.target);
       }
     });

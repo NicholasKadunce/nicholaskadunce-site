@@ -179,23 +179,6 @@ header.scrolled .logo { opacity: 1; }
   stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
 }
 
-.scroll-cue {
-  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-  font-size: 0.58rem; font-weight: 450; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--ink-faint);
-}
-
-.scroll-cue::after {
-  content: ''; display: block; width: 1px; height: 30px;
-  background: var(--ink-faint); margin: 0.5rem auto 0;
-  animation: pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,100% { opacity: 0.2; transform: scaleY(0.5); transform-origin: top; }
-  50% { opacity: 1; transform: scaleY(1); }
-}
-
 /* ── SECTIONS SHARED ── */
 section { padding: 6.5rem 0; }
 
@@ -973,7 +956,6 @@ footer {
       </a>
     </div>
   </div>
-  <div class="scroll-cue">Scroll</div>
 </section>
 
 <!-- JOURNEY -->
@@ -1782,7 +1764,10 @@ function closeM() { mb.classList.remove('open'); mn.classList.remove('open'); }
 })();
 
 // Reveal
-const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } }), { threshold: 0.12 });
+const ro = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  if (e.intersectionRatio >= 0.12 || e.target.offsetHeight > window.innerHeight * 0.8) { e.target.classList.add('vis'); ro.unobserve(e.target); }
+}), { threshold: [0, 0.12] });
 document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
 // Metric counters
@@ -2099,6 +2084,12 @@ function hideTyping() {
   if (typing) typing.remove();
 }
 
+// Standing context sent with every request: career facts and answer rules.
+const AI_CONTEXT = [
+  { role: 'user', content: 'Standing facts and rules for this conversation about Nicholas Kadunce. His career was one role at a time, strictly consecutive, never overlapping: Johnson Matthey (2020-2022) Production Team Shift Leader II / Process Control Engineer; Messer Americas (2022-2023) Regional Production Engineer; Eos Energy Enterprises (2023-2025), joining as Quality Engineer and later promoted to Operations Manager - two separate consecutive roles, never held at the same time; Jennmar (2025-present) Plant Manager. Never describe any two roles or titles as simultaneous. Keep every answer under 110 words and always complete the final sentence - never stop mid-sentence.' },
+  { role: 'assistant', content: 'Understood. I will describe the roles as strictly consecutive - one at a time - and keep every answer concise and fully complete.' }
+];
+
 async function sendAI() {
   const q = aiInput.value.trim();
   if (!q) return;
@@ -2125,7 +2116,7 @@ async function sendAI() {
     const res = await fetch(AI_WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: q, history: chatHistory.slice(0, -1) }),
+      body: JSON.stringify({ message: q, history: [...AI_CONTEXT, ...chatHistory.slice(0, -1)] }),
     });
 
     hideTyping();

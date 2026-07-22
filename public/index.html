@@ -575,6 +575,14 @@ footer {
 @media (max-width: 900px) {
   .pw-fit { overflow: hidden; }
   .pw-fit .proj-categories { width: 980px; transform-origin: top left; }
+  /* Let every exhibit use the full 980px stage in the scaled view */
+  .pw-fit .email-replica { max-width: 100% !important; }
+  .pw-fit .chart-wrap { max-width: none !important; }
+  .pw-fit .capex,
+  .pw-fit .vsm-wrap,
+  .pw-fit .impact-row,
+  .pw-fit .stat-tiles,
+  .pw-fit .inv-heads { max-width: none; }
 }
 
 /* Utility swatches */
@@ -1044,15 +1052,6 @@ footer {
       </div>
     </div>
 
-    <div class="outcome reveal" style="margin-top:3rem;">
-      <div class="outcome-label">The Outcome</div>
-      <div class="pillars">
-        <div class="pill"><strong>Data</strong><span>replaces debate</span></div>
-        <div class="pill"><strong>Focus</strong><span>replaces chaos</span></div>
-        <div class="pill"><strong>Execution</strong><span>replaces effort</span></div>
-      </div>
-      <p class="closing">Systems don't just improve results&mdash;they make performance repeatable.</p>
-    </div>
   </div>
 </section>
 

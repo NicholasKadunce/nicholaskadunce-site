@@ -9374,8 +9374,11 @@ function TVView({dataVersion,master}){
         const tgt8=shiftHrs.length>0?Math.round(eq.tgt/shiftHrs.length*8):0;
         const remHrs=Math.max(8-shiftHrs.length,0);
         const need=remHrs>0?Math.max(0,Math.ceil((tgt8-eq.good)/remHrs)):0;
-        const bestH=withGood.slice().sort((a,b)=>parseInt(b.goodUnits)-parseInt(a.goodUnits))[0];
-        const worstH=withGood.slice().sort((a,b)=>parseInt(a.goodUnits)-parseInt(b.goodUnits))[0];
+        // Rank hours by attainment vs that hour's target (targets already discount
+        // scheduled time, so the lunch hour competes fairly)
+        const scored=withGood.filter(r2=>(r2.target||0)>0).map(r2=>({hourIdx:r2.hourIdx,good:parseInt(r2.goodUnits),att:Math.round(parseInt(r2.goodUnits)/r2.target*1000)/10}));
+        const bestH=scored.slice().sort((a,b)=>b.att-a.att)[0];
+        const worstH=scored.slice().sort((a,b)=>a.att-b.att)[0];
         const fpy=(eq.good+eq.def)>0?(eq.good/(eq.good+eq.def)*100):100;
         const maxDt=eq.dtPareto.length>0?eq.dtPareto[0].mins:0;
         // 7-day OEE mini-trend for this asset
@@ -9413,11 +9416,11 @@ function TVView({dataVersion,master}){
               ?h('div',{className:'tv-ins-sub'},'Top: '+eq.defPareto[0].name+' \u2014 '+eq.defPareto[0].qty+' pcs')
               :h('div',{className:'tv-ins-sub'},'Zero defects today \u2713')
           ),
-          bestH&&worstH&&bestH!==worstH?h('div',{className:'tv-ins'},
-            h('div',{className:'tv-ins-title'},'Hour Highlights'),
-            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Best \u2014 H'+bestH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#34C759'}},bestH.goodUnits+' pcs')),
-            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Slowest \u2014 H'+worstH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#FF3B30'}},worstH.goodUnits+' pcs')),
-            h('div',{className:'tv-ins-sub'},(parseInt(bestH.goodUnits)-parseInt(worstH.goodUnits))+' pcs/hr spread \u2014 chase the cause of the slow hour')
+          bestH&&worstH&&bestH.hourIdx!==worstH.hourIdx?h('div',{className:'tv-ins'},
+            h('div',{className:'tv-ins-title'},'Hour Highlights \u2014 vs Target'),
+            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Best \u2014 H'+bestH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#34C759'}},bestH.att+'% \u00b7 '+bestH.good+' pcs')),
+            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Slowest \u2014 H'+worstH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#FF3B30'}},worstH.att+'% \u00b7 '+worstH.good+' pcs')),
+            h('div',{className:'tv-ins-sub'},Math.round((bestH.att-worstH.att)*10)/10+' pt attainment spread \u2014 chase the cause of the slow hour')
           ):null,
           days.length>1?h('div',{className:'tv-ins'},
             h('div',{className:'tv-ins-title'},'OEE \u2014 Last '+days.length+' Days'),

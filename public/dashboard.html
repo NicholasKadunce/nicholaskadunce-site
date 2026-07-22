@@ -880,6 +880,12 @@ function(a,b,c){if(!Vd(b))throw Error(n(200));return Wd(null,a,b,!1,c)};Q.unmoun
 [data-theme="dark"] .dash-oee-label{color:#94A3B8}
 /* TV floor display - hourly output labels */
 [data-theme="dark"] .tv-display{color:var(--jm-text)}
+[data-theme="dark"] .tv-ins-rail{background:var(--jm-surface)}
+[data-theme="dark"] .tv-ins-big{color:var(--jm-text)}
+[data-theme="dark"] .tv-ins-val{color:var(--jm-text)}
+[data-theme="dark"] .tv-ins-lbl{color:var(--jm-text-sec)}
+[data-theme="dark"] .tv-ins-track{background:rgba(255,255,255,0.08)}
+[data-theme="dark"] .tv-clock{color:var(--jm-text-sec)}
 [data-theme="dark"] .tv-equip-card{background:var(--jm-surface);border:1px solid var(--jm-border-light)}
 [data-theme="dark"] .tv-equip-name{color:var(--jm-text)}
 [data-theme="dark"] .tv-oee-pill{background:var(--jm-surface)}
@@ -1352,10 +1358,32 @@ input[type=number]{-moz-appearance:textfield}
 .tv-section{padding:4px 8px;background:var(--jm-surface);display:flex;flex-direction:column;min-height:0}
 .tv-section-title{font-size:9px;font-weight:700;color:var(--jm-navy);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;flex-shrink:0}
 .tv-chart-wrap{flex:1;min-height:0;position:relative}
+.tv-body{display:flex;flex-direction:column;flex:1;min-height:0}
+.tv-body-single{display:grid;grid-template-columns:1fr 330px;gap:1px;background:var(--jm-border-light)}
+.tv-body-single>.tv-section{min-width:0}
+.tv-ins-rail{display:flex;flex-direction:column;background:var(--jm-surface);border-left:1px solid var(--jm-border-light);min-height:0;overflow:hidden}
+.tv-ins{padding:10px 16px;border-bottom:1px solid var(--jm-border-light)}
+.tv-ins:last-child{border-bottom:none}
+.tv-ins-title{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--jm-text-ter);margin-bottom:6px}
+.tv-ins-big{font-size:26px;font-weight:900;letter-spacing:-0.5px;color:var(--jm-navy);font-variant-numeric:tabular-nums;line-height:1.05}
+.tv-ins-unit{font-size:12px;font-weight:700;color:var(--jm-text-ter);letter-spacing:0}
+.tv-ins-sub{font-size:11px;color:var(--jm-text-sec);margin-top:4px;line-height:1.45}
+.tv-ins-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:3px}
+.tv-ins-lbl{font-size:12px;font-weight:600;color:var(--jm-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tv-ins-val{font-size:12px;font-weight:800;color:var(--jm-navy);font-variant-numeric:tabular-nums;flex-shrink:0}
+.tv-ins-track{height:7px;border-radius:4px;background:var(--jm-bg);overflow:hidden}
+.tv-ins-fill{height:100%;border-radius:4px;background:#EF4444}
+.tv-clock{font-size:13px;font-weight:700;color:var(--jm-text-sec);font-variant-numeric:tabular-nums;padding-right:4px}
+.tv-single .tv-equip-title{font-size:22px}
+.tv-single .tv-equip-product{font-size:12px}
+.tv-single .tv-equip-operators{font-size:11px}
+.tv-single .tv-summary-val{font-size:22px}
+.tv-single .tv-summary-label{font-size:10px}
+@media(max-width:1024px){.tv-body-single{grid-template-columns:1fr}.tv-ins-rail{border-left:none;border-top:1px solid var(--jm-border-light)}}
 .tv-no-data{font-size:11px;color:var(--jm-text-ter);font-style:italic;padding:8px 0}
 @media(max-width:1024px){.tv-display{height:auto;overflow-y:auto}.tv-grid{grid-template-columns:1fr!important;overflow-y:auto;overflow-x:hidden;max-height:none;height:auto!important}.tv-equip-card{min-height:auto;height:auto!important;overflow:visible}.tv-content-grid{grid-template-columns:1fr}.tv-equip-header{flex-direction:column;align-items:flex-start}.tv-oee-pills{width:100%;flex-wrap:wrap}.tv-summary-row{flex-wrap:wrap}.tv-summary-stat{flex:1 1 45%}.tv-equip-title{font-size:16px}.tv-oee-pill-val{font-size:14px}.tv-summary-val{font-size:16px}.tv-section{padding:8px 12px}.tv-section-title{font-size:11px;margin-bottom:6px}.tv-chart-wrap{min-height:220px}}
 /* TV Large Screen: Scale up all text for distance readability */
-@media(min-width:1280px){.tv-header-title{font-size:34px;letter-spacing:-0.8px}.tv-header-sub{font-size:17px;letter-spacing:1px}.tv-select{font-size:17px;height:44px;padding:0 16px}.tv-range-btn{font-size:15px;height:38px;padding:0 20px}.tv-equip-header{padding:16px 22px}.tv-equip-title{font-size:26px}.tv-equip-product{font-size:15px}.tv-equip-operators{font-size:14px!important}.tv-oee-pills{gap:8px}.tv-oee-pill{min-width:70px;padding:6px 12px;border-radius:8px;border-left-width:4px}.tv-oee-pill-val{font-size:22px}.tv-oee-pill-label{font-size:10px}.tv-oee-pill.oee-hero{padding:10px 18px;min-width:95px;border-left-width:5px}.tv-oee-pill.oee-hero .tv-oee-pill-val{font-size:34px}.tv-oee-pill.oee-hero .tv-oee-pill-label{font-size:12px}.tv-bar-row{gap:10px;margin-bottom:5px}.tv-bar-label{font-size:15px;width:56px}.tv-bar-track{height:26px;border-radius:5px}.tv-bar-val{font-size:14px}.tv-bar-val-out{font-size:14px;min-width:42px}.tv-prev-info{font-size:12px}.tv-summary-stat{padding:14px 10px}.tv-summary-val{font-size:28px}.tv-summary-label{font-size:13px;margin-top:2px}.tv-section-title{font-size:16px;margin-bottom:8px}.tv-no-data{font-size:16px}}
+@media(min-width:1280px){.tv-body-single{grid-template-columns:1fr 420px}.tv-ins{padding:14px 20px}.tv-ins-title{font-size:13px}.tv-ins-big{font-size:40px}.tv-ins-unit{font-size:16px}.tv-ins-sub{font-size:14px}.tv-ins-lbl{font-size:16px}.tv-ins-val{font-size:16px}.tv-ins-track{height:10px}.tv-clock{font-size:18px}.tv-single .tv-equip-title{font-size:34px}.tv-single .tv-equip-product{font-size:16px}.tv-single .tv-equip-operators{font-size:14px}.tv-single .tv-summary-val{font-size:34px}.tv-single .tv-summary-label{font-size:13px}.tv-header-title{font-size:34px;letter-spacing:-0.8px}.tv-header-sub{font-size:17px;letter-spacing:1px}.tv-select{font-size:17px;height:44px;padding:0 16px}.tv-range-btn{font-size:15px;height:38px;padding:0 20px}.tv-equip-header{padding:16px 22px}.tv-equip-title{font-size:26px}.tv-equip-product{font-size:15px}.tv-equip-operators{font-size:14px!important}.tv-oee-pills{gap:8px}.tv-oee-pill{min-width:70px;padding:6px 12px;border-radius:8px;border-left-width:4px}.tv-oee-pill-val{font-size:22px}.tv-oee-pill-label{font-size:10px}.tv-oee-pill.oee-hero{padding:10px 18px;min-width:95px;border-left-width:5px}.tv-oee-pill.oee-hero .tv-oee-pill-val{font-size:34px}.tv-oee-pill.oee-hero .tv-oee-pill-label{font-size:12px}.tv-bar-row{gap:10px;margin-bottom:5px}.tv-bar-label{font-size:15px;width:56px}.tv-bar-track{height:26px;border-radius:5px}.tv-bar-val{font-size:14px}.tv-bar-val-out{font-size:14px;min-width:42px}.tv-prev-info{font-size:12px}.tv-summary-stat{padding:14px 10px}.tv-summary-val{font-size:28px}.tv-summary-label{font-size:13px;margin-top:2px}.tv-section-title{font-size:16px;margin-bottom:8px}.tv-no-data{font-size:16px}}
 
 /* Grid & Cards */
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
@@ -8923,8 +8951,18 @@ function getShiftForClockHour(clockHour){
 
 function TVView({dataVersion,master}){
   const {ResponsiveContainer,BarChart,Bar,XAxis,YAxis,CartesianGrid,Cell,ReferenceLine,LabelList,ComposedChart,Line}=Recharts;
-  const [processFilter,setProcessFilter]=useState('');
+  const [processFilter,setProcessFilter]=useState(()=>{try{return localStorage.getItem('opsiq-tv-process')||'';}catch(e){return '';}});
   const [timeRange,setTimeRange]=useState('today');
+  const [tvMode,setTvMode]=useState(()=>{try{return localStorage.getItem('opsiq-tv-mode')||'process';}catch(e){return 'process';}});
+  const [tvEquip,setTvEquip]=useState(()=>{try{return localStorage.getItem('opsiq-tv-equip')||'';}catch(e){return '';}});
+  const [tvClock,setTvClock]=useState('');
+  useEffect(()=>{try{if(processFilter)localStorage.setItem('opsiq-tv-process',processFilter);}catch(e){}},[processFilter]);
+  useEffect(()=>{try{localStorage.setItem('opsiq-tv-mode',tvMode);}catch(e){}},[tvMode]);
+  useEffect(()=>{try{if(tvEquip)localStorage.setItem('opsiq-tv-equip',tvEquip);}catch(e){}},[tvEquip]);
+  useEffect(()=>{
+    function tick(){const n=toET(new Date());const dws=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];const hh=n.getHours()%12||12;const mm=String(n.getMinutes()).padStart(2,'0');setTvClock(dws[n.getDay()]+' \u00b7 '+hh+':'+mm+(n.getHours()>=12?' PM':' AM'));}
+    tick();const iv=setInterval(tick,30000);return()=>clearInterval(iv);
+  },[]);
   const [liveStatus,setLiveStatus]=useState(null);
   const [recogShow,setRecogShow]=useState(false);
   const [recogFading,setRecogFading]=useState(false);
@@ -9002,6 +9040,10 @@ function TVView({dataVersion,master}){
   // Records for current day (always used for live view)
   const todayRecords=useMemo(()=>allRecords.filter(r=>r.date===todayStr),[allRecords,todayStr]);
 
+  // All equipment with any data today (for the By Equipment selector)
+  const allTodayCodes=useMemo(()=>{const s=new Set();todayRecords.forEach(r=>s.add(r.equipCode));return[...s].sort((a,b)=>getEquipName(a).localeCompare(getEquipName(b),undefined,{numeric:true}));},[todayRecords]);
+  const tvEquipSel=tvMode==='equipment'?(allTodayCodes.indexOf(tvEquip)>=0?tvEquip:(allTodayCodes[0]||'')):'';
+
   // Detect recognition downtime submissions
   // On first data load, seed the seen set so old entries don't trigger.
   // Only NEW entries (appearing after page load) trigger the animation.
@@ -9049,6 +9091,7 @@ function TVView({dataVersion,master}){
 
   // Only show equipment currently being entered for (has data for the active shift today)
   const activeEquipCodes=useMemo(()=>{
+    if(tvMode==='equipment')return tvEquipSel?[tvEquipSel]:[];
     const codes=new Set();
     // Equipment with data for the current active shift today
     todayRecords.filter(r=>r.shiftNum===currentActiveShift&&processEquip.some(eq=>eq.code===r.equipCode)).forEach(r=>codes.add(r.equipCode));
@@ -9057,12 +9100,12 @@ function TVView({dataVersion,master}){
       todayRecords.filter(r=>processEquip.some(eq=>eq.code===r.equipCode)).forEach(r=>codes.add(r.equipCode));
     }
     return[...codes];
-  },[todayRecords,processEquip,currentActiveShift]);
+  },[todayRecords,processEquip,currentActiveShift,tvMode,tvEquipSel]);
 
   // Records for time range and process
   const rangeRecords=useMemo(()=>{
-    return allRecords.filter(r=>r.date>=dateRange.from&&r.date<=dateRange.to&&processEquip.some(eq=>eq.code===r.equipCode));
-  },[allRecords,dateRange,processEquip]);
+    return allRecords.filter(r=>r.date>=dateRange.from&&r.date<=dateRange.to&&(tvMode==='equipment'?r.equipCode===tvEquipSel:processEquip.some(eq=>eq.code===r.equipCode)));
+  },[allRecords,dateRange,processEquip,tvMode,tvEquipSel]);
 
   // Per-equipment data for active equipment
   const equipData=useMemo(()=>{
@@ -9145,8 +9188,9 @@ function TVView({dataVersion,master}){
   const rangeLbl={today:'Today',yesterday:'Yesterday',wtd:'Week to Date',mtd:'Month to Date'}[timeRange]||'Today';
 
   // Dynamic grid columns based on equipment count
+  const tvSingle=tvMode==='equipment';
   const eqCount=equipData.length;
-  const gridCols=eqCount<=2?2:eqCount<=4?2:eqCount<=6?3:4;
+  const gridCols=tvSingle?1:(eqCount<=2?2:eqCount<=4?2:eqCount<=6?3:4);
   const gridRows=Math.ceil(eqCount/gridCols);
   const gridStyle={gridTemplateColumns:'repeat('+gridCols+',1fr)',gridTemplateRows:'repeat('+gridRows+',1fr)'};
 
@@ -9168,12 +9212,19 @@ function TVView({dataVersion,master}){
     h('div',{className:'tv-header'},
       h('div',{className:'tv-header-left'},
         h('div',{className:'tv-header-title'},'OpsIQ \u2014 Floor Display'),
-        h('div',{className:'tv-header-sub'},processFilter||'Select Process')
+        h('div',{className:'tv-header-sub'},tvSingle?(tvEquipSel?getEquipName(tvEquipSel):'Select Equipment'):(processFilter||'Select Process'))
       ),
       h('div',{className:'tv-header-controls'},
-        h('select',{className:'tv-select',value:processFilter,onChange:e=>setProcessFilter(e.target.value)},
-          processes.map(p=>h('option',{key:p,value:p},p))
-        )
+        h('div',{className:'tv-clock'},tvClock),
+        h('div',{className:'tv-range-group'},
+          h('button',{className:'tv-range-btn'+(!tvSingle?' active':''),onClick:()=>setTvMode('process')},'By Process'),
+          h('button',{className:'tv-range-btn'+(tvSingle?' active':''),onClick:()=>setTvMode('equipment')},'By Equipment')
+        ),
+        tvSingle
+          ?h('select',{className:'tv-select',value:tvEquipSel,onChange:e=>setTvEquip(e.target.value)},
+            allTodayCodes.map(ec=>h('option',{key:ec,value:ec},getEquipName(ec))))
+          :h('select',{className:'tv-select',value:processFilter,onChange:e=>setProcessFilter(e.target.value)},
+            processes.map(p=>h('option',{key:p,value:p},p)))
       )
     ),
 
@@ -9181,7 +9232,7 @@ function TVView({dataVersion,master}){
     equipData.length===0?h('div',{className:'tv-empty'},
       h(Icon.tv),
       h('h3',{style:{marginTop:16,color:'var(--jm-navy)'}},'No Active Equipment'),
-      h('p',{style:{color:'var(--jm-text-sec)',marginTop:8}},'No production data entered for ',processFilter,' today.')
+      h('p',{style:{color:'var(--jm-text-sec)',marginTop:8}},tvSingle?'No production data entered today.':['No production data entered for ',processFilter,' today.'])
     ):
     h('div',{className:'tv-grid',style:gridStyle},
     equipData.map(eq=>{
@@ -9189,7 +9240,7 @@ function TVView({dataVersion,master}){
       const isIdle=ls&&ls.idleSince;
       const isActiveDT=ls&&ls.activeDowntime;
       const liveCT=ls?ls.liveCycleTime:null;
-      return h('div',{key:eq.ec,className:'tv-equip-card',style:{borderTop:'3px solid '+oeeColor(eq.oee)}},
+      return h('div',{key:eq.ec,className:'tv-equip-card'+(tvSingle?' tv-single':''),style:{borderTop:'3px solid '+oeeColor(eq.oee)}},
       // Equipment header with OEE pills — OEE stands out
       h('div',{className:'tv-equip-header'+(isActiveDT||isIdle?' dt-active':'')},
         h('div',{className:'tv-equip-name'},
@@ -9251,6 +9302,8 @@ function TVView({dataVersion,master}){
         )
       ),
 
+      // ── Body: hourly chart (+ lean insight rail in single-asset mode) ──
+      h('div',{className:'tv-body'+(tvSingle?' tv-body-single':'')},
       // ── Vertical bar chart: paired prior (grey) + current (green/red) ──
       (()=>{
         // Build current shift hours
@@ -9311,7 +9364,74 @@ function TVView({dataVersion,master}){
             )
           )
         );
+      })(),
+      // ── Lean insight rail (single-asset mode) ──
+      tvSingle&&(()=>{
+        const shiftHrs=(eq.currentShift==='2'?eq.s2:eq.s1);
+        const withGood=shiftHrs.filter(r2=>parseInt(r2.goodUnits||0)>0);
+        const hrsDone=withGood.length;
+        const proj=hrsDone>0?Math.round(eq.good/hrsDone*8):0;
+        const tgt8=shiftHrs.length>0?Math.round(eq.tgt/shiftHrs.length*8):0;
+        const remHrs=Math.max(8-shiftHrs.length,0);
+        const need=remHrs>0?Math.max(0,Math.ceil((tgt8-eq.good)/remHrs)):0;
+        const bestH=withGood.slice().sort((a,b)=>parseInt(b.goodUnits)-parseInt(a.goodUnits))[0];
+        const worstH=withGood.slice().sort((a,b)=>parseInt(a.goodUnits)-parseInt(b.goodUnits))[0];
+        const fpy=(eq.good+eq.def)>0?(eq.good/(eq.good+eq.def)*100):100;
+        const maxDt=eq.dtPareto.length>0?eq.dtPareto[0].mins:0;
+        // 7-day OEE mini-trend for this asset
+        const dayAgg={};
+        allRecords.filter(r=>r.equipCode===eq.ec).forEach(r=>{
+          const av=60-(r.scheduledMins||0);const dtm2=totalDTMins(r.downtime);const udtm2=unschedDTMins(r.downtime);
+          const def2=(r.defects||[]).reduce((s,x)=>s+parseInt(x.qty||0),0);
+          if(!dayAgg[r.date])dayAgg[r.date]={date:r.date,sm:0,dtm:0,udtm:0,tgt:0,good:0,def:0};
+          const b=dayAgg[r.date];b.sm+=av;b.dtm+=dtm2;b.udtm+=udtm2;b.tgt+=r.target||0;b.good+=parseInt(r.goodUnits)||0;b.def+=def2;
+        });
+        const days=Object.values(dayAgg).sort((a,b)=>a.date.localeCompare(b.date)).slice(-7).map(d=>{
+          const run=d.sm-d.dtm,tp2=d.good+d.def,a2=d.sm>0?((d.sm-d.udtm)/d.sm)*100:0,p2=run>0&&d.tgt>0?((tp2*d.sm)/(run*d.tgt))*100:0,q2=tp2>0?(d.good/tp2)*100:100;
+          return{date:d.date.slice(5),oee:Math.round(a2*p2*q2/10000*10)/10};
+        });
+        return h('div',{className:'tv-ins-rail'},
+          h('div',{className:'tv-ins'},
+            h('div',{className:'tv-ins-title'},'Pace to Target'),
+            h('div',{className:'tv-ins-big',style:{color:tgt8>0&&proj>=tgt8?'#34C759':'#F0A500'}},proj.toLocaleString(),
+              h('span',{className:'tv-ins-unit'},' proj \u00b7 '+tgt8.toLocaleString()+' tgt')),
+            need>0?h('div',{className:'tv-ins-sub'},'Need ',h('strong',{style:{color:'#F0A500'}},need+'/hr'),' for the next '+remHrs+' hr'+(remHrs>1?'s':'')+' to close the gap')
+              :h('div',{className:'tv-ins-sub'},tgt8>0&&proj<tgt8?('Gap of '+(tgt8-proj).toLocaleString()+' pcs \u2014 see the loss ledger'):'On pace \u2014 hold the standard')
+          ),
+          h('div',{className:'tv-ins',style:{flex:1}},
+            h('div',{className:'tv-ins-title'},'Loss Ledger \u2014 Downtime Today'),
+            eq.dtPareto.length===0?h('div',{className:'tv-ins-sub'},'No downtime recorded today \u2713'):
+            eq.dtPareto.slice(0,4).map(d=>h('div',{key:d.code,style:{marginBottom:8}},
+              h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},d.name),h('span',{className:'tv-ins-val'},d.mins+'m \u00b7 '+d.count+'\u00d7')),
+              h('div',{className:'tv-ins-track'},h('div',{className:'tv-ins-fill',style:{width:Math.max(6,Math.round(d.mins/maxDt*100))+'%'}}))
+            ))
+          ),
+          h('div',{className:'tv-ins'},
+            h('div',{className:'tv-ins-title'},'First Pass Yield'),
+            h('div',{className:'tv-ins-big',style:{color:fpy>=99?'#34C759':fpy>=98?'#F0A500':'#FF3B30'}},fpy.toFixed(1)+'%'),
+            eq.defPareto.length>0
+              ?h('div',{className:'tv-ins-sub'},'Top: '+eq.defPareto[0].name+' \u2014 '+eq.defPareto[0].qty+' pcs')
+              :h('div',{className:'tv-ins-sub'},'Zero defects today \u2713')
+          ),
+          bestH&&worstH&&bestH!==worstH?h('div',{className:'tv-ins'},
+            h('div',{className:'tv-ins-title'},'Hour Highlights'),
+            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Best \u2014 H'+bestH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#34C759'}},bestH.goodUnits+' pcs')),
+            h('div',{className:'tv-ins-row'},h('span',{className:'tv-ins-lbl'},'Slowest \u2014 H'+worstH.hourIdx),h('span',{className:'tv-ins-val',style:{color:'#FF3B30'}},worstH.goodUnits+' pcs')),
+            h('div',{className:'tv-ins-sub'},(parseInt(bestH.goodUnits)-parseInt(worstH.goodUnits))+' pcs/hr spread \u2014 chase the cause of the slow hour')
+          ):null,
+          days.length>1?h('div',{className:'tv-ins'},
+            h('div',{className:'tv-ins-title'},'OEE \u2014 Last '+days.length+' Days'),
+            h(ResponsiveContainer,{width:'100%',height:76},
+              h(ComposedChart,{data:days,margin:{top:8,right:6,bottom:0,left:6}},
+                h(XAxis,{dataKey:'date',tick:{fontSize:9,fill:'#94A3B8'},tickLine:false,axisLine:false,interval:'preserveStartEnd'}),
+                h(YAxis,{hide:true,domain:[dMin=>Math.max(0,dMin-6),dMax=>dMax+6]}),
+                h(Line,{dataKey:'oee',stroke:'#1B3D6E',strokeWidth:2.5,dot:{r:3,fill:'#1B3D6E'},isAnimationActive:false,type:'monotone'})
+              )
+            )
+          ):null
+        );
       })()
+      )
     );})
     )
   );

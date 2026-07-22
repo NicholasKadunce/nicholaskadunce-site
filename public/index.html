@@ -574,7 +574,7 @@ footer {
    pinch-zoom magnifies it. */
 @media (max-width: 900px) {
   .pw-fit { overflow: hidden; }
-  .pw-fit .proj-categories { width: 980px; transform-origin: top left; }
+  .pw-fit .proj-categories { width: 980px; transform-origin: top left; display: flow-root; padding-bottom: 8px; }
   /* Let every exhibit use the full 980px stage in the scaled view */
   .pw-fit .email-replica { max-width: 100% !important; }
   .pw-fit .chart-wrap { max-width: none !important; }
@@ -583,6 +583,55 @@ footer {
   .pw-fit .impact-row,
   .pw-fit .stat-tiles,
   .pw-fit .inv-heads { max-width: none; }
+  /* Mobile type scale: the stage is scaled ~0.36x, so step every text element up ~1.4x */
+  .pw-fit .proj-cat-name { font-size: 0.95rem; }
+  .pw-fit .proj-cat-count { font-size: 0.95rem; }
+  .pw-fit .proj-name { font-size: 1.5rem; }
+  .pw-fit .proj-desc { font-size: 1.3rem; }
+  .pw-fit .rpt { font-size: 1.1rem; }
+  .pw-fit .rpt-brand { font-size: 0.8rem; }
+  .pw-fit .rpt-title { font-size: 1.4rem; }
+  .pw-fit .rpt-date { font-size: 0.95rem; }
+  .pw-fit .rpt-oee-label { font-size: 0.8rem; }
+  .pw-fit .rpt-oee-num { font-size: 2.8rem; }
+  .pw-fit .rpt-apq { font-size: 0.87rem; }
+  .pw-fit .rpt-shift-name { font-size: 0.87rem; }
+  .pw-fit .rpt-shift-oee { font-size: 1.8rem; }
+  .pw-fit .rpt-shift-apq { font-size: 0.87rem; }
+  .pw-fit .rpt-kv { font-size: 1rem; }
+  .pw-fit .rpt-bars-title { font-size: 0.84rem; }
+  .pw-fit .rpt-bar { grid-template-columns: 104px 1fr 76px; }
+  .pw-fit .rpt-bar span { font-size: 0.92rem; }
+  .pw-fit .rpt-bar em { font-size: 0.9rem; }
+  .pw-fit .rpt-track { height: 6px; }
+  .pw-fit .rpt-foot { font-size: 0.84rem; }
+  .pw-fit .email-nav-pills span { font-size: 0.98rem !important; padding: 0.4rem 1rem !important; }
+  .pw-fit .capex-total-label { font-size: 0.95rem; }
+  .pw-fit .capex-total-num { font-size: 1.8rem; }
+  .pw-fit .capex-proj { font-size: 1.3rem; }
+  .pw-fit .capex-sub { font-size: 1.1rem; }
+  .pw-fit .capex-type { font-size: 0.8rem; }
+  .pw-fit .capex-when { font-size: 1.1rem; }
+  .pw-fit .capex-inv span { font-size: 1.4rem; }
+  .pw-fit .capex-bar { height: 6px; }
+  .pw-fit .capex-tl-vlab { font-size: 0.84rem; }
+  .pw-fit .capex-tl-vlab.major { font-weight: 600; }
+  .pw-fit .capex-tl-months { font-size: 0.8rem; }
+  .pw-fit .impact-num { font-size: 2.2rem; }
+  .pw-fit .impact-lab { font-size: 1.1rem; }
+  .pw-fit .stat-tile .st-label { font-size: 0.9rem; }
+  .pw-fit .stat-tile .st-num { font-size: 2.3rem; }
+  .pw-fit .stat-tile .st-sub { font-size: 1.05rem; }
+  .pw-fit .bd-title { font-size: 1.4rem; }
+  .pw-fit .bd-sub { font-size: 1.1rem; }
+  .pw-fit .bd-top { font-size: 1.2rem; }
+  .pw-fit .bd-bar { height: 7px; }
+  .pw-fit .bd-note { font-size: 1.1rem; }
+  .pw-fit .mini-legend span { font-size: 1.05rem; }
+  .pw-fit .mini-legend i { width: 14px; height: 14px; }
+  .pw-fit .inv-heads b { font-size: 1.25rem; }
+  .pw-fit .inv-heads em { font-size: 1rem; }
+  .pw-fit .chart-wrap { height: 400px !important; }
 }
 
 /* Utility swatches */
@@ -1765,10 +1814,14 @@ function fitPW() {
   if (window.innerWidth > 900) { pwCats.style.transform = ''; pwFit.style.height = ''; return; }
   const s = pwFit.clientWidth / PW_W;
   pwCats.style.transform = 'scale(' + s + ')';
-  pwFit.style.height = Math.ceil(pwCats.offsetHeight * s) + 'px';
+  // Measure the rendered extent (includes the top margin trapped inside the wrapper)
+  const fr = pwFit.getBoundingClientRect();
+  const cr = pwCats.getBoundingClientRect();
+  pwFit.style.height = Math.ceil(cr.bottom - fr.top + 2) + 'px';
 }
 window.addEventListener('resize', fitPW);
 window.addEventListener('load', () => { fitPW(); setTimeout(fitPW, 600); setTimeout(fitPW, 2000); });
+window.__fitPW = fitPW;
 if (window.ResizeObserver && pwCats) new ResizeObserver(() => fitPW()).observe(pwCats);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitPW());
 fitPW();
@@ -1805,6 +1858,8 @@ const LIGHT_BLUE = 'rgba(51,84,78,0.12)';
 function initChartsWhenVisible() {
 ['paybackChart','inventoryChart','efficiencyChart','tonsChart'].forEach(id => { const el = document.getElementById(id); if (el) { const ex = Chart.getChart(el); if (ex) ex.destroy(); } });
 const tt = { backgroundColor:'#1B1C1A', titleFont:{weight:500,size:13}, bodyFont:{weight:400,size:12}, padding:10, cornerRadius:0, displayColors:false };
+const CF = window.innerWidth <= 900 ? 1.6 : 1;   // charts render on a scaled-down stage on mobile
+const F = n => Math.round(n * CF * 2) / 2;
 const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches && document.documentElement.getAttribute('data-theme') !== 'light');
 const gridColor = isDark ? 'rgba(255,255,255,0.06)' : '#EDEBE4';
 const TITLE = isDark ? '#ECEAE2' : INK;
@@ -1827,10 +1882,10 @@ const dataLabels = {
         const v = ds.data[i];
         if (v === null || v === undefined) return;
         ctx.save();
-        ctx.font = (ds.dlBold ? '600 11.5px' : '500 11px') + ' Inter, sans-serif';
+        ctx.font = (ds.dlBold ? '600 ' + F(11.5) + 'px' : '500 ' + F(11) + 'px') + ' Inter, sans-serif';
         ctx.fillStyle = ds.dlColor || LABEL;
         ctx.textAlign = 'center';
-        ctx.fillText(ds.dlFmt(v), el.x, ds.dlBelow ? el.y + 18 : el.y - 10);
+        ctx.fillText(ds.dlFmt(v), el.x, ds.dlBelow ? el.y + Math.round(18 * CF) : el.y - Math.round(10 * CF));
         ctx.restore();
       });
     });
@@ -1853,7 +1908,7 @@ const breakevenMarkers = {
     ctx.setLineDash([]);
     ctx.fillStyle = ACCENT;
     ctx.beginPath(); ctx.arc(bx, by, 4.5, 0, Math.PI * 2); ctx.fill();
-    ctx.font = '500 11px Inter, sans-serif'; ctx.textAlign = 'center';
+    ctx.font = '500 ' + F(11) + 'px Inter, sans-serif'; ctx.textAlign = 'center';
     ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
     ctx.fillText('Break-even · mo 30', bx, y.top + 12);
     ctx.fillStyle = isDark ? '#929086' : '#918F86';
@@ -1873,16 +1928,16 @@ new Chart(document.getElementById('paybackChart'), {
   plugins: [breakevenMarkers],
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      title: { display: true, text: 'Payback Curve — Cumulative Savings vs. Investment ($K, illustrative)', align: 'start', font: { size: 14, weight: 500 }, color: TITLE, padding: { bottom: 12 } },
+      legend: { display: true, position: 'bottom', labels: { boxWidth: F(12), padding: 14, font: { size: F(12) } } },
+      title: { display: true, text: 'Payback Curve — Cumulative Savings vs. Investment ($K, illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 12 } },
       tooltip: { ...tt, callbacks: {
         title: items => 'Month ' + items[0].label,
         label: c => c.datasetIndex === 1 ? 'Investment: $1.05M' : 'Cumulative savings: $' + c.parsed.y.toLocaleString() + 'K'
       } }
     },
     scales: {
-      x: { title: { display: true, text: 'Months after start-up (projected)', font: { size: 11.5 } }, grid: { display: false }, ticks: { font: { size: 11 }, maxTicksLimit: 9 } },
-      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => '$' + v + 'K', font: { size: 11 } } }
+      x: { title: { display: true, text: 'Months after start-up (projected)', font: { size: F(11.5) } }, grid: { display: false }, ticks: { font: { size: F(11) }, maxTicksLimit: 9 } },
+      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => '$' + v + 'K', font: { size: F(11) } } }
     }
   }
 });
@@ -1932,13 +1987,13 @@ new Chart(document.getElementById('inventoryChart'), {
     layout: { padding: { top: 12 } },
     plugins: {
       legend: { display: false },
-      title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: 14, weight: 500 }, color: TITLE, padding: { bottom: 16 } },
+      title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 16 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.type === 'line' ? 'Cumulative within class: ' + c.parsed.y + '%' : '$' + c.parsed.y.toLocaleString() + 'K' } }
     },
     scales: {
-      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 11 }, maxRotation: 45, minRotation: 45 } },
-      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K', font: { size: 11 } } },
-      y1: { position: 'right', min: 0, max: 112, grid: { display: false }, border: { display: false }, ticks: { callback: v => v <= 100 ? v + '%' : '', font: { size: 11 } } }
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: F(11) }, maxRotation: 45, minRotation: 45 } },
+      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'M' : '$' + v + 'K', font: { size: F(11) } } },
+      y1: { position: 'right', min: 0, max: 112, grid: { display: false }, border: { display: false }, ticks: { callback: v => v <= 100 ? v + '%' : '', font: { size: F(11) } } }
     }
   }
 });
@@ -1959,13 +2014,13 @@ new Chart(document.getElementById('efficiencyChart'), {
   plugins: [dataLabels],
   options: { responsive: true, maintainAspectRatio: false,
     plugins: {
-      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      title: { display: true, text: 'Plant Efficiency % — Current vs. Prior Year, with Shift Split (illustrative)', align: 'start', font: { size: 14, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      legend: { display: true, position: 'bottom', labels: { boxWidth: F(12), padding: 14, font: { size: F(12) } } },
+      title: { display: true, text: 'Plant Efficiency % — Current vs. Prior Year, with Shift Split (illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 14 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toFixed(1) + '%' } }
     },
     scales: {
-      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 11 } } },
-      y: { min: 80, max: 100, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: 11 } } }
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: F(11) } } },
+      y: { min: 80, max: 100, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + '%', font: { size: F(11) } } }
     }
   }
 });
@@ -1993,12 +2048,12 @@ const tonsBand = {
     ctx.beginPath(); ctx.moveTo(x0, chartArea.top); ctx.lineTo(x0, chartArea.bottom); ctx.stroke();
     ctx.setLineDash([]);
     ctx.textAlign = 'left';
-    ctx.font = '600 12px Inter, sans-serif';
+    ctx.font = '600 ' + F(12) + 'px Inter, sans-serif';
     ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
-    ctx.fillText('Volume rebalanced to sister plant', x0 + 8, chartArea.top + 16);
-    ctx.font = '400 10.5px Inter, sans-serif';
+    ctx.fillText('Volume rebalanced to sister plant', x0 + 8, chartArea.top + Math.round(16 * CF));
+    ctx.font = '400 ' + F(10.5) + 'px Inter, sans-serif';
     ctx.fillStyle = isDark ? '#929086' : '#918F86';
-    ctx.fillText('Apr – Jun · meets demand without OT or weekend hours', x0 + 8, chartArea.top + 31);
+    ctx.fillText('Apr – Jun · meets demand without OT or weekend hours', x0 + 8, chartArea.top + Math.round(31 * CF));
     ctx.restore();
   }
 };
@@ -2017,13 +2072,13 @@ new Chart(document.getElementById('tonsChart'), {
   options: { responsive: true, maintainAspectRatio: false,
     layout: { padding: { bottom: 4 } },
     plugins: {
-      legend: { display: true, position: 'bottom', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      title: { display: true, text: 'Manufactured Tons — Monthly, Current vs. Prior Year (illustrative)', align: 'start', font: { size: 14, weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      legend: { display: true, position: 'bottom', labels: { boxWidth: F(12), padding: 14, font: { size: F(12) } } },
+      title: { display: true, text: 'Manufactured Tons — Monthly, Current vs. Prior Year (illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 14 } },
       tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toLocaleString() + ' tons' } }
     },
     scales: {
-      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 11 } } },
-      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: 11 } } }
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: F(11) } } },
+      y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: F(11) } } }
     }
   }
 });
@@ -2042,6 +2097,7 @@ if (projSection) {
         initChartsWhenVisible();
         window.__chartsInited = true;
         chartObs.unobserve(e.target);
+        if (window.__fitPW) { window.__fitPW(); setTimeout(window.__fitPW, 400); setTimeout(window.__fitPW, 1200); }
       }
     });
   }, { threshold: 0.05 });

@@ -540,7 +540,6 @@ footer {
   .cred-row { grid-template-columns: 1fr 1fr; }
   .phil-grid { grid-template-columns: 1fr 1fr; }
   .contact-grid { flex-direction: column; gap: 1.5rem; }
-  .proj-top { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {
@@ -556,10 +555,6 @@ footer {
   .tl-story { font-size: 0.9rem; }
   .pillars { gap: 1.75rem; }
   .exp-org { flex-direction: column; gap: 0.5rem; }
-  .proj-item canvas { max-height: 200px; }
-  .email-replica { max-width: 100% !important; }
-  .email-replica .email-nav-pills { gap: 0.3rem !important; }
-  .email-replica .email-nav-pills span { padding: 0.25rem 0.5rem !important; font-size: 0.6rem !important; }
 }
 
 @media (max-width: 480px) {
@@ -574,6 +569,13 @@ footer {
 .chart-wrap, .email-replica { max-width: 100%; overflow-x: auto; }
 
 /* ── PROJECT VISUALIZATIONS ── */
+
+/* Proof of work keeps its desktop layout on small screens, scaled to fit;
+   pinch-zoom magnifies it. */
+@media (max-width: 900px) {
+  .pw-fit { overflow: hidden; }
+  .pw-fit .proj-categories { width: 980px; transform-origin: top left; }
+}
 
 /* Utility swatches */
 .c-petrol { background: #33544E; }
@@ -676,17 +678,6 @@ footer {
 .inv-heads b { display: block; font-family: var(--serif); font-size: 0.8rem; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
 .inv-heads em { display: block; font-style: normal; font-size: 0.66rem; color: var(--ink-muted); margin-top: 1px; }
 
-@media (max-width: 900px) {
-  .roi-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .stat-tiles { grid-template-columns: 1fr 1fr; }
-  .impact-row { grid-template-columns: 1fr; gap: 1.25rem; }
-  .capex-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
-  .capex-row > div:first-child { grid-column: 1 / -1; }
-}
-@media (max-width: 600px) {
-  .capex-tl-vlab { font-size: 0.54rem; }
-  .capex-tl-months span:nth-child(2n) { visibility: hidden; }
-}
 
 
 /* Ask-about chips */
@@ -730,10 +721,6 @@ footer {
 .rpt-track i.bad { background: #B0524A; }
 .rpt-track i.warn { background: #C1913C; }
 .rpt-foot { text-align: center; font-size: 0.6rem; color: var(--ink-muted); padding: 0.6rem; border-top: 1px solid var(--rule); }
-@media (max-width: 600px) {
-  .rpt-shifts, .rpt-bars-grid { grid-template-columns: 1fr; }
-  .rpt-shift + .rpt-shift { border-left: none; border-top: 1px solid var(--rule); }
-}
 
 /* ── CHAT WIDGET ── */
 .ai-fab {
@@ -1127,7 +1114,7 @@ footer {
     <p class="section-lead reveal">Dashboards, monitoring systems, forecasting tools, and improvement projects&mdash;this is what operational discipline looks like in practice.</p>
     <p class="section-lead reveal" style="margin-top:0.75rem; font-size:0.85rem; font-style:italic; color:var(--ink-muted);">Every visual is a faithful recreation of a system I built, shown with representative data&mdash;the production versions run on live plant data, which stays inside the plant.</p>
 
-    <div class="proj-categories">
+    <div class="pw-fit" id="pwFit"><div class="proj-categories">
 
       <!-- OPERATIONAL TOOLS -->
       <div class="proj-cat reveal">
@@ -1534,7 +1521,7 @@ footer {
 
       </div>
 
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -1769,6 +1756,21 @@ const ro = new IntersectionObserver(es => es.forEach(e => {
   if (e.intersectionRatio >= 0.12 || e.target.offsetHeight > window.innerHeight * 0.8) { e.target.classList.add('vis'); ro.unobserve(e.target); }
 }), { threshold: [0, 0.12] });
 document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// Scale the proof-of-work block so phones see the exact desktop layout, zoomable.
+const pwFit = document.getElementById('pwFit');
+const pwCats = pwFit && pwFit.querySelector('.proj-categories');
+const PW_W = 980;
+function fitPW() {
+  if (!pwFit || !pwCats) return;
+  if (window.innerWidth > 900) { pwCats.style.transform = ''; pwFit.style.height = ''; return; }
+  const s = pwFit.clientWidth / PW_W;
+  pwCats.style.transform = 'scale(' + s + ')';
+  pwFit.style.height = Math.ceil(pwCats.offsetHeight * s) + 'px';
+}
+window.addEventListener('resize', fitPW);
+window.addEventListener('load', () => { fitPW(); setTimeout(fitPW, 600); setTimeout(fitPW, 2000); });
+fitPW();
 
 // Metric counters
 const mo = new IntersectionObserver(es => es.forEach(e => {

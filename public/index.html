@@ -169,6 +169,15 @@ header.scrolled .logo { opacity: 1; }
 
 .btn-primary:hover { color: var(--blue); border-color: var(--blue); gap: 0.85rem; }
 
+.btn-dash {
+  border: 1px solid var(--blue); border-bottom: 1px solid var(--blue);
+  background: rgba(51, 84, 78, 0.07);
+  color: var(--blue); padding: 0.55rem 1.1rem; font-weight: 500;
+}
+.btn-dash:hover { background: rgba(51, 84, 78, 0.13); }
+:root:not([data-theme="light"]) .btn-dash { border-color: var(--blue); background: rgba(157, 187, 177, 0.10); }
+[data-theme="dark"] .btn-dash { border-color: var(--blue); background: rgba(157, 187, 177, 0.10); }
+
 .btn-primary .arrow {
   display: inline-flex; align-items: center; justify-content: center;
   width: auto; height: auto; border: none; background: none;
@@ -619,7 +628,7 @@ footer {
   .pw-fit .capex-tl-months { font-size: 0.8rem; }
   .pw-fit .impact-num { font-size: 2.2rem; }
   .pw-fit .impact-lab { font-size: 1.1rem; }
-  .pw-fit .stat-tile .st-label { font-size: 0.9rem; }
+  .pw-fit .stat-tile .st-label { font-size: 0.85rem; letter-spacing: 0.08em; }
   .pw-fit .stat-tile .st-num { font-size: 2.3rem; }
   .pw-fit .stat-tile .st-sub { font-size: 1.05rem; }
   .pw-fit .bd-title { font-size: 1.4rem; }
@@ -702,7 +711,7 @@ footer {
 /* Stat tiles (ROI) */
 .stat-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.75rem; margin-top: 1.5rem; max-width: 900px; }
 .stat-tile { border-top: 2px solid var(--ink); padding-top: 0.9rem; }
-.stat-tile .st-label { font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500; }
+.stat-tile .st-label { white-space: nowrap; font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500; }
 .stat-tile .st-num { font-family: var(--serif); font-size: 1.65rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin-top: 0.35rem; }
 .stat-tile .st-sub { font-size: 0.75rem; color: var(--ink-muted); margin-top: 0.2rem; }
 .stat-tile.accent { border-top-color: var(--blue); }
@@ -730,10 +739,10 @@ footer {
 .inv-heads i { width: 58px; flex: none; }
 .inv-heads i.r { width: 48px; }
 .inv-heads span { flex: 7; text-align: center; }
-.inv-heads span.g2 { flex: 3; }
-.inv-heads span.g3 { flex: 1; }
+.inv-heads span.g2 { flex: 2.6; }
+.inv-heads span.g3 { flex: 1.4; }
 .inv-heads b { display: block; font-family: var(--serif); font-size: 0.9rem; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
-.inv-heads em { display: block; font-style: normal; font-size: 0.74rem; color: var(--ink-muted); margin-top: 1px; }
+.inv-heads em { display: block; font-style: normal; white-space: nowrap; font-size: 0.74rem; color: var(--ink-muted); margin-top: 1px; }
 
 
 
@@ -1261,7 +1270,7 @@ footer {
                 <div class="rpt-foot">OpsIQ &middot; auto-generated daily report</div>
               </div>
               <div style="margin-top:1rem; display:flex; justify-content:center;">
-                <a href="dashboard.html" class="btn-primary" style="font-size:0.75rem;">
+                <a href="dashboard.html" class="btn-primary btn-dash" style="font-size:0.78rem;">
                   Open the live dashboard
                   <span class="arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
                 </a>
@@ -1908,11 +1917,13 @@ const breakevenMarkers = {
     ctx.setLineDash([]);
     ctx.fillStyle = ACCENT;
     ctx.beginPath(); ctx.arc(bx, by, 4.5, 0, Math.PI * 2); ctx.fill();
-    ctx.font = '500 ' + F(11) + 'px Inter, sans-serif'; ctx.textAlign = 'center';
+    ctx.font = '500 ' + F(11) + 'px Inter, sans-serif';
     ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A';
-    ctx.fillText('Break-even · mo 30', bx, y.top + 12);
+    ctx.textAlign = 'right';
+    ctx.fillText('Break-even · mo 30', bx - 8, y.top + 12);
     ctx.fillStyle = isDark ? '#929086' : '#918F86';
-    ctx.fillText('3-yr target', tx + 34, y.top + 28);
+    ctx.textAlign = 'left';
+    ctx.fillText('3-yr target', tx + 8, y.top + 12);
     ctx.restore();
   }
 };
@@ -1984,7 +1995,7 @@ new Chart(document.getElementById('inventoryChart'), {
   },
   plugins: [invSections, dataLabels],
   options: { responsive: true, maintainAspectRatio: false,
-    layout: { padding: { top: 12 } },
+    layout: { padding: { top: Math.round(18 * CF) } },
     plugins: {
       legend: { display: false },
       title: { display: true, text: 'Inventory Value on Hand — Pareto Within Each Class ($K, illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 16 } },

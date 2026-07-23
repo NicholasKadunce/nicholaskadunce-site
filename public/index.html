@@ -587,6 +587,7 @@ footer {
   /* Let every exhibit use the full 980px stage in the scaled view */
   .pw-fit .email-replica { max-width: 100% !important; }
   .pw-fit .chart-wrap { max-width: none !important; }
+  .pw-fit .tons-grid,
   .pw-fit .capex,
   .pw-fit .vsm-wrap,
   .pw-fit .impact-row,
@@ -719,6 +720,7 @@ footer {
 
 /* ROI layout + breakdown */
 .roi-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 3rem; margin-top: 2.25rem; max-width: 1000px; align-items: start; }
+.tons-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 3rem; margin-top: 1.5rem; max-width: 1000px; align-items: start; }
 .bd-title { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--ink); }
 .bd-sub { font-size: 0.78rem; color: var(--ink-muted); margin: 0.2rem 0 1.2rem; }
 .bd-row { margin-bottom: 1rem; }
@@ -1536,6 +1538,20 @@ footer {
           </div>
         </div>
 
+        <!-- SPC Improvement -->
+        <div class="proj-item">
+          <div class="proj-name">Production Improvement &mdash; Proven in Control</div>
+          <p class="proj-desc">A throughput project told the way it should be&mdash;on a control chart. Baseline the process, make the change, then hold a control period to prove the gain is real: average daily output up 15%, day-to-day variation down 10%, and the new level holding inside recalculated control limits.</p>
+          <div class="stat-tiles" style="max-width:720px; grid-template-columns:repeat(3,1fr);">
+            <div class="stat-tile accent"><div class="st-label">Avg daily output</div><div class="st-num">+15%</div><div class="st-sub">2,600 &rarr; 2,990 units/day</div></div>
+            <div class="stat-tile"><div class="st-label">Daily variation</div><div class="st-num">&minus;10%</div><div class="st-sub">std deviation of daily output</div></div>
+            <div class="stat-tile"><div class="st-label">Control period</div><div class="st-num">30 days</div><div class="st-sub">new level held in control</div></div>
+          </div>
+          <div class="chart-wrap" style="margin-top:1.5rem; max-width:900px; height:340px; position:relative;">
+            <canvas id="spcChart"></canvas>
+          </div>
+        </div>
+
         <!-- Inventory Pareto -->
         <div class="proj-item">
           <div class="proj-name">Inventory Breakdown &mdash; Where the Cash Sits</div>
@@ -1570,9 +1586,14 @@ footer {
         <!-- Manufactured Tons -->
         <div class="proj-item">
           <div class="proj-name">Manufactured Tons &mdash; Volume in Context</div>
-          <p class="proj-desc">Volume tells the other half of the efficiency story. In this illustrative year, tons step down through Q2 as volume is rebalanced to a sister plant&mdash;while efficiency climbs&mdash;so demand is met without overtime or weekend hours.</p>
-          <div class="chart-wrap" style="margin-top:1.5rem; max-width:900px; height:330px; position:relative;">
-            <canvas id="tonsChart"></canvas>
+          <p class="proj-desc">Volume tells the other half of the efficiency story. In this illustrative year, tons step down through Q2 as volume is rebalanced to a sister plant&mdash;while efficiency climbs&mdash;so demand is met without overtime or weekend hours. The biweekly hours picture shows what that means for the crew: overtime disappears and schedules return to straight time.</p>
+          <div class="tons-grid">
+            <div class="chart-wrap" style="height:330px; position:relative;">
+              <canvas id="tonsChart"></canvas>
+            </div>
+            <div class="chart-wrap" style="height:330px; position:relative;">
+              <canvas id="hoursChart"></canvas>
+            </div>
           </div>
         </div>
 
@@ -1865,7 +1886,7 @@ const RULE = '#E7E4DC';
 const LIGHT_BLUE = 'rgba(51,84,78,0.12)';
 
 function initChartsWhenVisible() {
-['paybackChart','inventoryChart','efficiencyChart','tonsChart'].forEach(id => { const el = document.getElementById(id); if (el) { const ex = Chart.getChart(el); if (ex) ex.destroy(); } });
+['paybackChart','inventoryChart','efficiencyChart','tonsChart','spcChart','hoursChart'].forEach(id => { const el = document.getElementById(id); if (el) { const ex = Chart.getChart(el); if (ex) ex.destroy(); } });
 const tt = { backgroundColor:'#1B1C1A', titleFont:{weight:500,size:13}, bodyFont:{weight:400,size:12}, padding:10, cornerRadius:0, displayColors:false };
 const CF = window.innerWidth <= 900 ? 1.6 : 1;   // charts render on a scaled-down stage on mobile
 const F = n => Math.round(n * CF * 2) / 2;
@@ -2090,6 +2111,154 @@ new Chart(document.getElementById('tonsChart'), {
     scales: {
       x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: F(11) } } },
       y: { grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: F(11) } } }
+    }
+  }
+});
+
+
+// ─── SPC — daily output across an improvement (baseline / implementation / control) ───
+const spcBase = [2680,2300,2810,2860,2050,2230,2630,2510,2590,2360,2840,2810,2610,2910,2730,2350,2700,2330,2840,2580,2540,2400,2940,2550,2480,2500,2740,2700,2710,2720];
+const spcImpl = [3460,3140,2980,2680,2320,1060,2820,3340,3660,480,2260,3420,3680,2760];
+const spcCtrl = [3480,2860,2840,2770,3120,3240,2930,2760,2760,3130,3140,3100,2800,3020,2990,3020,3170,3020,3130,2980,3030,3120,2600,2880,2850,2810,2890,3330,2750,3200];
+const spcData = spcBase.concat(spcImpl, spcCtrl);
+const spcRED = isDark ? '#C97A6F' : '#B0524A';
+const spcPhases = {
+  id: 'spcPhases',
+  beforeDatasetsDraw(chart) {
+    const { ctx, scales: { x, y }, chartArea } = chart;
+    const b1 = (x.getPixelForValue(29) + x.getPixelForValue(30)) / 2;
+    const b2 = (x.getPixelForValue(43) + x.getPixelForValue(44)) / 2;
+    ctx.save();
+    // implementation zone
+    ctx.fillStyle = isDark ? 'rgba(217,164,65,0.06)' : 'rgba(193,145,60,0.06)';
+    ctx.fillRect(b1, chartArea.top, b2 - b1, chartArea.bottom - chartArea.top);
+    // phase boundaries
+    ctx.strokeStyle = isDark ? 'rgba(157,187,177,0.55)' : 'rgba(51,84,78,0.45)';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(b1, chartArea.top); ctx.lineTo(b1, chartArea.bottom); ctx.stroke();
+    ctx.setLineDash([5,4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(b2, chartArea.top); ctx.lineTo(b2, chartArea.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    // phase labels
+    ctx.font = '600 ' + F(10.5) + 'px Inter, sans-serif';
+    ctx.fillStyle = TITLE; ctx.textAlign = 'left';
+    ctx.fillText('Baseline', chartArea.left + 6, chartArea.top + 12);
+    ctx.fillText('Implementation', b1 + 6, chartArea.top + 12);
+    ctx.fillText('Control', b2 + 6, chartArea.top + 12);
+    // control limit segments
+    const seg = (x0, x1, yv, color, dash) => {
+      ctx.strokeStyle = color; ctx.lineWidth = 1.3; ctx.setLineDash(dash || []);
+      ctx.beginPath(); ctx.moveTo(x0, y.getPixelForValue(yv)); ctx.lineTo(x1, y.getPixelForValue(yv)); ctx.stroke();
+      ctx.setLineDash([]);
+    };
+    const lim = isDark ? 'rgba(143,160,181,0.75)' : 'rgba(76,90,107,0.65)';
+    seg(chartArea.left, b1, 3240, lim, [6,4]); seg(chartArea.left, b1, 1960, lim, [6,4]);
+    seg(b2, chartArea.right, 3570, lim, [6,4]); seg(b2, chartArea.right, 2410, lim, [6,4]);
+    // mean segments
+    seg(chartArea.left, b1, 2600, spcRED); seg(b2, chartArea.right, 2990, spcRED);
+    // limit + mean labels
+    ctx.font = '500 ' + F(9.5) + 'px Inter, sans-serif'; ctx.fillStyle = LABEL;
+    ctx.fillText('UCL 3,240', chartArea.left + 6, y.getPixelForValue(3240) - 4);
+    ctx.fillText('LCL 1,960', chartArea.left + 6, y.getPixelForValue(1960) + F(11));
+    ctx.textAlign = 'right';
+    ctx.fillText('UCL 3,570', chartArea.right - 6, y.getPixelForValue(3570) - 4);
+    ctx.fillText('LCL 2,410', chartArea.right - 6, y.getPixelForValue(2410) + F(11));
+    ctx.font = '600 ' + F(10) + 'px Inter, sans-serif';
+    const meanLab = (txt, xpos, align, yv) => {
+      ctx.textAlign = align;
+      const tw = ctx.measureText(txt).width;
+      const xx = align === 'left' ? xpos : xpos - tw;
+      const yy = y.getPixelForValue(yv) - 6;
+      ctx.fillStyle = isDark ? 'rgba(20,21,20,0.75)' : 'rgba(250,249,246,0.85)';
+      ctx.fillRect(xx - 3, yy - F(10), tw + 6, F(12.5));
+      ctx.fillStyle = spcRED;
+      ctx.fillText(txt, xpos, yy);
+    };
+    meanLab('x\u0304 2,600', chartArea.left + 6, 'left', 2600);
+    meanLab('x\u0304 2,990 \u00b7 +15%', chartArea.right - 6, 'right', 2990);
+    ctx.restore();
+  }
+};
+new Chart(document.getElementById('spcChart'), {
+  type: 'line',
+  data: {
+    labels: spcData.map((_, i) => i + 1),
+    datasets: [
+      { label: 'Daily output', data: spcData, borderColor: ACCENT, borderWidth: 1.8, pointRadius: 2.2, pointBackgroundColor: ACCENT, tension: 0 }
+    ]
+  },
+  plugins: [spcPhases],
+  options: { responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 4 } },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Daily Output \u2014 Control Chart Across the Improvement (units/day, illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      tooltip: { ...tt, callbacks: { title: items => 'Day ' + items[0].label, label: c => c.parsed.y.toLocaleString() + ' units' } }
+    },
+    scales: {
+      x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: F(11) }, maxTicksLimit: 10, callback: function(v) { return 'D' + this.getLabelForValue(v); } } },
+      y: { min: 400, max: 3900, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v.toLocaleString(), font: { size: F(11) } } }
+    }
+  }
+});
+
+// ─── BIWEEKLY HOURS — overtime disappears after the volume rebalance ───
+const hrsLabels = ['Jan\u20601','Jan\u20602','Feb\u20601','Feb\u20602','Mar\u20601','Mar\u20602','Apr\u20601','Apr\u20602','May\u20601','May\u20602','Jun\u20601','Jun\u20602'];
+const hrsBase = [80,80,80,80,80,80,80,80,80,80,80,80];
+const hrsOT = [9,11,8,12,10,13,3,1,0,0,0,0];
+const hoursMarks = {
+  id: 'hoursMarks',
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { x, y }, chartArea } = chart;
+    ctx.save();
+    // 80h standard line
+    const y80 = y.getPixelForValue(80);
+    ctx.strokeStyle = isDark ? 'rgba(236,234,226,0.35)' : 'rgba(27,28,26,0.35)';
+    ctx.setLineDash([5,4]); ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(chartArea.left, y80); ctx.lineTo(chartArea.right, y80); ctx.stroke();
+    ctx.setLineDash([]);
+    // rebalance divider between Mar-2 and Apr-1
+    const rx = (x.getPixelForValue(5) + x.getPixelForValue(6)) / 2;
+    ctx.strokeStyle = isDark ? 'rgba(157,187,177,0.45)' : 'rgba(51,84,78,0.4)';
+    ctx.setLineDash([4,3]); ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(rx, chartArea.top); ctx.lineTo(rx, chartArea.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = '600 ' + F(9.5) + 'px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A'; ctx.textAlign = 'left';
+    ctx.fillText('Volume rebalanced', rx + 5, chartArea.top + 10);
+    ctx.font = '500 ' + F(9) + 'px Inter, sans-serif'; ctx.fillStyle = LABEL;
+    ctx.fillText('Standard \u00b7 80 h', chartArea.left + 4, y80 - 5);
+    // total hours label on each bar
+    ctx.font = '600 ' + F(9.5) + 'px Inter, sans-serif';
+    ctx.fillStyle = isDark ? '#ECEAE2' : '#1B1C1A'; ctx.textAlign = 'center';
+    const meta = chart.getDatasetMeta(1);
+    meta.data.forEach((el, i) => {
+      const total = hrsBase[i] + hrsOT[i];
+      ctx.fillText(total, el.x, y.getPixelForValue(total) - 4);
+    });
+    ctx.restore();
+  }
+};
+new Chart(document.getElementById('hoursChart'), {
+  type: 'bar',
+  data: {
+    labels: hrsLabels,
+    datasets: [
+      { label: 'Straight time', data: hrsBase, backgroundColor: isDark ? 'rgba(143,160,181,0.42)' : 'rgba(76,90,107,0.32)', borderRadius: 0, stack: 'h' },
+      { label: 'Overtime', data: hrsOT, backgroundColor: AMBER, borderRadius: 2, stack: 'h' }
+    ]
+  },
+  plugins: [hoursMarks],
+  options: { responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 10 } },
+    plugins: {
+      legend: { display: true, position: 'bottom', labels: { boxWidth: F(12), padding: 14, font: { size: F(12) } } },
+      title: { display: true, text: 'Avg Hours per Employee \u2014 Biweekly (illustrative)', align: 'start', font: { size: F(14), weight: 500 }, color: TITLE, padding: { bottom: 14 } },
+      tooltip: { ...tt, callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y + ' h' } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, border: { display: false }, ticks: { font: { size: F(10) }, maxRotation: 45, minRotation: 45 } },
+      y: { stacked: true, min: 0, max: 100, grid: { color: gridColor }, border: { display: false }, ticks: { callback: v => v + 'h', font: { size: F(11) } } }
     }
   }
 });

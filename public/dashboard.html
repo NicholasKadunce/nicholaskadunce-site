@@ -169,18 +169,21 @@
   // Seed localStorage once per version, then top up on every load so "today"
   // always has data (plant timezone = ET, matching the app's fmtDate/today()).
   function _seedYmd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-  try{
-    const SEED_LAST='oee_demo_seed_last';
-    const nowET=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
-    const tstr=_seedYmd(nowET);
-    if(localStorage.getItem('oee_demo_seed')!=='v6'){
-      localStorage.removeItem('oee_master_data');
-      const entries=[];
-      for(let i=0;i<=32;i++){const dd=new Date(nowET);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(_seedYmd(dd)));}
-      localStorage.setItem('oee_production_data',JSON.stringify(entries));
-      localStorage.setItem('oee_demo_seed','v6');
-      localStorage.setItem(SEED_LAST,tstr);
-    }else if(localStorage.getItem(SEED_LAST)!==tstr){
+  window.__demoTopUp=function(){
+    try{
+      const SEED_LAST='oee_demo_seed_last';
+      const nowET=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+      const tstr=_seedYmd(nowET);
+      if(localStorage.getItem('oee_demo_seed')!=='v6'){
+        localStorage.removeItem('oee_master_data');
+        const entries=[];
+        for(let i=0;i<=32;i++){const dd=new Date(nowET);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(_seedYmd(dd)));}
+        localStorage.setItem('oee_production_data',JSON.stringify(entries));
+        localStorage.setItem('oee_demo_seed','v6');
+        localStorage.setItem(SEED_LAST,tstr);
+        return true;
+      }
+      if(localStorage.getItem(SEED_LAST)===tstr)return false;
       let entries=[];try{entries=JSON.parse(localStorage.getItem('oee_production_data')||'[]');}catch(e2){entries=[];}
       const have=new Set(entries.map(en=>en.shiftData&&en.shiftData.shiftDate).filter(Boolean));
       for(let i=0;i<=32;i++){
@@ -193,8 +196,10 @@
       entries=entries.filter(en=>!(en.shiftData&&en.shiftData.shiftDate<cs));
       localStorage.setItem('oee_production_data',JSON.stringify(entries));
       localStorage.setItem(SEED_LAST,tstr);
-    }
-  }catch(e){console.warn('demo seed skipped',e);}
+      return true;
+    }catch(e){console.warn('demo seed skipped',e);return false;}
+  };
+  window.__demoTopUp();
 
 
   // ── DEMO API STATE: BDR approvals + Yamazumi projects (persisted so actions stick) ──
@@ -11796,6 +11801,22 @@ function App({authUser,onLogout}){
   const [theme,setTheme]=useState(()=>{try{return localStorage.getItem('opsiq-theme')||'light';}catch(e){return 'light';}});
   useEffect(()=>{document.documentElement.setAttribute('data-theme',theme);try{localStorage.setItem('opsiq-theme',theme);}catch(e){}},[theme]);
   const toggleTheme=()=>setTheme(t=>t==='light'?'dark':'light');
+  // Day-rollover watcher: if the ET date changes while the app stays open
+  // (e.g. a TV running overnight), top up the demo seed and swap the fresh
+  // rows into the in-memory queue so live views never go stale.
+  useEffect(()=>{
+    const iv=setInterval(()=>{
+      try{
+        if(window.__demoTopUp&&window.__demoTopUp()){
+          const raw=localStorage.getItem('oee_production_data');
+          const fresh=raw?JSON.parse(raw):[];
+          dataQueue.length=0;fresh.forEach(en=>dataQueue.push(en));
+          setDataVersion(v=>v+1);
+        }
+      }catch(e){}
+    },60000);
+    return()=>clearInterval(iv);
+  },[]);
   // Restore wizard state from sessionStorage if mid-entry
   const _saved=useMemo(()=>loadSession(),[]);
   const [screen,setScreen]=useState(_saved&&_saved.screen&&_saved.screen!=='entry'?_saved.screen:'dashboard');

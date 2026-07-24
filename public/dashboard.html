@@ -166,14 +166,33 @@
     }
     return out;
   }
-  // Seed localStorage once per version so the app boots with a month of data
+  // Seed localStorage once per version, then top up on every load so "today"
+  // always has data (plant timezone = ET, matching the app's fmtDate/today()).
+  function _seedYmd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
   try{
-    if(localStorage.getItem('oee_demo_seed')!=='v5'){
+    const SEED_LAST='oee_demo_seed_last';
+    const nowET=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const tstr=_seedYmd(nowET);
+    if(localStorage.getItem('oee_demo_seed')!=='v6'){
       localStorage.removeItem('oee_master_data');
-      const entries=[];const d=new Date();
-      for(let i=0;i<=32;i++){const dd=new Date(d);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(dd.toISOString().split('T')[0]));}
+      const entries=[];
+      for(let i=0;i<=32;i++){const dd=new Date(nowET);dd.setDate(dd.getDate()-i);if(i>0&&dd.getDay()===0)continue;entries.push.apply(entries,demoDayEntries(_seedYmd(dd)));}
       localStorage.setItem('oee_production_data',JSON.stringify(entries));
-      localStorage.setItem('oee_demo_seed','v5');
+      localStorage.setItem('oee_demo_seed','v6');
+      localStorage.setItem(SEED_LAST,tstr);
+    }else if(localStorage.getItem(SEED_LAST)!==tstr){
+      let entries=[];try{entries=JSON.parse(localStorage.getItem('oee_production_data')||'[]');}catch(e2){entries=[];}
+      const have=new Set(entries.map(en=>en.shiftData&&en.shiftData.shiftDate).filter(Boolean));
+      for(let i=0;i<=32;i++){
+        const dd=new Date(nowET);dd.setDate(dd.getDate()-i);const ds=_seedYmd(dd);
+        if(have.has(ds))continue;
+        if(i>0&&dd.getDay()===0)continue;
+        entries.push.apply(entries,demoDayEntries(ds));
+      }
+      const cut=new Date(nowET);cut.setDate(cut.getDate()-40);const cs=_seedYmd(cut);
+      entries=entries.filter(en=>!(en.shiftData&&en.shiftData.shiftDate<cs));
+      localStorage.setItem('oee_production_data',JSON.stringify(entries));
+      localStorage.setItem(SEED_LAST,tstr);
     }
   }catch(e){console.warn('demo seed skipped',e);}
 
@@ -2053,6 +2072,28 @@ input[type=number]{-moz-appearance:textfield}
 .tv-live-ct-label{font-size:8px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
 .tv-idle-badge{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:8px;background:rgba(217,58,46,.2);font-size:8px;font-weight:700;color:#D8A19B;margin-top:2px}
 .tv-idle-dot{width:5px;height:5px;border-radius:50%;background:#D93A2E;animation:ct-pulse 1.5s ease-in-out infinite}
+.tv-plc-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;background:rgba(10,163,87,0.10);border:1px solid rgba(10,163,87,0.35);color:#0AA357;font-size:11px;font-weight:800;letter-spacing:1.2px;white-space:nowrap}
+[data-theme="dark"] .tv-plc-badge{background:rgba(61,199,126,0.12);color:#3DC77E;border-color:rgba(61,199,126,0.4)}
+.tv-plc-dot{width:8px;height:8px;border-radius:50%;background:#0AA357;animation:plc-pulse 1.6s ease-in-out infinite}
+[data-theme="dark"] .tv-plc-dot{background:#3DC77E}
+@keyframes plc-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(10,163,87,0.45)}50%{opacity:.75;box-shadow:0 0 0 6px rgba(10,163,87,0)}}
+.tv-spc-card{background:var(--jm-surface);border:1px solid var(--jm-border);border-radius:14px;padding:12px 16px 8px;margin:0 0 12px}
+.tv-spc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.tv-spc-title{font-size:14px;font-weight:800;letter-spacing:1px;color:var(--jm-ink);text-transform:uppercase}
+.tv-spc-sub{font-size:10px;color:var(--jm-text-ter);margin-top:2px}
+.tv-spc-status{padding:5px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:1px;white-space:nowrap}
+.tv-spc-status.good{background:rgba(10,163,87,0.10);color:#0AA357}
+.tv-spc-status.bad{background:rgba(217,58,46,0.12);color:#D93A2E;animation:plc-pulse 1.2s ease-in-out infinite}
+[data-theme="dark"] .tv-spc-status.good{color:#3DC77E;background:rgba(61,199,126,0.12)}
+[data-theme="dark"] .tv-spc-status.bad{color:#E27A70;background:rgba(217,58,46,0.18)}
+.tv-spc-grid{display:grid;grid-template-columns:1fr 230px;gap:12px;align-items:stretch}
+@media(max-width:900px){.tv-spc-grid{grid-template-columns:1fr}}
+.tv-spc-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start}
+.tv-spc-stat{background:var(--jm-bg);border-radius:10px;padding:9px 8px 7px;text-align:center}
+.tv-spc-stat-val{font-size:22px;font-weight:800;color:var(--jm-ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.tv-spc-unit{font-size:12px;font-weight:700;color:var(--jm-text-ter);margin-left:2px}
+.tv-spc-stat-label{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--jm-text-ter);text-transform:uppercase;margin-top:3px}
+.tv-spc-limits{grid-column:1/-1;text-align:center;font-size:10px;color:var(--jm-text-ter);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body><div class="demo-banner">DEMO MODE - All data is simulated. Not the live production system.</div>
@@ -8976,6 +9017,58 @@ function getShiftForClockHour(clockHour){
   return{shiftNum:'3',hourIdx:clockHour+4};
 }
 
+// ── TV: live SPC card — simulated PLC cycle-time stream (Individuals chart) ──
+function TVSpcCard({spc}){
+  const{ResponsiveContainer,ComposedChart,Line,XAxis,YAxis,CartesianGrid,ReferenceLine,ReferenceArea}=Recharts;
+  if(!spc||!spc.samples||spc.samples.length===0)return null;
+  const mu=spc.mu,sigma=spc.sigma,samples=spc.samples;
+  const ucl=mu+3*sigma,lcl=Math.max(0,mu-3*sigma);
+  const w=samples.slice(-25);
+  const wmean=w.reduce((s,x)=>s+x.v,0)/w.length;
+  const wsd=Math.sqrt(w.reduce((s,x)=>s+(x.v-wmean)*(x.v-wmean),0)/Math.max(w.length-1,1))||sigma;
+  const usl=mu+4*sigma,lsl=Math.max(0,mu-4*sigma);
+  const cpk=Math.min((usl-wmean)/(3*wsd),(wmean-lsl)/(3*wsd));
+  const recentOut=samples.slice(-8).some(s=>s.out);
+  const inkMain=thc('#33544E','#7FA79E');
+  const spcDot=p2=>h('circle',{key:p2.payload.i,cx:p2.cx,cy:p2.cy,r:p2.payload.out?5:2.5,fill:p2.payload.out?'#D93A2E':inkMain,stroke:p2.payload.out?thc('#FBFAF7','#131412'):'none',strokeWidth:1.5});
+  return h('div',{className:'tv-spc-card'},
+    h('div',{className:'tv-spc-head'},
+      h('div',null,
+        h('div',{className:'tv-spc-title'},'Cycle Time — SPC (Individuals)'),
+        h('div',{className:'tv-spc-sub'},'Streamed from machine PLC · no manual entry · new sample ≈ every 3 s')
+      ),
+      h('div',{style:{display:'flex',alignItems:'center',gap:10,flexWrap:'wrap'}},
+        h('div',{className:'tv-spc-status '+(recentOut?'bad':'good')},recentOut?'⚠ SPECIAL CAUSE — CHECK':'IN CONTROL'),
+        h('div',{className:'tv-plc-badge'},h('span',{className:'tv-plc-dot'}),'LIVE · PLC')
+      )
+    ),
+    h('div',{className:'tv-spc-grid'},
+      h('div',{style:{minWidth:0}},
+        h(ResponsiveContainer,{width:'100%',height:235},
+          h(ComposedChart,{data:samples,margin:{top:6,right:46,bottom:0,left:0}},
+            h(CartesianGrid,{stroke:thc('#EDEBE3','#2A2B27'),vertical:false}),
+            h(XAxis,{dataKey:'i',tick:false,axisLine:{stroke:thc('#D3D0C6','#3A3B36')},tickLine:false}),
+            h(YAxis,{domain:[Math.floor((lcl-sigma)*10)/10,Math.ceil((ucl+sigma)*10)/10],tick:{fontSize:12,fill:thc('#6E6D64','#A09E94')},tickFormatter:v=>v.toFixed(1)+'s',width:52}),
+            h(ReferenceArea,{y1:Math.max(0,mu-sigma),y2:mu+sigma,fill:thc('rgba(10,163,87,0.06)','rgba(10,163,87,0.09)')}),
+            h(ReferenceArea,{y1:mu+2*sigma,y2:ucl,fill:thc('rgba(232,131,12,0.07)','rgba(232,131,12,0.10)')}),
+            h(ReferenceArea,{y1:lcl,y2:Math.max(lcl,mu-2*sigma),fill:thc('rgba(232,131,12,0.07)','rgba(232,131,12,0.10)')}),
+            h(ReferenceLine,{y:mu,stroke:thc('#6E6D64','#A09E94'),strokeDasharray:'6 4',label:{value:'CL',position:'right',fill:thc('#6E6D64','#A09E94'),fontSize:11}}),
+            h(ReferenceLine,{y:ucl,stroke:'#D93A2E',strokeDasharray:'4 4',label:{value:'UCL',position:'right',fill:'#D93A2E',fontSize:11}}),
+            h(ReferenceLine,{y:lcl,stroke:'#D93A2E',strokeDasharray:'4 4',label:{value:'LCL',position:'right',fill:'#D93A2E',fontSize:11}}),
+            h(Line,{dataKey:'v',stroke:inkMain,strokeWidth:2,dot:spcDot,isAnimationActive:false})
+          )
+        )
+      ),
+      h('div',{className:'tv-spc-stats'},
+        h('div',{className:'tv-spc-stat'},h('div',{className:'tv-spc-stat-val'},wmean.toFixed(1),h('span',{className:'tv-spc-unit'},'s')),h('div',{className:'tv-spc-stat-label'},'X̄ · last 25')),
+        h('div',{className:'tv-spc-stat'},h('div',{className:'tv-spc-stat-val'},wsd.toFixed(2),h('span',{className:'tv-spc-unit'},'s')),h('div',{className:'tv-spc-stat-label'},'σ est')),
+        h('div',{className:'tv-spc-stat'},h('div',{className:'tv-spc-stat-val',style:{color:cpk>=1.33?'#0AA357':cpk>=1?'#B4700F':'#D93A2E'}},Math.min(cpk,2.5).toFixed(2)),h('div',{className:'tv-spc-stat-label'},'Cpk')),
+        h('div',{className:'tv-spc-stat'},h('div',{className:'tv-spc-stat-val'},spc.count.toLocaleString()),h('div',{className:'tv-spc-stat-label'},'Samples today')),
+        h('div',{className:'tv-spc-limits'},'UCL ',ucl.toFixed(1),'s · CL ',mu.toFixed(1),'s · LCL ',lcl.toFixed(1),'s')
+      )
+    )
+  );
+}
 function TVView({dataVersion,master}){
   const {ResponsiveContainer,BarChart,Bar,XAxis,YAxis,CartesianGrid,Cell,ReferenceLine,LabelList,ComposedChart,Line}=Recharts;
   const [processFilter,setProcessFilter]=useState(()=>{try{return localStorage.getItem('opsiq-tv-process')||'';}catch(e){return '';}});
@@ -8999,14 +9092,7 @@ function TVView({dataVersion,master}){
   const processes=getProcessList(_masterRef);
   if(!processFilter&&processes.length>0)setTimeout(()=>setProcessFilter(processes[0]),0);
 
-  // MySQL live status disabled — automated equipment data stream not connected yet
-  // Re-enable when MySQL connection is established:
-  useEffect(()=>{
-    // function fetchLive(){API.mysqlLiveStatus().then(d=>{if(d)setLiveStatus(d);}).catch(()=>{});}
-    // fetchLive();
-    const iv=0;// setInterval(fetchLive,30000);
-    return()=>clearInterval(iv);
-  },[]);
+  // liveStatus is fed by the demo PLC telemetry simulator (declared after equipData)
 
   const todayStr=today();
   // Compute date range for WTD/MTD
@@ -9210,6 +9296,54 @@ function TVView({dataVersion,master}){
     }).filter(e=>e.hasData);
   },[activeEquipCodes,todayRecords,rangeRecords,allRecords,dataVersion]);
 
+  // ── Demo PLC telemetry — simulated automated data collection (live cycle times + idle states) ──
+  const equipDataRef=useRef([]);equipDataRef.current=equipData;
+  const plcPhaseRef=useRef({});
+  useEffect(()=>{
+    function tick(){
+      const ph=plcPhaseRef.current;const eqm={};
+      (equipDataRef.current||[]).forEach(eq2=>{
+        const hrs=(eq2.currentShift==='2'?eq2.s2:eq2.s1).filter(r=>parseInt(r.goodUnits||0)>0).length;
+        const rate=Math.max(hrs>0?eq2.good/hrs:55,8);
+        const base=3600/rate;
+        if(!ph[eq2.ec])ph[eq2.ec]={drift:0,idle:0};
+        const st=ph[eq2.ec];
+        if(st.idle>0)st.idle--;else if(Math.random()<0.01)st.idle=2+Math.floor(Math.random()*3);
+        st.drift=st.drift*0.7+(Math.random()-0.5)*base*0.05;
+        const ct=Math.max(0.5,base+st.drift+(Math.random()-0.5)*base*0.07);
+        eqm[eq2.ec]={liveCycleTime:Math.round(ct*10)/10,idleSince:st.idle>0?1:null,activeDowntime:false};
+      });
+      setLiveStatus({equipment:eqm});
+    }
+    tick();const iv=setInterval(tick,3000);return()=>clearInterval(iv);
+  },[]);
+
+  // ── Live SPC sample stream for single-equipment mode ──
+  const spcRate=useMemo(()=>{
+    if(tvMode!=='equipment'||!tvEquipSel)return 0;
+    const e2=equipData.find(x=>x.ec===tvEquipSel);if(!e2)return 0;
+    const hrs=(e2.currentShift==='2'?e2.s2:e2.s1).filter(r=>parseInt(r.goodUnits||0)>0).length;
+    return Math.round(hrs>0?e2.good/hrs:55);
+  },[equipData,tvMode,tvEquipSel]);
+  const [spcData,setSpcData]=useState(null);
+  useEffect(()=>{
+    if(tvMode!=='equipment'||!tvEquipSel||!spcRate){setSpcData(null);return;}
+    const mu=Math.round(36000/Math.max(spcRate,8))/10;
+    const sigma=Math.max(Math.round(mu*3.5)/100,0.25);
+    function gauss(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+    let seq=0,drift=0;
+    function nextSample(){
+      seq++;drift=drift*0.72+gauss()*sigma*0.3;
+      let v=mu+drift+gauss()*sigma*0.8;
+      if(Math.random()<0.035)v=mu+(Math.random()<0.4?-1:1)*(3.2+Math.random()*1.3)*sigma;
+      return{i:seq,v:Math.round(v*100)/100,out:Math.abs(v-mu)>3*sigma};
+    }
+    const init=[];for(let k=0;k<26;k++)init.push(nextSample());
+    setSpcData({ec:tvEquipSel,mu,sigma,samples:init,count:1600+Math.floor(Math.random()*1200)+26});
+    const iv=setInterval(()=>{setSpcData(p2=>p2?{...p2,samples:[...p2.samples.slice(-39),nextSample()],count:p2.count+1}:p2);},3000);
+    return()=>clearInterval(iv);
+  },[tvMode,tvEquipSel,spcRate]);
+
   function oeeColor(v){return v>=80?'#0AA357':v>=60?'#B4700F':'#D93A2E';}
   function tvMetricColor(v,tgt){return v>=tgt?'#0AA357':v>=tgt-20?'#B4700F':'#D93A2E';}
   const rangeLbl={today:'Today',yesterday:'Yesterday',wtd:'Week to Date',mtd:'Month to Date'}[timeRange]||'Today';
@@ -9242,6 +9376,7 @@ function TVView({dataVersion,master}){
         h('div',{className:'tv-header-sub'},tvSingle?(tvEquipSel?getEquipName(tvEquipSel):'Select Equipment'):(processFilter||'Select Process'))
       ),
       h('div',{className:'tv-header-controls'},
+        h('div',{className:'tv-plc-badge'},h('span',{className:'tv-plc-dot'}),'PLC · AUTO DATA'),
         h('div',{className:'tv-clock'},tvClock),
         h('div',{className:'tv-range-group'},
           h('button',{className:'tv-range-btn'+(!tvSingle?' active':''),onClick:()=>setTvMode('process')},'By Process'),
@@ -9259,7 +9394,7 @@ function TVView({dataVersion,master}){
     equipData.length===0?h('div',{className:'tv-empty'},
       h(Icon.tv),
       h('h3',{style:{marginTop:16,color:'var(--jm-ink)'}},'No Active Equipment'),
-      h('p',{style:{color:'var(--jm-text-sec)',marginTop:8}},tvSingle?'No production data entered today.':['No production data entered for ',processFilter,' today.'])
+      h('p',{style:{color:'var(--jm-text-sec)',marginTop:8}},tvSingle?'Waiting for machine data stream\u2026':['No machine data received for ',processFilter,' today.'])
     ):
     h('div',{className:'tv-grid',style:gridStyle},
     equipData.map(eq=>{
@@ -9328,6 +9463,8 @@ function TVView({dataVersion,master}){
           h('span',{className:'tv-summary-label'},'DT')
         )
       ),
+
+      tvSingle&&spcData&&spcData.ec===eq.ec&&h(TVSpcCard,{spc:spcData}),
 
       // ── Body: hourly chart (+ lean insight rail in single-asset mode) ──
       h('div',{className:'tv-body'+(tvSingle?' tv-body-single':'')},

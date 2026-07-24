@@ -2094,6 +2094,8 @@ input[type=number]{-moz-appearance:textfield}
 .tv-spc-unit{font-size:12px;font-weight:700;color:var(--jm-text-ter);margin-left:2px}
 .tv-spc-stat-label{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--jm-text-ter);text-transform:uppercase;margin-top:3px}
 .tv-spc-limits{grid-column:1/-1;text-align:center;font-size:10px;color:var(--jm-text-ter);font-variant-numeric:tabular-nums}
+.tv-good-tick{animation:good-tick .6s ease-out}
+@keyframes good-tick{from{color:#0AA357;text-shadow:0 0 10px rgba(10,163,87,.4)}}
 </style>
 </head>
 <body><div class="demo-banner">DEMO MODE - All data is simulated. Not the live production system.</div>
@@ -9298,10 +9300,11 @@ function TVView({dataVersion,master}){
 
   // ── Demo PLC telemetry — simulated automated data collection (live cycle times + idle states) ──
   const equipDataRef=useRef([]);equipDataRef.current=equipData;
+  const [liveGood,setLiveGood]=useState({});
   const plcPhaseRef=useRef({});
   useEffect(()=>{
     function tick(){
-      const ph=plcPhaseRef.current;const eqm={};
+      const ph=plcPhaseRef.current;const eqm={};const incs={};
       (equipDataRef.current||[]).forEach(eq2=>{
         const hrs=(eq2.currentShift==='2'?eq2.s2:eq2.s1).filter(r=>parseInt(r.goodUnits||0)>0).length;
         const rate=Math.max(hrs>0?eq2.good/hrs:55,8);
@@ -9312,8 +9315,10 @@ function TVView({dataVersion,master}){
         st.drift=st.drift*0.7+(Math.random()-0.5)*base*0.05;
         const ct=Math.max(0.5,base+st.drift+(Math.random()-0.5)*base*0.07);
         eqm[eq2.ec]={liveCycleTime:Math.round(ct*10)/10,idleSince:st.idle>0?1:null,activeDowntime:false};
+        if(st.idle===0){const exp=rate/1200;let inc=Math.floor(exp);if(Math.random()<exp-inc)inc++;if(inc>0)incs[eq2.ec]=inc;}
       });
       setLiveStatus({equipment:eqm});
+      if(Object.keys(incs).length)setLiveGood(prev=>{const nx={...prev};Object.keys(incs).forEach(k=>{nx[k]=(nx[k]||0)+incs[k];});return nx;});
     }
     tick();const iv=setInterval(tick,3000);return()=>clearInterval(iv);
   },[]);
@@ -9399,6 +9404,7 @@ function TVView({dataVersion,master}){
     h('div',{className:'tv-grid',style:gridStyle},
     equipData.map(eq=>{
       const ls=liveStatus&&liveStatus.equipment&&liveStatus.equipment[eq.ec];
+      const exG=liveGood[eq.ec]||0;
       const isIdle=ls&&ls.idleSince;
       const isActiveDT=ls&&ls.activeDowntime;
       const liveCT=ls?ls.liveCycleTime:null;
@@ -9437,7 +9443,7 @@ function TVView({dataVersion,master}){
       // Condensed production scorecard
       h('div',{className:'tv-summary-row'},
         h('div',{className:'tv-summary-stat'},
-          h('span',{className:'tv-summary-val'},eq.good.toLocaleString()),
+          h('span',{key:'g'+(eq.good+exG),className:'tv-summary-val tv-good-tick'},(eq.good+exG).toLocaleString()),
           h('span',{className:'tv-summary-label'},'Good')
         ),
         h('div',{className:'tv-summary-stat'},
@@ -9445,7 +9451,7 @@ function TVView({dataVersion,master}){
           h('span',{className:'tv-summary-label'},'Target')
         ),
         h('div',{className:'tv-summary-stat'},
-          (()=>{const gap=eq.good-eq.tgt;return[
+          (()=>{const gap=eq.good+exG-eq.tgt;return[
             h('span',{key:'v',className:'tv-summary-val',style:{color:gap>=0?'#0AA357':'#D93A2E'}},
               (gap>=0?'+':'')+gap.toLocaleString()),
             h('span',{key:'l',className:'tv-summary-label'},gap>=0?'Ahead':'Behind')
@@ -9453,7 +9459,7 @@ function TVView({dataVersion,master}){
         ),
         (()=>{const shiftHrs=(eq.currentShift==='2'?eq.s2:eq.s1);const hrsDone=shiftHrs.filter(r2=>parseInt(r2.goodUnits||0)>0).length;
           if(hrsDone===0)return null;
-          const proj=Math.round(eq.good/hrsDone*8);const projTgt=eq.tgt>0?Math.round(eq.tgt/Math.max(shiftHrs.length,1)*8):0;
+          const proj=Math.round((eq.good+exG)/hrsDone*8);const projTgt=eq.tgt>0?Math.round(eq.tgt/Math.max(shiftHrs.length,1)*8):0;
           return h('div',{className:'tv-summary-stat'},
             h('span',{className:'tv-summary-val',style:{color:projTgt>0?(proj>=projTgt?'#0AA357':'#C89430'):'var(--jm-navy)'}},proj.toLocaleString()),
             h('span',{className:'tv-summary-label'},'Proj 8h')
@@ -9534,10 +9540,10 @@ function TVView({dataVersion,master}){
         const shiftHrs=(eq.currentShift==='2'?eq.s2:eq.s1);
         const withGood=shiftHrs.filter(r2=>parseInt(r2.goodUnits||0)>0);
         const hrsDone=withGood.length;
-        const proj=hrsDone>0?Math.round(eq.good/hrsDone*8):0;
+        const proj=hrsDone>0?Math.round((eq.good+exG)/hrsDone*8):0;
         const tgt8=shiftHrs.length>0?Math.round(eq.tgt/shiftHrs.length*8):0;
         const remHrs=Math.max(8-shiftHrs.length,0);
-        const need=remHrs>0?Math.max(0,Math.ceil((tgt8-eq.good)/remHrs)):0;
+        const need=remHrs>0?Math.max(0,Math.ceil((tgt8-eq.good-exG)/remHrs)):0;
         // Rank hours by attainment vs that hour's target (targets already discount
         // scheduled time, so the lunch hour competes fairly)
         const scored=withGood.filter(r2=>(r2.target||0)>0).map(r2=>({hourIdx:r2.hourIdx,good:parseInt(r2.goodUnits),att:Math.round(parseInt(r2.goodUnits)/r2.target*1000)/10}));

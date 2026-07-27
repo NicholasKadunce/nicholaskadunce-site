@@ -2178,6 +2178,21 @@ const spcPhases = {
     };
     meanLab('x\u0304 2,600', chartArea.left + 6, 'left', 2600);
     meanLab('x\u0304 2,990 \u00b7 +15%', chartArea.right - 6, 'right', 2990);
+    // phase distributions: sideways normal curves, baseline vs control spread
+    const bell = (anchorX, mean, sigma, amp) => {
+      ctx.strokeStyle = isDark ? 'rgba(160,158,148,0.62)' : 'rgba(110,109,100,0.55)';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      for (let i = 0; i <= 60; i++) {
+        const t = -3.2 + (6.4 * i / 60);
+        const px = anchorX - amp * Math.exp(-0.5 * t * t);
+        const py = y.getPixelForValue(mean + t * sigma);
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    };
+    bell(b1, 2600, 213, (b1 - chartArea.left) * 0.5);
+    bell(chartArea.right, 2990, 193, (chartArea.right - b2) * 0.5);
     ctx.restore();
   }
 };

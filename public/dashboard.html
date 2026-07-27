@@ -7113,6 +7113,27 @@ function SSSwimLane({filtered,master}){
 
 // ANALYTICS VIEW - Deep-dive playground for CI engineers & plant managers
 // ═══════════════════════════════════════════════════════════════════════════════
+// ── Analytics drill-down kit: shared panel + horizontal mini bars ──
+function DrillPanel({title,sub,onClose,children,color}){
+  return h('div',{className:'dash-card',style:{marginTop:12,borderLeft:'3px solid '+(color||'var(--jm-navy)')}},
+    h('div',{className:'dash-card-header',style:{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,flexWrap:'wrap'}},
+      h('div',null,
+        h('div',{className:'dash-card-title',style:{margin:0}},title),
+        sub?h('div',{style:{fontSize:11,color:'var(--jm-text-ter)',marginTop:2}},sub):null),
+      h('button',{onClick:onClose,style:{padding:'4px 12px',borderRadius:6,border:'1px solid var(--jm-border)',background:'var(--jm-bg)',color:'var(--jm-text-sec)',fontSize:11,fontWeight:600,cursor:'pointer'}},'\u2715 Close')),
+    children);
+}
+function MiniBars({rows,color,suffix,onRow,valFmt}){
+  if(!rows||rows.length===0)return h('div',{className:'dash-empty',style:{padding:'16px 0'}},'No data');
+  const mx=Math.max.apply(null,rows.map(r=>r.val));
+  return h('div',{style:{marginTop:4}},rows.slice(0,14).map((r,i)=>h('div',{key:i,onClick:onRow?()=>onRow(r):undefined,
+    style:{display:'flex',alignItems:'center',gap:10,marginBottom:5,cursor:onRow?'pointer':'default'}},
+    h('div',{style:{width:150,fontSize:11,fontWeight:600,color:'var(--jm-text-sec)',textAlign:'right',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},r.name),
+    h('div',{style:{flex:1}},h('div',{style:{height:16,borderRadius:4,background:r.color||color||'var(--jm-navy)',width:Math.max(mx>0?r.val/mx*100:0,2)+'%',opacity:0.9,transition:'width .3s ease'}})),
+    h('div',{style:{width:118,fontSize:11,fontWeight:700,color:'var(--jm-text)',fontVariantNumeric:'tabular-nums'}},(valFmt?valFmt(r.val):r.val.toLocaleString())+(suffix||''),
+      r.sub?h('span',{style:{marginLeft:6,fontWeight:500,color:'var(--jm-text-ter)'}},r.sub):null)
+  )));
+}
 function AnalyticsView({dataVersion,master,theme,toggleTheme}){
   const {ResponsiveContainer,ComposedChart,BarChart,Bar,Line,XAxis,YAxis,CartesianGrid,Tooltip,ReferenceLine,Cell,LabelList,Area,Legend,ScatterChart,Scatter,ZAxis}=Recharts;
   const DT_CAT_COLORS={Mechanical:'#9E4A3F',Electrical:'#C89430',Process:'#4C5A6B',Material:'#7D5BA8',Quality:'#B85E8A',Changeover:'#4590A8',Other:'#6E6D64'};
@@ -7178,6 +7199,8 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
   const dtParetoChartRef=useRef(null);
   const [expandedDTCode,setExpandedDTCode]=useState(''); // expanded row in downtime breakdown table
   const [oeeViewBy,setOeeViewBy]=useState('process'); // 'process' or 'equipment'
+  const [barDrill,setBarDrill]=useState(null); // {kind,key,extra} for bar-chart drill-downs
+  useEffect(()=>{setBarDrill(null);},[module,dateFrom,dateTo,shiftFilter]);
   const oeeChartRef=useRef(null);
   const [qualScopeType,setQualScopeType]=useState('all'); // 'all','process','equipment'
   const [qualScope,setQualScope]=useState('');
@@ -7701,7 +7724,7 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
         const p=procMap[proc];p.sm+=av;p.dtm+=dtm;p.udtm+=udtm;p.tgt+=(r.productCode?calcTarget(r.equipCode,r.productCode,r.scheduledMins||0,0):r.target)||r.target;p.good+=r.goodUnits;p.def+=defQty;
       });
       function calcOEE(e){const run=e.sm-e.dtm,tp=e.good+e.def,a=e.sm>0?((e.sm-e.udtm)/e.sm)*100:0,p=run>0&&e.tgt>0?((tp*e.sm)/(run*e.tgt))*100:0,q=tp>0?(e.good/tp)*100:100;return{a:Math.round(a*10)/10,p:Math.round(p*10)/10,q:Math.round(q*10)/10,oee:Math.round(a*p*q/10000*10)/10,good:e.good};}
-      const eqOEE=Object.values(eqMap).map(e=>({name:getEquipName(e.ec),...calcOEE(e)}));
+      const eqOEE=Object.values(eqMap).map(e=>({name:getEquipName(e.ec),ec:e.ec,proc:(findEquipment(e.ec,_masterRef)||{}).process||'Other',...calcOEE(e)}));
       const procOEE=Object.values(procMap).map(e=>({name:e.process,...calcOEE(e)}));
       const oeeData=(oeeViewBy==='process'?procOEE:eqOEE).sort((a,b)=>a.oee-b.oee);
       // OEE summary KPIs
@@ -7802,7 +7825,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
           ),
           oeeData.length>0?h('div',null,
             h(ResponsiveContainer,{width:'100%',height:Math.max(280,oeeData.length*36+60)},
-              h(BarChart,{data:oeeData,layout:'vertical',margin:{top:10,right:60,bottom:10,left:oeeViewBy==='equipment'?120:100}},
+              h(BarChart,{data:oeeData,layout:'vertical',margin:{top:10,right:60,bottom:10,left:oeeViewBy==='equipment'?120:100},style:{cursor:'pointer'},
+                onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(!d)return;
+                  if(oeeViewBy==='equipment'&&d.ec){setSelectedEquip(d.ec);setModule('equipment');}
+                  else if(d.name){setBarDrill({kind:'oeeProc',key:d.name});}}},
                 h(CartesianGrid,{strokeDasharray:'3 3',stroke:'#E7E4DB',horizontal:false}),
                 h(XAxis,{type:'number',domain:[0,100],tick:{fontSize:11},tickFormatter:v=>v+'%'}),
                 h(YAxis,{type:'category',dataKey:'name',tick:{fontSize:oeeViewBy==='equipment'?10:12,fontWeight:600},width:oeeViewBy==='equipment'?115:95}),
@@ -7816,6 +7842,17 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
                 h(ReferenceLine,{x:80,stroke:thc('#9A988E','#6E6D64'),strokeDasharray:'6 3',strokeWidth:1.5,label:{value:'80%',position:'top',fill:thc('#6E6D64','#A09E94'),fontSize:10}})
               )
             ),
+            h('div',{style:{fontSize:11,color:'var(--jm-text-ter)',textAlign:'center',marginTop:2,fontStyle:'italic'}},
+              oeeViewBy==='equipment'?'Click an asset to open it in the Equipment module':'Click a process to drill into its equipment'),
+            (barDrill&&barDrill.kind==='oeeProc')&&(()=>{
+              const eqs=eqOEE.filter(x=>x.proc===barDrill.key).sort((a,b)=>a.oee-b.oee);
+              const pr=procOEE.find(p=>p.name===barDrill.key);
+              return h(DrillPanel,{title:barDrill.key+' \u00b7 Equipment Ranking',
+                sub:(pr?('A '+pr.a+'% \u00b7 P '+pr.p+'% \u00b7 Q '+pr.q+'% \u00b7 '):'')+eqs.length+' assets \u00b7 click an asset to open it',
+                onClose:()=>setBarDrill(null)},
+                h(MiniBars,{rows:eqs.map(x=>({name:x.name,val:x.oee,color:fColor(x.oee,80,60)})),suffix:'%',valFmt:v=>v,
+                  onRow:r2=>{const e2=eqs.find(x=>x.name===r2.name);if(e2){setSelectedEquip(e2.ec);setModule('equipment');}}}));
+            })(),
             h('div',{style:{display:'flex',justifyContent:'center',gap:16,marginTop:6,fontSize:10,color:'var(--jm-text-ter)'}},
               h('span',null,'Sorted worst → best · Green = \u226580% · Amber = 60-80% · Red = <60%')
             )
@@ -7871,7 +7908,8 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
           h('div',{className:'dash-card-badge'},operatorData.trend.length+' days')
         ),
         operatorData.trend.length>0?h(ResponsiveContainer,{width:'100%',height:280},
-          h(ComposedChart,{data:operatorData.trend,margin:{top:10,right:20,bottom:5,left:0}},
+          h(ComposedChart,{data:operatorData.trend,margin:{top:10,right:20,bottom:5,left:0},style:{cursor:'pointer'},
+            onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.date)setBarDrill({kind:'opDay',key:d.date});}},
             h(CartesianGrid,{strokeDasharray:'3 3',stroke:'#E7E4DB'}),
             h(XAxis,{dataKey:'date',tick:{fontSize:10},tickFormatter:d=>d.slice(5)}),
             h(YAxis,{domain:[d=>{const floor=Math.floor(d/10)*10;return Math.max(0,Math.min(floor,floor-((d-floor<5)?10:0)));},d=>Math.ceil((d+5)/10)*10],allowDataOverflow:false,tick:{fontSize:11},tickFormatter:v=>v+'%'}),
@@ -7882,7 +7920,21 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
             ),
             h(Line,{dataKey:'q',name:'Quality %',stroke:thc('#7D5BA8','#A38FBF'),strokeWidth:2,dot:{r:3},type:'monotone'})
           )
-        ):h('div',{className:'dash-empty'},h(Icon.users),h('p',{style:{marginTop:8}},'Select an operator to view trends'))
+        ):h('div',{className:'dash-empty'},h(Icon.users),h('p',{style:{marginTop:8}},'Select an operator to view trends')),
+        operatorData.trend.length>0&&h('div',{style:{fontSize:11,color:'var(--jm-text-ter)',textAlign:'center',marginTop:2,fontStyle:'italic'}},'Click a day to see where the hours went'),
+        (barDrill&&barDrill.kind==='opDay')&&(()=>{
+          const op=selectedOp||operatorData.sel;const day=barDrill.key;
+          const rows=filtered.filter(r=>r.date===day&&(r.operators||[]).includes(op));
+          const byEq={};let ddt=0,ddef=0;
+          rows.forEach(r=>{const nm=getEquipName(r.equipCode);if(!byEq[nm])byEq[nm]={name:nm,good:0,tgt:0,dtm:0};
+            const b=byEq[nm];b.good+=r.goodUnits;b.tgt+=(r.productCode?calcTarget(r.equipCode,r.productCode,r.scheduledMins||0,0):r.target)||r.target;
+            const dm=totalDTMins(r.downtime);b.dtm+=dm;ddt+=dm;ddef+=r.defects.reduce((s,x)=>s+parseInt(x.qty||0),0);});
+          const list=Object.values(byEq).sort((a,b)=>b.good-a.good);
+          return h(DrillPanel,{title:op+' \u00b7 '+day,
+            sub:rows.length+' hours logged \u00b7 '+Math.round(ddt)+' min downtime \u00b7 '+ddef+' defects',onClose:()=>setBarDrill(null)},
+            h(MiniBars,{rows:list.map(x=>({name:x.name,val:x.good,color:x.tgt>0&&x.good>=x.tgt?'#0AA357':thc('#33544E','#7FA79E'),
+              sub:x.tgt>0?Math.round(x.good/x.tgt*100)+'% of tgt':''}))}));
+        })()
       ),
       // Team map: attainment vs quality scatter
       h('div',{className:'dash-card',style:{marginTop:16}},
@@ -8002,9 +8054,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
         if(dowData.length===0)return null;
         return h('div',{className:'dash-grid',style:{marginTop:16}},
           h('div',{className:'dash-card'},
-            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},'Day-of-Week Pattern')),
+            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},'Day-of-Week Pattern'),h('div',{className:'dash-card-badge'},'click a day to drill')),
             h(ResponsiveContainer,{width:'100%',height:200},
-              h(BarChart,{data:dowData,margin:{top:18,right:10,bottom:0,left:0}},
+              h(BarChart,{data:dowData,margin:{top:18,right:10,bottom:0,left:0},style:{cursor:'pointer'},
+                onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.dow)setBarDrill({kind:'dow',key:d.dow});}},
                 h(CartesianGrid,{stroke:'#EDEBE3',vertical:false}),
                 h(XAxis,{dataKey:'dow',tick:{fontSize:11}}),
                 h(YAxis,{domain:[0,100],tick:{fontSize:10},tickFormatter:v=>v+'%'}),
@@ -8017,9 +8070,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
             )
           ),
           h('div',{className:'dash-card'},
-            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},'Shift Split')),
+            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},'Shift Split'),h('div',{className:'dash-card-badge'},'click to filter S1/S2')),
             h(ResponsiveContainer,{width:'100%',height:200},
-              h(BarChart,{data:shData,layout:'vertical',margin:{top:8,right:50,bottom:0,left:10}},
+              h(BarChart,{data:shData,layout:'vertical',margin:{top:8,right:50,bottom:0,left:10},style:{cursor:'pointer'},
+                onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.name){const sn=d.name==='Shift 1'?'1':'2';setShiftFilter(f=>f===sn?'all':sn);}}},
                 h(CartesianGrid,{stroke:'#EDEBE3',horizontal:false}),
                 h(XAxis,{type:'number',domain:[0,100],tick:{fontSize:10},tickFormatter:v=>v+'%'}),
                 h(YAxis,{type:'category',dataKey:'name',tick:{fontSize:12,fontWeight:600},width:64}),
@@ -8030,7 +8084,20 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
                 )
               )
             )
-          )
+          ),
+          (barDrill&&barDrill.kind==='dow')&&h('div',{style:{gridColumn:'1 / -1'}},(()=>{
+            const dw=barDrill.key;const drows={};
+            filtered.filter(r=>r.equipCode===sel&&dows[new Date(r.date+'T12:00:00').getDay()]===dw).forEach(r=>{
+              if(!drows[r.date])drows[r.date]={sm:0,dtm:0,udtm:0,tgt:0,good:0,def:0};
+              const b=drows[r.date];const av=60-r.scheduledMins;b.sm+=av;b.dtm+=totalDTMins(r.downtime);b.udtm+=unschedDTMins(r.downtime);
+              b.tgt+=(r.productCode?calcTarget(r.equipCode,r.productCode,r.scheduledMins||0,0):r.target)||r.target;
+              b.good+=r.goodUnits;b.def+=r.defects.reduce((s,x)=>s+parseInt(x.qty||0),0);});
+            const dlist=Object.keys(drows).sort().map(dt=>({name:dt.slice(5),val:oeeOf(drows[dt]),color:barColor(oeeOf(drows[dt])),sub:Math.round(drows[dt].dtm)+'m DT'}));
+            const avg=dlist.length>0?Math.round(dlist.reduce((s,x)=>s+x.val,0)/dlist.length*10)/10:0;
+            return h(DrillPanel,{title:getEquipName(sel)+' \u00b7 '+dw+' pattern',
+              sub:dlist.length+' days in range \u00b7 avg OEE '+avg+'%',onClose:()=>setBarDrill(null)},
+              h(MiniBars,{rows:dlist,suffix:'%',valFmt:v=>v}));
+          })())
         );
       })(),
       // DT and Defect breakdown side by side
@@ -8174,9 +8241,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
         if(t.length<2)return null;
         t.forEach((d,i)=>{const w=t.slice(Math.max(0,i-6),i+1);d.ma=Math.round(w.reduce((s,x)=>s+x.totalMins,0)/w.length);});
         return h('div',{className:'dash-card',style:{marginBottom:16}},
-          h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.clock),' Daily Downtime Minutes')),
+          h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.clock),' Daily Downtime Minutes'),h('div',{className:'dash-card-badge'},'click a day to drill')),
           h(ResponsiveContainer,{width:'100%',height:240},
-            h(ComposedChart,{data:t,margin:{top:10,right:20,bottom:5,left:0}},
+            h(ComposedChart,{data:t,margin:{top:10,right:20,bottom:5,left:0},style:{cursor:'pointer'},
+              onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.date)setBarDrill({kind:'dtDay',key:d.date});}},
               h(CartesianGrid,{stroke:'#EDEBE3',vertical:false}),
               h(XAxis,{dataKey:'date',tick:{fontSize:10},tickFormatter:d=>d.slice(5)}),
               h(YAxis,{tick:{fontSize:11},tickFormatter:v=>v+'m'}),
@@ -8185,7 +8253,22 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
               h(Bar,{dataKey:'totalMins',name:'Downtime',fill:thc('#B84A40','#C97A6F'),fillOpacity:0.85,radius:[3,3,0,0],maxBarSize:26}),
               h(Line,{dataKey:'ma',name:'7-day avg',stroke:thc('#6E6D64','#A09E94'),strokeWidth:2,strokeDasharray:'7 4',dot:false,type:'monotone'})
             )
-          )
+          ),
+          (barDrill&&barDrill.kind==='dtDay')&&(()=>{
+            const day=barDrill.key;const cmap={};let dtot=0;
+            filtered.filter(r=>r.date===day).forEach(r=>{(r.downtime||[]).forEach(d2=>{
+              const mins=parseInt(d2.mins||0);if(!mins)return;dtot+=mins;
+              const nm=DT_CODES[d2.dtCode]||('Code '+d2.dtCode);
+              if(!cmap[nm])cmap[nm]={name:nm,mins:0,count:0,eq:{}};
+              cmap[nm].mins+=mins;cmap[nm].count++;
+              const en=getEquipName(r.equipCode);cmap[nm].eq[en]=(cmap[nm].eq[en]||0)+mins;});});
+            const codes=Object.values(cmap).sort((a,b)=>b.mins-a.mins).map(c=>{
+              const te=Object.entries(c.eq).sort((a,b)=>b[1]-a[1])[0];
+              return{name:c.name,val:c.mins,sub:te?('top: '+te[0]):''};});
+            return h(DrillPanel,{title:'Downtime \u00b7 '+day,color:thc('#B84A40','#C97A6F'),
+              sub:dtot+' min across '+codes.length+' codes \u00b7 top equipment shown per code',onClose:()=>setBarDrill(null)},
+              h(MiniBars,{rows:codes,color:thc('#B84A40','#C97A6F'),suffix:'m',valFmt:v=>v}));
+          })()
         );
       })(),
       // Scope filter + XLS export
@@ -8245,7 +8328,7 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
       // Stacked downtime by category
       h('div',{className:'dash-card',style:{marginBottom:16}},
         h('div',{className:'dash-card-header'},
-          h('div',{className:'dash-card-title'},h(Icon.clock),' Downtime by Category (Stacked)')
+          h('div',{className:'dash-card-title'},h(Icon.clock),' Downtime by Category (Stacked)'),h('div',{className:'dash-card-badge'},'click a segment to drill')
         ),
         downtimeData.stackedData&&downtimeData.stackedData.length>0?h(ResponsiveContainer,{width:'100%',height:280},
           h(BarChart,{data:downtimeData.stackedData,margin:{top:10,right:20,bottom:5,left:0}},
@@ -8255,10 +8338,25 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
             h(Tooltip,{contentStyle:{borderRadius:8,border:'1px solid #E7E4DB',fontSize:12}}),
             h(Legend,{wrapperStyle:{fontSize:11}}),
             (downtimeData.dtCategories||[]).map(cat=>
-              h(Bar,{key:cat,dataKey:cat,stackId:'dt',fill:DT_CAT_COLORS[cat]||'#6E6D64',name:cat,radius:[0,0,0,0]})
+              h(Bar,{key:cat,dataKey:cat,stackId:'dt',fill:DT_CAT_COLORS[cat]||'#6E6D64',name:cat,radius:[0,0,0,0],cursor:'pointer',onClick:d2=>{if(d2&&d2.date)setBarDrill({kind:'dtCat',key:cat,extra:d2.date});}})
             )
           )
-        ):h('div',{className:'dash-empty'},'No downtime data for selected period')
+        ):h('div',{className:'dash-empty'},'No downtime data for selected period'),
+        (barDrill&&barDrill.kind==='dtCat')&&(()=>{
+          const cat=barDrill.key,day=barDrill.extra;const cmap={};let tot=0;
+          filtered.filter(r=>r.date===day).forEach(r=>{(r.downtime||[]).forEach(d2=>{
+            if((DT_CODE_TO_CAT[d2.dtCode]||'Other')!==cat)return;
+            const mins=parseInt(d2.mins||0);if(!mins)return;tot+=mins;
+            const nm=DT_CODES[d2.dtCode]||('Code '+d2.dtCode);
+            if(!cmap[nm])cmap[nm]={name:nm,mins:0,eq:{}};
+            cmap[nm].mins+=mins;const en=getEquipName(r.equipCode);cmap[nm].eq[en]=(cmap[nm].eq[en]||0)+mins;});});
+          const codes=Object.values(cmap).sort((a,b)=>b.mins-a.mins).map(c=>{
+            const te=Object.entries(c.eq).sort((a,b)=>b[1]-a[1])[0];
+            return{name:c.name,val:c.mins,sub:te?('top: '+te[0]):''};});
+          return h(DrillPanel,{title:cat+' \u00b7 '+day,color:DT_CAT_COLORS[cat]||'var(--jm-navy)',
+            sub:tot+' min in this category \u00b7 codes ranked',onClose:()=>setBarDrill(null)},
+            h(MiniBars,{rows:codes,color:DT_CAT_COLORS[cat]||'#6E6D64',suffix:'m',valFmt:v=>v}));
+        })()
       ),
       // ── DOWNTIME PARETO: 3-level drill-down (Asset → Code → Sub-item) ──
       h('div',{className:'dash-card',style:{marginBottom:16},ref:dtParetoChartRef},
@@ -8414,9 +8512,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
         const tot=data.reduce((s,c)=>s+c.qty,0);let cum=0;
         data.forEach(c=>{cum+=c.qty;c.cumPct=Math.round(cum/tot*1000)/10;});
         return h('div',{className:'dash-card',style:{marginBottom:16}},
-          h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.alertTri),' Defect Pareto \u00b7 Top Codes')),
+          h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.alertTri),' Defect Pareto \u00b7 Top Codes'),h('div',{className:'dash-card-badge'},'click a code to drill')),
           h(ResponsiveContainer,{width:'100%',height:290},
-            h(ComposedChart,{data:data,margin:{top:10,right:46,bottom:50,left:0}},
+            h(ComposedChart,{data:data,margin:{top:10,right:46,bottom:50,left:0},style:{cursor:'pointer'},
+              onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.name)setBarDrill({kind:'defCode',key:d.name});}},
               h(CartesianGrid,{stroke:'#EDEBE3',vertical:false}),
               h(XAxis,{dataKey:'name',tick:{fontSize:9,angle:-30,textAnchor:'end'},interval:0,height:60}),
               h(YAxis,{yAxisId:'l',tick:{fontSize:11}}),
@@ -8428,7 +8527,24 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
               ),
               h(Line,{yAxisId:'r',dataKey:'cumPct',name:'Cumulative %',stroke:thc('#C89430','#D9A441'),strokeWidth:2,dot:{r:3},type:'monotone'})
             )
-          )
+          ),
+          (barDrill&&barDrill.kind==='defCode')&&(()=>{
+            const codeName=barDrill.key;const eqm={},pm={};let qtot=0;
+            filtered.forEach(r=>{(r.defects||[]).forEach(d2=>{
+              const nm=DEF_CODES[d2.defCode]||('Code '+d2.defCode);if(nm!==codeName)return;
+              const q2=parseInt(d2.qty||0);if(!q2)return;qtot+=q2;
+              const en=getEquipName(r.equipCode);eqm[en]=(eqm[en]||0)+q2;
+              const pn=getProductName(r.productCode);pm[pn]=(pm[pn]||0)+q2;});});
+            const eqRows=Object.entries(eqm).map(([n,v])=>({name:n,val:v})).sort((a,b)=>b.val-a.val);
+            const pRows=Object.entries(pm).map(([n,v])=>({name:n,val:v})).sort((a,b)=>b.val-a.val);
+            return h(DrillPanel,{title:codeName+' \u00b7 Where It Happens',color:thc('#7D5BA8','#A38FBF'),
+              sub:qtot.toLocaleString()+' pcs in range \u00b7 split by equipment and product',onClose:()=>setBarDrill(null)},
+              h('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:16}},
+                h('div',null,h('div',{style:{fontSize:11,fontWeight:700,color:'var(--jm-text-sec)',textTransform:'uppercase',letterSpacing:0.5,marginBottom:6}},'By Equipment'),
+                  h(MiniBars,{rows:eqRows,color:thc('#7D5BA8','#A38FBF'),suffix:' pcs',valFmt:v=>v})),
+                h('div',null,h('div',{style:{fontSize:11,fontWeight:700,color:'var(--jm-text-sec)',textTransform:'uppercase',letterSpacing:0.5,marginBottom:6}},'By Product'),
+                  h(MiniBars,{rows:pRows,color:thc('#7D5BA8','#A38FBF'),suffix:' pcs',valFmt:v=>v}))));
+          })()
         );
       })(),
       // Scope toggle: All / By Process / By Equipment
@@ -8468,9 +8584,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
       ),
       // Quality trend
       h('div',{className:'dash-card'},
-        h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.alertTri),' Quality & DPMO Trend')),
+        h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.alertTri),' Quality & DPMO Trend'),h('div',{className:'dash-card-badge'},'click a day to drill')),
         qualityData.trend.length>0?h(ResponsiveContainer,{width:'100%',height:280},
-          h(ComposedChart,{data:qualityData.trend,margin:{top:10,right:20,bottom:5,left:0}},
+          h(ComposedChart,{data:qualityData.trend,margin:{top:10,right:20,bottom:5,left:0},style:{cursor:'pointer'},
+            onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.date)setBarDrill({kind:'qDay',key:d.date});}},
             h(CartesianGrid,{strokeDasharray:'3 3',stroke:'#E7E4DB'}),
             h(XAxis,{dataKey:'date',tick:{fontSize:10},tickFormatter:d=>d.slice(5)}),
             h(YAxis,{yAxisId:'left',domain:[d=>{const floor=Math.floor(d/5)*5;return Math.max(0,floor-5);},d=>Math.min(100,Math.ceil(d/5)*5+5)],allowDataOverflow:false,tick:{fontSize:11},tickFormatter:v=>v+'%',label:{value:'Quality %',angle:-90,position:'insideLeft',style:{fontSize:10}}}),
@@ -8479,7 +8596,18 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
             h(Line,{yAxisId:'left',dataKey:'q',name:'Quality %',stroke:thc('#7D5BA8','#A38FBF'),strokeWidth:2.5,dot:{r:3},type:'monotone'}),
             h(Bar,{yAxisId:'right',dataKey:'dpmo',name:'DPMO',fill:'#E8830C',radius:[3,3,0,0],barSize:16,opacity:0.5})
           )
-        ):h('div',{className:'dash-empty'},h(Icon.alertTri),h('p',{style:{marginTop:8}},'No quality data'))
+        ):h('div',{className:'dash-empty'},h(Icon.alertTri),h('p',{style:{marginTop:8}},'No quality data')),
+        (barDrill&&barDrill.kind==='qDay')&&(()=>{
+          const day=barDrill.key;const cm={};let dq=0,dg=0;
+          filtered.filter(r=>r.date===day).forEach(r=>{dg+=(r.goodUnits||0);(r.defects||[]).forEach(d2=>{
+            const q2=parseInt(d2.qty||0);if(!q2)return;dq+=q2;
+            const nm=DEF_CODES[d2.defCode]||('Code '+d2.defCode);cm[nm]=(cm[nm]||0)+q2;});});
+          const rows=Object.entries(cm).map(([n,v])=>({name:n,val:v})).sort((a,b)=>b.val-a.val);
+          const qp=(dg+dq)>0?((dg/(dg+dq))*100).toFixed(2):'100';
+          return h(DrillPanel,{title:'Quality \u00b7 '+day,color:thc('#7D5BA8','#A38FBF'),
+            sub:'Quality '+qp+'% \u00b7 '+dq+' defects \u00b7 codes ranked',onClose:()=>setBarDrill(null)},
+            h(MiniBars,{rows:rows,color:thc('#7D5BA8','#A38FBF'),suffix:' pcs',valFmt:v=>v}));
+        })()
       ),
       // ── Defect Pareto: 3-level drill-down (Asset → Code → Product) ──
       h('div',{className:'dash-card',style:{marginTop:16},ref:defParetoChartRef},
@@ -8661,9 +8789,10 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
           const days=Object.values(dayMap).sort((a,b)=>a.date.localeCompare(b.date));
           if(days.length<2)return null;
           return h('div',{className:'dash-card',style:{marginBottom:16}},
-            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.clipboard),' Daily Output vs Target')),
+            h('div',{className:'dash-card-header'},h('div',{className:'dash-card-title'},h(Icon.clipboard),' Daily Output vs Target'),h('div',{className:'dash-card-badge'},'click a day to drill')),
             h(ResponsiveContainer,{width:'100%',height:250},
-              h(ComposedChart,{data:days,margin:{top:10,right:20,bottom:5,left:0}},
+              h(ComposedChart,{data:days,margin:{top:10,right:20,bottom:5,left:0},style:{cursor:'pointer'},
+                onClick:e=>{const d=e&&e.activePayload&&e.activePayload[0]&&e.activePayload[0].payload;if(d&&d.date)setBarDrill({kind:'runDay',key:d.date});}},
                 h(CartesianGrid,{stroke:'#EDEBE3',vertical:false}),
                 h(XAxis,{dataKey:'date',tick:{fontSize:10},tickFormatter:d=>d.slice(5)}),
                 h(YAxis,{tick:{fontSize:11},tickFormatter:v=>v>=1000?(v/1000)+'k':v}),
@@ -8674,7 +8803,17 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
                 ),
                 h(Line,{dataKey:'target',name:'Target',stroke:thc('#6E6D64','#A09E94'),strokeWidth:2,dot:false,type:'step'})
               )
-            )
+            ),
+            (barDrill&&barDrill.kind==='runDay')&&(()=>{
+              const day=barDrill.key;
+              const rows=fg.filter(g=>g.date===day).map(g=>({name:g.equip,val:g.totalGood,
+                color:g.totalTarget>0&&g.totalGood>=g.totalTarget?'#0AA357':(g.totalTarget>0&&g.totalGood>=g.totalTarget*0.85?thc('#33544E','#7FA79E'):'#D93A2E'),
+                sub:g.totalTarget>0?Math.round(g.totalGood/g.totalTarget*100)+'% of tgt':''})).sort((a,b)=>b.val-a.val);
+              const dg2=rows.reduce((s,x)=>s+x.val,0);
+              return h(DrillPanel,{title:'Output \u00b7 '+day,
+                sub:dg2.toLocaleString()+' good units \u00b7 '+rows.length+' equipment ran',onClose:()=>setBarDrill(null)},
+                h(MiniBars,{rows:rows}));
+            })()
           );
         })(),
         // ── Filters ──
@@ -8810,7 +8949,9 @@ function AnalyticsView({dataVersion,master,theme,toggleTheme}){
           ...(aLossView==='code'?lossData.byCode:lossData.byCategory).slice(0,12).map((l,i)=>{
             const color=l.type==='downtime'?'#D93A2E':l.type==='performance'?'#E8830C':'#7D5BA8';
             return h('div',{key:l.name},
-              h('div',{style:{display:'flex',alignItems:'center',gap:12,marginBottom:2,padding:'0 4px'}},
+              h('div',{style:{display:'flex',alignItems:'center',gap:12,marginBottom:2,padding:'0 4px',cursor:'pointer'},
+                title:'Open the '+(l.type==='downtime'?'Downtime':l.type==='performance'?'Processes':'Quality')+' module',
+                onClick:()=>setModule(l.type==='downtime'?'downtime':l.type==='performance'?'process':'quality')},
                 h('div',{style:{width:150,fontSize:11,fontWeight:600,color:'var(--jm-text-sec)',textAlign:'right',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},l.name),
                 h('div',{style:{flex:1}},h('div',{style:{height:22,borderRadius:4,background:color,width:Math.min(Math.max(l.pct*2*sc,1),100)+'%',opacity:0.85,minWidth:l.pct>0?28:0,position:'relative',overflow:'hidden',transition:'width .4s ease'}},
                   l.pct>=1&&h('div',{style:{position:'absolute',right:6,top:'50%',transform:'translateY(-50%)',fontSize:10,fontWeight:700,color:'#fff'}},l.pct+'%')

@@ -11,62 +11,65 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#141513;--body:#24251F;--muted:#4A4C46;--accent:#2E4A45;--rule:#CFCBC1;--gold:#A9792A}
+:root{--ink:#111210;--body:#1E1F1B;--muted:#363832;--accent:#2A433F;--rule:#C9C5BB;--rule-soft:#E1DED6}
 html,body{background:#ECEAE4;font-family:'Source Serif 4',Georgia,'Times New Roman',serif;color:var(--body);-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 a{color:inherit;text-decoration:none}
-.sans{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif}
 .page{width:8.5in;height:11in;overflow:hidden;background:#FFFFFF;margin:.5in auto;padding:.52in .62in .5in;position:relative;page-break-after:always;break-after:page}
 .page:last-child{page-break-after:auto;break-after:auto}
+.sans,.name,.contact,.headline,.altitude,.strip,.sh,.comp strong,.exp-co,.exp-dates,.scope,.role,.tl-date,.tl-kind,.mini b,.mini span{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif}
 
 /* Header */
-.name{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:22pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-align:center;line-height:1}
-.contact{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:8.3pt;color:var(--muted);text-align:center;margin-top:.065in}
-.headline{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:9.6pt;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);text-align:center;margin-top:.085in}
-.altitude{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:7.7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-align:center;margin-top:.04in}
-.goldrule{width:.55in;height:2px;background:var(--gold);margin:.06in auto 0}
-.head-rule{height:1px;background:var(--ink);margin:.08in 0 .075in}
+.name{font-size:22pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-align:center;line-height:1}
+.contact{font-size:8.4pt;font-weight:600;color:var(--body);text-align:center;margin-top:.065in}
+.headline{font-size:9.6pt;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);text-align:center;margin-top:.085in}
+.altitude{font-size:7.8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-align:center;margin-top:.04in}
+.head-rule{height:1px;background:var(--ink);margin:.09in 0 .075in}
 
 /* Summary and strip */
 .summary{font-size:8.7pt;line-height:1.42;color:var(--body)}
-.strip{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:8.1pt;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin:.05in 0 0}
-.strip span{white-space:nowrap;font-weight:400;color:var(--body)}
+.strip{font-size:8.1pt;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin:.05in 0 0}
+.strip span{white-space:nowrap;font-weight:600;color:var(--body)}
 .strip b{font-weight:700;color:var(--accent)}
 
 /* Section heads */
-.sh{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:8.6pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin:.115in 0 .045in;padding-bottom:.03in;border-bottom:1px solid var(--rule);position:relative}
+.sh{font-size:8.6pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin:.115in 0 .045in;padding-bottom:.03in;border-bottom:1px solid var(--rule);position:relative}
 .sh::after{content:"";position:absolute;left:0;bottom:-1px;width:.55in;height:2px;background:var(--accent)}
 
 /* Competencies */
 .comp{font-size:8.1pt;line-height:1.4;color:var(--body);margin-top:.03in}
-.comp strong{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.comp strong{font-weight:700;color:var(--ink);letter-spacing:.01em}
 
 /* Experience */
 .exp{margin-top:.085in}
 .exp-line{display:flex;justify-content:space-between;align-items:baseline}
-.exp-co{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:10.2pt;font-weight:700;letter-spacing:.02em;color:var(--ink)}
-.exp-co span{font-size:8.2pt;font-weight:400;color:var(--muted);letter-spacing:0}
-.exp-dates{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:8.2pt;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.ctx{font-style:italic;font-size:8pt;line-height:1.38;color:var(--muted);margin-top:.015in}
-.scope{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:7.5pt;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);line-height:1.38;margin-top:.025in;font-variant-numeric:tabular-nums}
-.role{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:9.2pt;font-weight:700;color:var(--accent);margin-top:.025in}
-.role span{font-size:8pt;font-weight:600;color:var(--muted)}
+.exp-co{font-size:10.2pt;font-weight:700;letter-spacing:.02em;color:var(--ink)}
+.exp-co span{font-size:8.2pt;font-weight:600;color:var(--muted);letter-spacing:0}
+.exp-dates{font-size:8.2pt;font-weight:700;color:var(--body);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctx{font-style:italic;font-size:8.1pt;line-height:1.38;color:var(--body);margin-top:.015in}
+.scope{font-size:7.5pt;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);line-height:1.4;margin-top:.025in;font-variant-numeric:tabular-nums}
+.role{font-size:9.2pt;font-weight:700;color:var(--accent);margin-top:.025in}
+.role span{font-size:8pt;font-weight:700;color:var(--muted)}
 .mandate{font-size:8.2pt;line-height:1.38;color:var(--body);margin-top:.03in}
 ul.b{list-style:none;margin-top:.03in}
 ul.b li{font-size:8.1pt;line-height:1.34;color:var(--body);padding-left:.15in;position:relative;margin-bottom:.5mm}
+ul.b li b{font-weight:700;color:var(--ink)}
 ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;height:.045in;background:var(--accent)}
 
 /* Credentials timeline */
-.tl{margin-top:.04in}
-.tl-row{display:grid;grid-template-columns:.72in 1fr;gap:0 .12in;padding:.02in 0;border-bottom:1px solid #E6E3DB;font-size:8.1pt;line-height:1.36;color:var(--body)}
-.tl-row:last-child{border-bottom:0}
-.tl-date{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.tl-row b{font-weight:600;color:var(--ink)}
-.tl-row span{color:var(--muted)}
+.tl{margin-top:.04in;border-top:1px solid var(--rule-soft)}
+.tl-row{display:grid;grid-template-columns:.74in 1fr;gap:0 .14in;padding:.024in 0;border-bottom:1px solid var(--rule-soft);font-size:8.1pt;line-height:1.32;color:var(--body);align-items:baseline}
+.tl-date{font-size:7.8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-row .t{font-weight:700;color:var(--ink)}
+.tl-row .i{color:var(--body)}
+.tl-kind{display:inline-block;font-size:6.8pt;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-left:.08in;vertical-align:.3pt}
+.edu{margin-top:.06in;font-size:8.3pt;line-height:1.4;color:var(--body)}
+.edu b{font-weight:700;color:var(--ink)}
+.edu .tl-kind{margin-left:0;margin-right:.1in}
 
 /* Page 2 mini header */
 .mini{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:.07in;border-bottom:1px solid var(--ink);margin-bottom:.06in}
-.mini b{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:11pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
-.mini span{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif;font-size:8pt;color:var(--muted)}
+.mini b{font-size:11pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+.mini span{font-size:8pt;font-weight:600;color:var(--body)}
 
 @page{size:letter;margin:0}
 @media print{
@@ -84,7 +87,6 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
   <div class="contact"><a href="tel:+17249963792">724-996-3792</a> · <a href="mailto:NicholasKadunce@gmail.com">NicholasKadunce@gmail.com</a> · <a href="https://nicholaskadunce.com">nicholaskadunce.com</a> · <a href="https://linkedin.com/in/nicholaskadunce">linkedin.com/in/nicholaskadunce</a></div>
   <div class="headline">Plant Manager · Manufacturing Operations</div>
   <div class="altitude">$90M+ P&amp;L · 100-person organization · Operating systems adopted across a six-plant division</div>
-  <div class="goldrule"></div>
   <div class="head-rule"></div>
 
   <p class="summary">Plant Manager of a $90M+ profit center for Jennmar, a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling. Runs the plant on a daily management system the Reedsville team built, which now operates in all six plants of the division. Earlier operations, quality, and engineering roles at Eos Energy, Messer Americas, and Johnson Matthey. Lean Six Sigma Black Belt. B.S., Chemical Engineering.</p>
@@ -101,18 +103,18 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
     <div class="exp-line"><h3 class="exp-co">Jennmar <span>· Reedsville, WV</span></h3><div class="exp-dates">January 2025 – Present</div></div>
     <div class="role">Plant Manager</div>
     <div class="ctx">Privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling; $1B+ revenue; one of six bolt plants in the division.</div>
-    <div class="scope">$90M+ P&amp;L · ~100 people (90 hourly, 10 salaried) · 7 direct reports · ~25,000 tons/yr · ~80 SKUs · 11 processes · 27 production assets · Two shifts · Owns S&amp;OP · Reports to the VP of Operations · Weekly operations review with the division executive team</div>
+    <div class="scope">$90M+ P&amp;L · ~100 people across production, maintenance, quality, safety, shipping, HR, and inventory · 7 direct reports · ~25,000 tons/yr · ~80 SKUs · 11 processes · 27 production assets · Two shifts · Reports to the VP of Operations</div>
     <p class="mandate">Accountable for safety, quality, delivery, cost, working capital, and the capital plan. Took the seat with a mandate to build the plant's performance-management system, make results visible to the executive team, and bring in lean manufacturing.</p>
     <ul class="b">
-      <li>Cut the recordable injury rate (TRIR) from 4.2 to 1.6 and DART from 3.3 to zero, with no citations, by moving safety to leading indicators: layered audits, near-miss reporting with root-cause removal, machine guarding that eliminates hazards, and dust collection upgrades.</li>
-      <li>Raised on-time delivery from 97% to 99% while holding a 5-day lead time, and brought customer complaints to zero. Established quality governance (automated tensile test logs, SPC by heat number, Pareto, tagged quarantine) that was adopted at every plant in the division.</li>
-      <li>Grew output 3.2% with about 10% less hourly labor and 11% less overtime through standard work, workflow balancing, automation, and staffing leveled to demand with a headcount model built on the sales projection and OEE. Cost per ton fell 15% despite inflation; operating income improved.</li>
-      <li>Reduced inventory 27% (more than $3M) and days on hand from 80 to 65 by splitting roughly 80 SKUs into make-to-stock and make-to-order with min/max levels tied to demand; worked slow-moving stock from 2.2 to 0.3 days with the sales team and created the plant's first sales budget.</li>
-      <li>Moved maintenance from reactive to planned with a CMMS rollout covering work orders, spares control, and maintenance analytics; corrective work orders fell from 159 to 50 per month.</li>
-      <li>Won approval for the 2026 capital plan, $900K across four projects, led by a $750K integrated forging-and-assembly cell, the first of its kind in the company, projected to cut cycle time 45% with payback under three years; annual capital need fell from $1.4M to $0.9M.</li>
-      <li>Delivered about $250K per year in validated process savings, including $35K in freight from relocating equipment to a sister plant. Rebalanced volume with that plant for four months so both met budget; overtime fell from 92 to 82 hours per employee biweekly and held after the volume returned.</li>
-      <li>Built the Daily Operations Review (automated daily email and dashboard: safety, availability, inventory, sales to budget, quality, headcount, capex, lean) and a daily net-income Financial Forecaster; rolled both out in person to all six plants, where the executive team reviews them every Monday. IT now owns the platform and is extending it company-wide.</li>
-      <li>Hired about 25 and promoted about 10, including the production supervisor developed into superintendent as planned succession; installed supervisor standard work and refined the per-piece incentive, automating its administration. Accountable for stormwater and waste permits, with no notices of violation.</li>
+      <li>Cut the recordable injury rate from <b>TRIR 4.2 to 1.6</b> and <b>DART from 3.3 to zero</b>, with no citations, by moving safety to leading indicators: layered audits, near-miss reporting with root-cause removal, machine guarding that eliminates hazards, and dust collection upgrades.</li>
+      <li>Raised on-time delivery from <b>97% to 99%</b> while holding a 5-day lead time, and brought <b>customer complaints to zero</b>. Established quality governance (automated tensile test logs, SPC by heat number, Pareto, tagged quarantine) that was adopted at every plant in the division.</li>
+      <li>Grew output <b>3.2%</b> with <b>about 10% less hourly labor</b> and <b>11% less overtime</b> through standard work, workflow balancing, automation, and staffing leveled to demand with a headcount model built on the sales projection and OEE. <b>Cost per ton fell 15%</b> despite inflation; operating income improved.</li>
+      <li>Reduced inventory <b>27% (more than $3M)</b> and days on hand from <b>80 to 65</b> by splitting roughly 80 SKUs into make-to-stock and make-to-order with min/max levels tied to demand; worked slow-moving stock from 2.2 to 0.3 days with the sales team and created the plant's first sales budget.</li>
+      <li>Moved maintenance from reactive to planned with a CMMS rollout covering work orders, spares control, and maintenance analytics; <b>corrective work orders fell from 159 to 50 per month</b>.</li>
+      <li>Won approval for the <b>2026 capital plan, $900K across four projects</b>, led by a $750K integrated forging-and-assembly cell, the first of its kind in the company, projected to cut cycle time 45% with payback under three years; annual capital need fell from $1.4M to $0.9M.</li>
+      <li>Delivered <b>about $250K per year in validated process savings</b>, including $35K in freight from relocating equipment to a sister plant. Rebalanced volume with that plant for four months so both met budget; <b>overtime fell from 92 to 82 hours per employee biweekly</b> and held after the volume returned.</li>
+      <li>Built the <b>Daily Operations Review</b> (automated daily email and dashboard: safety, availability, inventory, sales to budget, quality, headcount, capex, lean) and a daily net-income <b>Financial Forecaster</b>, and rolled both out in person to <b>all six plants</b>. IT now owns the platform and is extending it company-wide.</li>
+      <li><b>Hired about 25 and promoted about 10</b>, including the production supervisor developed into superintendent as planned succession; installed supervisor standard work and refined the per-piece incentive, automating its administration. Accountable for stormwater and waste permits, with no notices of violation.</li>
     </ul>
   </div>
 </div></section>
@@ -124,18 +126,18 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
     <div class="exp-line"><h3 class="exp-co">Eos Energy Enterprises <span>· Turtle Creek, PA</span></h3><div class="exp-dates">December 2023 – December 2024</div></div>
     <div class="ctx">Publicly traded US battery energy storage scale-up; 500 to 1,000 employees; revenue $16M in 2024 and $115M in 2025.</div>
     <div class="role">Operations Manager <span>· June 2024 – December 2024</span></div>
-    <div class="scope">Two production buildings · 240 technicians at peak · 11 supervisors and 6 team leads · Reported to the Sr. Director of Operations · Output presented daily to the executive team</div>
+    <div class="scope">Two production buildings · Up to 240 technicians, 11 supervisors, and 6 team leads · Reported to the Sr. Director of Operations · Daily output review with the executive team</div>
     <ul class="b">
-      <li>Selected through a competitive process; started with one building (about 180 technicians) and took on the second when its manager left. Met every investor performance milestone while in the role, with no recordable injuries.</li>
-      <li>Replaced a next-day count sheet with the company's first hour-by-hour production dashboards: OEE, gap analysis, and control charts.</li>
-      <li>Cut module assembly time from 46.5 to 20.5 minutes by streamlining test and converting subassembly from batch to one-piece flow; subassembly rate up 41%, defects down 22%.</li>
-      <li>Raised BESS output from 0.5 to 2.2 units per day, sustained, with Yamazumi balancing, takt alignment, and team workflows; rework down 66%.</li>
-      <li>Recruited and trained a 40-person third shift in two months that led the plant on OEE within a month. Hired about 100, promoted 8, and sustained a 12-per-shift headcount reduction after subassembly automation.</li>
+      <li>Selected through a competitive process; started with one building (about 180 technicians) and took on the second when its manager left. <b>Met every investor performance milestone</b> while in the role, with no recordable injuries.</li>
+      <li>Replaced a next-day count sheet with the <b>company's first hour-by-hour production dashboards</b>: OEE, gap analysis, and control charts.</li>
+      <li>Cut <b>module assembly time from 46.5 to 20.5 minutes</b> by streamlining test and converting subassembly from batch to one-piece flow; subassembly rate up 41%, defects down 22%.</li>
+      <li>Raised <b>BESS output from 0.5 to 2.2 units per day</b>, sustained, with Yamazumi balancing, takt alignment, and team workflows; <b>rework down 66%</b>.</li>
+      <li>Recruited and trained a <b>40-person third shift in two months</b> that led the plant on OEE within a month. Hired about 100, promoted 8, and sustained a 12-per-shift headcount reduction after subassembly automation.</li>
     </ul>
     <div class="role">Quality Engineer <span>· December 2023 – June 2024</span></div>
     <ul class="b">
-      <li>Built the quality program from scratch: defect codes, a QMS, control plans, test protocols, and internal audits toward ISO 9001; directed the daily work of six quality technicians.</li>
-      <li>Wrote the specifications and test regimen for the next-generation module and BESS launch ahead of production; cut testing cycle time about 60% and scrap defects 30%; automated quality records and Pareto dashboards.</li>
+      <li>Built the <b>quality program from scratch</b>: defect codes, a QMS, control plans, test protocols, and internal audits toward ISO 9001; directed the daily work of six quality technicians.</li>
+      <li>Wrote the specifications and test regimen for the next-generation module and BESS launch ahead of production; cut <b>testing cycle time about 60%</b> and <b>scrap defects 30%</b>; automated quality records and Pareto dashboards.</li>
     </ul>
   </div>
 
@@ -143,10 +145,10 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
     <div class="exp-line"><h3 class="exp-co">Messer Americas <span>· Northeast Region (PA, WV, ME)</span></h3><div class="exp-dates">October 2022 – December 2023</div></div>
     <div class="ctx">Privately held industrial gas producer (Messer Group, about 4.4 billion euros in revenue).</div>
     <div class="role">Regional Production Engineer</div>
-    <div class="scope">Four air separation plants, about 80 employees · $400K project and expense budget · No direct reports · Weekly travel</div>
+    <div class="scope">Four air separation plants across PA, WV, and ME, about 80 employees · $400K project and expense budget · Regional engineering role with weekly site travel</div>
     <ul class="b">
-      <li>Initiated and led the Krypton/Xenon production project: output up 15% and $1M+ in annual revenue validated by finance, with lower hydrocarbon concentration risk in the process. $1.1M in total validated project value.</li>
-      <li>Led 15+ reliability and capital projects across the region: 25 fewer downtime days per year, lead times down about 30 days, and about $100K negotiated in vendor savings.</li>
+      <li>Initiated and led the Krypton/Xenon production project: <b>output up 15% and $1M+ in annual revenue</b> validated by finance, with lower hydrocarbon concentration risk in the process. $1.1M in total validated project value.</li>
+      <li>Led <b>15+ reliability and capital projects</b> across the region: <b>25 fewer downtime days per year</b>, lead times down about 30 days, and about $20K negotiated in vendor savings.</li>
       <li>Reorganized maintenance tools and spares at point of use with 5S and min/max levels by asset; the site teams owned the ideas and kept it running on their own.</li>
     </ul>
   </div>
@@ -156,26 +158,26 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
     <div class="ctx">Global catalyst manufacturer headquartered in the UK; the plant produced heavy-duty diesel catalytic converters on a fully automated, high-mix line.</div>
     <div class="role">Production Team Shift Leader II <span>· March 2022 – October 2022</span></div>
     <ul class="b">
-      <li>Ran the shift as acting supervisor: production timelines, safe practices, layered process audits, shift start and handover. Plant OEE rose from 76% to 81.2% in 2022 with zero lost-time and recordable injuries plant-wide.</li>
+      <li>Ran the shift as acting supervisor: production timelines, safe practices, layered process audits, shift start and handover. <b>Plant OEE rose from 76% to 81.2%</b> in 2022 with zero lost-time and recordable injuries plant-wide.</li>
     </ul>
     <div class="role">Process Control Engineer <span>· September 2020 – March 2022</span></div>
     <ul class="b">
-      <li>Owned setups and optimization of the automated line; cycle time down 8%, defects down 4%; a setup-parameter library removed 35 hours of annual changeover downtime; $220K in savings validated by the CI manager.</li>
+      <li>Owned setups and optimization of the automated line; <b>cycle time down 8%, defects down 4%</b>; a setup-parameter library removed 35 hours of annual changeover downtime; <b>$220K in savings</b> validated by the CI manager.</li>
     </ul>
   </div>
 
   <h2 class="sh">Credentials, Recognition, and Education</h2>
   <div class="tl">
-    <div class="tl-row"><div class="tl-date">Oct 2026</div><div><b>Cover feature, Metals &amp; Mining Review</b> <span>· Leadership Perspectives, "Operational Performance Builder"; author of "Building Operations that Deliver Results"; Certificate of Editorial Recognition</span></div></div>
-    <div class="tl-row"><div class="tl-date">Jul 2026</div><div><b>Applied Agentic AI for Organizational Transformation</b> <span>· MIT Professional Education</span></div></div>
-    <div class="tl-row"><div class="tl-date">Apr 2026</div><div><b>Lean Six Sigma Black Belt Professional</b> <span>· Six Sigma Global Institute</span></div></div>
-    <div class="tl-row"><div class="tl-date">Jun 2025</div><div><b>OSHA 30-Hour</b></div></div>
-    <div class="tl-row"><div class="tl-date">Nov 2024</div><div><b>Certified ScrumMaster (CSM)</b> <span>· Scrum Alliance</span></div></div>
-    <div class="tl-row"><div class="tl-date">Feb 2024</div><div><b>Certified Quality Management System Lead Auditor (ISO 9001)</b> <span>· Exemplar Global</span></div></div>
-    <div class="tl-row"><div class="tl-date">Oct 2023</div><div><b>Certified Six Sigma Green Belt</b> <span>· Messer Americas EMBRACE Training Academy</span></div></div>
-    <div class="tl-row"><div class="tl-date">Mar 2023</div><div><b>2022 EMBRACE Country Champion, Efficiency (United States)</b> <span>· Messer Americas</span></div></div>
-    <div class="tl-row"><div class="tl-date">Education</div><div><b>B.S., Chemical Engineering</b> <span>· West Virginia University</span></div></div>
+    <div class="tl-row"><div class="tl-date">Oct 2026</div><div><span class="t">Cover feature, Metals &amp; Mining Review</span> <span class="i">· Leadership Perspectives, "Operational Performance Builder"; author of "Building Operations that Deliver Results"</span><span class="tl-kind">Recognition</span></div></div>
+    <div class="tl-row"><div class="tl-date">Jul 2026</div><div><span class="t">Applied Agentic AI for Organizational Transformation</span> <span class="i">· MIT Professional Education</span><span class="tl-kind">Certificate</span></div></div>
+    <div class="tl-row"><div class="tl-date">Apr 2026</div><div><span class="t">Lean Six Sigma Black Belt Professional</span> <span class="i">· Six Sigma Global Institute</span><span class="tl-kind">Certification</span></div></div>
+    <div class="tl-row"><div class="tl-date">Jun 2025</div><div><span class="t">OSHA 30-Hour</span><span class="tl-kind">Certification</span></div></div>
+    <div class="tl-row"><div class="tl-date">Nov 2024</div><div><span class="t">Certified ScrumMaster (CSM)</span> <span class="i">· Scrum Alliance</span><span class="tl-kind">Certification</span></div></div>
+    <div class="tl-row"><div class="tl-date">Feb 2024</div><div><span class="t">Certified Quality Management System Lead Auditor (ISO 9001)</span> <span class="i">· Exemplar Global</span><span class="tl-kind">Certification</span></div></div>
+    <div class="tl-row"><div class="tl-date">Oct 2023</div><div><span class="t">Certified Six Sigma Green Belt</span> <span class="i">· Messer Americas EMBRACE Training Academy</span><span class="tl-kind">Certification</span></div></div>
+    <div class="tl-row"><div class="tl-date">Mar 2023</div><div><span class="t">2022 EMBRACE Country Champion, Efficiency (United States)</span> <span class="i">· Messer Americas</span><span class="tl-kind">Recognition</span></div></div>
   </div>
+  <div class="edu"><span class="tl-kind">Education</span><b>B.S., Chemical Engineering</b> · West Virginia University</div>
 </div></section>
 
 </main>

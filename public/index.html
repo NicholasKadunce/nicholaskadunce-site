@@ -212,6 +212,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .sw{display:inline-block;width:10px;height:10px;border-radius:1px;flex:0 0 10px}
 .sw-petrol{background:var(--petrol)}
 .sw-gold{border:1.5px solid var(--gold)}
+.sw-gold-fill{background:var(--gold)}
 .sw-slate{background:var(--slate)}
 .sw-faint{background:var(--ink-faint)}
 .sw-muted{background:var(--ink-muted)}
@@ -643,7 +644,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       <div class="ledger-row rv">
         <div class="lbl">Visibility</div>
         <div class="handed"><span class="inl">Handed</span>Downtime and defects not yet tracked · OEE not yet measurable</div>
-        <div class="changed"><span class="inl">Changed</span>Daily Operations Review, automated: safety, machine availability, inventory, sales to budget, quality, headcount, capex, lean · reviewed by the executive team weekly</div>
+        <div class="changed"><span class="inl">Changed</span>Daily Operations Review, automated: safety, machine availability, inventory, sales to budget, quality, headcount, capex, lean · the same areas reviewed with the executive team every Monday</div>
       </div>
       <div class="ledger-row rv">
         <div class="lbl">Output and labor</div>
@@ -712,7 +713,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     <div class="band rv">
       <div><div class="fig">6</div><div class="fig-label">plants running the Daily Operations Review and Financial Forecaster, rolled out in person from Reedsville</div></div>
       <div><div class="fig">45 min</div><div class="fig-label">demo and Q&amp;A at the annual managers meeting, with the executive team in the audience</div></div>
-      <div><div class="fig">Every Monday</div><div class="fig-label">the executive team reviews sales to budget and open safety actions in the Daily Operations Review</div></div>
+      <div><div class="fig">Every Monday</div><div class="fig-label">plant performance reviewed with the division executive team: safety, availability, inventory, sales to budget, quality, headcount, capex, and lean</div></div>
     </div>
     <p class="after-band rv">IT is now extending the system across the whole company, adding AI integration and live PLC connections. The Reedsville team keeps building the next version the same way, with the plant first.</p>
     <div class="sub">
@@ -740,7 +741,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
         <div class="ex-title"><h3 id="ex1-h">Daily Operations Review</h3><span class="small">Jennmar · 2025</span></div>
         <dl class="ex-meta">
           <div><dt>Situation</dt><dd>No downtime, defect, or delivery data existed at the plant.</dd></div>
-          <div><dt>Audience</dt><dd>Plant leadership every morning; the division executive team every Monday.</dd></div>
+          <div><dt>Audience</dt><dd>Plant leadership every morning; the division executive team, which follows sales to budget and open safety actions through it.</dd></div>
           <div><dt>What it changed</dt><dd>How safety projects are chosen and shared across plants, how the direct and indirect headcount mix is set, and how planned maintenance is judged.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>IT, with the plant managers. Running in six plants.</dd></div>
         </dl>
@@ -1029,72 +1030,86 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div class="owner"><dt>Owner today</dt><dd>None. The project closed with this chart as its record.</dd></div>
         </dl>
         <div class="ex-visual">
-          <div class="legend"><span><i class="sw sw-muted"></i>Baseline, days 1 to 30</span><span><i class="sw sw-petrol"></i>New level, days 31 to 60</span><span><i class="sw sw-line sl-light"></i>Mean</span><span><i class="sw sw-line sl-faint-dash"></i>Control limits</span></div>
-          <div class="chart" data-chart="ex7"><canvas id="chart-ex7" role="img" aria-label="Individuals control chart of daily output index over 60 days: baseline mean 100 with limits 88 and 112 for days 1 to 30, recalculated mean 115 with limits 103 and 127 for days 31 to 60, every point inside its limits."></canvas></div>
+          <div class="legend"><span><i class="sw sw-muted"></i>Baseline, days 1 to 30</span><span><i class="sw sw-gold-fill"></i>Implementation, days 31 to 44</span><span><i class="sw sw-petrol"></i>New level, days 45 to 74</span><span><i class="sw sw-line sl-light"></i>Mean</span><span><i class="sw sw-line sl-faint-dash"></i>Control limits</span></div>
+          <div class="chart" data-chart="ex7"><canvas id="chart-ex7" role="img" aria-label="Individuals control chart of daily output index over 74 days: baseline mean 100 with limits 82 and 118 for days 1 to 30, a 14-day implementation period with output swinging between 85 and 130, then a new level with mean 115 and tighter limits 110 and 120 for days 45 to 74, every point of the new level inside its limits."></canvas></div>
           <div class="visually-hidden"><table>
-            <caption>Daily output index with the mean and control limits in force on each day</caption>
+            <caption>Daily output index with the mean and control limits in force on each day; the implementation period has no limits</caption>
             <thead><tr><th scope="col">Day</th><th scope="col">Output index</th><th scope="col">Mean</th><th scope="col">Lower limit</th><th scope="col">Upper limit</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>98</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>2</td><td>103</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>3</td><td>101</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>4</td><td>96</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>5</td><td>104</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>6</td><td>99</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>7</td><td>102</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>8</td><td>97</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>9</td><td>100</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>10</td><td>105</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>11</td><td>98</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>12</td><td>101</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>13</td><td>103</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>14</td><td>95</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>15</td><td>99</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>16</td><td>102</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>17</td><td>100</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>18</td><td>97</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>19</td><td>104</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>20</td><td>101</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>21</td><td>98</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>22</td><td>103</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>23</td><td>99</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>24</td><td>96</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>25</td><td>102</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>26</td><td>100</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>27</td><td>104</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>28</td><td>98</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>29</td><td>101</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>30</td><td>99</td><td>100</td><td>88</td><td>112</td></tr>
-              <tr><td>31</td><td>113</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>32</td><td>118</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>33</td><td>115</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>34</td><td>111</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>35</td><td>119</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>36</td><td>114</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>37</td><td>116</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>38</td><td>112</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>39</td><td>115</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>40</td><td>120</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>41</td><td>113</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>42</td><td>116</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>43</td><td>118</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>44</td><td>110</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>45</td><td>114</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>46</td><td>117</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>47</td><td>115</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>48</td><td>112</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>49</td><td>119</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>50</td><td>116</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>51</td><td>113</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>52</td><td>118</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>53</td><td>114</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>54</td><td>111</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>55</td><td>117</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>56</td><td>115</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>57</td><td>119</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>58</td><td>113</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>59</td><td>116</td><td>115</td><td>103</td><td>127</td></tr>
-              <tr><td>60</td><td>114</td><td>115</td><td>103</td><td>127</td></tr>
+              <tr><td>1</td><td>101</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>2</td><td>94</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>3</td><td>108</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>4</td><td>97</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>5</td><td>103</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>6</td><td>91</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>7</td><td>106</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>8</td><td>99</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>9</td><td>110</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>10</td><td>95</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>11</td><td>102</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>12</td><td>88</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>13</td><td>105</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>14</td><td>98</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>15</td><td>107</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>16</td><td>93</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>17</td><td>100</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>18</td><td>109</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>19</td><td>96</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>20</td><td>104</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>21</td><td>90</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>22</td><td>103</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>23</td><td>99</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>24</td><td>111</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>25</td><td>94</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>26</td><td>101</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>27</td><td>97</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>28</td><td>106</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>29</td><td>92</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>30</td><td>102</td><td>100</td><td>82</td><td>118</td></tr>
+              <tr><td>31</td><td>118</td><td></td><td></td><td></td></tr>
+              <tr><td>32</td><td>96</td><td></td><td></td><td></td></tr>
+              <tr><td>33</td><td>124</td><td></td><td></td><td></td></tr>
+              <tr><td>34</td><td>85</td><td></td><td></td><td></td></tr>
+              <tr><td>35</td><td>112</td><td></td><td></td><td></td></tr>
+              <tr><td>36</td><td>130</td><td></td><td></td><td></td></tr>
+              <tr><td>37</td><td>92</td><td></td><td></td><td></td></tr>
+              <tr><td>38</td><td>121</td><td></td><td></td><td></td></tr>
+              <tr><td>39</td><td>104</td><td></td><td></td><td></td></tr>
+              <tr><td>40</td><td>127</td><td></td><td></td><td></td></tr>
+              <tr><td>41</td><td>98</td><td></td><td></td><td></td></tr>
+              <tr><td>42</td><td>116</td><td></td><td></td><td></td></tr>
+              <tr><td>43</td><td>110</td><td></td><td></td><td></td></tr>
+              <tr><td>44</td><td>119</td><td></td><td></td><td></td></tr>
+              <tr><td>45</td><td>114</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>46</td><td>117</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>47</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>48</td><td>113</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>49</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>50</td><td>118</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>51</td><td>114</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>52</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>53</td><td>112</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>54</td><td>117</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>55</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>56</td><td>113</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>57</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>58</td><td>118</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>59</td><td>114</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>60</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>61</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>62</td><td>113</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>63</td><td>117</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>64</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>65</td><td>114</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>66</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>67</td><td>118</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>68</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>69</td><td>113</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>70</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>71</td><td>114</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>72</td><td>117</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>73</td><td>115</td><td>115</td><td>110</td><td>120</td></tr>
+              <tr><td>74</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
             </tbody>
           </table></div>
         </div>
@@ -1103,7 +1118,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><div class="fig cnt">$1M+</div><div class="fig-label">annual revenue, validated by finance</div></div>
           <div><div class="fig cnt">Held</div><div class="fig-label">inside recalculated control limits</div></div>
         </div>
-        <p class="caption small">Representative values. The project raised production 15% and the new level held inside recalculated control limits. It also lowered hydrocarbon concentration risk in the process.</p>
+        <p class="caption small">Representative values. Baseline output varied widely from day to day. Output swung as the change was implemented, then settled at a level 15% higher with far less variation and held inside recalculated control limits. The project also lowered hydrocarbon concentration risk in the process.</p>
       </article>
 
     </div>
@@ -1241,7 +1256,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <h3 class="role-title">Regional Production Engineer</h3>
           <ul class="bullets">
             <li>Initiated and led the Krypton/Xenon production project: output up 15%, $1M+ annual revenue validated by finance, lower hydrocarbon concentration risk in the process. $1.1M in total validated project value.</li>
-            <li>15+ reliability and capital projects; 25 fewer downtime days a year; lead times down about 30 days; about $100K in negotiated vendor savings.</li>
+            <li>15+ reliability and capital projects; 25 fewer downtime days a year; lead times down about 30 days; about $20K in negotiated vendor savings.</li>
             <li>Reorganized maintenance tools and spares at point of use with 5S and min/max by asset. The ideas came from the technicians. It was still running the same way months later without me.</li>
             <li>2022 EMBRACE Country Champion, Efficiency (United States).</li>
           </ul>
@@ -1338,7 +1353,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 <script>
 var AI_WORKER_URL = "https://nicholas-kadunce-ai.nicholaskadunce.workers.dev";
 var AI_CONTEXT = [
-  { role: "user", content: "Standing facts and rules for this conversation about Nicholas Kadunce. Answer in the third person, in plain English, in a humble, team-credited tone. Keep every answer under 110 words and always finish the final sentence. Never use an em dash. Use only the facts below, in the forms given. If a fact is not listed, say you do not have it. WHO HE IS. Plant Manager at Jennmar in Reedsville, West Virginia, January 2025 to present. Jennmar is a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, with $1B+ revenue and six bolt plants in his division; Reedsville is the third-largest by revenue and headcount. He runs a $90M+ profit center with about 100 people (90 hourly, 10 salaried), seven direct reports (superintendent, maintenance, quality, dispatch, safety, HR and payroll, inventory control), about 25,000 tons a year, about 80 SKUs, 11 processes, 27 production assets, two shifts. He reports to the VP of Operations, who reports to the division president, who reports to the CEO; he is one of four plant managers. He presents every Monday in an operations review with the division president, CFO, CPO, general counsel, and VP of Sales. He owns S&OP, has hiring authority for hourly and salaried roles, and submits capital annually. YEAR ONE AT JENNMAR. Recordable injury rate cut more than 60%, DART to zero, no citations. On-time delivery 97% to 99% at a 5-day lead time; customer complaints to zero. Output up 3.2%; hourly headcount down about 7% in the twelve-month window and about 10% cumulative; overtime down 6% in the window and 11% cumulative; shipments up 2.1% (about $2M); cost per ton down 15% despite inflation; scrap tonnage flat; operating income improved. Inventory down 27% (more than $3M), days on hand 80 to 65 on a path to 45, slow-moving stock 2.2 to 0.3 days. Corrective work orders 159 to 50 a month after a CMMS rollout. About $250K a year in validated process savings. 2026 capital plan $900K across four projects, including a $750K integrated forging-and-assembly cell, the first of its kind at the company (cycle time 12.8 to 7.0 seconds, 2.5 fewer operators per shift, payback under 3 years); annual capital need $1.4M to $0.9M. Hired about 25, promoted about 10. SYSTEMS. He built the Daily Operations Review (automated daily email and dashboard) and the Financial Forecaster (daily net-income projection) with the plant team, both rolled out hands-on to all six plants and used every Monday by the executive team; quality governance (test logs, SPC by heat number) adopted by all plants; a CMMS rollout; supervisor standard work; a headcount planning model; automated incentive-pay administration. Frame IT as a partnership: he built the first version with the plant, proved it, and handed it to IT, which owns it and is extending it company-wide with AI integration and live PLC connections. He gave a 45-minute demo at the annual managers meeting with the executive team present. EARLIER ROLES, strictly consecutive, never overlapping. Johnson Matthey, Smithfield, Pennsylvania: Process Control Engineer, September 2020 to March 2022 (cycle time down 8%, defects down 4%, 35 hours of annual changeover downtime removed, $220K validated savings); Production Team Shift Leader II, March 2022 to October 2022 (plant OEE 76% to 81.2%; the plant recorded zero recordable injuries in 2022). Messer Americas, Northeast region: Regional Production Engineer, October 2022 to December 2023 (four air separation plants, about 80 employees, $400K budget, no direct reports; Krypton/Xenon project +15% and $1M+ annual revenue validated by finance; $1.1M total validated value; 15+ reliability projects; 25 fewer downtime days a year; about $100K vendor savings; 2022 EMBRACE Country Champion, Efficiency). Eos Energy Enterprises, Turtle Creek, Pennsylvania, a publicly traded battery storage scale-up: Quality Engineer, December 2023 to June 2024 (built the quality program where none existed, testing cycle time down about 60%, scrap defects down 30%, directed six quality technicians); Operations Manager, June 2024 to December 2024 (competitive selection; two buildings, 240 technicians at peak, 11 supervisors, 6 team leads; reported to the senior operations director; output presented daily to the executive team against investor milestones, all met; module assembly time 46.5 to 20.5 minutes; subassembly rate up 41%, defects down 22%; BESS output 0.5 to 2.2 units per day, sustained; rework down 66%; a 40-person third shift built in two months that led the plant on OEE; hired about 100, promoted 8; no recordable injuries). He was recruited to Jennmar for a plant manager role with end-to-end P&L accountability. CREDENTIALS. B.S. Chemical Engineering, West Virginia University. Lean Six Sigma Black Belt Professional (April 2026), Applied Agentic AI for Organizational Transformation at MIT Professional Education (July 2026), OSHA 30 (June 2025), Certified ScrumMaster (November 2024), ISO 9001 Lead Auditor from Exemplar Global (February 2024), Six Sigma Green Belt (October 2023). Featured on the cover of Metals & Mining Review, October 2026, with his article Building Operations that Deliver Results. HOW HE THINKS. Capacity can be purchased, but performance has to be built. Data should make problems easier to see. A problem that can quietly return was never really solved. Accountability without blame, in both directions. Improvements must survive the spotlight moving on. Walk the floor, find the constraint, build the system, develop the people, repeat. RULES. Give only the ranges and percentages above. Never give monthly or exact annual revenue, profitability, EBITDA, inventory dollar totals, customer names, equipment or machine brand names, incident, near-miss, or first-aid counts, exact headcount changes, the name of the private-equity firm, the sister plant figures, or anything about compensation. If asked for any of those, say that detail stays inside the plant and offer what is public. If asked about his availability, his plans, or his interest in other roles, say he is focused on his current plant and happy to talk about operations, and do not speculate. Credit the team. Do not invent facts. If you do not know, say so briefly." },
+  { role: "user", content: "Standing facts and rules for this conversation about Nicholas Kadunce. Answer in the third person, in plain English, in a humble, team-credited tone. Keep every answer under 110 words and always finish the final sentence. Never use an em dash. Use only the facts below, in the forms given. If a fact is not listed, say you do not have it. WHO HE IS. Plant Manager at Jennmar in Reedsville, West Virginia, January 2025 to present. Jennmar is a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, with $1B+ revenue and six bolt plants in his division; Reedsville is the third-largest by revenue and headcount. He runs a $90M+ profit center with about 100 people (90 hourly, 10 salaried), seven direct reports (superintendent, maintenance, quality, dispatch, safety, HR and payroll, inventory control), about 25,000 tons a year, about 80 SKUs, 11 processes, 27 production assets, two shifts. He reports to the VP of Operations, who reports to the division president, who reports to the CEO; he is one of four plant managers. He presents every Monday in an operations review with the division president, CFO, CPO, general counsel, and VP of Sales. He owns S&OP, has hiring authority for hourly and salaried roles, and submits capital annually. YEAR ONE AT JENNMAR. Recordable injury rate cut more than 60%, DART to zero, no citations. On-time delivery 97% to 99% at a 5-day lead time; customer complaints to zero. Output up 3.2%; hourly headcount down about 7% in the twelve-month window and about 10% cumulative; overtime down 6% in the window and 11% cumulative; shipments up 2.1% (about $2M); cost per ton down 15% despite inflation; scrap tonnage flat; operating income improved. Inventory down 27% (more than $3M), days on hand 80 to 65 on a path to 45, slow-moving stock 2.2 to 0.3 days. Corrective work orders 159 to 50 a month after a CMMS rollout. About $250K a year in validated process savings. 2026 capital plan $900K across four projects, including a $750K integrated forging-and-assembly cell, the first of its kind at the company (cycle time 12.8 to 7.0 seconds, 2.5 fewer operators per shift, payback under 3 years); annual capital need $1.4M to $0.9M. Hired about 25, promoted about 10. SYSTEMS. He built the Daily Operations Review (automated daily email and dashboard) and the Financial Forecaster (daily net-income projection) with the plant team, both rolled out hands-on to all six plants and used by the executive team to follow sales to budget and open safety actions; quality governance (test logs, SPC by heat number) adopted by all plants; a CMMS rollout; supervisor standard work; a headcount planning model; automated incentive-pay administration. Frame IT as a partnership: he built the first version with the plant, proved it, and handed it to IT, which owns it and is extending it company-wide with AI integration and live PLC connections. He gave a 45-minute demo at the annual managers meeting with the executive team present. EARLIER ROLES, strictly consecutive, never overlapping. Johnson Matthey, Smithfield, Pennsylvania: Process Control Engineer, September 2020 to March 2022 (cycle time down 8%, defects down 4%, 35 hours of annual changeover downtime removed, $220K validated savings); Production Team Shift Leader II, March 2022 to October 2022 (plant OEE 76% to 81.2%; the plant recorded zero recordable injuries in 2022). Messer Americas, Northeast region: Regional Production Engineer, October 2022 to December 2023 (four air separation plants, about 80 employees, $400K budget, no direct reports; Krypton/Xenon project +15% and $1M+ annual revenue validated by finance; $1.1M total validated value; 15+ reliability projects; 25 fewer downtime days a year; about $20K vendor savings; 2022 EMBRACE Country Champion, Efficiency). Eos Energy Enterprises, Turtle Creek, Pennsylvania, a publicly traded battery storage scale-up: Quality Engineer, December 2023 to June 2024 (built the quality program where none existed, testing cycle time down about 60%, scrap defects down 30%, directed six quality technicians); Operations Manager, June 2024 to December 2024 (competitive selection; two buildings, 240 technicians at peak, 11 supervisors, 6 team leads; reported to the senior operations director; output presented daily to the executive team against investor milestones, all met; module assembly time 46.5 to 20.5 minutes; subassembly rate up 41%, defects down 22%; BESS output 0.5 to 2.2 units per day, sustained; rework down 66%; a 40-person third shift built in two months that led the plant on OEE; hired about 100, promoted 8; no recordable injuries). He was recruited to Jennmar for a plant manager role with end-to-end P&L accountability. CREDENTIALS. B.S. Chemical Engineering, West Virginia University. Lean Six Sigma Black Belt Professional (April 2026), Applied Agentic AI for Organizational Transformation at MIT Professional Education (July 2026), OSHA 30 (June 2025), Certified ScrumMaster (November 2024), ISO 9001 Lead Auditor from Exemplar Global (February 2024), Six Sigma Green Belt (October 2023). Featured on the cover of Metals & Mining Review, October 2026, with his article Building Operations that Deliver Results. HOW HE THINKS. Capacity can be purchased, but performance has to be built. Data should make problems easier to see. A problem that can quietly return was never really solved. Accountability without blame, in both directions. Improvements must survive the spotlight moving on. Walk the floor, find the constraint, build the system, develop the people, repeat. RULES. Give only the ranges and percentages above. Never give monthly or exact annual revenue, profitability, EBITDA, inventory dollar totals, customer names, equipment or machine brand names, incident, near-miss, or first-aid counts, exact headcount changes, the name of the private-equity firm, the sister plant figures, or anything about compensation. If asked for any of those, say that detail stays inside the plant and offer what is public. If asked about his availability, his plans, or his interest in other roles, say he is focused on his current plant and happy to talk about operations, and do not speculate. Credit the team. Do not invent facts. If you do not know, say so briefly." },
   { role: "assistant", content: "Understood. I will describe the roles as strictly consecutive with those month dates, answer in the third person in under 110 words with a complete final sentence, credit the team, give only the ranges and percentages listed, frame the systems as built with the plant and handed to IT as a partnership, decline exact financials, customer names, equipment names, incident counts, headcount changes, the investor name, and compensation, and if asked about availability say he is focused on his current plant and glad to talk about operations. If a fact is not listed, I will say I do not have it." }
 ];
 var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager of a $90M+ profit center at Jennmar in Reedsville, West Virginia. The operating systems his team built there now run in all six plants of the division. Email him at NicholasKadunce@gmail.com.";
@@ -1652,15 +1667,20 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
   }
 
   function buildEx7(canvas, p, anim) {
-    var d1 = [98, 103, 101, 96, 104, 99, 102, 97, 100, 105, 98, 101, 103, 95, 99, 102, 100, 97, 104, 101, 98, 103, 99, 96, 102, 100, 104, 98, 101, 99];
-    var d2 = [113, 118, 115, 111, 119, 114, 116, 112, 115, 120, 113, 116, 118, 110, 114, 117, 115, 112, 119, 116, 113, 118, 114, 111, 117, 115, 119, 113, 116, 114];
-    var labels = [], i; for (i = 1; i <= 60; i++) labels.push(i);
-    var gap = []; for (i = 0; i < 30; i++) gap.push(null);
-    var s1 = d1.concat(gap), s2 = gap.concat(d2);
+    var d1 = [101, 94, 108, 97, 103, 91, 106, 99, 110, 95, 102, 88, 105, 98, 107, 93, 100, 109, 96, 104, 90, 103, 99, 111, 94, 101, 97, 106, 92, 102];
+    var dImp = [118, 96, 124, 85, 112, 130, 92, 121, 104, 127, 98, 116, 110, 119];
+    var d2 = [114, 117, 115, 113, 116, 118, 114, 115, 112, 117, 116, 113, 115, 118, 114, 116, 115, 113, 117, 115, 114, 116, 118, 115, 113, 116, 114, 117, 115, 116];
+    var N = d1.length + dImp.length + d2.length, labels = [], i; for (i = 1; i <= N; i++) labels.push(i);
+    var pad = function (n) { var a = []; for (var k = 0; k < n; k++) a.push(null); return a; };
+    var s1 = d1.concat(pad(dImp.length + d2.length));
+    var sImp = pad(d1.length).concat(dImp, pad(d2.length));
+    var s2 = pad(d1.length + dImp.length).concat(d2);
+    var B1 = d1.length - 0.5, B2 = d1.length + dImp.length - 0.5;
+    var M1 = 100, L1 = 82, U1 = 118, SIG1 = 6.1, M2 = 115, L2 = 110, U2 = 120, SIG2 = 1.6;
     var pr = window.innerWidth < 720 ? 2 : 3;
     var yTitle = window.innerWidth < 720 ? 'Index, baseline = 100' : 'Daily output index (baseline mean = 100)';
-    function gauss(ctx, y, anchorX, phaseW, mean, color) {
-      var A = Math.max(24, Math.min(56, 0.12 * phaseW)), sigma = 4, v, first = true;
+    function gauss(ctx, y, anchorX, phaseW, mean, sigma, color) {
+      var A = Math.max(24, Math.min(56, 0.12 * phaseW)), v, first = true;
       ctx.save(); ctx.beginPath();
       for (v = mean - 3.5 * sigma; v <= mean + 3.5 * sigma + 0.001; v += 0.25) {
         var px = anchorX - A * Math.exp(-((v - mean) * (v - mean)) / (2 * sigma * sigma)), py = y.getPixelForValue(v);
@@ -1677,39 +1697,43 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       id: 'ex7ann',
       beforeDatasetsDraw: function (c) {
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x, y = c.scales.y;
-        var xm = (x.getPixelForValue(29) + x.getPixelForValue(30)) / 2;
+        var xb1 = x.getPixelForValue(B1), xb2 = x.getPixelForValue(B2);
+        ctx.save(); ctx.fillStyle = p.goldTint; ctx.fillRect(xb1, a.top, xb2 - xb1, a.bottom - a.top); ctx.restore();
         ctx.save(); ctx.beginPath(); ctx.rect(a.left, a.top, a.right - a.left, a.bottom - a.top); ctx.clip();
-        gauss(ctx, y, xm, xm - a.left, 100, p.inkFaint);
-        gauss(ctx, y, a.right, a.right - xm, 115, p.petrol);
+        gauss(ctx, y, xb1, xb1 - a.left, M1, SIG1, p.inkFaint);
+        gauss(ctx, y, a.right, a.right - xb2, M2, SIG2, p.petrol);
         ctx.restore();
-        hline(ctx, a.left, xm, y.getPixelForValue(100), p.inkLight, 1, []);
-        hline(ctx, a.left, xm, y.getPixelForValue(88), p.inkFaint, 1, [4, 4]);
-        hline(ctx, a.left, xm, y.getPixelForValue(112), p.inkFaint, 1, [4, 4]);
-        hline(ctx, xm, a.right, y.getPixelForValue(115), p.inkLight, 1, []);
-        hline(ctx, xm, a.right, y.getPixelForValue(103), p.inkFaint, 1, [4, 4]);
-        hline(ctx, xm, a.right, y.getPixelForValue(127), p.inkFaint, 1, [4, 4]);
+        hline(ctx, a.left, xb1, y.getPixelForValue(M1), p.inkLight, 1, []);
+        hline(ctx, a.left, xb1, y.getPixelForValue(L1), p.inkFaint, 1, [4, 4]);
+        hline(ctx, a.left, xb1, y.getPixelForValue(U1), p.inkFaint, 1, [4, 4]);
+        hline(ctx, xb2, a.right, y.getPixelForValue(M2), p.inkLight, 1, []);
+        hline(ctx, xb2, a.right, y.getPixelForValue(L2), p.inkFaint, 1, [4, 4]);
+        hline(ctx, xb2, a.right, y.getPixelForValue(U2), p.inkFaint, 1, [4, 4]);
       },
       afterDraw: function (c) {
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x;
-        var xm = (x.getPixelForValue(29) + x.getPixelForValue(30)) / 2;
-        vline(ctx, xm, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
-        var ct = 'Change implemented';
-        if (xm + 6 + textW(ctx, ct) <= a.right - 2) note(ctx, ct, xm + 6, a.top + 2, p.inkLight, 'left', 'top');
-        else if (xm - 6 - textW(ctx, ct) >= a.left + 2) note(ctx, ct, xm - 6, a.top + 2, p.inkLight, 'right', 'top');
-        else note(ctx, 'Change', xm + 6, a.top + 2, p.inkLight, 'left', 'top');
+        var xb1 = x.getPixelForValue(B1), xb2 = x.getPixelForValue(B2);
+        vline(ctx, xb1, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
+        vline(ctx, xb2, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
+        var wide = (xb2 - xb1) > 150;
+        if (a.left + 4 + textW(ctx, 'Baseline') <= xb1 - 4) note(ctx, 'Baseline', a.left + 4, a.top + 2, p.inkLight, 'left', 'top');
+        var chg = wide ? 'Change implemented' : 'Change';
+        note(ctx, chg, xb1 + 5, a.top + 2, p.inkLight, 'left', 'top');
+        if (xb2 + 5 + textW(ctx, 'New level') <= a.right - 2 && xb2 + 5 >= xb1 + 5 + textW(ctx, chg) + 10) note(ctx, 'New level', xb2 + 5, a.top + 2, p.inkLight, 'left', 'top');
       }
     };
     return new Chart(canvas, {
       type: 'line',
       data: { labels: labels, datasets: [
         { label: 'Baseline', data: s1, borderColor: p.inkMuted, borderWidth: 1.5, pointRadius: pr, pointHoverRadius: pr + 1, pointBackgroundColor: p.inkMuted, pointBorderColor: p.inkMuted, tension: 0, fill: false, spanGaps: false },
+        { label: 'Implementation', data: sImp, borderColor: p.gold, borderWidth: 1.5, pointRadius: pr, pointHoverRadius: pr + 1, pointBackgroundColor: p.gold, pointBorderColor: p.gold, tension: 0, fill: false, spanGaps: false },
         { label: 'New level', data: s2, borderColor: p.petrol, borderWidth: 1.5, pointRadius: pr, pointHoverRadius: pr + 1, pointBackgroundColor: p.petrol, pointBorderColor: p.petrol, tension: 0, fill: false, spanGaps: false }
       ] },
       options: merge(base(p, anim), {
         plugins: { tooltip: { callbacks: { title: function (it) { return 'Day ' + it[0].label; } } } },
         scales: {
           x: xAxis(p, { ticks: { autoSkip: true, maxTicksLimit: 13 }, title: title(p, 'Day') }),
-          y: yAxis(p, { min: 80, max: 135, ticks: { stepSize: 10 }, title: title(p, yTitle) })
+          y: yAxis(p, { min: 75, max: 135, ticks: { stepSize: 10 }, title: title(p, yTitle) })
         }
       }),
       plugins: [plugin]

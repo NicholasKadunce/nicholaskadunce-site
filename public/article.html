@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building Operations that Deliver Results · Nicholas Kadunce</title>
+<meta name="description" content="Building Operations that Deliver Results, by Nicholas Kadunce, Plant Manager, Jennmar. Published in Metals &amp; Mining Review, October 2026. Reproduced with attribution.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #FAF9F6;
+  --surface-rgb: 250 249 246;
+  --surface-warm: #F1EFE8;
+  --surface-card: #FDFCFA;
+  --surface-raised: #FFFFFF;
+  --ink: #1B1C1A;
+  --ink-body: #3B3C38;
+  --ink-light: #6E6C64;
+  --ink-muted-text: #6B6960;
+  --ink-muted: #918F86;
+  --ink-faint: #C9C6BC;
+  --rule: #E7E4DC;
+  --rule-strong: #D9D5CB;
+  --petrol: #33544E;
+  --petrol-hover: #24403B;
+  --petrol-tint: rgba(51,84,78,0.08);
+  --gold: #B5862F;
+  --gold-text: #8C6615;
+  --gold-tint: rgba(181,134,47,0.12);
+  --slate: #4C5A6B;
+  --focus: #33544E;
+  --selection: #D8E2DE;
+  --scrim: rgba(27,28,26,0.40);
+  --shadow-cover: 0 1px 2px rgba(0,0,0,.06), 0 12px 32px rgba(27,28,26,.10);
+  --font-display: "Schibsted Grotesk", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+  --max-w: 1120px;
+  --measure: 680px;
+  --s0: 2px; --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 112px; --s11: 160px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #171814;
+    --surface-rgb: 23 24 20;
+    --surface-warm: #1D1E19;
+    --surface-card: #1E201D;
+    --surface-raised: #1F211C;
+    --ink: #ECEAE2;
+    --ink-body: #C4C2B8;
+    --ink-light: #929086;
+    --ink-muted-text: #8E8C83;
+    --ink-muted: #6F6D65;
+    --ink-faint: #3C3D37;
+    --rule: #2B2C27;
+    --rule-strong: #3A3B35;
+    --petrol: #9DBBB1;
+    --petrol-hover: #B4CEC4;
+    --petrol-tint: rgba(157,187,177,0.12);
+    --gold: #D9A441;
+    --gold-text: #D9A441;
+    --gold-tint: rgba(217,164,65,0.16);
+    --slate: #8FA0B5;
+    --focus: #9DBBB1;
+    --selection: #33544E;
+    --scrim: rgba(0,0,0,0.60);
+    --shadow-cover: 0 12px 32px rgba(0,0,0,.5);
+  }
+  :root:not([data-theme="light"]) .icon-moon { display: none; }
+  :root:not([data-theme="light"]) .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .logo img { filter: brightness(1.9) saturate(.85); }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #171814;
+  --surface-rgb: 23 24 20;
+  --surface-warm: #1D1E19;
+  --surface-card: #1E201D;
+  --surface-raised: #1F211C;
+  --ink: #ECEAE2;
+  --ink-body: #C4C2B8;
+  --ink-light: #929086;
+  --ink-muted-text: #8E8C83;
+  --ink-muted: #6F6D65;
+  --ink-faint: #3C3D37;
+  --rule: #2B2C27;
+  --rule-strong: #3A3B35;
+  --petrol: #9DBBB1;
+  --petrol-hover: #B4CEC4;
+  --petrol-tint: rgba(157,187,177,0.12);
+  --gold: #D9A441;
+  --gold-text: #D9A441;
+  --gold-tint: rgba(217,164,65,0.16);
+  --slate: #8FA0B5;
+  --focus: #9DBBB1;
+  --selection: #33544E;
+  --scrim: rgba(0,0,0,0.60);
+  --shadow-cover: 0 12px 32px rgba(0,0,0,.5);
+}
+:root[data-theme="dark"] .icon-moon { display: none; }
+:root[data-theme="dark"] .icon-sun { display: block; }
+:root[data-theme="dark"] .logo img { filter: brightness(1.9) saturate(.85); }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: var(--surface);
+  color: var(--ink-body);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 200ms, color 200ms;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+::selection { background: var(--selection); }
+img { display: block; max-width: 100%; height: auto; }
+a { color: var(--petrol); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; transition: color 160ms, border-color 160ms; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.skip { position: absolute; left: var(--s4); top: -100px; padding: var(--s2) var(--s3); background: var(--surface-raised); color: var(--ink); border: 1px solid var(--rule-strong); border-radius: 4px; z-index: 100; font-size: 14px; }
+.skip:focus { top: var(--s4); }
+
+/* Header */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  height: 64px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 200ms, border-color 200ms;
+}
+.site-header.scrolled {
+  background: rgb(var(--surface-rgb) / 0.92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--rule);
+}
+.header-inner {
+  max-width: var(--max-w); margin: 0 auto; height: 100%;
+  padding: 0 var(--s5);
+  display: flex; align-items: center; gap: var(--s4);
+}
+.logo { display: inline-flex; align-items: center; height: 44px; text-decoration: none; }
+.logo img { height: 28px; width: 28px; }
+.site-nav { margin-left: auto; display: flex; align-items: center; gap: var(--s4); }
+.nav-link { font-size: 14px; font-weight: 500; line-height: 1; color: var(--ink-body); text-decoration: none; padding: 15px 0; }
+.nav-link:hover { color: var(--ink); }
+.theme-toggle {
+  width: 44px; height: 44px; border: 0; background: none;
+  display: grid; place-items: center;
+  cursor: pointer; padding: 0; color: var(--ink); border-radius: 50%;
+}
+.theme-toggle span {
+  width: 36px; height: 36px; border: 1px solid var(--rule); border-radius: 50%;
+  display: grid; place-items: center;
+  transition: border-color 160ms, color 160ms;
+}
+.theme-toggle:hover span { border-color: var(--petrol); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+
+/* Reading column */
+main { flex: 1 0 auto; }
+.article {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s8) var(--s5) var(--s9);
+}
+.article-head {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: var(--s6);
+  align-items: start;
+  padding-bottom: var(--s6);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.cover { width: 220px; }
+.cover img { width: 100%; border: 1px solid var(--rule); border-radius: 4px; box-shadow: var(--shadow-cover); }
+.eyebrow {
+  font-size: 12px; font-weight: 600; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--petrol); margin-bottom: var(--s4);
+}
+h1 {
+  font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em;
+  color: var(--ink); margin-bottom: var(--s4);
+}
+.byline { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--ink); margin-bottom: var(--s2); }
+.small { font-size: 14px; line-height: 1.5; color: var(--ink-light); }
+
+.editors-note {
+  margin: var(--s6) 0 0;
+  padding: var(--s5);
+  background: var(--surface-warm);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.note-label {
+  display: block; font-size: 12px; font-weight: 600; line-height: 1; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-light); margin-bottom: var(--s3);
+}
+.editors-note p { font-family: var(--font-serif); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--ink); }
+
+.article-body { margin-top: var(--s7); }
+.article-body h2 {
+  font-family: var(--font-display); font-size: 28px; font-weight: 600; line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--ink); margin: var(--s7) 0 var(--s4);
+}
+.article-body h2:first-child { margin-top: 0; }
+.article-body p { margin-bottom: var(--s5); }
+.pull-quote {
+  margin: var(--s7) 0;
+  padding-left: var(--s5);
+  border-left: 2px solid var(--petrol);
+  font-family: var(--font-serif); font-style: italic; font-size: 24px; line-height: 1.35; color: var(--ink);
+}
+.closing {
+  margin-top: var(--s7);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule-strong);
+}
+.closing p { margin-bottom: var(--s4); }
+.back-link { font-size: 14px; font-weight: 500; }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--rule-strong); }
+.footer-inner { max-width: var(--max-w); margin: 0 auto; padding: var(--s5); font-size: 14px; line-height: 1.5; color: var(--ink-light); }
+
+/* Breakpoints */
+@media (max-width: 720px) {
+  .article { padding: var(--s7) var(--s5) var(--s8); }
+  .article-body h2 { font-size: 24px; }
+}
+@media (max-width: 560px) {
+  .article-head { grid-template-columns: 1fr; gap: var(--s5); }
+  .cover { width: 160px; order: -1; }
+  h1 { font-size: 28px; }
+  .article-body { margin-top: var(--s6); }
+  .pull-quote { font-size: 20px; margin: var(--s6) 0; }
+}
+@media (max-width: 360px) {
+  .header-inner, .site-nav { gap: var(--s3); }
+  .nav-link { white-space: nowrap; }
+}
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .header-inner, .footer-inner { padding-left: var(--s4); padding-right: var(--s4); }
+  .article { padding-left: var(--s4); padding-right: var(--s4); }
+  .editors-note { padding: var(--s4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+@media print {
+  .site-header, .theme-toggle, .skip { display: none !important; }
+  body { background: #fff; color: #000; }
+  .cover img { box-shadow: none; }
+  .article { padding-top: 0; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="Nicholas Kadunce"><img src="nk-logo.png" alt="Nicholas Kadunce" width="28" height="28"></a>
+    <nav class="site-nav" aria-label="Site">
+      <a class="nav-link" href="index.html">Back to nicholaskadunce.com</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false"><span>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <article class="article">
+    <div class="article-head">
+      <div>
+        <p class="eyebrow">Metals &amp; Mining Review · October 2026 · Leadership Perspectives</p>
+        <h1>Building Operations that Deliver Results</h1>
+        <p class="byline">By Nicholas Kadunce, Plant Manager, Jennmar</p>
+        <p class="small">Published in Metals &amp; Mining Review, October 2026. Reproduced with attribution.</p>
+      </div>
+      <div class="cover">
+        <img src="mmr-cover.jpg" width="906" height="1147" alt="Cover of Metals &amp; Mining Review, October 2026, featuring Nicholas Kadunce as Operational Performance Builder">
+      </div>
+    </div>
+
+    <aside class="editors-note" aria-label="Editor's note">
+      <span class="note-label">Editor's note</span>
+      <p>For enterprise manufacturing leaders, sustainable performance depends on turning operational priorities into disciplined execution that strengthens both processes and people. This perspective underlines why lasting improvement requires visible data, frontline accountability and systems that allow gains to endure beyond individual efforts.</p>
+    </aside>
+
+    <div class="article-body">
+      <h2>Why Manufacturing Matters Now</h2>
+      <p>Manufacturing in the United States is receiving a lot of attention and investment right now. New facilities, expanded domestic production and renewed focus on critical supply chains are creating opportunities across the industry. The importance of manufacturing reaches well beyond the people who work inside the plant. It supports communities, creates skilled careers and produces many of the materials and products that other parts of the economy depend on.</p>
+      <p>One lesson that has become clear throughout my career is that capacity can be purchased, but performance has to be built. A company can invest in equipment, automation and people, but the return on that investment depends on what happens every day inside the operation. What makes the difference is how clearly priorities are communicated, how consistently the team executes on those priorities and how quickly problems are identified and addressed.</p>
+
+      <h2>Turning Priorities into Daily Execution</h2>
+      <p>Every operation has goals, but goals only matter when they are clear to the people responsible for delivering them. When people understand what matters most, why it matters and how their work contributes, they are much more likely to take ownership of the result. That understanding gives people the context to make better decisions when the work does not go exactly as planned.</p>
+      <p>If the priority is output, quality or delivery, it has to be more than a number on a board. People need to understand what the goal means for the work in front of them and where their effort can make the biggest difference. When that connection is clear, teams are better able to make decisions, solve problems and take ownership of the result. That is when a business priority stops being something discussed in a meeting and starts becoming part of how the operation runs.</p>
+
+      <h2>Making Problems Visible and Acting on Them</h2>
+      <p>I have always believed that data should make problems easier to see, not create more work to find them. If information is difficult to collect or leadership has to dig through reports to understand what is happening, the system is not doing its job. I prefer to automate the flow of information and make losses visible enough that the team can quickly see where attention is needed.</p>
+      <p>From there, the goal is to focus on what is having the greatest impact rather than reacting to every issue equally. Tools such as Pareto analysis and SPC can help point us toward the constraint, but the people running the process often provide the context the data cannot. Operators know when something feels different, where time is being lost and which workarounds have quietly become part of the process.</p>
+      <p>Once the real problem is understood, the work is not finished until the operation behaves differently because of what was learned. A problem that can quietly return was never really solved. The goal is to build the fix into the way the process runs, then move on to the next constraint and repeat the cycle. This is what we call continuous improvement.</p>
+
+      <blockquote class="pull-quote">Data may be the first sign that performance is moving in the wrong direction, but people still have to be willing to speak up, challenge what is happening and share what they know.</blockquote>
+
+      <h2>Building Accountability Without Creating Blame</h2>
+      <p>The fastest way to stop seeing problems is to make people afraid to bring them forward. Accountability still matters, but it should start with understanding what happened and what needs to change, not simply who was involved. It also cannot feel one-sided. People should be accountable for the results they influence, but they should also know that their effort, problem-solving and contributions will be recognized when things go well. When accountability is applied fairly in both directions, it creates a stronger sense of ownership and respect.</p>
+      <p>That respect shapes how people respond when something goes wrong. Data may be the first sign that performance is moving in the wrong direction, but people still have to be willing to speak up, challenge what is happening and share what they know. Leaders set that tone by how they react when issues are raised and how consistently they treat both setbacks and successes. When people trust that response, they are more likely to engage in solving the problem rather than distancing themselves from it.</p>
+
+      <h2>Making Improvements that Last</h2>
+      <p>The best improvements do more than move a number. They change what the operation is capable of sustaining. I have also seen how quickly gains can disappear when an improvement depends on one person, one meeting or requires constant attention. The real test is whether the improvement continues when the spotlight moved somewhere else.</p>
+      <p>For me, that is the mark of a strong operation. Not one that never struggles, but one that learns from what happens and becomes more capable because of it. The goal is to leave behind more than a better number. It is to build a stronger process, a stronger team and a higher standard for what comes next.</p>
+    </div>
+
+    <div class="closing">
+      <p class="small">Published in Metals &amp; Mining Review, October 2026, Leadership Perspectives. Reproduced with attribution. Certificate of Editorial Recognition from the managing editor.</p>
+      <a class="back-link" href="index.html#in-print">Back to nicholaskadunce.com</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">© 2026 Nicholas Kadunce</div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    return t ? t === 'dark' : mq.matches;
+  }
+  function sync() { btn.setAttribute('aria-pressed', isDark() ? 'true' : 'false'); }
+  btn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    sync();
+  });
+  if (mq.addEventListener) { mq.addEventListener('change', sync); }
+  sync();
+
+  var header = document.getElementById('site-header');
+  function onScroll() { header.classList.toggle('scrolled', window.scrollY > 24); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>

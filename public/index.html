@@ -328,9 +328,14 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .bullets{margin-top:var(--s2)}
 .bullets li{position:relative;padding-left:16px;font-size:16px;line-height:1.6;color:var(--ink-body);max-width:680px;margin-top:6px}
 .bullets li::before{content:"";position:absolute;left:0;top:.7em;width:3px;height:3px;background:var(--petrol)}
-.creds{display:grid;grid-template-columns:1fr 1fr;gap:0 var(--s7);margin-top:var(--s5);border-top:1px solid var(--rule)}
-.creds li{padding:12px 0;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.5;color:var(--ink-light)}
-.creds b{font-weight:600;color:var(--ink)}
+.cred-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:var(--s6) var(--s7);margin-top:var(--s5);align-items:start}
+.cred-side{display:grid;gap:var(--s6)}
+.cred-group h4{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0;padding-bottom:8px;border-bottom:1px solid var(--rule-strong)}
+.cred-list{list-style:none;margin:0;padding:0}
+.cred-list li{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px;line-height:1.45}
+.cred-list .cred-name{grid-column:1;font-weight:600;color:var(--ink)}
+.cred-list .cred-org{grid-column:1;color:var(--ink-light)}
+.cred-list .cred-date{grid-column:2;grid-row:1 / span 2;align-self:start;color:var(--ink-light);font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* contact */
 .contact-rows{margin-top:var(--s6);border-top:1px solid var(--rule);max-width:680px}
@@ -437,7 +442,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .btn{width:100%}
   .hero-actions .textlink{margin-left:0;text-align:center;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
-  .creds{grid-template-columns:1fr}
+  .cred-grid{grid-template-columns:1fr}
   .email{padding:var(--s4)}
   .em-tiles,.em-tiles.three,.em-shifts{grid-template-columns:1fr}
   .em-tile{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:6px 0;border-top:1px solid var(--rule)}
@@ -1281,16 +1286,34 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     </div>
     <div class="sub">
       <h3 class="rv">Credentials</h3>
-      <ul class="creds">
-        <li class="rv"><b>Lean Six Sigma Black Belt Professional</b> · Six Sigma Global Institute · April 2026</li>
-        <li class="rv"><b>Applied Agentic AI for Organizational Transformation</b> · MIT Professional Education · July 2026</li>
-        <li class="rv"><b>OSHA 30-Hour</b> · June 2025</li>
-        <li class="rv"><b>Certified ScrumMaster (CSM)</b> · Scrum Alliance · November 2024</li>
-        <li class="rv"><b>Certified Quality Management System Lead Auditor (ISO 9001)</b> · Exemplar Global · February 2024</li>
-        <li class="rv"><b>Certified Six Sigma Green Belt</b> · Messer Americas EMBRACE Training Academy · October 2023</li>
-        <li class="rv"><b>2022 EMBRACE Country Champion, Efficiency (United States)</b> · Messer Americas</li>
-        <li class="rv"><b>B.S., Chemical Engineering</b> · West Virginia University</li>
-      </ul>
+      <div class="cred-grid rv">
+        <div class="cred-group">
+          <h4>Certifications</h4>
+          <ul class="cred-list">
+            <li><span class="cred-name">Applied Agentic AI for Organizational Transformation</span><span class="cred-org">MIT Professional Education</span><span class="cred-date">Jul 2026</span></li>
+            <li><span class="cred-name">Lean Six Sigma Black Belt Professional</span><span class="cred-org">Six Sigma Global Institute</span><span class="cred-date">Apr 2026</span></li>
+            <li><span class="cred-name">OSHA 30-Hour</span><span class="cred-org">Occupational safety and health training</span><span class="cred-date">Jun 2025</span></li>
+            <li><span class="cred-name">Certified ScrumMaster (CSM)</span><span class="cred-org">Scrum Alliance</span><span class="cred-date">Nov 2024</span></li>
+            <li><span class="cred-name">Certified Quality Management System Lead Auditor (ISO 9001)</span><span class="cred-org">Exemplar Global</span><span class="cred-date">Feb 2024</span></li>
+            <li><span class="cred-name">Certified Six Sigma Green Belt</span><span class="cred-org">Messer Americas EMBRACE Training Academy</span><span class="cred-date">Oct 2023</span></li>
+          </ul>
+        </div>
+        <div class="cred-side">
+          <div class="cred-group">
+            <h4>Recognition</h4>
+            <ul class="cred-list">
+              <li><span class="cred-name">Cover feature, Metals &amp; Mining Review</span><span class="cred-org">Leadership Perspectives, "Operational Performance Builder"; Certificate of Editorial Recognition</span><span class="cred-date">Oct 2026</span></li>
+              <li><span class="cred-name">EMBRACE Country Champion, Efficiency (United States)</span><span class="cred-org">Messer Americas, for 2022</span><span class="cred-date">Mar 2023</span></li>
+            </ul>
+          </div>
+          <div class="cred-group">
+            <h4>Education</h4>
+            <ul class="cred-list">
+              <li><span class="cred-name">B.S., Chemical Engineering</span><span class="cred-org">West Virginia University</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1326,7 +1349,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   </div>
 </footer>
 
-<button class="ai-fab" id="ai-fab" type="button" aria-haspopup="dialog" aria-controls="ai-panel" aria-expanded="false" hidden>
+<button class="ai-fab" id="ai-fab" type="button" aria-haspopup="dialog" aria-controls="ai-panel" aria-expanded="false">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/><path d="M8.5 8h7M8.5 11.5h4.5"/></svg>
   <span>Ask about Nicholas</span>
 </button>

@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=Lora:ital,wght@1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <script>document.documentElement.classList.add('js');</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
@@ -26,6 +26,7 @@
   --font-display:"Schibsted Grotesk","Inter",system-ui,sans-serif;
   --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-serif:"Lora",Georgia,"Times New Roman",serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --max-w:1120px;--gutter:24px;
   --s0:2px;--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;--s10:112px;--s11:160px;
   --ease:cubic-bezier(0.22,1,0.36,1);
@@ -139,7 +140,7 @@ p{max-width:680px}
 main{display:block}
 .section{border-top:1px solid var(--rule-strong);padding:64px 0 48px}
 .hero{padding:96px 0 0}
-.hero + .section{border-top:0}
+.hero + .section,.onpage + .section{border-top:0}
 .hero .lede{margin-top:var(--s5)}
 .hero-lede span{display:block}
 .hero-lede span + span{margin-top:var(--s2)}
@@ -203,7 +204,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 
 /* exhibits */
 .exhibits{display:grid;gap:var(--s6);margin-top:var(--s7)}
-.exhibit{border:1px solid var(--rule-strong);border-radius:4px;background:var(--surface-card);padding:var(--s5);transition:background-color 200ms,border-color 200ms}
+.exhibit{min-width:0;border:1px solid var(--rule-strong);border-radius:4px;background:var(--surface-card);padding:var(--s5);transition:background-color 200ms,border-color 200ms}
 .ex-tag{font:400 12px/1.4 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);display:flex;align-items:flex-start;gap:10px;max-width:none}
 .ex-tag::before{content:"";flex:0 0 6px;width:6px;height:6px;border-radius:50%;background:var(--petrol);margin-top:5px}
 .ex-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px var(--s3);margin-top:var(--s3)}
@@ -389,6 +390,118 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .js .rv{opacity:0;transform:translateY(8px);transition:opacity 420ms var(--ease),transform 420ms var(--ease)}
 .js .rv.in{opacity:1;transform:none}
 
+/* scenes: step bar and caption */
+.scene-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:var(--s4)}
+.scene-bar:empty{display:none}
+.scene-step{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border:1px solid var(--rule-strong);border-radius:999px;background:transparent;color:var(--ink-body);font:500 13px/1 var(--font-body);cursor:pointer;transition:color 160ms,border-color 160ms,background-color 160ms}
+.scene-step:hover{border-color:var(--petrol);color:var(--ink)}
+.scene-step.is-active{background:var(--petrol);border-color:var(--petrol);color:var(--surface)}
+.scene-step.is-active:focus-visible,.em-pills .scene-step.is-active:focus-visible{outline-color:var(--ink)}
+.scene-step .scene-n{font:500 12px/1 var(--font-mono);letter-spacing:0;font-feature-settings:"tnum" 1}
+.scene-step.scene-replay{margin-left:auto;color:var(--ink-light)}
+.scene-step.scene-replay:hover{color:var(--ink)}
+.scene-caption{margin-top:var(--s3);font-size:14px;line-height:1.5;color:var(--ink-light);max-width:none;min-height:3em}
+@media (pointer:coarse){.scene-bar .scene-step,.em-pills.scene-bar .scene-step{min-height:44px}}
+
+/* scene: ledger */
+.js .ledger-scene .ledger-row .changed{transition:opacity 420ms var(--ease),transform 420ms var(--ease)}
+.js .ledger-scene.is-handed .ledger-row .changed{opacity:0;transform:translateY(6px)}
+
+/* scene: daily review replica */
+.email{position:relative}
+.em-pills.scene-bar{margin-top:var(--s4);gap:6px}
+.em-pills .scene-step{min-height:0;padding:7px 10px;border:0;background:var(--petrol-tint);color:var(--petrol);font:600 12px/1 var(--font-body);letter-spacing:.01em}
+.em-pills .scene-step:hover{background:var(--petrol);color:var(--surface)}
+.em-pills .scene-step.is-active{background:var(--petrol);color:var(--surface)}
+.em-pills .scene-step.scene-replay{background:transparent;border:1px solid var(--rule-strong);color:var(--ink-light)}
+.em-pills .scene-step.scene-replay:hover{border-color:var(--petrol);color:var(--ink)}
+.em-steps .scene-caption{margin-top:8px;font-size:13px;min-height:0}
+.em-sec{position:relative}
+.em-sec::before{content:"";position:absolute;left:-12px;top:0;bottom:0;width:2px;background:var(--petrol);opacity:0;transition:opacity 200ms}
+.em-sec.is-hot::before{opacity:1}
+@media (min-width:721px){
+  .js .email{max-height:520px;overflow-y:auto;overscroll-behavior:contain}
+  .js .em-steps{position:sticky;top:-24px;z-index:1;margin:var(--s4) -24px 0;padding:10px 24px 8px;background:var(--surface-warm);border-bottom:1px solid var(--rule);transition:background-color 200ms}
+}
+@media (max-width:720px){
+  .js .em-steps{position:sticky;top:64px;z-index:1;margin:var(--s4) -16px 0;padding:8px 16px;background:var(--surface-warm);border-bottom:1px solid var(--rule);transition:background-color 200ms}
+}
+
+/* scene: business case process flow */
+.flow-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--surface-raised);border-radius:4px;padding:8px 4px 4px;margin-bottom:var(--s4);transition:background-color 200ms}
+.flow{display:block;width:100%;min-width:560px;max-width:800px;height:auto;margin:0 auto}
+.flow text{font-family:var(--font-body)}
+.flow .fx-box{fill:var(--petrol-tint);stroke:var(--petrol);stroke-width:1.25}
+.flow .fx-lbl{fill:var(--ink);font-size:14px;font-weight:600}
+.flow .fx-cell{fill:var(--petrol-tint);stroke:var(--petrol);stroke-width:1.5}
+.flow .fx-cell-lbl{fill:var(--ink);font-size:14px;font-weight:600}
+.flow .fx-wip{fill:var(--gold-tint);stroke:var(--gold);stroke-width:1.5;stroke-linejoin:round}
+.flow .fx-wip-lbl{fill:var(--gold-text);font-size:11px;font-weight:600;letter-spacing:.06em}
+.flow .fx-arrow{stroke:var(--ink-muted);stroke-width:1.5;fill:none}
+.flow .fx-head{fill:var(--ink-muted)}
+.flow .fx-m{fill:var(--ink);font-size:13px;font-weight:500;font-feature-settings:"tnum" 1}
+.flow .fx-m2{fill:var(--ink-light);font-size:13px;font-feature-settings:"tnum" 1}
+.flow .fx-forge,.flow .fx-asm{transition:transform 600ms var(--ease)}
+.flow .fx-fade{transition:opacity 600ms var(--ease)}
+.flow .fx-after{opacity:0}
+.flow.is-cell .fx-forge{transform:translate(80px,0)}
+.flow.is-cell .fx-asm{transform:translate(-80px,0)}
+/* the two boxes slide together, then dissolve into the one cell outline (the cell is a tint fill, so they must not show through it) */
+.flow .fx-box{transition:opacity 360ms var(--ease) 240ms}
+.flow.is-cell .fx-box{opacity:0}
+.flow.is-cell .fx-before{opacity:0}
+.flow.is-cell .fx-after{opacity:1}
+.flow-hint{margin:calc(-1*var(--s2)) 0 var(--s4)}
+
+/* capital plan entrance */
+.js .ex3-grow .pbar span,.js .ex3-grow .pair .row .b{transform-origin:left center;transition:transform 700ms var(--ease)}
+.js .ex3-grow:not(.is-in) .pbar span,.js .ex3-grow:not(.is-in) .pair .row .b{transform:scaleX(0)}
+
+/* numerals: mono on figures, counters, replica tiles and bar values; prose and tables stay Inter */
+.scope-band .fig,.figrow .fig,.band .fig,.counters .fig{font-family:var(--font-mono);font-weight:500;letter-spacing:-.02em;font-feature-settings:"tnum" 1}
+.fig-label .num{font-family:var(--font-mono);font-size:13px}
+.em-tile .v,.em-shift .v,.em-oee .v,.em-bars .v{font-family:var(--font-mono);font-weight:500;letter-spacing:-.01em}
+
+/* on this page (wide screens) and contents (narrow screens) */
+.onpage{display:none}
+.contents{margin-top:var(--s5);border-bottom:1px solid var(--rule)}
+.contents summary{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;list-style:none;font:600 12px/1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);-webkit-user-select:none;user-select:none}
+.contents summary::-webkit-details-marker{display:none}
+.contents summary::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform 160ms}
+.contents[open] summary::after{transform:translateY(2px) rotate(-135deg)}
+.contents ol{padding:0 0 var(--s3);columns:2;column-gap:var(--s5)}
+.contents li{break-inside:avoid}
+.contents a{display:flex;align-items:center;min-height:44px;font:500 14px/1.4 var(--font-body);color:var(--ink-body);text-decoration:none;transition:color 160ms}
+.contents a:hover{color:var(--ink)}
+/* the 1120px column leaves no margin for the aside below 1400px, so the Contents block serves 1280 to 1399 */
+@media (min-width:1400px){
+  .contents{display:none}
+  .onpage{display:block;position:sticky;top:88px;height:0;z-index:5}
+  .js .onpage{opacity:0;transition:opacity 200ms}
+  .js .onpage.on{opacity:1}
+  .onpage-in{position:absolute;left:16px;top:0;width:calc(50vw - 560px - 24px)}
+  .onpage-h{font:600 12px/1.3 var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-light);white-space:nowrap;padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:var(--s2)}
+  .onpage ol{margin-top:4px}
+  .onpage a{display:block;padding:5px 0 5px 10px;border-left:2px solid transparent;font:500 13px/1.3 var(--font-body);color:var(--ink-light);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 160ms,border-color 160ms}
+  .onpage a:hover{color:var(--ink)}
+  .onpage a.is-current{border-left-color:var(--petrol);color:var(--ink)}
+}
+
+/* reading progress */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:65;pointer-events:none;opacity:0;transition:opacity 200ms}
+.progress.on{opacity:1}
+.progress i{display:block;height:100%;background:var(--petrol);transform-origin:0 50%;transform:scaleX(0)}
+@supports (animation-timeline: scroll()){
+  @keyframes progress-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .progress i{animation:progress-grow linear both;animation-timeline:scroll(root block)}
+}
+
+/* term definitions */
+.term{position:relative;text-decoration:underline dotted var(--ink-faint);text-decoration-thickness:1px;text-underline-offset:3px;cursor:help;border-radius:2px}
+.term-tip{position:absolute;left:0;bottom:calc(100% + 8px);z-index:30;width:max-content;max-width:min(280px,calc(100vw - 32px));padding:8px 10px;background:var(--surface-raised);border:1px solid var(--rule-strong);border-radius:4px;font:400 13px/1.45 var(--font-body);color:var(--ink-body);letter-spacing:0;text-transform:none;text-align:left;white-space:normal;font-feature-settings:normal;display:none;pointer-events:none}
+.term.flip .term-tip{bottom:auto;top:calc(100% + 8px)}
+.term:hover .term-tip,.term:focus-visible .term-tip,.term.is-open .term-tip{display:block}
+
 /* responsive */
 @media (max-width:1120px){
   .ledger-head,.ledger-row{grid-template-columns:140px 1fr 1.3fr}
@@ -482,13 +595,21 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
   .js .rv{opacity:1;transform:none}
+  .js .ex3-grow .pbar span,.js .ex3-grow .pair .row .b{transform:none}
 }
 
 /* print */
 @media print{
-  .site-header,.ai-fab,.ai-panel,.ai-scrim,.sheet,.sheet-scrim,.btn,button,.skip{display:none!important}
+  .site-header,.ai-fab,.ai-panel,.ai-scrim,.sheet,.sheet-scrim,.btn,button,.skip,.progress,.onpage,.contents,.term-tip{display:none!important}
+  .term{text-decoration:none}
   a[href^="http"]::after{content:" (" attr(href) ")"}
   .js .rv{opacity:1;transform:none}
+  .js .ledger-scene .ledger-row .changed,.js .ledger-scene.is-handed .ledger-row .changed{opacity:1;transform:none;transition:none}
+  .js .ex3-grow .pbar span,.js .ex3-grow .pair .row .b{transform:none}
+  .js .email{max-height:none;overflow:visible}
+  .js .em-steps{position:static;margin:0;padding:0;border:0}
+  .em-pills,.scene-bar{display:none}
+  .flow-wrap{overflow:visible}
   body{background:#fff;color:#000}
   .section{padding:32px 0 24px}
   .exhibit{break-inside:avoid}
@@ -498,6 +619,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><i></i></div>
 
 <header class="site-header" id="site-header">
   <div class="wrap">
@@ -562,14 +684,43 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     <p class="small hero-note rv">Cover feature, Metals &amp; Mining Review, October 2026.</p>
     <div class="scope-band rv" role="group" aria-label="Scope">
       <div><div class="fig">$90M+</div><div class="fig-label">profit center&nbsp;· full&nbsp;P&amp;L</div></div>
-      <div><div class="fig">~100</div><div class="fig-label">people&nbsp;· 7 direct reports&nbsp;· 7 functions</div></div>
-      <div><div class="fig">$3M+</div><div class="fig-label">working capital released&nbsp;· inventory −27%&nbsp;· days on hand 80&nbsp;→&nbsp;65</div></div>
+      <div><div class="fig">~100</div><div class="fig-label">people&nbsp;· <span class="num">7</span> direct reports&nbsp;· <span class="num">7</span> functions</div></div>
+      <div><div class="fig">$3M+</div><div class="fig-label">working capital released&nbsp;· inventory <span class="num">−27%</span>&nbsp;· <span class="term" tabindex="0" aria-describedby="tip-doh">days on hand<span class="term-tip" role="tooltip" id="tip-doh">How many days of demand the inventory on hand would cover.</span></span> <span class="num">80&nbsp;→&nbsp;65</span></div></div>
       <div><div class="fig">6 plants</div><div class="fig-label">running the Daily Operations Review and Financial Forecaster</div></div>
       <div><div class="fig">Weekly</div><div class="fig-label">plant performance presented to the division executive team every Monday</div></div>
-      <div><div class="fig">$900K</div><div class="fig-label">2026 capital plan&nbsp;· 4 projects&nbsp;· funded</div></div>
+      <div><div class="fig">$900K</div><div class="fig-label"><span class="num">2026</span> capital plan&nbsp;· <span class="num">4</span> projects&nbsp;· funded</div></div>
     </div>
+    <details class="contents">
+      <summary>Contents</summary>
+      <ol>
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#year-one">Year one</a></li>
+        <li><a href="#reach">Six plants</a></li>
+        <li><a href="#people">People</a></li>
+        <li><a href="#in-print">In print</a></li>
+        <li><a href="#exhibits">Exhibits</a></li>
+        <li><a href="#career">Career</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </details>
   </div>
 </section>
+
+<aside class="onpage" aria-label="On this page">
+  <div class="onpage-in">
+    <p class="onpage-h">On this page</p>
+    <ol>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#year-one">Year one</a></li>
+      <li><a href="#reach">Six plants</a></li>
+      <li><a href="#people">People</a></li>
+      <li><a href="#in-print">In print</a></li>
+      <li><a href="#exhibits">Exhibits</a></li>
+      <li><a href="#career">Career</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ol>
+  </div>
+</aside>
 
 <section class="section" id="scope" aria-labelledby="scope-h2">
   <div class="wrap">
@@ -585,7 +736,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       </div>
       <div class="block rv">
         <h3>Customers and demand</h3>
-        <p>Sales owns the customer relationship. The plant is measured on delivering what sales brings in, so S&amp;OP is mine. I join the VP of Operations and the sales team for onboarding visits with new mining customers. Out of that came the plant's first sales budget, seasonality in the forecast, and slow-moving stock worked down with sales.</p>
+        <p>Sales owns the customer relationship. The plant is measured on delivering what sales brings in, so <span class="term" tabindex="0" aria-describedby="tip-sop">S&amp;OP<span class="term-tip" role="tooltip" id="tip-sop">Sales and operations planning: the monthly process that lines up demand, capacity, staffing, and inventory.</span></span> is mine. I join the VP of Operations and the sales team for onboarding visits with new mining customers. Out of that came the plant's first sales budget, seasonality in the forecast, and slow-moving stock worked down with sales.</p>
       </div>
       <div class="block rv">
         <h3>Supply and spend</h3>
@@ -625,7 +776,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           </tbody>
         </table>
       </div>
-      <p class="small closing rv">Headcount planning uses the sales projection and OEE to set the lowest-cost staffing that meets demand. I own S&amp;OP; the superintendent owns the production schedule.</p>
+      <p class="small closing rv">Headcount planning uses the sales projection and <span class="term" tabindex="0" aria-describedby="tip-oee">OEE<span class="term-tip" role="tooltip" id="tip-oee">Overall equipment effectiveness: availability × performance × quality, the share of planned time that produced good parts at rate.</span></span> to set the lowest-cost staffing that meets demand. I own S&amp;OP; the superintendent owns the production schedule.</p>
       <p class="small closing rv">I am one of four plant managers under the VP of Operations. The VP reports to the division president, who reports to the CEO.</p>
     </div>
   </div>
@@ -640,12 +791,14 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       <p class="lede rv">Delivery targets, downtime and defect tracking, a production schedule, supervisor standard work, and a way to measure OEE still had to be built. Leadership asked for a KPI system the executive team could see, improvement against it, and a start on lean.</p>
       <p class="small rv">These are the plant's numbers, delivered by about a hundred people.</p>
     </div>
+    <div class="scene ledger-scene is-handed" data-scene="ledger">
     <div class="figrow rv">
-      <div><div class="fig">60%+</div><div class="fig-label">cut in recordable injury rate&nbsp;· DART to&nbsp;zero</div></div>
+      <div><div class="fig">60%+</div><div class="fig-label">cut in recordable injury rate&nbsp;· <span class="term" tabindex="0" aria-describedby="tip-dart">DART<span class="term-tip" role="tooltip" id="tip-dart">Days away, restricted, or transferred: the rate of injuries serious enough to change someone's work.</span></span> to&nbsp;zero</div></div>
       <div><div class="fig">99%</div><div class="fig-label">on-time delivery, from 97%&nbsp;· 5-day lead time held</div></div>
       <div><div class="fig">−15%</div><div class="fig-label">cost per ton, despite inflation</div></div>
       <div><div class="fig">−27%</div><div class="fig-label">inventory&nbsp;· more than $3M of working capital released</div></div>
     </div>
+    <script>(function(){try{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;var fs=document.querySelectorAll('.ledger-scene .figrow .fig');for(var i=0;i<fs.length;i++){var f=fs[i],t=f.textContent;f.setAttribute('data-final',t);f.textContent=t.replace(/^[−+-]\s*/,'').replace(/\d[\d,]*(?:\.\d+)?/g,function(m){var d=(m.split('.')[1]||'').length;return d?(0).toFixed(d):'0';});}}catch(e){}})();</script>
     <div class="ledger">
       <div class="ledger-head" aria-hidden="true"><span></span><span class="thead">Handed</span><span class="thead">Changed</span></div>
       <div class="ledger-row rv">
@@ -671,7 +824,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       <div class="ledger-row rv">
         <div class="lbl">Maintenance</div>
         <div class="handed"><span class="inl">Handed</span>Outdated PMs · spares unmanaged, so the backlog looked smaller than it was</div>
-        <div class="changed"><span class="inl">Changed</span>CMMS with planned maintenance, spares control, and maintenance analytics · corrective work orders 159 → 50 a month</div>
+        <div class="changed"><span class="inl">Changed</span><span class="term" tabindex="0" aria-describedby="tip-cmms">CMMS<span class="term-tip" role="tooltip" id="tip-cmms">Computerized maintenance management system: work orders, preventive maintenance schedules, and spares in one place.</span></span> with planned maintenance, spares control, and maintenance analytics · corrective work orders 159 → 50 a month</div>
       </div>
       <div class="ledger-row rv">
         <div class="lbl">Inventory</div>
@@ -681,7 +834,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       <div class="ledger-row rv">
         <div class="lbl">Quality</div>
         <div class="handed"><span class="inl">Handed</span>ISO 9001 registered · defects recorded as scrap weight only</div>
-        <div class="changed"><span class="inl">Changed</span>Automated tensile test logs · SPC by heat number · Pareto · tagged quarantine · customer complaints to zero · scrap tonnage flat while output rose · adopted by every plant in the division</div>
+        <div class="changed"><span class="inl">Changed</span>Automated tensile test logs · <span class="term" tabindex="0" aria-describedby="tip-spc">SPC<span class="term-tip" role="tooltip" id="tip-spc">Statistical process control: control charts that separate normal variation from a real change.</span></span> by heat number · Pareto · tagged quarantine · customer complaints to zero · scrap tonnage flat while output rose · adopted by every plant in the division</div>
       </div>
       <div class="ledger-row rv">
         <div class="lbl">Safety</div>
@@ -693,6 +846,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
         <div class="handed"><span class="inl">Handed</span>Annual capital need around $1.4M</div>
         <div class="changed"><span class="inl">Changed</span>$0.9M · 2026 plan funded at $900K across four projects, led by a $750K forging-and-assembly cell with payback under 3 years</div>
       </div>
+    </div>
+    <div class="scene-bar" role="group" aria-label="Steps"></div>
+    <p class="scene-caption" aria-live="polite">Twelve months later: each row shows where it started and where it is now.</p>
     </div>
     <p class="micro footnote rv">Percentages and rates are the published form of these results. Exact figures stay inside the company.</p>
   </div>
@@ -839,7 +995,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>How safety projects are chosen and shared across plants, how the direct and indirect headcount mix is set, and how planned maintenance is judged.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>IT, with the plant managers. Running in six plants.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual" data-scene="dor">
           <div class="email">
             <div class="em-mast">
               <div class="em-brand">OpsIQ · Demo Plant</div>
@@ -848,8 +1004,20 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
             </div>
             <p class="em-p"><b>What changed:</b> Press 2 die change finished inside the planned window. First shift ran at 103% of target through 10:00.</p>
             <p class="em-p"><b>What we are working on:</b> Thread-gauge rejects at Threader 1 traced to a single supplier heat. The lot is tagged and quarantined, the SPC chart for that heat number is updated, and the supplier has been notified.</p>
-            <div class="em-pills"><span class="pill">Safety</span><span class="pill">Dashboard</span><span class="pill">Sales</span><span class="pill">Maintenance</span><span class="pill">Inventory</span><span class="pill">Action Items</span></div>
+            <div class="em-steps">
+              <div class="em-pills scene-bar" role="group" aria-label="Steps">
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">1.</span> Safety</button>
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">2.</span> Dashboard</button>
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">3.</span> Sales</button>
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">4.</span> Maintenance</button>
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">5.</span> Inventory</button>
+                <button type="button" class="pill scene-step" aria-pressed="false"><span class="scene-n">6.</span> Action items</button>
+                <button type="button" class="pill scene-step scene-replay">Replay</button>
+              </div>
+              <p class="scene-caption" aria-live="polite">Safety first: observations opened and closed, open corrective actions, layered audits.</p>
+            </div>
 
+            <div class="em-sec" id="em-safety">
             <div class="em-h">Safety</div>
             <div class="em-tiles">
               <div class="em-tile"><div class="v">6</div><div class="l">Observations opened</div></div>
@@ -857,7 +1025,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <div class="em-tile"><div class="v">3</div><div class="l">Open corrective actions</div></div>
               <div class="em-tile"><div class="v">4 of 4</div><div class="l">Layered audits</div></div>
             </div>
+            </div>
 
+            <div class="em-sec" id="em-dash">
             <div class="em-h">Dashboard · Yesterday</div>
             <div class="em-oee"><span class="l">Plant OEE</span><span class="v">84.6%</span><span class="s">A 90.2 · P 95.1 · Q 98.6</span></div>
             <div class="em-shifts">
@@ -892,34 +1062,43 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <div class="row"><span class="l">Assembly</span><span class="b"><i style="width:15%"></i></span><span class="v">60</span></div>
               <div class="row"><span class="l">Cable Line</span><span class="b"><i style="width:7%"></i></span><span class="v">30</span></div>
             </div>
+            </div>
 
+            <div class="em-sec" id="em-sales">
             <div class="em-h">Sales</div>
             <div class="em-tiles three">
               <div class="em-tile lv"><div class="l">Deliveries month to date</div><div class="v">101.8% <span class="u">of budget</span></div></div>
               <div class="em-tile lv"><div class="l">Yesterday</div><div class="v">96% <span class="u">of daily budget</span></div></div>
               <div class="em-tile"><div class="v">6</div><div class="l">Working days left</div></div>
             </div>
+            </div>
 
+            <div class="em-sec" id="em-maint">
             <div class="em-h">Maintenance</div>
             <div class="em-tiles three">
               <div class="em-tile"><div class="v">94%</div><div class="l">PM completion</div></div>
               <div class="em-tile"><div class="v">18</div><div class="l">Corrective work orders open</div></div>
               <div class="em-tile"><div class="v">2</div><div class="l">Spares below min</div></div>
             </div>
+            </div>
 
+            <div class="em-sec" id="em-inv">
             <div class="em-h">Inventory</div>
             <div class="em-tiles three">
               <div class="em-tile"><div class="v">64</div><div class="l">Days on hand</div></div>
               <div class="em-tile"><div class="v">0.4 days</div><div class="l">Slow-moving</div></div>
               <div class="em-tile"><div class="v">3</div><div class="l">SKUs below min</div></div>
             </div>
+            </div>
 
+            <div class="em-sec" id="em-actions">
             <div class="em-h">Action items</div>
             <ul class="em-actions">
               <li><span class="i">Replace worn die set, Press 1</span><span class="o">Maintenance Manager</span><span class="d">Jun 24</span></li>
               <li><span class="i">Supplier corrective action, heat 2217</span><span class="o">Quality Manager</span><span class="d">Jun 26</span></li>
               <li><span class="i">Rebalance second-shift crew at Header 2</span><span class="o">Superintendent</span><span class="d">Jun 23</span></li>
             </ul>
+            </div>
             <p class="em-foot">OpsIQ · generated automatically each morning</p>
           </div>
           <div class="ex-actions"><a class="btn" href="dashboard.html" target="_blank" rel="noopener">Open the live demo</a></div>
@@ -936,7 +1115,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>Executives now ask mid-month what is driving a budget miss and what is being done about it.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>IT. Running in six plants.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual" data-scene="forecast">
           <div class="legend"><span><i class="sw sw-line sl-petrol"></i>Net income, month to date</span><span><i class="sw sw-line sl-petrol-dash"></i>Projected</span><span><i class="sw sw-line sl-gold-dash"></i>Budget, cumulative</span></div>
           <div class="chart" data-chart="ex2"><canvas id="chart-ex2" role="img" aria-label="Month-to-date net income against a cumulative budget, indexed to 100 at month end, over 22 working days: actual through day 14 at 65, projected to 102 at day 22, inside a plus or minus 10 percent band."></canvas></div>
           <div class="visually-hidden"><table>
@@ -967,6 +1146,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <tr><td>22</td><td></td><td>102.3</td><td>100</td></tr>
             </tbody>
           </table></div>
+          <div class="scene-bar" role="group" aria-label="Steps"></div>
+          <p class="scene-caption" aria-live="polite">Net income month to date, indexed so no revenue can be read from it, against the cumulative budget.</p>
         </div>
         <div class="counters">
           <div><div class="fig cnt">Daily</div><div class="fig-label">refresh from ERP spend and delivery data</div></div>
@@ -985,7 +1166,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>Funded. $900K across four projects.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>Plant Manager.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual ex3-grow">
           <div class="pbar" role="img" aria-label="2026 capital plan, $900K: the forging-and-assembly cell $750K, 83 percent; three reliability and infrastructure projects about $150K, 17 percent."><span style="width:83%;background:var(--petrol)"></span><span style="width:17%;background:var(--slate)"></span></div>
           <ul class="pleg">
             <li><i class="sw sw-petrol"></i>Integrated forging-and-assembly cell · $750K · 83%</li>
@@ -1013,7 +1194,35 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>Approved as the largest item in the 2026 plan.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>Plant Manager, with engineering.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual" data-scene="cell">
+          <div class="vis-title">Process flow</div>
+          <div class="flow-wrap">
+            <svg class="flow" viewBox="0 0 720 176" role="img" aria-label="Process flow. Today: forging and assembly run as two separate steps with work in process and handling between them, 12.8 seconds per piece. The integrated cell: one step, 7.0 seconds per piece, 2.5 fewer operators per shift.">
+              <g class="fx-forge">
+                <rect class="fx-box" x="24" y="40" width="220" height="72" rx="3"/>
+                <text class="fx-lbl fx-fade fx-before" x="134" y="81" text-anchor="middle">Forging</text>
+              </g>
+              <g class="fx-asm">
+                <rect class="fx-box" x="476" y="40" width="220" height="72" rx="3"/>
+                <text class="fx-lbl fx-fade fx-before" x="586" y="81" text-anchor="middle">Assembly</text>
+              </g>
+              <g class="fx-fade fx-before">
+                <polygon class="fx-wip" points="360,44 334,84 386,84"/>
+                <text class="fx-wip-lbl" x="360" y="79" text-anchor="middle">WIP</text>
+                <line class="fx-arrow" x1="252" y1="102" x2="456" y2="102"/>
+                <polygon class="fx-head" points="468,102 456,96 456,108"/>
+              </g>
+              <g class="fx-fade fx-after">
+                <rect class="fx-cell" x="104" y="40" width="512" height="72" rx="3"/>
+                <text class="fx-cell-lbl" x="360" y="81" text-anchor="middle">Integrated forging-and-assembly cell</text>
+              </g>
+              <text class="fx-m fx-fade fx-before" x="24" y="152">12.8 s per piece</text>
+              <text class="fx-m fx-fade fx-after" x="24" y="152">7.0 s per piece</text>
+              <text class="fx-m2 fx-fade fx-before" x="696" y="152" text-anchor="end">two steps, handling between</text>
+              <text class="fx-m2 fx-fade fx-after" x="696" y="152" text-anchor="end">2.5 fewer operators per shift</text>
+            </svg>
+          </div>
+          <p class="flow-hint micro" hidden>Swipe sideways to see the whole figure.</p>
           <div class="vis-title">Cumulative cash position</div>
           <div class="chart" data-chart="ex4"><canvas id="chart-ex4" role="img" aria-label="Cumulative cash position over 48 months, from minus $750K at month 0 to plus $330K at month 48, crossing zero at month 33."></canvas></div>
           <div class="visually-hidden"><table>
@@ -1031,6 +1240,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <tr><td>48</td><td>330</td></tr>
             </tbody>
           </table></div>
+          <div class="scene-bar" role="group" aria-label="Steps"></div>
+          <p class="scene-caption" aria-live="polite">Today: forging and assembly run as separate steps with handling between them.</p>
         </div>
         <div class="counters">
           <div><div class="fig cnt">$750K</div><div class="fig-label">investment</div></div>
@@ -1052,7 +1263,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div class="owner"><dt>Owner today</dt><dd>Inventory control and the superintendent.</dd></div>
         </dl>
         <div class="ex-visual ex-two">
-          <div>
+          <div data-scene="doh">
             <div class="vis-title">Days on hand</div>
             <div class="chart" data-chart="ex5"><canvas id="chart-ex5" role="img" aria-label="Days of inventory on hand: start 80, now 65, year-end target 45."></canvas></div>
             <div class="visually-hidden"><table>
@@ -1060,6 +1271,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <thead><tr><th scope="col">Point</th><th scope="col">Days on hand</th></tr></thead>
               <tbody><tr><td>Start</td><td>80</td></tr><tr><td>Now</td><td>65</td></tr><tr><td>Year-end target</td><td>45</td></tr></tbody>
             </table></div>
+            <div class="scene-bar" role="group" aria-label="Steps"></div>
+            <p class="scene-caption" aria-live="polite">Eighty days of inventory on hand when I arrived, with storage areas over capacity.</p>
           </div>
           <div>
             <div class="vis-title">Representative mix by class</div>
@@ -1088,7 +1301,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>Offered volume to the sister plant for four months, then took it back at the lower overtime level.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>Plant Manager, with the VP of Operations.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual" data-scene="volume">
           <div class="legend"><span><i class="sw sw-petrol"></i>Reedsville tons, % of budget</span><span><i class="sw sw-line sl-slate"></i>Hours per employee, biweekly</span><span><i class="sw sw-gold-tint"></i>Volume at the sister plant</span></div>
           <div class="chart" data-chart="ex6"><canvas id="chart-ex6" role="img" aria-label="Reedsville tons as a percent of budget by month, 112 and 110 before the volume move, about 100 during months 3 to 6, 108 and 109 after; hours per employee biweekly from 92 to 82 in month 3, holding at 81 to 82 through month 8."></canvas></div>
           <div class="visually-hidden"><table>
@@ -1105,6 +1318,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <tr><td>8</td><td>109</td><td>82</td><td>No</td></tr>
             </tbody>
           </table></div>
+          <div class="scene-bar" role="group" aria-label="Steps"></div>
+          <p class="scene-caption" aria-live="polite">Reedsville running well over budget, overtime at 92 hours per employee biweekly.</p>
         </div>
         <div class="counters">
           <div><div class="fig cnt">92 → 82</div><div class="fig-label">hours per employee, biweekly</div></div>
@@ -1123,7 +1338,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><dt>What it changed</dt><dd>Nothing to decide. The chart proved the gain was real and holding.</dd></div>
           <div class="owner"><dt>Owner today</dt><dd>None. The project closed with this chart as its record.</dd></div>
         </dl>
-        <div class="ex-visual">
+        <div class="ex-visual" data-scene="spc">
           <div class="legend"><span><i class="sw sw-muted"></i>Baseline, days 1 to 30</span><span><i class="sw sw-gold-fill"></i>Implementation, days 31 to 44</span><span><i class="sw sw-petrol"></i>New level, days 45 to 74</span><span><i class="sw sw-line sl-light"></i>Mean</span><span><i class="sw sw-line sl-faint-dash"></i>Control limits</span></div>
           <div class="chart" data-chart="ex7"><canvas id="chart-ex7" role="img" aria-label="Individuals control chart of daily output index over 74 days: baseline mean 100 with limits 82 and 118 for days 1 to 30, a 14-day implementation period with output swinging between 85 and 130, then a new level with mean 115 and tighter limits 110 and 120 for days 45 to 74, every point of the new level inside its limits."></canvas></div>
           <div class="visually-hidden"><table>
@@ -1206,6 +1421,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
               <tr><td>74</td><td>116</td><td>115</td><td>110</td><td>120</td></tr>
             </tbody>
           </table></div>
+          <div class="scene-bar" role="group" aria-label="Steps"></div>
+          <p class="scene-caption" aria-live="polite">Thirty days of baseline: wide day-to-day variation around the old mean.</p>
         </div>
         <div class="counters">
           <div><div class="fig cnt">+15%</div><div class="fig-label">production</div></div>
@@ -1399,6 +1616,8 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var darkMQ = window.matchMedia('(prefers-color-scheme: dark)');
   var FONT = '"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+  var MONO = '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+  function chartAnim() { return { duration: 600, easing: 'easeOutCubic' }; }
 
   function onMQ(mq, fn) { if (mq.addEventListener) mq.addEventListener('change', fn); else if (mq.addListener) mq.addListener(fn); }
   function isDark() { var t = root.getAttribute('data-theme'); return t === 'dark' || (!t && darkMQ.matches); }
@@ -1501,9 +1720,12 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     Array.prototype.forEach.call(rvEls, function (el) { rio.observe(el); });
   }
 
+  /* numerals: the mono face is for figures with digits; word figures ("Weekly", "Held") keep the display face */
+
   /* counters: count up once; the final text is already in the DOM */
-  function animateCount(el) {
-    var final = el.textContent;
+  function animateCount(el, finalText) {
+    var final = finalText != null ? finalText : el.textContent;
+    var token = el._cnt = (el._cnt || 0) + 1;
     var re = /\d[\d,]*(?:\.\d+)?/g, parts = [], last = 0, m;
     while ((m = re.exec(final))) { parts.push({ t: final.slice(last, m.index) }); parts.push({ n: m[0] }); last = re.lastIndex; }
     parts.push({ t: final.slice(last) });
@@ -1517,11 +1739,13 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       return s;
     }
     function step(now) {
+      if (el._cnt !== token) return;
       if (start === null) start = now;
       var k = Math.min(1, (now - start) / dur);
       k = 1 - Math.pow(1 - k, 3);
       if (k >= 1) { el.textContent = final; return; }
-      el.textContent = parts.map(function (p) { return p.n ? fmt(p.n, k) : p.t; }).join('');
+      /* a signed figure counting up from zero drops its sign while the value is exactly zero ("0%" rather than "−0%") */
+      el.textContent = parts.map(function (p) { return p.n ? fmt(p.n, k) : p.t; }).join('').replace(/^[−+-]\s*(0(?:\.0+)?)(?![\d.])/, '$1');
       requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -1565,11 +1789,14 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     return 2;
   }
   function fmtMinus(v) { return v < 0 ? '−' + Math.abs(v) : String(v); }
+  /* scene flags live in the chart's plugin options; a missing flag means "show everything" */
+  function flagOf(c, id) { var o = c.config.options; if (!o.plugins) o.plugins = {}; if (!o.plugins[id]) o.plugins[id] = {}; return o.plugins[id]; }
+  function progOf(c) { return typeof c.$prog === 'number' ? c.$prog : 1; }
 
   function base(p, anim) {
     return {
       responsive: true, maintainAspectRatio: false,
-      animation: anim ? { duration: 600, easing: 'easeOutCubic' } : false,
+      animation: anim ? chartAnim() : { duration: 0 },
       interaction: { mode: 'index', intersect: false },
       layout: { padding: { top: 6, right: 10, bottom: 0, left: 0 } },
       plugins: {
@@ -1579,8 +1806,9 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       scales: {}
     };
   }
-  function xAxis(p, o) { return merge({ grid: { display: false, drawTicks: false }, border: { display: false }, ticks: { color: p.inkLight, font: { family: FONT, size: 11 }, padding: 6, maxRotation: 0 } }, o || {}); }
-  function yAxis(p, o) { return merge({ grid: { color: p.rule, drawTicks: false, lineWidth: 1 }, border: { display: false }, ticks: { color: p.inkLight, font: { family: FONT, size: 11 }, padding: 6 } }, o || {}); }
+  /* ticks are numerals, so they take the mono face; axis titles and annotations stay Inter */
+  function xAxis(p, o) { return merge({ grid: { display: false, drawTicks: false }, border: { display: false }, ticks: { color: p.inkLight, font: { family: MONO, size: 11 }, padding: 6, maxRotation: 0 } }, o || {}); }
+  function yAxis(p, o) { return merge({ grid: { color: p.rule, drawTicks: false, lineWidth: 1 }, border: { display: false }, ticks: { color: p.inkLight, font: { family: MONO, size: 11 }, padding: 6 } }, o || {}); }
   function title(p, text) { return { display: true, text: text, color: p.inkLight, font: { family: FONT, size: 12, weight: '400' }, padding: { top: 4, bottom: 2 } }; }
 
   function buildEx2(canvas, p, anim) {
@@ -1588,20 +1816,26 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     var budget = [4.5, 9.1, 13.6, 18.2, 22.7, 27.3, 31.8, 36.4, 40.9, 45.5, 50.0, 54.5, 59.1, 63.6, 68.2, 72.7, 77.3, 81.8, 86.4, 90.9, 95.5, 100];
     var actual = [3.9, 8.8, 13.9, 17.6, 22.9, 28.4, 32.0, 35.1, 40.6, 46.3, 51.2, 55.0, 60.4, 65.1, null, null, null, null, null, null, null, null];
     var proj = [null, null, null, null, null, null, null, null, null, null, null, null, null, 65.1, 69.8, 74.4, 79.1, 83.7, 88.4, 93.0, 97.7, 102.3];
-    var ptR = labels.map(function (_, k) { return k === 13 ? 3 : 0; });
+    /* scene steps: 1 actual + budget, 2 adds the Today marker and day-14 point, 3 adds the projection and band */
+    function stepOf(c) { var v = flagOf(c, 'ex2ann').step; return v == null ? 3 : v; }
+    function ptR(sc) { return sc.dataIndex === 13 && stepOf(sc.chart) >= 2 ? 3 : 0; }
     var plugin = {
       id: 'ex2ann',
       beforeDatasetsDraw: function (c) {
+        if (stepOf(c) < 3) return;
         var ctx = c.ctx, x = c.scales.x, y = c.scales.y;
         var x14 = x.getPixelForValue(13), x22 = x.getPixelForValue(21), yT = y.getPixelForValue(113), yB = y.getPixelForValue(92);
         ctx.save(); ctx.fillStyle = p.goldTint; ctx.fillRect(x14, yT, x22 - x14, yB - yT); ctx.restore();
       },
       afterDraw: function (c) {
+        var st = stepOf(c);
+        if (st < 2) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x, y = c.scales.y;
         var x14 = x.getPixelForValue(13);
         vline(ctx, x14, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
         note(ctx, 'Today', x14 + 6, a.bottom - 16, p.inkLight, 'left', 'top');
-        var lines = noteFit(ctx, 'Projected month end 102 · band ± 10%', a.right - 4, a.top + 2, p.inkLight, 'right', a.right - a.left - 8);
+        if (st < 3) return;
+        noteFit(ctx, 'Projected month end 102 · band ± 10%', a.right - 4, a.top + 2, p.inkLight, 'right', a.right - a.left - 8);
         if (a.right - a.left > 480) note(ctx, '± 10%', a.right - 4, y.getPixelForValue(92) + 3, p.inkLight, 'right', 'top');
       }
     };
@@ -1613,7 +1847,7 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
         { label: 'Net income, month to date', data: actual, borderColor: p.petrol, backgroundColor: withAlpha(p.petrol, 0.10), borderWidth: 2, pointRadius: ptR, pointHoverRadius: ptR, pointBackgroundColor: p.petrol, pointBorderColor: p.petrol, tension: 0, fill: 'origin', spanGaps: false }
       ] },
       options: merge(base(p, anim), {
-        plugins: { tooltip: { callbacks: { title: function (it) { return 'Working day ' + it[0].label; } } } },
+        plugins: { ex2ann: { step: 3 }, tooltip: { callbacks: { title: function (it) { return 'Working day ' + it[0].label; } } } },
         scales: {
           x: xAxis(p, { title: title(p, 'Working day') }),
           y: yAxis(p, { min: 0, max: 120, ticks: { stepSize: 20 }, title: title(p, 'Index, month-end budget = 100') })
@@ -1625,22 +1859,32 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
 
   function buildEx4(canvas, p, anim) {
     var pts = [[0, -750], [6, -615], [12, -480], [18, -345], [24, -210], [30, -75], [36, 60], [42, 195], [48, 330]].map(function (d) { return { x: d[0], y: d[1] }; });
+    /* scene: chart.$prog (0 to 1) reveals the line left to right; the zero line and payback marker fade in as it crosses zero at month 33 */
     var plugin = {
       id: 'ex4ann',
+      beforeDatasetsDraw: function (c) {
+        var ctx = c.ctx, a = c.chartArea, pr = progOf(c);
+        ctx.save(); ctx.beginPath(); ctx.rect(a.left - 4, a.top - 4, (a.right - a.left + 8) * pr, a.bottom - a.top + 8); ctx.clip();
+      },
+      afterDatasetsDraw: function (c) { c.ctx.restore(); },
       afterDraw: function (c) {
+        var k = Math.max(0, Math.min(1, (progOf(c) - 33 / 48) / 0.08));
+        if (k <= 0) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x, y = c.scales.y;
+        ctx.save(); ctx.globalAlpha = k;
         hline(ctx, a.left, a.right, y.getPixelForValue(0), p.inkFaint, 1, []);
         var x33 = x.getPixelForValue(33);
         vline(ctx, x33, a.top, a.bottom, p.gold, 1.5, [4, 4]);
         noteFit(ctx, 'Payback · under 3 years', x33 - 8, a.top + 2, p.inkLight, 'right', x33 - 8 - a.left);
+        ctx.restore();
       }
     };
     return new Chart(canvas, {
       type: 'line',
       data: { datasets: [{ label: 'Cumulative cash position', data: pts, borderColor: p.petrol, borderWidth: 2, pointRadius: 0, pointHoverRadius: 3, pointBackgroundColor: p.petrol, pointBorderColor: p.petrol, tension: 0, fill: { target: { value: 0 }, below: withAlpha(p.inkFaint, 0.10), above: 'rgba(0,0,0,0)' } }] },
-      options: merge(base(p, anim), {
+      options: merge(base(p, false), {
         interaction: { mode: 'nearest', axis: 'x', intersect: false },
-        plugins: { tooltip: { callbacks: { title: function (it) { return 'Month ' + it[0].parsed.x; }, label: function (it) { return fmtMinus(it.parsed.y) + ' $K'; } } } },
+        plugins: { tooltip: { filter: function (it) { return it.parsed.x <= 48 * progOf(it.chart) + 0.01; }, callbacks: { title: function (it) { return 'Month ' + it[0].parsed.x; }, label: function (it) { return fmtMinus(it.parsed.y) + ' $K'; } } } },
         scales: {
           x: xAxis(p, { type: 'linear', min: 0, max: 48, ticks: { stepSize: 6 }, title: title(p, 'Month') }),
           y: yAxis(p, { min: -800, max: 400, ticks: { stepSize: 200, callback: function (v) { return fmtMinus(v); } }, title: title(p, '$K') })
@@ -1655,8 +1899,8 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       type: 'bar',
       data: { labels: ['Start', 'Now', ['Year-end', 'target']], datasets: [{ label: 'Days on hand', data: [80, 65, 45], backgroundColor: [p.inkFaint, p.petrol, 'rgba(0,0,0,0)'], borderColor: [p.inkFaint, p.petrol, p.gold], borderWidth: [0, 0, 1.5], borderSkipped: false, borderRadius: 2, categoryPercentage: 0.7, barPercentage: 1 }] },
       options: merge(base(p, anim), {
-        plugins: { tooltip: { callbacks: { label: function (it) { return it.parsed.y + ' days'; } } } },
-        scales: { x: xAxis(p, { ticks: { autoSkip: false } }), y: yAxis(p, { min: 0, max: 100, ticks: { stepSize: 20 }, title: title(p, 'Days') }) }
+        plugins: { tooltip: { filter: function (it) { return it.parsed.y != null; }, callbacks: { label: function (it) { return it.parsed.y + ' days'; } } } },
+        scales: { x: xAxis(p, { ticks: { autoSkip: false, font: { family: FONT, size: 11 } } }), y: yAxis(p, { min: 0, max: 100, ticks: { stepSize: 20 }, title: title(p, 'Days') }) }
       })
     });
   }
@@ -1665,9 +1909,12 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     var labels = [1, 2, 3, 4, 5, 6, 7, 8];
     var tons = [112, 110, 100, 100, 101, 100, 108, 109];
     var ot = [92, 92, 82, 82, 82, 82, 81, 82];
+    /* scene steps: 1 months 1 and 2, 2 adds months 3 to 6 and the band, 3 adds months 7 and 8 and the annotation */
+    function stepOf(c) { var v = flagOf(c, 'ex6ann').step; return v == null ? 3 : v; }
     var plugin = {
       id: 'ex6ann',
       beforeDatasetsDraw: function (c) {
+        if (stepOf(c) < 2) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x;
         var half = (x.getPixelForValue(1) - x.getPixelForValue(0)) / 2;
         var l = x.getPixelForValue(2) - half, r = x.getPixelForValue(5) + half;
@@ -1676,6 +1923,7 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
         if (a.right - a.left >= 480) note(ctx, bt, Math.min(l + 6, a.right - 4 - textW(ctx, bt)), a.top + 2, p.inkLight, 'left', 'top');
       },
       afterDraw: function (c) {
+        if (stepOf(c) < 3) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x, y = c.scales.y;
         var x7 = x.getPixelForValue(6), narrow = a.right - a.left < 480, top = a.top + (narrow ? 2 : 18);
         var nt = 'Volume returned, hours held', nl = 1;
@@ -1684,13 +1932,13 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
         vline(ctx, x7, top + 16 + (nl - 1) * 14, y.getPixelForValue(108) - 4, p.inkFaint, 1, [3, 3]);
       }
     };
-    return new Chart(canvas, {
+    var c = new Chart(canvas, {
       data: { labels: labels, datasets: [
-        { type: 'line', label: 'Hours per employee, biweekly', data: ot, yAxisID: 'y1', borderColor: p.slate, backgroundColor: p.slate, borderWidth: 2, pointRadius: 3, pointHoverRadius: 4, pointBackgroundColor: p.slate, pointBorderColor: p.slate, tension: 0, fill: false, order: 0 },
-        { type: 'bar', label: 'Reedsville tons, % of budget', data: tons, yAxisID: 'y', backgroundColor: withAlpha(p.petrol, 0.6), borderWidth: 0, borderRadius: 2, categoryPercentage: 0.7, barPercentage: 1, order: 1 }
+        { type: 'line', label: 'Hours per employee, biweekly', data: ot.slice(), yAxisID: 'y1', borderColor: p.slate, backgroundColor: p.slate, borderWidth: 2, pointRadius: 3, pointHoverRadius: 4, pointBackgroundColor: p.slate, pointBorderColor: p.slate, tension: 0, fill: false, order: 0 },
+        { type: 'bar', label: 'Reedsville tons, % of budget', data: tons.slice(), yAxisID: 'y', backgroundColor: withAlpha(p.petrol, 0.6), borderWidth: 0, borderRadius: 2, categoryPercentage: 0.7, barPercentage: 1, order: 1 }
       ] },
       options: merge(base(p, anim), {
-        plugins: { tooltip: { callbacks: { title: function (it) { return 'Month ' + it[0].label; } } } },
+        plugins: { ex6ann: { step: 3 }, tooltip: { filter: function (it) { return it.parsed.y != null; }, callbacks: { title: function (it) { return 'Month ' + it[0].label; } } } },
         scales: {
           x: xAxis(p, { title: title(p, 'Month') }),
           y: yAxis(p, { min: 80, max: 120, ticks: { stepSize: 10 }, title: title(p, 'Tons, % of budget') }),
@@ -1699,6 +1947,8 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       }),
       plugins: [plugin]
     });
+    c.$full = { tons: tons, ot: ot };
+    return c;
   }
 
   function buildEx7(canvas, p, anim) {
@@ -1728,32 +1978,41 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
       ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.stroke();
       ctx.restore();
     }
+    /* scene phases: 1 baseline, 2 adds the implementation band and points, 3 adds the new level, its limits and curve */
+    function phaseOf(c) { var v = flagOf(c, 'ex7ann').phase; return v == null ? 3 : v; }
     var plugin = {
       id: 'ex7ann',
       beforeDatasetsDraw: function (c) {
+        var ph = phaseOf(c);
+        if (ph < 1) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x, y = c.scales.y;
         var xb1 = x.getPixelForValue(B1), xb2 = x.getPixelForValue(B2);
-        ctx.save(); ctx.fillStyle = p.goldTint; ctx.fillRect(xb1, a.top, xb2 - xb1, a.bottom - a.top); ctx.restore();
+        if (ph >= 2) { ctx.save(); ctx.fillStyle = p.goldTint; ctx.fillRect(xb1, a.top, xb2 - xb1, a.bottom - a.top); ctx.restore(); }
         ctx.save(); ctx.beginPath(); ctx.rect(a.left, a.top, a.right - a.left, a.bottom - a.top); ctx.clip();
         gauss(ctx, y, xb1, xb1 - a.left, M1, SIG1, p.inkFaint);
-        gauss(ctx, y, a.right, a.right - xb2, M2, SIG2, p.petrol);
+        if (ph >= 3) gauss(ctx, y, a.right, a.right - xb2, M2, SIG2, p.petrol);
         ctx.restore();
         hline(ctx, a.left, xb1, y.getPixelForValue(M1), p.inkLight, 1, []);
         hline(ctx, a.left, xb1, y.getPixelForValue(L1), p.inkFaint, 1, [4, 4]);
         hline(ctx, a.left, xb1, y.getPixelForValue(U1), p.inkFaint, 1, [4, 4]);
+        if (ph < 3) return;
         hline(ctx, xb2, a.right, y.getPixelForValue(M2), p.inkLight, 1, []);
         hline(ctx, xb2, a.right, y.getPixelForValue(L2), p.inkFaint, 1, [4, 4]);
         hline(ctx, xb2, a.right, y.getPixelForValue(U2), p.inkFaint, 1, [4, 4]);
       },
       afterDraw: function (c) {
+        var ph = phaseOf(c);
+        if (ph < 1) return;
         var ctx = c.ctx, a = c.chartArea, x = c.scales.x;
         var xb1 = x.getPixelForValue(B1), xb2 = x.getPixelForValue(B2);
+        if (a.left + 4 + textW(ctx, 'Baseline') <= xb1 - 4) note(ctx, 'Baseline', a.left + 4, a.top + 2, p.inkLight, 'left', 'top');
+        if (ph < 2) return;
         vline(ctx, xb1, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
         vline(ctx, xb2, a.top, a.bottom, p.inkFaint, 1, [3, 3]);
         var wide = (xb2 - xb1) > 150;
-        if (a.left + 4 + textW(ctx, 'Baseline') <= xb1 - 4) note(ctx, 'Baseline', a.left + 4, a.top + 2, p.inkLight, 'left', 'top');
         var chg = wide ? 'Change implemented' : 'Change';
         note(ctx, chg, xb1 + 5, a.top + 2, p.inkLight, 'left', 'top');
+        if (ph < 3) return;
         if (xb2 + 5 + textW(ctx, 'New level') <= a.right - 2 && xb2 + 5 >= xb1 + 5 + textW(ctx, chg) + 10) note(ctx, 'New level', xb2 + 5, a.top + 2, p.inkLight, 'left', 'top');
       }
     };
@@ -1765,7 +2024,7 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
         { label: 'New level', data: s2, borderColor: p.petrol, borderWidth: 1.5, pointRadius: pr, pointHoverRadius: pr + 1, pointBackgroundColor: p.petrol, pointBorderColor: p.petrol, tension: 0, fill: false, spanGaps: false }
       ] },
       options: merge(base(p, anim), {
-        plugins: { tooltip: { callbacks: { title: function (it) { return 'Day ' + it[0].label; } } } },
+        plugins: { ex7ann: { phase: 3 }, tooltip: { callbacks: { title: function (it) { return 'Day ' + it[0].label; } } } },
         scales: {
           x: xAxis(p, { ticks: { autoSkip: true, maxTicksLimit: 13 }, title: title(p, 'Day') }),
           y: yAxis(p, { min: 75, max: 135, ticks: { stepSize: 10 }, title: title(p, yTitle) })
@@ -1776,6 +2035,8 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
   }
 
   var builders = { ex2: buildEx2, ex4: buildEx4, ex5: buildEx5, ex6: buildEx6, ex7: buildEx7 };
+  /* charts that belong to a scene are built still and animated by their steps; a rebuild re-applies the scene's current step */
+  var chartScene = { ex2: 'forecast', ex4: 'cell', ex5: 'doh', ex6: 'volume', ex7: 'spc' };
   var charts = {}, built = {};
   function buildChart(id, anim) {
     if (typeof Chart === 'undefined' || !builders[id]) return;
@@ -1783,9 +2044,11 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     if (!wrap) return;
     var canvas = wrap.querySelector('canvas');
     if (charts[id]) { charts[id].destroy(); charts[id] = null; }
-    charts[id] = builders[id](canvas, palette(), !!anim && !reduceMotion);
+    charts[id] = builders[id](canvas, palette(), !!anim && !reduceMotion && !chartScene[id]);
     built[id] = true;
+    if (chartScene[id] && Scenes) Scenes.sync(chartScene[id]);
   }
+  function ensureChart(id) { if (!built[id]) buildChart(id, false); return charts[id] || null; }
   function rebuildCharts() {
     Object.keys(built).forEach(function (id) { if (built[id]) buildChart(id, false); });
   }
@@ -1794,13 +2057,431 @@ var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager
     var wraps = doc.querySelectorAll('.chart[data-chart]');
     if ('IntersectionObserver' in window) {
       var chio = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting) { chio.unobserve(en.target); buildChart(en.target.getAttribute('data-chart'), true); } });
+        entries.forEach(function (en) { if (en.isIntersecting) { chio.unobserve(en.target); var id = en.target.getAttribute('data-chart'); if (!built[id]) buildChart(id, true); } });
       }, { threshold: 0.2 });
       Array.prototype.forEach.call(wraps, function (w) { chio.observe(w); });
     } else {
       Array.prototype.forEach.call(wraps, function (w) { buildChart(w.getAttribute('data-chart'), false); });
     }
     onMQ(window.matchMedia('(max-width: 719px)'), function () { rebuildCharts(); });
+    /* once the web fonts land, redraw any chart that was built before they did */
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function () { Object.keys(charts).forEach(function (id) { if (charts[id] && charts[id].ctx) charts[id].update('none'); }); }).catch(function () {});
+  }
+
+  /* scenes: a figure plays a short stepped sequence when it scrolls into view; the step bar lets the reader jump to any step */
+  var STEP_MS = 900;
+  var Scenes = (function () {
+    var reg = {};
+    function mk(tag, cls, text) { var e = doc.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function buildBar(s) {
+      var bar = s.bar, steps = s.def.steps;
+      var btns = Array.prototype.filter.call(bar.querySelectorAll('.scene-step'), function (b) { return !b.classList.contains('scene-replay'); });
+      if (btns.length !== steps.length) {
+        bar.textContent = '';
+        btns = steps.map(function (st, i) {
+          var b = mk('button', 'scene-step'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+          b.appendChild(mk('span', 'scene-n', (i + 1) + '.')); b.appendChild(doc.createTextNode(' ' + st.label));
+          bar.appendChild(b); return b;
+        });
+      }
+      var rp = bar.querySelector('.scene-replay');
+      if (!rp) { rp = mk('button', 'scene-step scene-replay', 'Replay'); rp.type = 'button'; bar.appendChild(rp); }
+      btns.forEach(function (b, i) { b.addEventListener('click', function () { stop(s); goTo(s, i, true, true); }); });
+      rp.addEventListener('click', function () { replay(s); });
+      /* arrows and Home/End move focus and select that step, as one pressed button at a time behaves like a single-select group */
+      bar.addEventListener('keydown', function (e) {
+        var i = btns.indexOf(doc.activeElement), j;
+        if (i < 0) return;
+        if (e.key === 'ArrowLeft') j = Math.max(0, i - 1);
+        else if (e.key === 'ArrowRight') j = Math.min(btns.length - 1, i + 1);
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = btns.length - 1;
+        else return;
+        e.preventDefault();
+        btns[j].focus();
+        if (j !== i) { stop(s); goTo(s, j, true, true); }
+      });
+      s.btns = btns;
+    }
+    function syncBar(s) {
+      s.btns.forEach(function (b, i) { var on = i === s.n; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      var cap = s.def.steps[Math.max(0, s.n)].caption;
+      if (s.cap && s.cap.textContent !== cap) s.cap.textContent = cap;
+    }
+    /* state for step n is computed from scratch: initial, then every step up to n (or the scene's own goTo), then one commit */
+    function goTo(s, n, animate, user) {
+      if (s.busy) return;
+      s.busy = true;
+      var ctx = { root: s.root, target: n, animate: !!animate && !reduceMotion, user: !!user };
+      ctx.chart = function (id) { return (n < 0 && !built[id]) ? null : ensureChart(id); };
+      try {
+        if (s.def.goTo) s.def.goTo(n, ctx);
+        else { s.def.initial(ctx); for (var k = 0; k <= n; k++) { ctx.step = k; s.def.steps[k].apply(ctx); } }
+        if (s.def.commit) s.def.commit(ctx);
+      } finally { s.busy = false; }
+      s.n = n;
+      syncBar(s);
+    }
+    /* the caption is a polite live region only at rest and on a reader's own choice; auto-play would otherwise announce every step */
+    function live(s, on) { if (s.cap) s.cap.setAttribute('aria-live', on ? 'polite' : 'off'); }
+    function stop(s) { if (s.timer) { clearTimeout(s.timer); s.timer = null; } s.playing = false; live(s, true); }
+    function play(s) {
+      stop(s); s.playing = true; live(s, false);
+      var k = 0, last = s.def.steps.length - 1;
+      function tick() {
+        s.timer = null;
+        if (k === last) live(s, true);
+        goTo(s, k, true);
+        if (k < last) { k++; s.timer = setTimeout(tick, STEP_MS); }
+        else { s.playing = false; s.played = true; s.root.classList.add('is-played'); }
+      }
+      tick();
+    }
+    function replay(s) { stop(s); goTo(s, -1, false); s.timer = setTimeout(function () { play(s); }, reduceMotion ? 0 : 250); }
+    function register(id, def) {
+      var root = doc.querySelector('[data-scene="' + id + '"]');
+      if (!root || !def.steps || !def.steps.length) return;
+      var s = { id: id, def: def, root: root, bar: root.querySelector('.scene-bar'), cap: root.querySelector('.scene-caption'), n: -1, timer: null, playing: false, played: false, busy: false, btns: [] };
+      reg[id] = s;
+      if (s.bar) buildBar(s);
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        goTo(s, def.steps.length - 1, false); s.played = true; root.classList.add('is-played');
+        return;
+      }
+      /* a scene can opt out of auto-play (the replica on phones): it rests on step 1 and waits for the reader */
+      if (def.autoplay === false) { goTo(s, 0, false); return; }
+      goTo(s, -1, false);
+      /* watch the visual itself (the chart, the figure row, the flow), not the whole block, so play starts when the reader can see it;
+         if the block comes into view with the visual already scrolled past (a deep link, a jump), play at once */
+      var target = root.querySelector(def.watch || '[data-chart]') || root;
+      var h = target.offsetHeight || 1, t = Math.min(0.45, Math.max(0.1, (0.45 * window.innerHeight) / h));
+      function inView(el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
+      function start() { io.disconnect(); if (io2) io2.disconnect(); if (!s.played && !s.playing && s.n < 0) play(s); }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var r = en.boundingClientRect;
+          /* enough of the visual is on screen, or it is already in the upper half (the reader is past its top) */
+          if (en.isIntersecting && (en.intersectionRatio >= t - 0.001 || r.top < window.innerHeight * 0.5)) start();
+          /* the visual left upward while the block is still on screen: the reader went past it, so play now rather than never */
+          else if (!en.isIntersecting && r.bottom < 0 && inView(root)) start();
+        });
+      }, { threshold: [0, t] });
+      var io2 = null;
+      if (target !== root) {
+        io2 = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) { if (en.isIntersecting && target.getBoundingClientRect().bottom < 0) start(); });
+        }, { threshold: 0 });
+        io2.observe(root);
+      }
+      io.observe(target);
+    }
+    return {
+      register: register,
+      sync: function (id) { var s = reg[id]; if (s && !s.busy) goTo(s, s.n, false); },
+      finishAll: function () { Object.keys(reg).forEach(function (k) { var s = reg[k]; stop(s); goTo(s, s.def.steps.length - 1, false); }); },
+      get: function (id) { return reg[id]; }
+    };
+  })();
+
+  function setVis(c, i, on, shown) { if (c.isDatasetVisible(i) === !!on) return; c.setDatasetVisibility(i, !!on); if (on) shown.push(i); }
+  function commitChart(ctx) {
+    var c = ctx.c;
+    if (!c) return;
+    c.config.options.animation = ctx.animate ? chartAnim() : { duration: 0 };
+    if (ctx.animate && ctx.shown && ctx.shown.length) ctx.shown.forEach(function (i) { c.show(i); });
+    else c.update();
+  }
+
+  /* A. year one ledger */
+  (function () {
+    var root = doc.querySelector('[data-scene="ledger"]');
+    if (!root) return;
+    var figs = Array.prototype.slice.call(root.querySelectorAll('.figrow .fig'));
+    var cells = Array.prototype.slice.call(root.querySelectorAll('.ledger-row .changed'));
+    /* the inline script after the figure row may already have stored the final text and zeroed the tiles before first paint */
+    figs.forEach(function (f) { if (!f.getAttribute('data-final')) f.setAttribute('data-final', f.textContent); });
+    function zeroed(s) { return s.replace(/^[−+-]\s*/, '').replace(/\d[\d,]*(?:\.\d+)?/g, function (m) { var d = (m.split('.')[1] || '').length; return d ? (0).toFixed(d) : '0'; }); }
+    function handed() {
+      cells.forEach(function (c) { c.style.transitionDelay = '0ms'; });
+      root.classList.add('is-handed');
+      figs.forEach(function (f) { f._cnt = (f._cnt || 0) + 1; f.textContent = zeroed(f.getAttribute('data-final')); });
+    }
+    Scenes.register('ledger', {
+      watch: '.figrow',
+      initial: handed,
+      steps: [
+        { label: 'What I was handed', caption: 'Day one at Reedsville: what was in place and what still had to be built.', apply: handed },
+        { label: 'What changed', caption: 'Twelve months later: each row shows where it started and where it is now.', apply: function (ctx) {
+          cells.forEach(function (c, i) { c.style.transitionDelay = ctx.animate ? (i * 60) + 'ms' : '0ms'; });
+          root.classList.remove('is-handed');
+          figs.forEach(function (f) { var fin = f.getAttribute('data-final'); if (ctx.animate) animateCount(f, fin); else { f._cnt = (f._cnt || 0) + 1; f.textContent = fin; } });
+        } }
+      ]
+    });
+  })();
+
+  /* B. daily operations review replica */
+  (function () {
+    var root = doc.querySelector('[data-scene="dor"]');
+    if (!root) return;
+    var panel = root.querySelector('.email'), pills = root.querySelector('.em-steps') || root.querySelector('.em-pills'), hot = null;
+    var secs = ['safety', 'dash', 'sales', 'maint', 'inv', 'actions'].map(function (k) { return doc.getElementById('em-' + k); });
+    var labels = ['Safety', 'Dashboard', 'Sales', 'Maintenance', 'Inventory', 'Action items'];
+    var caps = [
+      'Safety first: observations opened and closed, open corrective actions, layered audits.',
+      'Yesterday\'s OEE by shift, with downtime and defects by process.',
+      'Deliveries month to date against budget.',
+      'PM completion, open corrective work orders, spares below minimum.',
+      'Days on hand, slow-moving stock, SKUs below minimum.',
+      'Who owns what, and when it is due.'
+    ];
+    function clearHot() { if (hot) { clearTimeout(hot); hot = null; } secs.forEach(function (s) { if (s) s.classList.remove('is-hot'); }); }
+    function show(i, ctx) {
+      var sec = secs[i];
+      if (!sec) return;
+      clearHot();
+      sec.classList.add('is-hot');
+      hot = setTimeout(function () { sec.classList.remove('is-hot'); hot = null; }, 1200);
+      if (panel.scrollHeight > panel.clientHeight + 4) {
+        var top = Math.max(0, sec.offsetTop - ((pills && pills.offsetHeight) || 0) - 6);
+        if (typeof panel.scrollTo === 'function') panel.scrollTo({ top: top, behavior: ctx.animate ? 'smooth' : 'auto' }); else panel.scrollTop = top;
+      } else if (ctx.user) {
+        /* full-height replica (phones): bring the section in under the site header and the sticky step block */
+        var hdr = doc.getElementById('site-header'), off = ((hdr && hdr.offsetHeight) || 64) + ((pills && pills.offsetHeight) || 0) + 8;
+        var y = sec.getBoundingClientRect().top + (window.pageYOffset || window.scrollY || 0) - off;
+        if (typeof window.scrollTo === 'function') { try { window.scrollTo({ top: y, behavior: ctx.animate ? 'smooth' : 'auto' }); } catch (e) { window.scrollTo(0, y); } } else window.scrollTo(0, y);
+      }
+    }
+    /* the replica only auto-plays where it scrolls internally; on phones it is full height and the sticky step bar travels with the reader */
+    Scenes.register('dor', {
+      watch: '.email',
+      autoplay: window.matchMedia('(min-width: 721px)').matches,
+      initial: function (ctx) { if (ctx.target < 0) { clearHot(); panel.scrollTop = 0; } },
+      steps: labels.map(function (l, i) { return { label: l, caption: caps[i], apply: function (ctx) { if (ctx.step === ctx.target) show(i, ctx); } }; })
+    });
+  })();
+
+  /* C. financial forecaster */
+  Scenes.register('forecast', {
+    steps: [
+      { label: 'Month to date', caption: 'Net income month to date, indexed so no revenue can be read from it, against the cumulative budget.' },
+      { label: 'Today', caption: 'Today is working day 14. The month is not over, and the number is already visible.' },
+      { label: 'Projection', caption: 'Projected to land at 102, inside a plus or minus 10 percent band, with eight working days left.' }
+    ],
+    goTo: function (n, ctx) {
+      var c = ctx.chart('ex2');
+      if (!c) return;
+      var st = n + 1, shown = [];
+      flagOf(c, 'ex2ann').step = st;
+      setVis(c, 0, true, shown); setVis(c, 2, st >= 1, shown); setVis(c, 1, st >= 3, shown);
+      ctx.c = c; ctx.shown = shown;
+    },
+    commit: commitChart
+  });
+
+  /* D. automation cell: process flow, then the cash position */
+  (function () {
+    var root = doc.querySelector('[data-scene="cell"]');
+    if (!root) return;
+    var svg = root.querySelector('.flow'), wrap = root.querySelector('.flow-wrap'), raf = null;
+    /* when the figure overflows its container (phones): the current state starts at its left edge, forging first; the cell states centre on the cell label */
+    function centerFlow(anim, n) {
+      if (!wrap || wrap.scrollWidth <= wrap.clientWidth + 1) return;
+      var left = n >= 1 ? (wrap.scrollWidth - wrap.clientWidth) / 2 : 0;
+      if (typeof wrap.scrollTo === 'function') wrap.scrollTo({ left: left, behavior: anim ? 'smooth' : 'auto' }); else wrap.scrollLeft = left;
+    }
+    function stopRaf() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+    function drawTo(c, v) { c.$prog = v; if (c.ctx) c.draw(); }
+    function animateDraw(c) {
+      stopRaf();
+      var t0 = null, dur = 900, from = progOf(c) >= 1 ? 0 : progOf(c);
+      function f(now) {
+        if (!c.ctx) { raf = null; return; }
+        if (t0 === null) t0 = now;
+        var k = Math.min(1, (now - t0) / dur);
+        k = 1 - Math.pow(1 - k, 2);
+        drawTo(c, from + (1 - from) * k);
+        raf = k < 1 ? requestAnimationFrame(f) : null;
+      }
+      raf = requestAnimationFrame(f);
+    }
+    Scenes.register('cell', {
+      watch: '.flow-wrap',
+      steps: [
+        { label: 'Current state', caption: 'Today: forging and assembly run as separate steps with handling between them.' },
+        { label: 'Future state', caption: 'The cell: one integrated step, 12.8 to 7.0 seconds per piece, 2.5 fewer operators per shift.' },
+        { label: 'Cash position', caption: 'The case: $750K in, payback under three years, the first of its kind in the company.' }
+      ],
+      goTo: function (n, ctx) {
+        if (svg) svg.classList.toggle('is-cell', n >= 1);
+        centerFlow(ctx.animate, n);
+        var c = ctx.chart('ex4');
+        if (!c) return;
+        stopRaf();
+        if (n >= 2) { if (ctx.animate) animateDraw(c); else drawTo(c, 1); }
+        else drawTo(c, 0);
+      }
+    });
+    (function () { var sc = Scenes.get('cell'); centerFlow(false, sc ? sc.n : -1); })();
+  })();
+
+  /* E. inventory days on hand */
+  Scenes.register('doh', {
+    steps: [
+      { label: 'Start', caption: 'Eighty days of inventory on hand when I arrived, with storage areas over capacity.' },
+      { label: 'Now', caption: 'Sixty-five today, after splitting SKUs into make-to-stock and make-to-order with min/max tied to demand.' },
+      { label: 'Target', caption: 'Forty-five by year end, on the current path.' }
+    ],
+    goTo: function (n, ctx) {
+      var c = ctx.chart('ex5');
+      if (!c) return;
+      var full = [80, 65, 45];
+      c.data.datasets[0].data = full.map(function (v, i) { return i <= n ? v : null; });
+      ctx.c = c;
+    },
+    commit: commitChart
+  });
+
+  /* F. volume rebalancing */
+  Scenes.register('volume', {
+    steps: [
+      { label: 'Over budget', caption: 'Reedsville running well over budget, overtime at 92 hours per employee biweekly.' },
+      { label: 'Volume moved', caption: 'Four months with volume at a sister plant: both plants on budget, hours down to 82.' },
+      { label: 'Volume returned', caption: 'The volume came back. The hours did not go back up.' }
+    ],
+    goTo: function (n, ctx) {
+      var c = ctx.chart('ex6');
+      if (!c || !c.$full) return;
+      var cut = n < 0 ? 0 : [2, 6, 8][n];
+      c.data.datasets[0].data = c.$full.ot.map(function (v, i) { return i < cut ? v : null; });
+      c.data.datasets[1].data = c.$full.tons.map(function (v, i) { return i < cut ? v : null; });
+      flagOf(c, 'ex6ann').step = n + 1;
+      ctx.c = c;
+    },
+    commit: commitChart
+  });
+
+  /* G. control chart */
+  Scenes.register('spc', {
+    steps: [
+      { label: 'Baseline', caption: 'Thirty days of baseline: wide day-to-day variation around the old mean.' },
+      { label: 'Change implemented', caption: 'The change goes in: output swings while the process is being retuned.' },
+      { label: 'New level', caption: 'The new level: 15% higher and far more consistent, held inside recalculated limits.' }
+    ],
+    goTo: function (n, ctx) {
+      var c = ctx.chart('ex7');
+      if (!c) return;
+      var ph = n + 1, shown = [];
+      flagOf(c, 'ex7ann').phase = ph;
+      setVis(c, 0, ph >= 1, shown); setVis(c, 1, ph >= 2, shown); setVis(c, 2, ph >= 3, shown);
+      ctx.c = c; ctx.shown = shown;
+    },
+    commit: commitChart
+  });
+
+  /* capital plan: bars fill from zero once */
+  var grow = doc.querySelector('.ex3-grow');
+  if (grow) {
+    if (reduceMotion || !('IntersectionObserver' in window)) grow.classList.add('is-in');
+    else {
+      var gio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { gio.disconnect(); grow.classList.add('is-in'); } });
+      }, { threshold: 0.2 });
+      gio.observe(grow);
+    }
+  }
+
+  /* process flow: hint only when the figure overflows its container; the container is then focusable so keyboards can scroll it sideways */
+  var flowWrap = doc.querySelector('.flow-wrap'), flowHint = doc.querySelector('.flow-hint');
+  function flowCheck() {
+    if (!flowWrap) return;
+    var over = flowWrap.scrollWidth > flowWrap.clientWidth + 1;
+    if (flowHint) flowHint.hidden = !over;
+    if (over) { flowWrap.tabIndex = 0; flowWrap.setAttribute('role', 'region'); flowWrap.setAttribute('aria-label', 'Process flow, scrolls sideways'); }
+    else { flowWrap.removeAttribute('tabindex'); flowWrap.removeAttribute('role'); flowWrap.removeAttribute('aria-label'); }
+  }
+  flowCheck();
+  window.addEventListener('resize', flowCheck, { passive: true });
+  window.addEventListener('beforeprint', function () { Scenes.finishAll(); });
+
+  /* on this page: scroll-spy. A section is current when it reaches into the top 40% of the viewport; the lowest such section wins */
+  var onpage = doc.querySelector('.onpage');
+  if (onpage) {
+    var spyLinks = Array.prototype.slice.call(onpage.querySelectorAll('a[href^="#"]'));
+    var spySecs = [], spyMap = {}, spyIn = {}, spyCur = null;
+    spyLinks.forEach(function (a) { var id = a.getAttribute('href').slice(1), s = doc.getElementById(id); if (s) { spySecs.push(s); spyMap[id] = a; } });
+    function spyPick() {
+      var cur = null, i;
+      for (i = 0; i < spySecs.length; i++) if (spyIn[spySecs[i].id]) cur = spySecs[i].id;
+      if (spySecs.length && (window.scrollY || window.pageYOffset) + window.innerHeight >= root.scrollHeight - 2) cur = spySecs[spySecs.length - 1].id;
+      if (cur === spyCur) return;
+      spyCur = cur;
+      spyLinks.forEach(function (a) { var on = a === spyMap[cur]; a.classList.toggle('is-current', on); if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    }
+    if ('IntersectionObserver' in window) {
+      var spio = new IntersectionObserver(function (entries) { entries.forEach(function (en) { spyIn[en.target.id] = en.isIntersecting; }); spyPick(); }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
+      spySecs.forEach(function (s) { spio.observe(s); });
+      window.addEventListener('scroll', spyPick, { passive: true });
+    }
+  }
+
+  /* contents (narrow screens): a chosen link closes the block */
+  var contents = doc.querySelector('.contents');
+  if (contents) Array.prototype.forEach.call(contents.querySelectorAll('a[href^="#"]'), function (a) { a.addEventListener('click', function () { contents.open = false; }); });
+
+  /* reading progress: CSS scroll timeline where supported, otherwise a passive scroll listener; shown once the hero has scrolled past */
+  var prog = doc.querySelector('.progress'), hero = doc.getElementById('top'), onpage = doc.querySelector('.onpage');
+  if (prog) {
+    var progBar = prog.querySelector('i'), progRaf = null;
+    var progCSS = !reduceMotion && typeof CSS !== 'undefined' && CSS.supports && CSS.supports('animation-timeline: scroll()');
+    function progUpdate() {
+      progRaf = null;
+      var y = window.scrollY || window.pageYOffset;
+      var past = hero ? y > hero.offsetTop + hero.offsetHeight - 64 : y > 0;
+      prog.classList.toggle('on', past);
+      if (onpage) onpage.classList.toggle('on', past);
+      if (!progCSS && progBar) { var max = root.scrollHeight - window.innerHeight; progBar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, y / max)) : 0) + ')'; }
+    }
+    function progSchedule() { if (progRaf === null) progRaf = requestAnimationFrame(progUpdate); }
+    progUpdate();
+    window.addEventListener('scroll', progSchedule, { passive: true });
+    window.addEventListener('resize', progSchedule, { passive: true });
+  }
+
+  /* term definitions: hover and keyboard focus show the tip; a tap toggles it and a tap elsewhere closes it; the tip never leaves the viewport */
+  var terms = Array.prototype.slice.call(doc.querySelectorAll('.term'));
+  function closeTerms(except) { terms.forEach(function (t) { if (t !== except) t.classList.remove('is-open'); }); }
+  function placeTip(t) {
+    var tip = t.querySelector('.term-tip');
+    if (!tip) return;
+    tip.style.left = '0px'; tip.style.display = 'block'; t.classList.remove('flip');
+    var tr = t.getBoundingClientRect();
+    if (tr.top - tip.offsetHeight - 8 < 72) t.classList.add('flip');
+    var r = tip.getBoundingClientRect(), vw = root.clientWidth, dx = 0;
+    if (r.right > vw - 12) dx = vw - 12 - r.right;
+    if (r.left + dx < 12) dx = 12 - r.left;
+    if (dx) tip.style.left = Math.round(dx) + 'px';
+    tip.style.display = '';
+  }
+  terms.forEach(function (t) {
+    t.addEventListener('mouseenter', function () { placeTip(t); });
+    t.addEventListener('focus', function () { placeTip(t); });
+    t.addEventListener('blur', function () { t.classList.remove('is-open'); });
+    t.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var on = !t.classList.contains('is-open');
+      closeTerms(t);
+      t.classList.toggle('is-open', on);
+      if (on) placeTip(t);
+    });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.key === 'Esc') { t.classList.remove('is-open'); t.blur(); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); t.click(); }
+    });
+  });
+  if (terms.length) {
+    doc.addEventListener('click', function () { closeTerms(null); });
+    doc.addEventListener('touchstart', function (e) { if (!(e.target && e.target.closest && e.target.closest('.term'))) closeTerms(null); }, { passive: true });
   }
 
   /* AI widget */

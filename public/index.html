@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nicholas Kadunce · Plant Manager</title>
-<meta name="description" content="Nicholas Kadunce leads a $90M+ manufacturing plant for Jennmar in Reedsville, West Virginia, where his team built the operating systems now used across the division's six plants.">
+<meta name="description" content="Nicholas Kadunce runs a $90M+ manufacturing profit center for Jennmar in Reedsville, West Virginia. The operating system his team built there now runs in all six plants of the division.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,6 +85,8 @@ p{max-width:680px}
 .thead{font:600 12px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
 .sec-head{max-width:740px}
 .sec-head .lede,.sec-head .intro{margin-top:var(--s5)}
+.sec-head .lede + .lede,.sec-head .intro + .intro{margin-top:var(--s3)}
+.sec-head .lede + .small{margin-top:var(--s4)}
 .intro{max-width:680px}
 .pill{display:inline-block;font:600 12px/1 var(--font-body);padding:4px 10px;border-radius:999px;background:var(--petrol-tint);color:var(--petrol);letter-spacing:.01em}
 
@@ -139,8 +141,11 @@ main{display:block}
 .hero{padding:96px 0 0}
 .hero + .section{border-top:0}
 .hero .lede{margin-top:var(--s5)}
+.hero-lede span{display:block}
+.hero-lede span + span{margin-top:var(--s2)}
 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin-top:var(--s6)}
 .hero-actions .textlink{margin-left:var(--s2)}
+.hero-note{margin-top:var(--s4)}
 .scope-band{margin-top:var(--s8);border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);display:grid;grid-template-columns:repeat(6,1fr)}
 .scope-band > div{padding:20px 12px;border-left:1px solid var(--rule)}
 .scope-band > div:first-child{border-left:0;padding-left:0}
@@ -148,14 +153,13 @@ main{display:block}
 .scope-band .fig-label{margin-top:var(--s1)}
 @media (min-width:840px) and (max-width:1119px){.scope-band .fig{font-size:26px;min-height:2.2em}}
 
-/* plant */
-.scope-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s6);margin-top:var(--s7)}
-.scope-col{border-top:1px solid var(--rule-strong);padding-top:var(--s3)}
-.scope-col h3{font:600 12px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
-.sqlist{margin-top:var(--s3)}
-.sqlist li{position:relative;padding-left:16px;font-size:14px;line-height:1.5;color:var(--ink-body);margin-top:8px}
-.sqlist li::before{content:"";position:absolute;left:0;top:.6em;width:3px;height:3px;background:var(--petrol)}
+/* scope */
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s6);margin-top:var(--s7)}
+.block{border-top:1px solid var(--rule-strong);padding-top:var(--s3)}
+.block h3{font:600 17px/1.3 var(--font-display);color:var(--ink)}
+.block p{margin-top:var(--s2);font-size:15px;line-height:1.6;color:var(--ink-body)}
 .sub{margin-top:var(--s8)}
+.closing + .closing{margin-top:var(--s2)}
 .cadence{display:grid;grid-template-columns:1fr 1fr;gap:var(--s7);margin-top:var(--s5)}
 table.t{width:100%;border-collapse:collapse;font-size:14px;line-height:1.45;color:var(--ink-body);font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
 table.t caption{text-align:left;font:600 16px/1.3 var(--font-display);color:var(--ink);padding:0 0 var(--s3)}
@@ -179,6 +183,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .footnote{margin-top:var(--s4)}
 
 /* reach */
+.decision{display:grid;grid-template-columns:1fr 2fr;gap:var(--s5);margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--rule-strong)}
+.decision h3{font-size:20px}
+.decision p{font-size:16px;line-height:1.6;max-width:680px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s7)}
 .card{border:1px solid var(--rule);border-radius:4px;padding:var(--s5)}
 .card h3{font-size:20px}
@@ -296,7 +303,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .principle .idx{font:600 16px/2 var(--font-display);color:var(--ink-light)}
 .principle .q{font:italic 400 24px/1.35 var(--font-serif);color:var(--ink);max-width:28em}
 .principle .g{margin-top:var(--s3);font-size:16px;line-height:1.6;max-width:680px}
-.stories{display:grid;grid-template-columns:1fr 1fr;gap:var(--s7);margin-top:var(--s8)}
+.stories{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s6);margin-top:var(--s8)}
 .story h3{font-size:20px}
 .story p{margin-top:var(--s3);font-size:16px;line-height:1.6;max-width:512px}
 .people-strip{margin-top:var(--s8)}
@@ -320,6 +327,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 .emp-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px var(--s3)}
 .emp-line .co{font:600 22px/1.25 var(--font-display);color:var(--ink)}
 .emp-line .loc,.emp-line .dates{font-size:14px;line-height:1.5;color:var(--ink-light)}
+.sit{font:italic 400 18px/1.4 var(--font-serif);color:var(--ink);margin-top:var(--s2);max-width:680px}
 .ctx{font:italic 400 16px/1.5 var(--font-serif);color:var(--ink-light);margin-top:var(--s2);max-width:680px}
 .scope-line{font:400 12px/1.6 var(--font-body);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-light);margin-top:var(--s3);max-width:760px;font-feature-settings:"tnum" 1;font-variant-numeric:tabular-nums}
 .role{margin-top:var(--s4)}
@@ -392,6 +400,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .scope-band > div:nth-child(3n+1){border-left:0;padding-left:0}
   .scope-band > div:nth-child(n+4){border-top:1px solid var(--rule)}
   .cadence{grid-template-columns:1fr}
+  .blocks{grid-template-columns:1fr 1fr;gap:var(--s5)}
   .ledger-head{display:none}
   .ledger-row{grid-template-columns:1fr;gap:var(--s2)}
   .ledger-row .lbl{padding-top:0}
@@ -413,9 +422,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .section{padding:40px 0 32px}
   .hero{padding-top:64px}
   .scope-band{margin-top:var(--s7)}
-  .scope-grid{grid-template-columns:1fr;gap:var(--s5)}
   .figrow{grid-template-columns:1fr 1fr}
   .cards,.people{grid-template-columns:1fr}
+  .decision{grid-template-columns:1fr;gap:var(--s2)}
   .band{grid-template-columns:1fr;padding:var(--s5)}
   .hlist li{grid-template-columns:1fr;gap:var(--s1)}
   .ex-meta{grid-template-columns:1fr 1fr}
@@ -435,6 +444,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .em-tiles{grid-template-columns:1fr 1fr}
 }
 @media (max-width:560px){
+  .blocks{grid-template-columns:1fr}
   table.t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   table.t tr{display:block;padding:10px 0;border-bottom:1px solid var(--rule)}
   table.t td{display:block;border:0;padding:2px 0 6px}
@@ -462,7 +472,6 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .counters .fig{font-size:22px}
 }
 @media (max-width:374px){
-  .scope-band .fig{min-height:2.2em}
   .em-bars .l{flex-basis:72px}
 }
 @media (max-width:359px){
@@ -494,11 +503,12 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   <div class="wrap">
     <a class="logo" href="#top"><img src="nk-logo.png" alt="Nicholas Kadunce" width="28" height="28"></a>
     <nav class="nav" aria-label="Site">
-      <a href="#plant">Plant</a>
+      <a href="#scope">Scope</a>
       <a href="#year-one">Year one</a>
-      <a href="#reach">Reach</a>
-      <a href="#exhibits">Exhibits</a>
+      <a href="#reach">Six plants</a>
       <a href="#people">People</a>
+      <a href="#in-print">In print</a>
+      <a href="#exhibits">Exhibits</a>
       <a href="#career">Career</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -522,16 +532,16 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     <button class="btn" id="sheet-close" type="button">Close</button>
   </div>
   <nav class="sheet-nav" aria-label="Site, mobile">
-    <a href="#plant">Plant</a>
+    <a href="#scope">Scope</a>
     <a href="#year-one">Year one</a>
-    <a href="#reach">Reach</a>
-    <a href="#exhibits">Exhibits</a>
+    <a href="#reach">Six plants</a>
     <a href="#people">People</a>
+    <a href="#in-print">In print</a>
+    <a href="#exhibits">Exhibits</a>
     <a href="#career">Career</a>
     <a href="#contact">Contact</a>
   </nav>
   <nav class="sheet-nav sheet-sec" aria-label="More">
-    <a href="#in-print">In print</a>
     <a href="Nicholas_Kadunce_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
     <a href="dashboard.html" target="_blank" rel="noopener">Live demo</a>
   </nav>
@@ -542,58 +552,52 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
     <p class="eyebrow rv">Plant Manager · Jennmar · Reedsville, West Virginia</p>
-    <h1 id="hero-title" class="rv"><span class="h1a">I lead a $90M+ manufacturing plant in West Virginia.</span><span class="h1b">The operating system my team built there now runs in all six plants of the division.</span></h1>
-    <p class="lede rv">Jennmar is a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, with $1B+ in revenue. Reedsville is the third-largest of its six bolt plants. I am accountable for safety, quality, delivery, cost, working capital, the capital plan, and the people who do the work.</p>
+    <h1 id="hero-title" class="rv"><span class="h1a">I run a $90M+ manufacturing profit center.</span><span class="h1b">The operating system my team built here now runs in all six plants of the division.</span></h1>
+    <p class="lede hero-lede rv"><span>Accountable for safety, quality, delivery, cost, working capital, the capital plan, and about a hundred people.</span><span>Every Monday I present our numbers to the division executive team.</span></p>
     <div class="hero-actions rv">
       <a class="btn btn-primary" href="#year-one">Year one at Reedsville</a>
       <a class="btn" href="Nicholas_Kadunce_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
       <a class="textlink" href="dashboard.html" target="_blank" rel="noopener">See the daily review demo →</a>
     </div>
+    <p class="small hero-note rv">Cover feature, Metals &amp; Mining Review, October 2026.</p>
     <div class="scope-band rv" role="group" aria-label="Scope">
-      <div><div class="fig">$90M+</div><div class="fig-label">profit center · full P&amp;L</div></div>
-      <div><div class="fig">~100</div><div class="fig-label">people · 7 direct reports · 7 functions</div></div>
-      <div><div class="fig">25,000 tons</div><div class="fig-label">a year · about 80 SKUs · 11 processes · 27 assets</div></div>
-      <div><div class="fig">6 plants</div><div class="fig-label">run the Daily Operations Review and Financial Forecaster</div></div>
-      <div><div class="fig">$900K</div><div class="fig-label">2026 capital plan · 4 projects · funded</div></div>
-      <div><div class="fig">Weekly</div><div class="fig-label">operations review with the division executive team</div></div>
+      <div><div class="fig">$90M+</div><div class="fig-label">profit center&nbsp;· full&nbsp;P&amp;L</div></div>
+      <div><div class="fig">~100</div><div class="fig-label">people&nbsp;· 7 direct reports&nbsp;· 7 functions</div></div>
+      <div><div class="fig">$3M+</div><div class="fig-label">working capital released&nbsp;· inventory −27%&nbsp;· days on hand 80&nbsp;→&nbsp;65</div></div>
+      <div><div class="fig">6 plants</div><div class="fig-label">running the Daily Operations Review and Financial Forecaster</div></div>
+      <div><div class="fig">Weekly</div><div class="fig-label">plant performance presented to the division executive team every Monday</div></div>
+      <div><div class="fig">$900K</div><div class="fig-label">2026 capital plan&nbsp;· 4 projects&nbsp;· funded</div></div>
     </div>
   </div>
 </section>
 
-<section class="section" id="plant" aria-labelledby="plant-h2">
+<section class="section" id="scope" aria-labelledby="scope-h2">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow rv">The plant</p>
-      <h2 id="plant-h2" class="rv">What the job covers.</h2>
-      <p class="intro rv">The plant makes roof bolts, cable bolts, rebar bolts, torque-tension bolts, roof plates, header plates, roof mats, and roof discs for underground mining operations in soft and hard rock. About 80 SKUs run across 11 processes (forging, assembly, threading, cable, and plates among them) on 27 production assets, two shifts, five days. Roughly half the SKUs are made to stock and the rest to order. Demand follows mining cycles and roof conditions, so winters run heavier.</p>
+      <p class="eyebrow rv">Scope</p>
+      <h2 id="scope-h2" class="rv">What I am accountable for.</h2>
+      <p class="intro rv">Jennmar is a $1B+ global manufacturer of ground-control products for mining and tunneling, privately held and private-equity-backed. Reedsville makes roof bolts, cable bolts, plates, mats, and discs for underground mines in soft and hard rock. About 80 SKUs across 11 processes on 27 production assets, two shifts, five days. Demand follows mining cycles and roof conditions, so winters run heavier.</p>
     </div>
-    <div class="scope-grid">
-      <div class="scope-col rv">
-        <h3>Organization</h3>
-        <ul class="sqlist">
-          <li>7 direct reports: Superintendent (72 people), Maintenance Manager (12), Quality Manager (3), Dispatcher (3), Safety Manager, HR and Payroll Specialist, Inventory Control</li>
-          <li>90 hourly, 10 salaried</li>
-          <li>Functions: production, maintenance, quality, safety, shipping and dispatch, HR and payroll, inventory</li>
-          <li>S&amp;OP owned at plant level; the plant's first sales budget created in year one</li>
-        </ul>
+    <div class="blocks">
+      <div class="block rv">
+        <h3>The P&amp;L</h3>
+        <p>Reedsville is a profit center with its own revenue recognition. Revenue, materials, labor, freight, operating expense, and SG&amp;A sit with the plant. Capital is proposed annually and approved above the plant; the 2026 plan was funded.</p>
       </div>
-      <div class="scope-col rv">
-        <h3>Decision rights</h3>
-        <ul class="sqlist">
-          <li>Hiring authority for hourly and salaried roles</li>
-          <li>Operating spend approved at plant level within set limits; larger items with the VP of Operations</li>
-          <li>Supplier selection on project work, with two or more bids on larger purchases</li>
-          <li>Overtime, expediting, and premium-freight authority</li>
-          <li>Capital plan submitted annually; 2026 plan funded</li>
-        </ul>
+      <div class="block rv">
+        <h3>Customers and demand</h3>
+        <p>Sales owns the customer relationship. The plant is measured on delivering what sales brings in, so S&amp;OP is mine. I join the VP of Operations and the sales team for onboarding visits with new mining customers. Out of that came the plant's first sales budget, seasonality in the forecast, and slow-moving stock worked down with sales.</p>
       </div>
-      <div class="scope-col rv">
-        <h3>Reporting line and exposure</h3>
-        <ul class="sqlist">
-          <li>Reports to the VP of Operations, who reports to the President of the Global Soft Rock division, who reports to the CEO</li>
-          <li>One of four plant managers under the VP; the group meets every two weeks</li>
-          <li>Face-to-face onboarding meetings with new mining customers, alongside the VP of Operations and the sales team</li>
-        </ul>
+      <div class="block rv">
+        <h3>Supply and spend</h3>
+        <p>Purchasing issues the orders and sets terms. The plant decides what to order, when, and which critical spares to hold. On project work I negotiate scope and price, with two or more bids on larger purchases.</p>
+      </div>
+      <div class="block rv">
+        <h3>People</h3>
+        <p>Seven direct reports: Superintendent (72 people), Maintenance Manager (12), Quality Manager (3), Dispatcher (3), Safety Manager, HR and Payroll Specialist, Inventory Control. Ninety hourly, ten salaried. Hiring authority for every role. New operators join through the company's services division for 90 days before going full-time.</p>
+      </div>
+      <div class="block rv">
+        <h3>Safety and environment</h3>
+        <p>Safety runs on leading indicators: layered audits, near-miss reporting, guarding that removes the hazard, dust collection. No citations. I am accountable for the plant's stormwater and waste permits, with primary and secondary containment added and no notices of violation.</p>
       </div>
     </div>
     <div class="sub">
@@ -622,6 +626,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
         </table>
       </div>
       <p class="small closing rv">Headcount planning uses the sales projection and OEE to set the lowest-cost staffing that meets demand. I own S&amp;OP; the superintendent owns the production schedule.</p>
+      <p class="small closing rv">I am one of four plant managers under the VP of Operations. The VP reports to the division president, who reports to the CEO.</p>
     </div>
   </div>
 </section>
@@ -631,13 +636,15 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     <div class="sec-head">
       <p class="eyebrow rv">Year one at Reedsville</p>
       <h2 id="year-one-h2" class="rv">What I was handed, and what changed.</h2>
-      <p class="lede rv">The seat was open when I arrived in January 2025. The plant had customer orders, ISO 9001 registration, and a family culture worth keeping. Delivery targets, downtime and defect tracking, a production schedule, supervisor standard work, and a way to measure OEE still had to be built. Leadership asked for a KPI system the executive team could see, improvement against it, and a start on lean manufacturing. These are the plant's numbers, delivered by about a hundred people. Each line shows where it started.</p>
+      <p class="lede rv">The seat was open when I arrived in January 2025. The plant had customer orders, ISO 9001 registration, and a family culture worth keeping.</p>
+      <p class="lede rv">Delivery targets, downtime and defect tracking, a production schedule, supervisor standard work, and a way to measure OEE still had to be built. Leadership asked for a KPI system the executive team could see, improvement against it, and a start on lean.</p>
+      <p class="small rv">These are the plant's numbers, delivered by about a hundred people.</p>
     </div>
     <div class="figrow rv">
-      <div><div class="fig">60%+</div><div class="fig-label">cut in recordable injury rate · DART to zero</div></div>
-      <div><div class="fig">99%</div><div class="fig-label">on-time delivery, from 97% · 5-day lead time held</div></div>
+      <div><div class="fig">60%+</div><div class="fig-label">cut in recordable injury rate&nbsp;· DART to&nbsp;zero</div></div>
+      <div><div class="fig">99%</div><div class="fig-label">on-time delivery, from 97%&nbsp;· 5-day lead time held</div></div>
       <div><div class="fig">−15%</div><div class="fig-label">cost per ton, despite inflation</div></div>
-      <div><div class="fig">−27%</div><div class="fig-label">inventory · more than $3M</div></div>
+      <div><div class="fig">−27%</div><div class="fig-label">inventory&nbsp;· more than $3M of working capital released</div></div>
     </div>
     <div class="ledger">
       <div class="ledger-head" aria-hidden="true"><span></span><span class="thead">Handed</span><span class="thead">Changed</span></div>
@@ -694,31 +701,36 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 <section class="section" id="reach" aria-labelledby="reach-h2">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow rv">Beyond one plant</p>
-      <h2 id="reach-h2" class="rv">Built here, used in six plants.</h2>
-      <p class="intro rv">Most of what the Reedsville team built has been handed to IT, which now owns it and scales it. That is the arrangement I wanted. I build the first version with the plant, prove it, hand it over, and help the next plant stand it up. A system that depends on one person is a risk, and none of these should depend on me.</p>
+      <p class="eyebrow rv">Six plants</p>
+      <h2 id="reach-h2" class="rv">Built at one plant, in use at six.</h2>
+      <p class="intro rv">Across all six plants, the division executive team follows sales to budget and open safety actions through the Daily Operations Review. The Reedsville team built it.</p>
+      <p class="intro rv">Most of what we built has been handed to IT, which owns it and is scaling it. That is the arrangement I wanted. Build the first version with the plant, prove it, hand it over, help the next plant stand it up.</p>
+    </div>
+    <div class="decision rv">
+      <h3>A decision across plants</h3>
+      <p>When Reedsville was running well over its sales budget and a sister plant had capacity to spare, I proposed moving volume there. The VP of Operations and I took the decision jointly. Both plants met budget. Reedsville's overtime fell from 92 to 82 hours per employee biweekly over four months and held after the volume came back. A separate equipment move to a sister plant saves $35K a year in freight.</p>
     </div>
     <div class="cards">
       <article class="card rv">
         <h3>Daily Operations Review</h3>
         <span class="pill">All six plants in the division</span>
-        <p>An automated daily email and dashboard covering safety, machine availability, inventory, sales to budget, quality, headcount, capex, and lean updates. I was at each plant's rollout in person. The executive team uses it to follow sales to budget and open safety corrective actions across the division.</p>
+        <p>An automated daily email and dashboard: safety, machine availability, inventory, sales to budget, quality, headcount, capex, lean. Built with the plant team, demonstrated to the executive team, then stood up at each plant in person.</p>
       </article>
       <article class="card rv">
         <h3>Financial Forecaster</h3>
         <span class="pill">All six plants in the division</span>
-        <p>Projects month-to-date net income every day from ERP spend and delivery data plus a labor estimate. Its charts land in the Daily Operations Review automatically. Plants now see cost against budget during the month, and the executive team asks mid-month what is being done about a miss. Today the projection finishes within about 10% of the month-end actual; connecting daily labor data should bring that to 3 to 5%.</p>
+        <p>Projects month-to-date net income every day from ERP spend and delivery data plus a labor estimate. Its charts land in the Daily Operations Review automatically. Plants see cost against budget during the month, not after it. The projection is within about 10% of the month-end actual today; daily labor data should bring that to 3 to 5%.</p>
       </article>
       <article class="card rv">
         <h3>Quality governance</h3>
         <span class="pill">All six plants in the division</span>
-        <p>Automated test logs from the tensile tester, SPC by heat number, Pareto, and a tagged quarantine process, rolled out plant by plant. The same logs settled one product complaint. With engineering, we traced it to the customer's installation equipment over-torquing the product. Once that was corrected the issue disappeared and the relationship strengthened.</p>
+        <p>Automated tensile test logs, SPC by heat number, Pareto, and tagged quarantine, rolled out plant by plant. The same logs settled a product complaint. With engineering, we traced it to the customer's installation equipment over-torquing the product. Once corrected, the issue disappeared and the relationship strengthened.</p>
       </article>
     </div>
     <div class="band rv">
       <div><div class="fig">6</div><div class="fig-label">plants running the Daily Operations Review and Financial Forecaster, rolled out in person from Reedsville</div></div>
       <div><div class="fig">45 min</div><div class="fig-label">demo and Q&amp;A at the annual managers meeting, with the executive team in the audience</div></div>
-      <div><div class="fig">Every Monday</div><div class="fig-label">plant performance reviewed with the division executive team: safety, availability, inventory, sales to budget, quality, headcount, capex, and lean</div></div>
+      <div><div class="fig">Mid-month</div><div class="fig-label">the executive team asks what is being done about a miss, before the month closes</div></div>
     </div>
     <p class="after-band rv">IT is now extending the system across the whole company, adding AI integration and live PLC connections. The Reedsville team keeps building the next version the same way, with the plant first.</p>
     <div class="sub">
@@ -732,6 +744,83 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   </div>
 </section>
 
+
+<section class="section" id="people" aria-labelledby="people-h2">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">People and decisions</p>
+      <h2 id="people-h2" class="rv">How I lead, and three things that happened.</h2>
+      <p class="intro rv">The pattern has held at every plant. Walk the floor, find the constraint, build the system, develop the people, repeat. The lines below are from my article in Metals &amp; Mining Review; the stories are from Reedsville.</p>
+    </div>
+    <ol class="principles">
+      <li class="principle rv">
+        <span class="idx">01</span>
+        <div><p class="q">When people understand what matters most, why it matters and how their work contributes, they are much more likely to take ownership of the result.</p><p class="g">A target on a board is not a priority until the team knows what it means for the work in front of them.</p></div>
+      </li>
+      <li class="principle rv">
+        <span class="idx">02</span>
+        <div><p class="q">Data should make problems easier to see, not create more work to find them.</p><p class="g">I automate the flow of information so losses are visible without anyone assembling a report. Pareto and SPC point at the constraint; operators supply the context the data cannot.</p></div>
+      </li>
+      <li class="principle rv">
+        <span class="idx">03</span>
+        <div><p class="q">A problem that can quietly return was never really solved.</p><p class="g">The work is finished when the operation behaves differently because of what was learned, and the fix is built into the process.</p></div>
+      </li>
+      <li class="principle rv">
+        <span class="idx">04</span>
+        <div><p class="q">The fastest way to stop seeing problems is to make people afraid to bring them forward.</p><p class="g">Accountability starts with what happened and what needs to change, and it runs in both directions, so effort and problem-solving are recognized when things go well.</p></div>
+      </li>
+      <li class="principle rv">
+        <span class="idx">05</span>
+        <div><p class="q">The real test is whether the improvement continues when the spotlight moved somewhere else.</p><p class="g">The maintenance area at Messer still ran the same way months after I stopped visiting. The Reedsville systems were handed to IT on purpose, so they do not depend on me.</p></div>
+      </li>
+    </ol>
+    <div class="stories">
+      <article class="story rv">
+        <h3>Succession</h3>
+        <p>When I arrived, the plant ordered a fixed amount of material every month regardless of demand. The superintendent, nearly forty years with the company, had a reason: running short had always cost more than carrying extra. We split the SKUs into make-to-stock and make-to-order. We started with the low-risk make-to-order items, then set min/max levels tied to demand and on-hand stock for the rest. He came along with it.</p>
+        <p>When he retired, the production supervisor I had been developing stepped into the role as planned. Six months later inventory was down 27% and the storage areas were labeled, inside capacity, and safer.</p>
+      </article>
+      <article class="story rv">
+        <h3>Culture</h3>
+        <p>I kept the family culture the plant already had. What changed was the reflex, from reacting to problems to preventing them. Most of the leadership team made that shift. A few did not, after ample time and conversation, and I changed those seats.</p>
+      </article>
+      <article class="story rv">
+        <h3>One I got wrong</h3>
+        <p>During a two-month slowdown, order intake dropped about 20%, and I let headcount drift down without replacing the people who left. Orders came back to normal over three days. Within 48 hours we moved shifts from eight to nine hours and ran a few mandatory Saturdays. I told the VP of Operations on day two. We met every delivery commitment, and the cost was a sizable overtime bill. The swing was seasonal and sharper than usual, since roof conditions in the mines drive orders up in cold months. Seasonality is now built into the demand forecast, staffing plan, and inventory levels.</p>
+      </article>
+    </div>
+    <div class="people-strip">
+      <h3 class="rv">People</h3>
+      <div class="people">
+        <div class="card rv"><div class="fig">~25 hired · ~10 promoted</div><div class="fig-label">at Reedsville: operator to quality technician, team lead, maintenance, and junior dispatcher; supervisor to superintendent</div></div>
+        <div class="card rv"><div class="fig">~100 hired · 8 promoted</div><div class="fig-label">at Eos, including a 40-person third shift recruited and trained in two months that led the plant on OEE within a month</div></div>
+        <div class="card rv"><div class="fig">Where they went</div><div class="fig-label">production supervisors, team leaders, engineers, a batching manager, a washcoat engineer</div></div>
+      </div>
+      <p class="small closing rv">New operators at Reedsville join through the company's services division for 90 days before becoming full-time. The local workforce is stable, and people stay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="in-print" aria-labelledby="in-print-h2">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">In print</p>
+      <h2 id="in-print-h2" class="rv">Metals &amp; Mining Review, October 2026</h2>
+    </div>
+    <div class="print-grid">
+      <div class="cover rv"><img src="mmr-cover.jpg" width="906" height="1147" loading="lazy" alt="Cover of Metals &amp; Mining Review, October 2026, featuring Nicholas Kadunce as Operational Performance Builder"></div>
+      <div class="print-text rv">
+        <p class="small">Leadership Perspectives · Cover feature · "Operational Performance Builder"</p>
+        <h3 class="print-title">Building Operations that Deliver Results</h3>
+        <p class="small">By Nicholas Kadunce, Plant Manager, Jennmar</p>
+        <blockquote class="pq">"Capacity can be purchased, but performance has to be built."</blockquote>
+        <p class="body">The magazine asked for a piece on building operations that deliver. I wrote about what I would want a plant team to hear from me on day one. Priorities should reach the floor. Data should make problems easy to see. Accountability runs in both directions. Improvements should outlast the attention they got. The managing editor issued a Certificate of Editorial Recognition.</p>
+        <a class="btn" href="article.html">Read the article</a>
+        <p class="micro">Reproduced with attribution to Metals &amp; Mining Review.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="section" id="exhibits" aria-labelledby="exhibits-h2">
   <div class="wrap">
     <div class="sec-head">
@@ -1022,7 +1111,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <div><div class="fig cnt">Both plants</div><div class="fig-label">on budget</div></div>
           <div><div class="fig cnt">Four months</div><div class="fig-label">then sustained</div></div>
         </div>
-        <p class="caption small">Both plants reached budget during the four months. When the volume came back, the hours stayed at 81 to 82.</p>
+        <p class="caption small">Both plants reached budget during the four months. When the volume came back, the hours held at 82.</p>
       </article>
 
       <article class="exhibit rv" id="ex7" aria-labelledby="ex7-h">
@@ -1131,101 +1220,22 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   </div>
 </section>
 
-<section class="section" id="people" aria-labelledby="people-h2">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">People and decisions</p>
-      <h2 id="people-h2" class="rv">How I lead, and four things that happened.</h2>
-      <p class="intro rv">The pattern has held at every plant. Walk the floor, find the constraint, build the system, develop the people, repeat. The lines below are from my article in Metals &amp; Mining Review; the stories are from Reedsville.</p>
-    </div>
-    <ol class="principles">
-      <li class="principle rv">
-        <span class="idx">01</span>
-        <div><p class="q">When people understand what matters most, why it matters and how their work contributes, they are much more likely to take ownership of the result.</p><p class="g">A target on a board is not a priority until the team knows what it means for the work in front of them.</p></div>
-      </li>
-      <li class="principle rv">
-        <span class="idx">02</span>
-        <div><p class="q">Data should make problems easier to see, not create more work to find them.</p><p class="g">I automate the flow of information so losses are visible without anyone assembling a report. Pareto and SPC point at the constraint; operators supply the context the data cannot.</p></div>
-      </li>
-      <li class="principle rv">
-        <span class="idx">03</span>
-        <div><p class="q">A problem that can quietly return was never really solved.</p><p class="g">The work is finished when the operation behaves differently because of what was learned, and the fix is built into the process.</p></div>
-      </li>
-      <li class="principle rv">
-        <span class="idx">04</span>
-        <div><p class="q">The fastest way to stop seeing problems is to make people afraid to bring them forward.</p><p class="g">Accountability starts with what happened and what needs to change, and it runs in both directions, so effort and problem-solving are recognized when things go well.</p></div>
-      </li>
-      <li class="principle rv">
-        <span class="idx">05</span>
-        <div><p class="q">The real test is whether the improvement continues when the spotlight moved somewhere else.</p><p class="g">The maintenance area at Messer still ran the same way months after I stopped visiting. The Reedsville systems were handed to IT on purpose, so they do not depend on me.</p></div>
-      </li>
-    </ol>
-    <div class="stories">
-      <article class="story rv">
-        <h3>Succession</h3>
-        <p>When I arrived, the plant ordered a fixed amount of material every month regardless of demand. The superintendent had been with the company for nearly forty years and put it plainly (you get in trouble for ordering too much, but fired for ordering too little). I understood the sentiment. We split the SKUs into make-to-stock and make-to-order. We started with the low-risk make-to-order items, where turnaround can flex, then set min/max levels tied to demand and on-hand stock for everything else. He came along with it. When he retired, the production supervisor I had been developing stepped into the role as planned. Six months later inventory was down 27% and the storage areas were labeled, inside capacity, and safer.</p>
-      </article>
-      <article class="story rv">
-        <h3>Volume shared with a sister plant</h3>
-        <p>When Reedsville was running well over its sales budget and a sister plant had capacity to spare, I proposed to the VP of Operations that we move some volume there, and we took the decision jointly. Both plants met budget. Reedsville cut overtime for four months, with hours per employee falling from 92 to 82 biweekly, while still meeting its own budget. When the volume came back, the lower overtime level held.</p>
-      </article>
-      <article class="story rv">
-        <h3>Culture</h3>
-        <p>I kept the family culture the plant already had. What changed was the reflex, from reacting to problems to preventing them. Most of the leadership team made that shift. A few people did not make the shift after ample time and conversation, and I changed those seats.</p>
-      </article>
-      <article class="story rv">
-        <h3>One I got wrong</h3>
-        <p>During a two-month slowdown, order intake dropped about 20%, and I let headcount drift down without replacing the people who left. Orders came back to normal over three days. Within 48 hours we moved shifts from eight to nine hours and ran a few mandatory Saturdays. I told the VP of Operations on day two. We met every delivery commitment, and the cost was a sizable overtime bill. The swing was seasonal and sharper than usual, since roof conditions in the mines drive orders up in cold months. Seasonality is now built into the demand forecast, staffing plan, and inventory levels.</p>
-      </article>
-    </div>
-    <div class="people-strip">
-      <h3 class="rv">People</h3>
-      <div class="people">
-        <div class="card rv"><div class="fig">~25 hired · ~10 promoted</div><div class="fig-label">at Reedsville: operator to quality technician, team lead, maintenance, and junior dispatcher; supervisor to superintendent</div></div>
-        <div class="card rv"><div class="fig">~100 hired · 8 promoted</div><div class="fig-label">at Eos, including a 40-person third shift recruited and trained in two months that led the plant on OEE within a month</div></div>
-        <div class="card rv"><div class="fig">Where they went</div><div class="fig-label">production supervisors, team leaders, engineers, a batching manager, a washcoat engineer</div></div>
-      </div>
-      <p class="small closing rv">New operators at Reedsville join through the company's services division for 90 days before becoming full-time. The local workforce is stable, and people stay.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="in-print" aria-labelledby="in-print-h2">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow rv">In print</p>
-      <h2 id="in-print-h2" class="rv">Metals &amp; Mining Review, October 2026</h2>
-    </div>
-    <div class="print-grid">
-      <div class="cover rv"><img src="mmr-cover.jpg" width="906" height="1147" loading="lazy" alt="Cover of Metals &amp; Mining Review, October 2026, featuring Nicholas Kadunce as Operational Performance Builder"></div>
-      <div class="print-text rv">
-        <p class="small">Leadership Perspectives · Cover feature · "Operational Performance Builder"</p>
-        <h3 class="print-title">Building Operations that Deliver Results</h3>
-        <p class="small">By Nicholas Kadunce, Plant Manager, Jennmar</p>
-        <blockquote class="pq">"Capacity can be purchased, but performance has to be built."</blockquote>
-        <p class="body">The magazine asked for a piece on building operations that deliver. I wrote about what I would want a plant team to hear from me on day one. Priorities should reach the floor. Data should make problems easy to see. Accountability runs in both directions. Improvements should outlast the attention they got. The managing editor issued a Certificate of Editorial Recognition.</p>
-        <a class="btn" href="article.html">Read the article</a>
-        <p class="micro">Reproduced with attribution to Metals &amp; Mining Review.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section class="section" id="career" aria-labelledby="career-h2">
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow rv">Career</p>
-      <h2 id="career-h2" class="rv">Four manufacturers, four industries.</h2>
+      <h2 id="career-h2" class="rv">Four manufacturers, four situations.</h2>
     </div>
     <div class="career">
       <article class="employer rv">
         <div class="emp-line"><span class="co">Jennmar</span><span class="loc">Reedsville, WV</span><span class="dates">January 2025 – Present</span></div>
+        <p class="sit">An open seat and an operating system to build.</p>
         <p class="ctx">Privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, $1B+ revenue. Reedsville is the third-largest of six bolt plants in the division by revenue and headcount.</p>
         <p class="scope-line">$90M+ P&amp;L · about 100 people · 7 direct reports · about 25,000 tons a year across about 80 SKUs · 27 production assets · S&amp;OP owner · reports to the VP of Operations</p>
         <div class="role">
           <h3 class="role-title">Plant Manager</h3>
           <ul class="bullets">
-            <li>Built the KPI system where none existed and made it visible to the executive team. In year one, output up 3.2% on fewer hourly roles, cost per ton down 15%, inventory down 27%, on-time delivery 97% to 99%, recordable injury rate cut more than 60%, DART to zero, operating income improved.</li>
+            <li>Built the KPI system where none existed and made it visible to the executive team. Year one: operating income up · cost per ton −15% · inventory −27%, more than $3M of working capital released · on-time delivery 97% → 99% · recordable injury rate cut more than 60%, DART to zero.</li>
             <li>With the plant team, built the Daily Operations Review, the Financial Forecaster, and quality governance by heat number, and led a CMMS rollout. Handed the platform to IT, which owns it and is extending it company-wide. The Review and Forecaster run in all six plants.</li>
             <li>Won approval for the 2026 capital plan, $900K across four projects, led by a $750K forging-and-assembly cell with payback under 3 years. Annual capital need $1.4M to $0.9M.</li>
             <li>About $250K a year in process savings validated by cost accountants, plus $25K negotiated on capital purchases.</li>
@@ -1235,6 +1245,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       </article>
       <article class="employer rv">
         <div class="emp-line"><span class="co">Eos Energy Enterprises</span><span class="loc">Turtle Creek, PA</span><span class="dates">December 2023 – December 2024</span></div>
+        <p class="sit">A public scale-up ramping against investor milestones.</p>
         <p class="ctx">Publicly traded US battery energy storage scale-up (zinc-based long-duration storage); 500 to 1,000 employees; three sites; revenue $16M in 2024 and $115M in 2025. UL-listed electrical products and corrosive electrolyte handling.</p>
         <div class="role">
           <h3 class="role-title">Operations Manager <span class="dates">· June 2024 – December 2024</span></h3>
@@ -1255,8 +1266,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       </article>
       <article class="employer rv">
         <div class="emp-line"><span class="co">Messer Americas</span><span class="loc">Northeast region (PA, WV, ME)</span><span class="dates">October 2022 – December 2023</span></div>
+        <p class="sit">Four air separation plants in three states, supported from one.</p>
         <p class="ctx">Privately held industrial gas producer formed from the Linde and Praxair divestiture; Messer Group about 4.4 billion euros in revenue; 5,000 to 10,000 employees in the Americas.</p>
-        <p class="scope-line">four air separation plants, about 80 employees combined · $400K project and expense budget · no direct reports · weekly travel</p>
+        <p class="scope-line">four air separation plants, about 80 employees combined · $400K project and expense budget · regional engineering role with weekly site travel</p>
         <div class="role">
           <h3 class="role-title">Regional Production Engineer</h3>
           <ul class="bullets">
@@ -1269,6 +1281,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       </article>
       <article class="employer rv">
         <div class="emp-line"><span class="co">Johnson Matthey</span><span class="loc">Smithfield, PA</span><span class="dates">September 2020 – October 2022</span></div>
+        <p class="sit">A fully automated, high-mix line under strict chemical handling.</p>
         <p class="ctx">Global catalyst manufacturer headquartered in the UK; the plant made heavy-duty diesel catalytic converters on a fully automated, high-mix line with strict chemical handling.</p>
         <div class="role">
           <h3 class="role-title">Production Team Shift Leader II <span class="dates">· March 2022 – October 2022</span></h3>
@@ -1292,10 +1305,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
           <ul class="cred-list">
             <li><span class="cred-name">Applied Agentic AI for Organizational Transformation</span><span class="cred-org">MIT Professional Education</span><span class="cred-date">Jul 2026</span></li>
             <li><span class="cred-name">Lean Six Sigma Black Belt Professional</span><span class="cred-org">Six Sigma Global Institute</span><span class="cred-date">Apr 2026</span></li>
-            <li><span class="cred-name">OSHA 30-Hour</span><span class="cred-org">Occupational safety and health training</span><span class="cred-date">Jun 2025</span></li>
+            <li><span class="cred-name">OSHA 30-Hour</span><span class="cred-date">Jun 2025</span></li>
             <li><span class="cred-name">Certified ScrumMaster (CSM)</span><span class="cred-org">Scrum Alliance</span><span class="cred-date">Nov 2024</span></li>
-            <li><span class="cred-name">Certified Quality Management System Lead Auditor (ISO 9001)</span><span class="cred-org">Exemplar Global</span><span class="cred-date">Feb 2024</span></li>
-            <li><span class="cred-name">Certified Six Sigma Green Belt</span><span class="cred-org">Messer Americas EMBRACE Training Academy</span><span class="cred-date">Oct 2023</span></li>
+            <li><span class="cred-name">ISO 9001 Lead Auditor training</span><span class="cred-org">Exemplar Global</span><span class="cred-date">Feb 2024</span></li>
           </ul>
         </div>
         <div class="cred-side">
@@ -1376,7 +1388,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 <script>
 var AI_WORKER_URL = "https://nicholas-kadunce-ai.nicholaskadunce.workers.dev";
 var AI_CONTEXT = [
-  { role: "user", content: "Standing facts and rules for this conversation about Nicholas Kadunce. Answer in the third person, in plain English, in a humble, team-credited tone. Keep every answer under 110 words and always finish the final sentence. Never use an em dash. Use only the facts below, in the forms given. If a fact is not listed, say you do not have it. WHO HE IS. Plant Manager at Jennmar in Reedsville, West Virginia, January 2025 to present. Jennmar is a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, with $1B+ revenue and six bolt plants in his division; Reedsville is the third-largest by revenue and headcount. He runs a $90M+ profit center with about 100 people (90 hourly, 10 salaried), seven direct reports (superintendent, maintenance, quality, dispatch, safety, HR and payroll, inventory control), about 25,000 tons a year, about 80 SKUs, 11 processes, 27 production assets, two shifts. He reports to the VP of Operations, who reports to the division president, who reports to the CEO; he is one of four plant managers. He presents every Monday in an operations review with the division president, CFO, CPO, general counsel, and VP of Sales. He owns S&OP, has hiring authority for hourly and salaried roles, and submits capital annually. YEAR ONE AT JENNMAR. Recordable injury rate cut more than 60%, DART to zero, no citations. On-time delivery 97% to 99% at a 5-day lead time; customer complaints to zero. Output up 3.2%; hourly headcount down about 7% in the twelve-month window and about 10% cumulative; overtime down 6% in the window and 11% cumulative; shipments up 2.1% (about $2M); cost per ton down 15% despite inflation; scrap tonnage flat; operating income improved. Inventory down 27% (more than $3M), days on hand 80 to 65 on a path to 45, slow-moving stock 2.2 to 0.3 days. Corrective work orders 159 to 50 a month after a CMMS rollout. About $250K a year in validated process savings. 2026 capital plan $900K across four projects, including a $750K integrated forging-and-assembly cell, the first of its kind at the company (cycle time 12.8 to 7.0 seconds, 2.5 fewer operators per shift, payback under 3 years); annual capital need $1.4M to $0.9M. Hired about 25, promoted about 10. SYSTEMS. He built the Daily Operations Review (automated daily email and dashboard) and the Financial Forecaster (daily net-income projection) with the plant team, both rolled out hands-on to all six plants and used by the executive team to follow sales to budget and open safety actions; quality governance (test logs, SPC by heat number) adopted by all plants; a CMMS rollout; supervisor standard work; a headcount planning model; automated incentive-pay administration. Frame IT as a partnership: he built the first version with the plant, proved it, and handed it to IT, which owns it and is extending it company-wide with AI integration and live PLC connections. He gave a 45-minute demo at the annual managers meeting with the executive team present. EARLIER ROLES, strictly consecutive, never overlapping. Johnson Matthey, Smithfield, Pennsylvania: Process Control Engineer, September 2020 to March 2022 (cycle time down 8%, defects down 4%, 35 hours of annual changeover downtime removed, $220K validated savings); Production Team Shift Leader II, March 2022 to October 2022 (plant OEE 76% to 81.2%; the plant recorded zero recordable injuries in 2022). Messer Americas, Northeast region: Regional Production Engineer, October 2022 to December 2023 (four air separation plants, about 80 employees, $400K budget, no direct reports; Krypton/Xenon project +15% and $1M+ annual revenue validated by finance; $1.1M total validated value; 15+ reliability projects; 25 fewer downtime days a year; about $20K vendor savings; 2022 EMBRACE Country Champion, Efficiency). Eos Energy Enterprises, Turtle Creek, Pennsylvania, a publicly traded battery storage scale-up: Quality Engineer, December 2023 to June 2024 (built the quality program where none existed, testing cycle time down about 60%, scrap defects down 30%, directed six quality technicians); Operations Manager, June 2024 to December 2024 (competitive selection; two buildings, 240 technicians at peak, 11 supervisors, 6 team leads; reported to the senior operations director; output presented daily to the executive team against investor milestones, all met; module assembly time 46.5 to 20.5 minutes; subassembly rate up 41%, defects down 22%; BESS output 0.5 to 2.2 units per day, sustained; rework down 66%; a 40-person third shift built in two months that led the plant on OEE; hired about 100, promoted 8; no recordable injuries). He was recruited to Jennmar for a plant manager role with end-to-end P&L accountability. CREDENTIALS. B.S. Chemical Engineering, West Virginia University. Lean Six Sigma Black Belt Professional (April 2026), Applied Agentic AI for Organizational Transformation at MIT Professional Education (July 2026), OSHA 30 (June 2025), Certified ScrumMaster (November 2024), ISO 9001 Lead Auditor from Exemplar Global (February 2024), Six Sigma Green Belt (October 2023). Featured on the cover of Metals & Mining Review, October 2026, with his article Building Operations that Deliver Results. HOW HE THINKS. Capacity can be purchased, but performance has to be built. Data should make problems easier to see. A problem that can quietly return was never really solved. Accountability without blame, in both directions. Improvements must survive the spotlight moving on. Walk the floor, find the constraint, build the system, develop the people, repeat. RULES. Give only the ranges and percentages above. Never give monthly or exact annual revenue, profitability, EBITDA, inventory dollar totals, customer names, equipment or machine brand names, incident, near-miss, or first-aid counts, exact headcount changes, the name of the private-equity firm, the sister plant figures, or anything about compensation. If asked for any of those, say that detail stays inside the plant and offer what is public. If asked about his availability, his plans, or his interest in other roles, say he is focused on his current plant and happy to talk about operations, and do not speculate. Credit the team. Do not invent facts. If you do not know, say so briefly." },
+  { role: "user", content: "Standing facts and rules for this conversation about Nicholas Kadunce. Answer in the third person, in plain English, in a humble, team-credited tone. Keep every answer under 110 words and always finish the final sentence. Never use an em dash. Use only the facts below, in the forms given. If a fact is not listed, say you do not have it. WHO HE IS. Plant Manager at Jennmar in Reedsville, West Virginia, January 2025 to present. Jennmar is a privately held, private-equity-backed global manufacturer of ground-control products for underground mining and tunneling, with $1B+ revenue and six bolt plants in his division; Reedsville is the third-largest by revenue and headcount. He runs a $90M+ profit center with about 100 people (90 hourly, 10 salaried), seven direct reports (superintendent, maintenance, quality, dispatch, safety, HR and payroll, inventory control), about 25,000 tons a year, about 80 SKUs, 11 processes, 27 production assets, two shifts. He reports to the VP of Operations, who reports to the division president, who reports to the CEO; he is one of four plant managers. He presents every Monday in an operations review with the division president, CFO, CPO, general counsel, and VP of Sales. He owns S&OP, has hiring authority for hourly and salaried roles, and submits capital annually. YEAR ONE AT JENNMAR. Recordable injury rate cut more than 60%, DART to zero, no citations. On-time delivery 97% to 99% at a 5-day lead time; customer complaints to zero. Output up 3.2%; hourly headcount down about 7% in the twelve-month window and about 10% cumulative; overtime down 6% in the window and 11% cumulative; shipments up 2.1% (about $2M); cost per ton down 15% despite inflation; scrap tonnage flat; operating income improved. Inventory down 27% (more than $3M), days on hand 80 to 65 on a path to 45, slow-moving stock 2.2 to 0.3 days. Corrective work orders 159 to 50 a month after a CMMS rollout. About $250K a year in validated process savings. 2026 capital plan $900K across four projects, including a $750K integrated forging-and-assembly cell, the first of its kind at the company (cycle time 12.8 to 7.0 seconds, 2.5 fewer operators per shift, payback under 3 years); annual capital need $1.4M to $0.9M. Hired about 25, promoted about 10. SYSTEMS. He built the Daily Operations Review (automated daily email and dashboard) and the Financial Forecaster (daily net-income projection) with the plant team, both rolled out hands-on to all six plants and used by the executive team to follow sales to budget and open safety actions; quality governance (test logs, SPC by heat number) adopted by all plants; a CMMS rollout; supervisor standard work; a headcount planning model; automated incentive-pay administration. Frame IT as a partnership: he built the first version with the plant, proved it, and handed it to IT, which owns it and is extending it company-wide with AI integration and live PLC connections. He gave a 45-minute demo at the annual managers meeting with the executive team present. EARLIER ROLES, strictly consecutive, never overlapping. Johnson Matthey, Smithfield, Pennsylvania: Process Control Engineer, September 2020 to March 2022 (cycle time down 8%, defects down 4%, 35 hours of annual changeover downtime removed, $220K validated savings); Production Team Shift Leader II, March 2022 to October 2022 (plant OEE 76% to 81.2%; the plant recorded zero recordable injuries in 2022). Messer Americas, Northeast region: Regional Production Engineer, October 2022 to December 2023 (four air separation plants, about 80 employees, $400K budget, no direct reports; Krypton/Xenon project +15% and $1M+ annual revenue validated by finance; $1.1M total validated value; 15+ reliability projects; 25 fewer downtime days a year; about $20K vendor savings; 2022 EMBRACE Country Champion, Efficiency). Eos Energy Enterprises, Turtle Creek, Pennsylvania, a publicly traded battery storage scale-up: Quality Engineer, December 2023 to June 2024 (built the quality program where none existed, testing cycle time down about 60%, scrap defects down 30%, directed six quality technicians); Operations Manager, June 2024 to December 2024 (competitive selection; two buildings, 240 technicians at peak, 11 supervisors, 6 team leads; reported to the senior operations director; output presented daily to the executive team against investor milestones, all met; module assembly time 46.5 to 20.5 minutes; subassembly rate up 41%, defects down 22%; BESS output 0.5 to 2.2 units per day, sustained; rework down 66%; a 40-person third shift built in two months that led the plant on OEE; hired about 100, promoted 8; no recordable injuries). He was recruited to Jennmar for a plant manager role with end-to-end P&L accountability. CREDENTIALS. B.S. Chemical Engineering, West Virginia University. Lean Six Sigma Black Belt Professional (April 2026), Applied Agentic AI for Organizational Transformation at MIT Professional Education (July 2026), OSHA 30 (June 2025), Certified ScrumMaster (November 2024), ISO 9001 Lead Auditor training from Exemplar Global (February 2024). Featured on the cover of Metals & Mining Review, October 2026, with his article Building Operations that Deliver Results. HOW HE THINKS. Capacity can be purchased, but performance has to be built. Data should make problems easier to see. A problem that can quietly return was never really solved. Accountability without blame, in both directions. Improvements must survive the spotlight moving on. Walk the floor, find the constraint, build the system, develop the people, repeat. RULES. Give only the ranges and percentages above. Never give monthly or exact annual revenue, profitability, EBITDA, inventory dollar totals, customer names, equipment or machine brand names, incident, near-miss, or first-aid counts, exact headcount changes, the name of the private-equity firm, the sister plant figures, or anything about compensation. If asked for any of those, say that detail stays inside the plant and offer what is public. If asked about his availability, his plans, or his interest in other roles, say he is focused on his current plant and happy to talk about operations, and do not speculate. Credit the team. Do not invent facts. If you do not know, say so briefly." },
   { role: "assistant", content: "Understood. I will describe the roles as strictly consecutive with those month dates, answer in the third person in under 110 words with a complete final sentence, credit the team, give only the ranges and percentages listed, frame the systems as built with the plant and handed to IT as a partnership, decline exact financials, customer names, equipment names, incident counts, headcount changes, the investor name, and compensation, and if asked about availability say he is focused on his current plant and glad to talk about operations. If a fact is not listed, I will say I do not have it." }
 ];
 var AI_FALLBACK = "The assistant is offline right now. Nicholas is Plant Manager of a $90M+ profit center at Jennmar in Reedsville, West Virginia. The operating systems his team built there now run in all six plants of the division. Email him at NicholasKadunce@gmail.com.";

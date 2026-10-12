@@ -16,20 +16,22 @@ html,body{background:#ECEAE4;font-family:'Source Serif 4',Georgia,'Times New Rom
 a{color:inherit;text-decoration:none}
 .page{width:8.5in;height:11in;overflow:hidden;background:#FFFFFF;margin:.5in auto;padding:.52in .62in .5in;position:relative;page-break-after:always;break-after:page}
 .page:last-child{page-break-after:auto;break-after:auto}
-.name,.contact,.headline,.altitude,.strip,.sh,.comp strong,.exp-co,.exp-dates,.scope,.role,.cr h4,.cr-row .d,.mini b,.mini span{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif}
+.name,.contact,.headline,.strip,.sh,.comp strong,.exp-co,.exp-dates,.scope,.role,.cr h4,.cr-row .d,.mini b,.mini span{font-family:'Source Sans 3','Segoe UI',Helvetica,Arial,sans-serif}
 
-/* Header */
-.name{font-size:22pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-align:center;line-height:1}
-.contact{font-size:8.3pt;color:var(--muted);text-align:center;margin-top:.065in}
-.headline{font-size:9.6pt;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);text-align:center;margin-top:.085in}
-.altitude{font-size:7.7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);text-align:center;margin-top:.04in}
-.head-rule{height:1px;background:var(--ink);margin:.09in 0 .075in}
+/* Header: name, role line, contact (three levels, left aligned); one rule; summary; year-one strip. The space the shorter head freed stays at the head. */
+#p1{padding-top:.6in}
+.name{font-size:24pt;font-weight:700;letter-spacing:-.012em;color:var(--ink);line-height:1.05}
+.headline{font-size:10pt;font-weight:600;color:var(--ink);margin-top:.08in}
+.contact{font-size:8.3pt;color:var(--muted);margin-top:.05in}
+.head-rule{height:1px;background:var(--ink);margin:.16in 0 .14in}
 
-/* Summary and strip */
-.summary{font-size:8.7pt;line-height:1.42;color:var(--body)}
-.strip{font-size:8.1pt;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin:.05in 0 0}
-.strip span{white-space:nowrap;font-weight:400;color:var(--body)}
-.strip b{font-weight:700;color:var(--accent)}
+/* Summary and strip: the lead-in on its own line in the accent (the head's one accent use), then one line of figures */
+.summary{font-size:8.8pt;line-height:1.5;color:var(--body)}
+.strip{font-size:8pt;line-height:1.6;color:var(--body);font-variant-numeric:tabular-nums;margin:.12in 0 0}
+.strip b{display:block;font-weight:700;color:var(--accent)}
+.strip span{white-space:nowrap}
+.strip strong{font-weight:700;color:var(--ink)}
+.strip + .sh{margin-top:.3in}
 
 /* Section heads */
 .sh{font-size:8.6pt;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin:.115in 0 .045in;padding-bottom:.03in;border-bottom:1px solid var(--rule);position:relative}
@@ -67,7 +69,7 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
 
 /* Page 2 mini header */
 .mini{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:.07in;border-bottom:1px solid var(--ink);margin-bottom:.06in}
-.mini b{font-size:11pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink)}
+.mini b{font-size:11pt;font-weight:700;letter-spacing:-.01em;color:var(--ink)}
 .mini span{font-size:8pt;color:var(--muted)}
 
 @page{size:letter;margin:0}
@@ -83,13 +85,12 @@ ul.b li::before{content:"";position:absolute;left:.02in;top:.07in;width:.045in;h
 
 <section class="page" id="p1" aria-label="Page 1"><div class="inner">
   <h1 class="name">Nicholas Kadunce</h1>
+  <div class="headline">Plant Manager, Jennmar · Reedsville, West Virginia</div>
   <div class="contact"><a href="tel:+17249963792">724-996-3792</a> · <a href="mailto:NicholasKadunce@gmail.com">NicholasKadunce@gmail.com</a> · <a href="https://nicholaskadunce.com">nicholaskadunce.com</a> · <a href="https://linkedin.com/in/nicholaskadunce">linkedin.com/in/nicholaskadunce</a></div>
-  <div class="headline">Plant Manager, Jennmar · Manufacturing Operations and P&amp;L</div>
-  <div class="altitude">$90M+ profit center · ~100 people · Operating system in use at all six plants of the division · Weekly operations review with the division executive team</div>
   <div class="head-rule"></div>
 
-  <p class="summary">Plant Manager of a $90M+ profit center for Jennmar, a privately held, private-equity-backed global manufacturer of ground-control products for mining and tunneling. Recruited into an open seat to build the plant's performance-management system; accountable for safety, quality, delivery, cost, working capital, S&amp;OP, the capital plan, and about 100 people. Four manufacturers, four situations: an operating system built from the ground up, a public scale-up ramped against investor milestones, a regional role across four plants, a fully automated high-mix line. Lean Six Sigma Black Belt. B.S., Chemical Engineering.</p>
-  <div class="strip"><b>Year one at Reedsville</b> &nbsp;<span>Operating income up</span> · <span>Cost per ton −15%</span> · <span>Inventory −27%, $3M+ working capital released</span> · <span>On-time delivery 97% → 99%</span> · <span>TRIR 4.2 → 1.6</span> · <span>DART 3.3 → 0</span></div>
+  <p class="summary">Runs a $90M+ profit center for Jennmar. Recruited into an open seat to build the plant's performance-management system. Accountable for safety, quality, delivery, cost, working capital, S&amp;OP, the capital plan, and about 100 people. The operating system built at Reedsville now runs in all six plants of the division; plant results are reviewed with the division executive team every Monday. Lean Six Sigma Black Belt. B.S., Chemical Engineering.</p>
+  <div class="strip"><b>Year one at Reedsville</b><span>Operating income up</span> · <span>Cost per ton <strong>−15%</strong></span> · <span>Inventory <strong>−27%</strong>, <strong>$3M+</strong> working capital released</span> · <span>On-time delivery <strong>97% → 99%</strong></span> · <span>TRIR <strong>4.2 → 1.6</strong></span> · <span>DART <strong>3.3 → 0</strong></span></div>
 
   <h2 class="sh">Core Competencies</h2>
   <div class="comp"><strong>Operations and P&amp;L</strong> &nbsp;P&amp;L and Working Capital Management · S&amp;OP and Demand Planning · Capital Planning and Business Cases · Safety Leadership (OSHA) · ISO 9001 Quality Systems</div>

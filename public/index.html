@@ -72,7 +72,6 @@ ul,ol{list-style:none}
 /* type */
 h1{font:700 52px/1.05 var(--font-display);letter-spacing:-.02em;color:var(--ink)}
 h1 .h1a{display:block;text-wrap:balance}
-h1 .h1b{display:block;font-weight:600;font-size:28px;line-height:1.2;letter-spacing:-.01em;color:var(--petrol);margin-top:16px;max-width:24em}
 h2{font:600 36px/1.1 var(--font-display);letter-spacing:-.01em;color:var(--ink)}
 h3{font:600 22px/1.25 var(--font-display);letter-spacing:0;color:var(--ink)}
 .eyebrow{font:600 12px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--petrol);margin-bottom:var(--s4)}
@@ -141,18 +140,15 @@ main{display:block}
 .section{border-top:1px solid var(--rule-strong);padding:64px 0 48px}
 .hero{padding:96px 0 0}
 .hero + .section,.onpage + .section{border-top:0}
-.hero .lede{margin-top:var(--s5)}
-.hero-lede span{display:block}
-.hero-lede span + span{margin-top:var(--s2)}
-.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin-top:var(--s6)}
-.hero-actions .textlink{margin-left:var(--s2)}
-.hero-note{margin-top:var(--s4)}
-.scope-band{margin-top:var(--s8);border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);display:grid;grid-template-columns:repeat(6,1fr)}
-.scope-band > div{padding:20px 12px;border-left:1px solid var(--rule)}
-.scope-band > div:first-child{border-left:0;padding-left:0}
+/* hero: one statement, one line of context (the byline), one button and one quiet link, then four scope figures under the only rule */
+.hero-ctx{margin-top:var(--s5);font:italic 400 21px/1.5 var(--font-serif);color:var(--ink-light);max-width:none}
+.hero-ctx span{white-space:nowrap}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s5);margin-top:var(--s6)}
+.hero-actions .textlink{display:inline-flex;align-items:center;min-height:44px}
+.hero-actions .hero-resume{display:none}
+.scope-band{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--rule-strong);display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s5) var(--s6)}
 .scope-band .fig{font-size:28px}
-.scope-band .fig-label{margin-top:var(--s1)}
-@media (min-width:840px) and (max-width:1119px){.scope-band .fig{font-size:26px;min-height:2.2em}}
+.scope-band .fig-label{margin-top:var(--s1);max-width:14em}
 
 /* scope */
 .blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s6);margin-top:var(--s7)}
@@ -509,9 +505,8 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 @media (max-width:840px){
   .nav{display:none}
   .menu-btn{display:inline-flex}
-  .scope-band{grid-template-columns:repeat(3,1fr)}
-  .scope-band > div:nth-child(3n+1){border-left:0;padding-left:0}
-  .scope-band > div:nth-child(n+4){border-top:1px solid var(--rule)}
+  h1{font-size:44px}
+  .scope-band{grid-template-columns:1fr 1fr;gap:var(--s5) var(--s4)}
   .cadence{grid-template-columns:1fr}
   .blocks{grid-template-columns:1fr 1fr;gap:var(--s5)}
   .ledger-head{display:none}
@@ -525,7 +520,6 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 @media (max-width:720px){
   body{font-size:16px}
   h1{font-size:34px}
-  h1 .h1b{font-size:22px}
   h2{font-size:28px}
   h3{font-size:20px}
   .lede{font-size:18px}
@@ -534,6 +528,9 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   .print-title{font-size:22px}
   .section{padding:40px 0 32px}
   .hero{padding-top:64px}
+  .hero-ctx{font-size:19px}
+  .hero-ctx span{display:block}
+  .hero-ctx .sep{display:none}
   .scope-band{margin-top:var(--s7)}
   .figrow{grid-template-columns:1fr 1fr}
   .cards,.people{grid-template-columns:1fr}
@@ -562,9 +559,13 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
   table.t tr{display:block;padding:10px 0;border-bottom:1px solid var(--rule)}
   table.t td{display:block;border:0;padding:2px 0 6px}
   table.t td::before{content:attr(data-label);display:block;font:600 12px/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px}
-  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions{gap:var(--s2) var(--s5)}
   .hero-actions .btn{width:100%}
-  .hero-actions .textlink{margin-left:0;text-align:center;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+  /* phone: the figures become an aligned list, mono number left, label right, one line each at 360 */
+  .scope-band{grid-template-columns:1fr;gap:var(--s3)}
+  .scope-band > div{display:flex;align-items:baseline;gap:var(--s3)}
+  .scope-band .fig{flex:0 0 5.25em;font-size:24px}
+  .scope-band .fig-label{margin-top:0;flex:1 1 auto;min-width:0;max-width:none}
   .cred-grid{grid-template-columns:1fr}
   .email{padding:var(--s4)}
   .em-tiles,.em-tiles.three,.em-shifts{grid-template-columns:1fr}
@@ -576,19 +577,17 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 }
 @media (max-width:480px){
   :root{--gutter:16px}
-  .scope-band{grid-template-columns:1fr 1fr}
-  .scope-band > div:nth-child(3n+1){border-left:1px solid var(--rule);padding-left:12px}
-  .scope-band > div:nth-child(2n+1){border-left:0;padding-left:0}
-  .scope-band > div:nth-child(n+3){border-top:1px solid var(--rule)}
   .ex-meta{grid-template-columns:1fr}
   .pair .row .l{flex-basis:72px}
   .counters .fig{font-size:22px}
 }
 @media (max-width:374px){
+  .scope-band .fig{flex-basis:5em}
   .em-bars .l{flex-basis:72px}
 }
 @media (max-width:359px){
   .hdr-resume{display:none}
+  .hero-actions .hero-resume{display:inline-flex}
 }
 
 /* motion off */
@@ -673,22 +672,18 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
 
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="wrap">
-    <p class="eyebrow rv">Plant Manager · Jennmar · Reedsville, West Virginia</p>
-    <h1 id="hero-title" class="rv"><span class="h1a">I run a $90M+ manufacturing profit center.</span><span class="h1b">The operating system my team built here now runs in all six plants of the division.</span></h1>
-    <p class="lede hero-lede rv"><span>Accountable for safety, quality, delivery, cost, working capital, the capital plan, and about a hundred people.</span><span>Every Monday I present our numbers to the division executive team.</span></p>
+    <h1 id="hero-title" class="rv"><span class="h1a">I run a $90M+ manufacturing profit center.</span></h1>
+    <p class="hero-ctx rv"><span>Nicholas Kadunce</span><span class="sep"> · </span><span>Plant Manager, Jennmar</span><span class="sep"> · </span><span>Reedsville, West Virginia</span></p>
     <div class="hero-actions rv">
       <a class="btn btn-primary" href="#year-one">Year one at Reedsville</a>
-      <a class="btn" href="Nicholas_Kadunce_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
-      <a class="textlink" href="dashboard.html" target="_blank" rel="noopener">See the daily review demo →</a>
+      <a class="textlink" href="dashboard.html" target="_blank" rel="noopener">Daily review demo →</a>
+      <a class="textlink hero-resume" href="Nicholas_Kadunce_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
     </div>
-    <p class="small hero-note rv">Cover feature, Metals &amp; Mining Review, October 2026.</p>
     <div class="scope-band rv" role="group" aria-label="Scope">
-      <div><div class="fig">$90M+</div><div class="fig-label">profit center&nbsp;· full&nbsp;P&amp;L</div></div>
-      <div><div class="fig">~100</div><div class="fig-label">people&nbsp;· <span class="num">7</span> direct reports&nbsp;· <span class="num">7</span> functions</div></div>
-      <div><div class="fig">$3M+</div><div class="fig-label">working capital released&nbsp;· inventory <span class="num">−27%</span>&nbsp;· <span class="term" tabindex="0" aria-describedby="tip-doh">days on hand<span class="term-tip" role="tooltip" id="tip-doh">How many days of demand the inventory on hand would cover.</span></span> <span class="num">80&nbsp;→&nbsp;65</span></div></div>
-      <div><div class="fig">6 plants</div><div class="fig-label">running the Daily Operations Review and Financial Forecaster</div></div>
-      <div><div class="fig">Weekly</div><div class="fig-label">plant performance presented to the division executive team every Monday</div></div>
-      <div><div class="fig">$900K</div><div class="fig-label"><span class="num">2026</span> capital plan&nbsp;· <span class="num">4</span> projects&nbsp;· funded</div></div>
+      <div><div class="fig">~100</div><div class="fig-label">people&nbsp;· <span class="num">7</span> direct&nbsp;reports</div></div>
+      <div><div class="fig">6 plants</div><div class="fig-label">run our operating&nbsp;system</div></div>
+      <div><div class="fig">Mondays</div><div class="fig-label">division executive&nbsp;review</div></div>
+      <div><div class="fig">$900K</div><div class="fig-label"><span class="num">2026</span> capital plan, funded</div></div>
     </div>
     <details class="contents">
       <summary>Contents</summary>
@@ -727,7 +722,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
     <div class="sec-head">
       <p class="eyebrow rv">Scope</p>
       <h2 id="scope-h2" class="rv">What I am accountable for.</h2>
-      <p class="intro rv">Jennmar is a $1B+ global manufacturer of ground-control products for mining and tunneling, privately held and private-equity-backed. Reedsville makes roof bolts, cable bolts, plates, mats, and discs for underground mines in soft and hard rock. About 80 SKUs across 11 processes on 27 production assets, two shifts, five days. Demand follows mining cycles and roof conditions, so winters run heavier.</p>
+      <p class="intro rv">Accountable for safety, quality, delivery, cost, working capital, the capital plan, and about a hundred people. Jennmar is a $1B+ global manufacturer of ground-control products for mining and tunneling, privately held and private-equity-backed. Reedsville makes roof bolts, cable bolts, plates, mats, and discs for underground mines in soft and hard rock. About 80 SKUs across 11 processes on 27 production assets, two shifts, five days. Demand follows mining cycles and roof conditions, so winters run heavier.</p>
     </div>
     <div class="blocks">
       <div class="block rv">
@@ -829,7 +824,7 @@ table.t th:last-child,table.t td:last-child{padding-right:0}
       <div class="ledger-row rv">
         <div class="lbl">Inventory</div>
         <div class="handed"><span class="inl">Handed</span>A fixed material order every month regardless of demand · storage areas over capacity</div>
-        <div class="changed"><span class="inl">Changed</span>Make-to-stock and make-to-order with min/max tied to demand · inventory −27%, more than $3M · days on hand 80 → 65, on a path to 45 · slow-moving stock 2.2 → 0.3 days</div>
+        <div class="changed"><span class="inl">Changed</span>Make-to-stock and make-to-order with min/max tied to demand · inventory −27%, more than $3M · <span class="term" tabindex="0" aria-describedby="tip-doh">days on hand<span class="term-tip" role="tooltip" id="tip-doh">How many days of demand the inventory on hand would cover.</span></span> 80 → 65, on a path to 45 · slow-moving stock 2.2 → 0.3 days</div>
       </div>
       <div class="ledger-row rv">
         <div class="lbl">Quality</div>
